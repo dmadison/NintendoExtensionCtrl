@@ -1,0 +1,50 @@
+#######################################
+# Syntax Coloring Map For Nintendo Extension Ctrl
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+# Library
+NintendoExtensionCtrl	KEYWORD1
+
+# Controller Base Class
+ExtensionController	KEYWORD1
+
+# Controller Types
+Nunchuk	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+# All Controllers
+begin	KEYWORD2
+initialize	KEYWORD2
+
+update	KEYWORD2
+
+## Nunchuk
+getJoyX	KEYWORD2
+getJoyY	KEYWORD2
+
+getAccelX	KEYWORD2
+getAccelY	KEYWORD2
+getAccelZ	KEYWORD2
+
+getButtonC	KEYWORD2
+getButtonZ	KEYWORD2
+
+getRollAngle	KEYWORD2
+getPitchAngle	KEYWORD2
+
+printDebug	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################

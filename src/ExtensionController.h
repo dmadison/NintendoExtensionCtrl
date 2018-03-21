@@ -36,6 +36,8 @@ public:
 	boolean update();
 
 protected:
+	boolean extractBit(uint8_t arrIndex, uint8_t bitNum);
+
 	const uint8_t I2C_Addr = 0x52;
 	uint8_t controlData[6];
 

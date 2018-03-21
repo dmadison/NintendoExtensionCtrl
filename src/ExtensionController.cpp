@@ -83,3 +83,7 @@ void ExtensionController::writeRegister(byte reg, byte value) {
 	Wire.write(value);
 	Wire.endTransmission();
 }
+
+boolean ExtensionController::extractBit(uint8_t arrIndex, uint8_t bitNum) {
+	return !(controlData[arrIndex] & (1 << bitNum));
+}

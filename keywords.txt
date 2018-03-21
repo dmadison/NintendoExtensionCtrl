@@ -14,6 +14,7 @@ ExtensionController	KEYWORD1
 
 # Controller Types
 Nunchuk	KEYWORD1
+ClassicController	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -38,6 +39,35 @@ getButtonZ	KEYWORD2
 
 getRollAngle	KEYWORD2
 getPitchAngle	KEYWORD2
+
+printDebug	KEYWORD2
+
+## Classic Controller
+getLeftJoyX	KEYWORD2
+getLeftJoyY	KEYWORD2
+
+getRightJoyX	KEYWORD2
+getRightJoyY	KEYWORD2
+
+getPadUp	KEYWORD2
+getPadDown	KEYWORD2
+getPadLeft	KEYWORD2
+getPadRight	KEYWORD2
+
+getButtonA	KEYWORD2
+getButtonB	KEYWORD2
+getButtonX	KEYWORD2
+getButtonY	KEYWORD2
+
+getTriggerL	KEYWORD2
+getTriggerR	KEYWORD2
+
+getButtonZL	KEYWORD2
+getButtonZR	KEYWORD2
+
+getButtonPlus	KEYWORD2
+getButtonMinus	KEYWORD2
+getButtonHome	KEYWORD2
 
 printDebug	KEYWORD2
 

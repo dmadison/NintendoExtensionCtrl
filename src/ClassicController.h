@@ -20,15 +20,44 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NintendoExtensionCtrl_h
-#define NintendoExtensionCtrl_h
+#ifndef ClassicController_h
+#define ClassicController_h
 
-// Controller Base
 #include "ExtensionController.h"
 
-// Controller Types
-#include "Nunchuk.h"
-#include "ClassicController.h"
+class ClassicController : public ExtensionController {
+public:
+	ClassicController();
+
+	uint8_t getLeftJoyX();
+	uint8_t getLeftJoyY();
+
+	uint8_t getRightJoyX();
+	uint8_t getRightJoyY();
+
+	boolean getPadUp();
+	boolean getPadDown();
+	boolean getPadLeft();
+	boolean getPadRight();
+
+	boolean getButtonA();
+	boolean getButtonB();
+	boolean getButtonX();
+	boolean getButtonY();
+
+	uint8_t getTriggerL();
+	uint8_t getTriggerR();
+	boolean getButtonLT();
+	boolean getButtonRT();
+
+	boolean getButtonZL();
+	boolean getButtonZR();
+
+	boolean getButtonPlus();
+	boolean getButtonMinus();
+	boolean getButtonHome();
+	
+	void printDebug(Stream& stream=Serial);
+};
 
 #endif
-

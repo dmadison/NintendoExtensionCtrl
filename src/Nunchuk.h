@@ -29,17 +29,17 @@ class Nunchuk : public ExtensionController {
 public:
 	Nunchuk();
 
-	uint8_t getJoyX();
+	uint8_t getJoyX();  // 8 bits, 0-255
 	uint8_t getJoyY();
 
-	uint16_t getAccelX();
+	uint16_t getAccelX();  // 10 bits, 0-1023
 	uint16_t getAccelY();
 	uint16_t getAccelZ();
 
 	boolean getButtonC();
 	boolean getButtonZ();
 
-	float getRollAngle();
+	float getRollAngle();  // -180.0 to 180.0
 	float getPitchAngle();
 
 	void printDebug(Stream& stream=Serial);

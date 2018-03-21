@@ -29,10 +29,10 @@ class ClassicController : public ExtensionController {
 public:
 	ClassicController();
 
-	uint8_t getLeftJoyX();
+	uint8_t getLeftJoyX();  // 6 bits, 0-63
 	uint8_t getLeftJoyY();
 
-	uint8_t getRightJoyX();
+	uint8_t getRightJoyX();  // 5 bits, 0-31
 	uint8_t getRightJoyY();
 
 	boolean getPadUp();
@@ -45,8 +45,9 @@ public:
 	boolean getButtonX();
 	boolean getButtonY();
 
-	uint8_t getTriggerL();
+	uint8_t getTriggerL();  // 5 bits, 0-31
 	uint8_t getTriggerR();
+
 	boolean getButtonLT();
 	boolean getButtonRT();
 

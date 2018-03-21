@@ -23,7 +23,7 @@ void loop() {
 		Serial.println("released");
 	}
 
-	// Read a button (on/off, ABXY, Minus, Home, Plus, ZL, ZR)
+	// Read a button (on/off, ABXY, Minus, Home, Plus, LT, RT, ZL, ZR)
 	boolean aButton = classic.getButtonA();
 	
 	Serial.print("The A button is ");

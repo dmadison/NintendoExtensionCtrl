@@ -47,6 +47,8 @@ public:
 
 	uint8_t getTriggerL();
 	uint8_t getTriggerR();
+	boolean getButtonLT();
+	boolean getButtonRT();
 
 	boolean getButtonZL();
 	boolean getButtonZR();

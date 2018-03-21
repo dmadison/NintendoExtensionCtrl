@@ -80,6 +80,14 @@ uint8_t ClassicController::getTriggerR() {
 	return controlData[3] & 0x1F;
 }
 
+boolean ClassicController::getButtonLT() {
+	return !(controlData[4] & 0x20);
+}
+
+boolean ClassicController::getButtonRT() {
+	return !(controlData[4] & 0x02);
+}
+
 boolean ClassicController::getButtonZL() {
 	return !(controlData[5] & 0x80);
 }
@@ -103,7 +111,7 @@ boolean ClassicController::getButtonHome() {
 void ClassicController::printDebug(Stream& stream) {
 	const char fillCharacter = '_';
 
-	char buffer[60];
+	char buffer[62];
 
 	char dpadLPrint = getPadLeft() ? '<' : fillCharacter;
 	char dpadUPrint = getPadUp() ? '^' : fillCharacter;
@@ -119,16 +127,20 @@ void ClassicController::printDebug(Stream& stream) {
 	char minusPrint = getButtonMinus() ? '-' : fillCharacter;
 	char homePrint = getButtonHome() ? 'H' : fillCharacter;
 
+	char ltButtonPrint = getButtonLT() ? 'X' : fillCharacter;
+	char rtButtonPrint = getButtonRT() ? 'X' : fillCharacter;
+
 	char zlButtonPrint = getButtonZL() ? 'L' : fillCharacter;
 	char zrButtonPrint = getButtonZR() ? 'R' : fillCharacter;
 
 	stream.print("Classic ");
 	sprintf(buffer,
-		"%c%c%c%c | %c%c%c | %c%c%c%c L:(%2u, %2u) R:(%2u, %2u) | LT:%2u RT:%2u Z:%c%c",
+		"%c%c%c%c | %c%c%c | %c%c%c%c L:(%2u, %2u) R:(%2u, %2u) | LT:%2u%c RT:%2u%c Z:%c%c",
 		dpadLPrint, dpadUPrint, dpadDPrint, dpadRPrint,
 		minusPrint, homePrint, plusPrint,
 		aButtonPrint, bButtonPrint, xButtonPrint, yButtonPrint,
 		getLeftJoyX(), getLeftJoyY(), getRightJoyX(), getRightJoyY(),
-		getTriggerL(), getTriggerR(), zlButtonPrint, zrButtonPrint);
+		getTriggerL(), ltButtonPrint, getTriggerR(), rtButtonPrint,
+		zlButtonPrint, zrButtonPrint);
 	stream.println(buffer);
 }

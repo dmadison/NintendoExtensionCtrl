@@ -8,6 +8,13 @@ void setup() {
 }
 
 void loop() {
-	nchuk.update();  // Get new data from the controller
-	nchuk.printDebug();  // Print all of the values!
+	boolean success = nchuk.update();  // Get new data from the controller
+
+	if (success == true) {  // We've got data!
+		nchuk.printDebug();  // Print all of the values!
+	}
+	else {  // Data is bad :(
+		Serial.println("Controller Disconnected!");
+		nchuk.reconnect();
+	}
 }

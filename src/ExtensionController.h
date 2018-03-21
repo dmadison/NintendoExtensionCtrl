@@ -32,6 +32,7 @@ public:
 
 	void begin();
 	void initialize(boolean blocking=true);
+	void reconnect();
 
 	boolean update();
 

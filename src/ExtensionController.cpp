@@ -44,6 +44,12 @@ void ExtensionController::initialize(boolean blocking) {
 	}
 }
 
+void ExtensionController::reconnect() {
+	delay(5);  // Breathe + clear the bus
+	initialize();
+	update();
+}
+
 boolean ExtensionController::update() {
 	Wire.beginTransmission(I2C_Addr);
 	Wire.write(0x00);  // Start at first register

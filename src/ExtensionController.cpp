@@ -55,14 +55,7 @@ void ExtensionController::reconnect() {
 NXC_ControllerType ExtensionController::identifyController() {
 	const uint8_t IDHeaderSize = 6;
 
-	writePointer(0xFE);
-
-	delayMicroseconds(175);
-
-	uint8_t nBytesRecv = Wire.readBytes(controlData,
-		Wire.requestFrom(I2C_Addr, IDHeaderSize));
-
-	if (nBytesRecv != IDHeaderSize) {
+	if (!readDataArray(0xFE, IDHeaderSize, controlData)) {
 		return NXC_NoController;  // Bad response from device
 	}
 
@@ -84,14 +77,7 @@ NXC_ControllerType ExtensionController::identifyController() {
 }
 
 boolean ExtensionController::update() {
-	writePointer(0x00);  // Start at first register
-
-	delayMicroseconds(175);  // Wait for data conversion (~200 us)
-
-	uint8_t nBytesRecv = Wire.readBytes(controlData,
-		Wire.requestFrom(I2C_Addr, DataSize));
-
-	if (nBytesRecv == DataSize) {
+	if (readDataArray(0x00, DataSize, controlData)) {
 		return verifyData();
 	}
 
@@ -114,6 +100,12 @@ boolean ExtensionController::verifyData() {
 	return true;
 }
 
+boolean ExtensionController::readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut) {
+	writePointer(pointer);  // Set start for data read
+	delayMicroseconds(175);  // Wait for data conversion (~200 us)
+	return requestMulti(requestSize, dataOut);
+}
+
 void ExtensionController::writePointer(byte pointer) {
 	Wire.beginTransmission(I2C_Addr);
 	Wire.write(pointer);
@@ -125,6 +117,13 @@ void ExtensionController::writeRegister(byte reg, byte value) {
 	Wire.write(reg);
 	Wire.write(value);
 	Wire.endTransmission();
+}
+
+boolean ExtensionController::requestMulti(uint8_t requestSize, uint8_t * dataOut) {
+	uint8_t nBytesRecv = Wire.readBytes(dataOut,
+		Wire.requestFrom(I2C_Addr, requestSize));
+
+	return (nBytesRecv == requestSize);  // Success if all bytes received
 }
 
 boolean ExtensionController::extractBit(uint8_t arrIndex, uint8_t bitNum) {

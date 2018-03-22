@@ -62,8 +62,11 @@ protected:
 private:
 	boolean verifyData();
 
+	boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
+
 	void writePointer(byte pointer);
 	void writeRegister(byte reg, byte value);
+	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 };
 
 #endif

@@ -101,6 +101,10 @@ boolean ExtensionController::extractBit(uint8_t arrIndex, uint8_t bitNum) {
 }
 
 void ExtensionController::printDebug(Stream& stream) {
+	printDebugRaw(stream);
+}
+
+void ExtensionController::printDebugRaw(Stream& stream) {
 	char buffer[48] = "ExtCtrl -";
 
 	for (int i = 0; i < DataSize; i++){

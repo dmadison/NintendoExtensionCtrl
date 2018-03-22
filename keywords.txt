@@ -28,6 +28,7 @@ reconnect	KEYWORD2
 update	KEYWORD2
 
 printDebug	KEYWORD2
+printDebugRaw	KEYWORD2
 
 ## Nunchuk
 joyX	KEYWORD2

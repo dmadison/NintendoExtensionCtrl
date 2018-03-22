@@ -37,6 +37,7 @@ public:
 	boolean update();
 
 	void printDebug(Stream& stream = Serial);
+	void printDebugRaw(Stream& stream = Serial);
 
 protected:
 	ExtensionController(uint8_t size);

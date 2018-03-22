@@ -88,6 +88,7 @@ buttonHome	KEYWORD2
 #######################################
 
 # Controller Identities
+NXC_NoController	LITERAL1
 NXC_UnknownController	LITERAL1
 NXC_Nunchuk	LITERAL1
 NXC_ClassicCon	LITERAL1

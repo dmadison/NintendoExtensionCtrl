@@ -63,7 +63,7 @@ NXC_ControllerType ExtensionController::identifyController() {
 		Wire.requestFrom(I2C_Addr, IDHeaderSize));
 
 	if (nBytesRecv != IDHeaderSize) {
-		return NXC_UnknownController;  // Bad response from device
+		return NXC_NoController;  // Bad response from device
 	}
 
 	// Nunchuk ID: All 0s

@@ -26,15 +26,15 @@
 #include "Arduino.h"
 #include "Wire.h"
 
+enum NXC_ControllerType {
+	ID_Unknown,
+	ID_Nunchuk,
+	ID_ClassicCon,
+};
+
 class ExtensionController {
 public:
 	ExtensionController();
-
-	enum NXC_ControllerType {
-		ID_Unknown,
-		ID_Nunchuk,
-		ID_ClassicCon,
-	};
 
 	void begin();
 	void initialize(boolean blocking=true);

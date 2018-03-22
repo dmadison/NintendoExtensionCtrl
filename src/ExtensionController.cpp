@@ -52,7 +52,7 @@ void ExtensionController::reconnect() {
 	update();
 }
 
-ExtensionController::NXC_ControllerType ExtensionController::identifyController() {
+NXC_ControllerType ExtensionController::identifyController() {
 	const uint8_t IDHeaderSize = 6;
 
 	writePointer(0xFE);

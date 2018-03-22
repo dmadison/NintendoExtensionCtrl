@@ -29,8 +29,7 @@ ExtensionController::ExtensionController(uint8_t size, NXC_ControllerType conID)
 void ExtensionController::begin() {
 	Wire.begin();
 
-	initialize();
-	update();  // Seed with initial values
+	connect();
 }
 
 void ExtensionController::initialize(boolean blocking) {
@@ -44,12 +43,6 @@ void ExtensionController::initialize(boolean blocking) {
 	if (blocking) {
 		delay(100);  // Wait after init for device startup
 	}
-}
-
-void ExtensionController::reconnect() {
-	delay(5);  // Breathe + clear the bus
-	initialize();
-	update();
 }
 
 NXC_ControllerType ExtensionController::identifyController() {
@@ -74,6 +67,17 @@ NXC_ControllerType ExtensionController::identifyController() {
 	}
 
 	return NXC_UnknownController;
+}
+
+void ExtensionController::connect() {
+	initialize();
+	identifyController();
+	update();  // Seed with initial values
+}
+
+void ExtensionController::reconnect() {
+	delay(5);  // Breathe + clear the bus
+	connect();
 }
 
 boolean ExtensionController::update() {

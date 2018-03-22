@@ -38,9 +38,11 @@ public:
 	ExtensionController();
 
 	void begin();
-	void initialize(boolean blocking=true);
+
+	void initialize(boolean blocking = true);
 	NXC_ControllerType identifyController();
 
+	void connect();
 	void reconnect();
 
 	boolean update();

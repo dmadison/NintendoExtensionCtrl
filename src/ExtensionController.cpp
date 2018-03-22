@@ -24,7 +24,7 @@
 
 ExtensionController::ExtensionController() {}
 
-ExtensionController::ExtensionController(uint8_t size) : DataSize(size) {}
+ExtensionController::ExtensionController(uint8_t size, NXC_ControllerType conID) : DataSize(size), controllerID(conID) {}
 
 void ExtensionController::begin() {
 	Wire.begin();

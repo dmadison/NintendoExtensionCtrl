@@ -81,3 +81,5 @@ buttonHome	KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
+
+controllerID	LITERAL1

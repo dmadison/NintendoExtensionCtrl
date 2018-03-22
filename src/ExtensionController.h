@@ -30,6 +30,12 @@ class ExtensionController {
 public:
 	ExtensionController();
 
+	enum NXC_ControllerType {
+		ID_Unknown,
+		ID_Nunchuk,
+		ID_ClassicCon,
+	};
+
 	void begin();
 	void initialize(boolean blocking=true);
 	void reconnect();
@@ -39,8 +45,10 @@ public:
 	void printDebug(Stream& stream = Serial);
 	void printDebugRaw(Stream& stream = Serial);
 
+	const NXC_ControllerType controllerID = ID_Unknown;
+
 protected:
-	ExtensionController(uint8_t size);
+	ExtensionController(uint8_t size, NXC_ControllerType conID);
 
 	boolean extractBit(uint8_t arrIndex, uint8_t bitNum);
 

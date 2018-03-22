@@ -24,7 +24,7 @@
 
 ExtensionController::ExtensionController() {}
 
-ExtensionController::ExtensionController(uint8_t size) : DataSize(size) {}
+ExtensionController::ExtensionController(uint8_t size, NXC_ControllerType conID) : DataSize(size), controllerID(conID) {}
 
 void ExtensionController::begin() {
 	Wire.begin();
@@ -50,6 +50,37 @@ void ExtensionController::reconnect() {
 	delay(5);  // Breathe + clear the bus
 	initialize();
 	update();
+}
+
+NXC_ControllerType ExtensionController::identifyController() {
+	const uint8_t IDHeaderSize = 6;
+
+	writePointer(0xFE);
+
+	delayMicroseconds(175);
+
+	uint8_t nBytesRecv = Wire.readBytes(controlData,
+		Wire.requestFrom(I2C_Addr, IDHeaderSize));
+
+	if (nBytesRecv != IDHeaderSize) {
+		return NXC_NoController;  // Bad response from device
+	}
+
+	// Nunchuk ID: All 0s
+	if (controlData[0] == 0x00 && controlData[1] == 0x00 &&
+		controlData[2] == 0x00 && controlData[3] == 0x00 &&
+		controlData[4] == 0x00 && controlData[5] == 0x00) {
+			return NXC_Nunchuk;
+	}
+
+	// Classic Con. ID: 0x0101 followed by 4 0s
+	if (controlData[0] == 0x01 && controlData[1] == 0x01 &&
+		controlData[2] == 0x00 && controlData[3] == 0x00 &&
+		controlData[4] == 0x00 && controlData[5] == 0x00) {
+			return NXC_ClassicController;
+	}
+
+	return NXC_UnknownController;
 }
 
 boolean ExtensionController::update() {

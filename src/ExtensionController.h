@@ -26,12 +26,21 @@
 #include "Arduino.h"
 #include "Wire.h"
 
+enum NXC_ControllerType {
+	NXC_NoController,
+	NXC_UnknownController,
+	NXC_Nunchuk,
+	NXC_ClassicController,
+};
+
 class ExtensionController {
 public:
 	ExtensionController();
 
 	void begin();
 	void initialize(boolean blocking=true);
+	NXC_ControllerType identifyController();
+
 	void reconnect();
 
 	boolean update();
@@ -39,8 +48,10 @@ public:
 	void printDebug(Stream& stream = Serial);
 	void printDebugRaw(Stream& stream = Serial);
 
+	const NXC_ControllerType controllerID = NXC_UnknownController;
+
 protected:
-	ExtensionController(uint8_t size);
+	ExtensionController(uint8_t size, NXC_ControllerType conID);
 
 	boolean extractBit(uint8_t arrIndex, uint8_t bitNum);
 

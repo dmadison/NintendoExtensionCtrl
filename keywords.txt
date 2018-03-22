@@ -16,6 +16,9 @@ ExtensionController	KEYWORD1
 Nunchuk	KEYWORD1
 ClassicController	KEYWORD1
 
+# Enumerations
+NXC_ControllerType	KEYWORD1
+
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
@@ -23,6 +26,8 @@ ClassicController	KEYWORD1
 # All Controllers
 begin	KEYWORD2
 initialize	KEYWORD2
+identifyController	KEYWORD2
+
 reconnect	KEYWORD2
 
 update	KEYWORD2
@@ -81,3 +86,9 @@ buttonHome	KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
+
+# Controller Identities
+NXC_NoController	LITERAL1
+NXC_UnknownController	LITERAL1
+NXC_Nunchuk	LITERAL1
+NXC_ClassicController	LITERAL1

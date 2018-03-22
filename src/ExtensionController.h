@@ -50,6 +50,7 @@ protected:
 private:
 	boolean verifyData();
 
+	void writePointer(byte pointer);
 	void writeRegister(byte reg, byte value);
 };
 

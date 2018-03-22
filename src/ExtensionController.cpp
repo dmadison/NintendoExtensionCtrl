@@ -53,9 +53,7 @@ void ExtensionController::reconnect() {
 }
 
 boolean ExtensionController::update() {
-	Wire.beginTransmission(I2C_Addr);
-	Wire.write(0x00);  // Start at first register
-	Wire.endTransmission();
+	writePointer(0x00);  // Start at first register
 
 	delayMicroseconds(175);  // Wait for data conversion (~200 us)
 
@@ -83,6 +81,12 @@ boolean ExtensionController::verifyData() {
 	}
 	
 	return true;
+}
+
+void ExtensionController::writePointer(byte pointer) {
+	Wire.beginTransmission(I2C_Addr);
+	Wire.write(pointer);
+	Wire.endTransmission();
 }
 
 void ExtensionController::writeRegister(byte reg, byte value) {

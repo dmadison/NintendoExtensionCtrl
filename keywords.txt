@@ -64,6 +64,9 @@ buttonY	KEYWORD2
 triggerL	KEYWORD2
 triggerR	KEYWORD2
 
+buttonLT	KEYWORD2
+buttonRT	KEYWORD2
+
 buttonZL	KEYWORD2
 buttonZR	KEYWORD2
 

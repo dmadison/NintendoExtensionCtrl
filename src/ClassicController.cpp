@@ -33,7 +33,7 @@ uint8_t ClassicController::leftJoyY() {
 }
 
 uint8_t ClassicController::rightJoyX() {
-	return (controlData[1] >> 5) | (controlData[0] >> 3) | (controlData[2] >> 7);
+	return ((controlData[0] >> 3) & 0x18) | ((controlData[1] >> 5) &  0x06 ) | (controlData[2] >> 7);
 }
 
 uint8_t ClassicController::rightJoyY() {

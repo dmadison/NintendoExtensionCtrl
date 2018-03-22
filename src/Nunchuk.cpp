@@ -22,7 +22,7 @@
 
 #include "Nunchuk.h"
 
-Nunchuk::Nunchuk() {}
+Nunchuk::Nunchuk() : ExtensionController(6) {}
 
 uint8_t Nunchuk::joyX() {
 	return controlData[0];

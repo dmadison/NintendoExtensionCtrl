@@ -24,6 +24,8 @@
 
 ExtensionController::ExtensionController() {}
 
+ExtensionController::ExtensionController(uint8_t size) : DataSize(size) {}
+
 void ExtensionController::begin() {
 	Wire.begin();
 
@@ -58,9 +60,9 @@ boolean ExtensionController::update() {
 	delayMicroseconds(175);  // Wait for data conversion (~200 us)
 
 	uint8_t nBytesRecv = Wire.readBytes(controlData,
-		Wire.requestFrom(I2C_Addr, sizeof(controlData)));
+		Wire.requestFrom(I2C_Addr, DataSize));
 
-	if (nBytesRecv == sizeof(controlData)) {
+	if (nBytesRecv == DataSize) {
 		return verifyData();
 	}
 
@@ -71,7 +73,7 @@ boolean ExtensionController::verifyData() {
 	byte orCheck = 0x00;   // Check if data is zeroed (bad connection)
 	byte andCheck = 0xFF;  // Check if data is maxed (bad init)
 
-	for (int i = 0; i < sizeof(controlData); i++) {
+	for (int i = 0; i < DataSize; i++) {
 		orCheck |= controlData[i];
 		andCheck &= controlData[i];
 	}
@@ -97,7 +99,7 @@ boolean ExtensionController::extractBit(uint8_t arrIndex, uint8_t bitNum) {
 void ExtensionController::printDebug(Stream& stream) {
 	char buffer[48] = "ExtCtrl -";
 
-	for (int i = 0; i < sizeof(controlData); i++){
+	for (int i = 0; i < DataSize; i++){
 		sprintf(buffer, "%s %3u |", buffer, controlData[i]);
 	}
 	stream.println(buffer);

@@ -52,6 +52,37 @@ void ExtensionController::reconnect() {
 	update();
 }
 
+ExtensionController::NXC_ControllerType ExtensionController::identifyController() {
+	const uint8_t IDHeaderSize = 6;
+
+	writePointer(0xFE);
+
+	delayMicroseconds(175);
+
+	uint8_t nBytesRecv = Wire.readBytes(controlData,
+		Wire.requestFrom(I2C_Addr, IDHeaderSize));
+
+	if (nBytesRecv != IDHeaderSize) {
+		return ID_Unknown;  // Bad response from device
+	}
+
+	// Nunchuk ID: All 0s
+	if (controlData[0] == 0x00 && controlData[1] == 0x00 &&
+		controlData[2] == 0x00 && controlData[3] == 0x00 &&
+		controlData[4] == 0x00 && controlData[5] == 0x00) {
+			return ID_Nunchuk;
+	}
+
+	// Classic Con. ID: 0x0101 followed by 4 0s
+	if (controlData[0] == 0x01 && controlData[1] == 0x01 &&
+		controlData[2] == 0x00 && controlData[3] == 0x00 &&
+		controlData[4] == 0x00 && controlData[5] == 0x00) {
+			return ID_ClassicCon;
+	}
+
+	return ID_Unknown;
+}
+
 boolean ExtensionController::update() {
 	writePointer(0x00);  // Start at first register
 

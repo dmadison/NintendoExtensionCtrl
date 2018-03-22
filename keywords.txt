@@ -23,6 +23,8 @@ ClassicController	KEYWORD1
 # All Controllers
 begin	KEYWORD2
 initialize	KEYWORD2
+identifyController	KEYWORD2
+
 reconnect	KEYWORD2
 
 update	KEYWORD2

@@ -93,3 +93,12 @@ void ExtensionController::writeRegister(byte reg, byte value) {
 boolean ExtensionController::extractBit(uint8_t arrIndex, uint8_t bitNum) {
 	return !(controlData[arrIndex] & (1 << bitNum));
 }
+
+void ExtensionController::printDebug(Stream& stream) {
+	char buffer[48] = "ExtCtrl -";
+
+	for (int i = 0; i < sizeof(controlData); i++){
+		sprintf(buffer, "%s %3u |", buffer, controlData[i]);
+	}
+	stream.println(buffer);
+}

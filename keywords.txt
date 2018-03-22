@@ -27,6 +27,8 @@ reconnect	KEYWORD2
 
 update	KEYWORD2
 
+printDebug	KEYWORD2
+
 ## Nunchuk
 joyX	KEYWORD2
 joyY	KEYWORD2
@@ -40,8 +42,6 @@ buttonZ	KEYWORD2
 
 rollAngle	KEYWORD2
 pitchAngle	KEYWORD2
-
-printDebug	KEYWORD2
 
 ## Classic Controller
 leftJoyX	KEYWORD2
@@ -69,8 +69,6 @@ buttonZR	KEYWORD2
 buttonPlus	KEYWORD2
 buttonMinus	KEYWORD2
 buttonHome	KEYWORD2
-
-printDebug	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)

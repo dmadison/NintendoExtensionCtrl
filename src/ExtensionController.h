@@ -36,6 +36,8 @@ public:
 
 	boolean update();
 
+	void printDebug(Stream& stream = Serial);
+
 protected:
 	boolean extractBit(uint8_t arrIndex, uint8_t bitNum);
 

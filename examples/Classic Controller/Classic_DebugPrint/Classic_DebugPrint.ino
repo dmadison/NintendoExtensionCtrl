@@ -8,6 +8,13 @@ void setup() {
 }
 
 void loop() {
-	classic.update();  // Get new data from the controller
-	classic.printDebug();  // Print all of the values!
+	boolean success = classic.update();  // Get new data from the controller
+
+	if (success == true) {  // We've got data!
+		classic.printDebug();  // Print all of the values!
+	}
+	else {  // Data is bad :(
+		Serial.println("Controller Disconnected!");
+		classic.reconnect();
+	}
 }

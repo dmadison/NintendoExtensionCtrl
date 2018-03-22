@@ -22,55 +22,55 @@
 
 #include "Nunchuk.h"
 
-Nunchuk::Nunchuk() {}
+Nunchuk::Nunchuk() : ExtensionController(6) {}
 
-uint8_t Nunchuk::getJoyX() {
+uint8_t Nunchuk::joyX() {
 	return controlData[0];
 }
 
-uint8_t Nunchuk::getJoyY() {
+uint8_t Nunchuk::joyY() {
 	return controlData[1];
 }
 
-uint16_t Nunchuk::getAccelX() {
+uint16_t Nunchuk::accelX() {
 	return controlData[2] << 2 | ((controlData[5] >> 6) & 0x03) ;
 }
 
-uint16_t Nunchuk::getAccelY() {
+uint16_t Nunchuk::accelY() {
 	return controlData[3] << 2 | ((controlData[5] >> 4) & 0x03);
 }
 
-uint16_t Nunchuk::getAccelZ() {
+uint16_t Nunchuk::accelZ() {
 	return controlData[4] << 2 | ((controlData[5] >> 2) & 0x03);
 }
 
-boolean Nunchuk::getButtonC() {
-	return !(controlData[5] & 0x02);
+boolean Nunchuk::buttonC() {
+	return extractBit(5, 1);
 }
 
-boolean Nunchuk::getButtonZ() {
-	return !(controlData[5] & 0x01);
+boolean Nunchuk::buttonZ() {
+	return extractBit(5, 0);
 }
 
-float Nunchuk::getRollAngle() {
-	return atan2((float)getAccelX() - 511.0, (float)getAccelZ() - 511.0) * 180.0 / PI;
+float Nunchuk::rollAngle() {
+	return atan2((float)accelX() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
-float Nunchuk::getPitchAngle() {
+float Nunchuk::pitchAngle() {
 	// Inverted so pulling back is a positive pitch
-	return -atan2((float)getAccelY() - 511.0, (float)getAccelZ() - 511.0) * 180.0 / PI;
+	return -atan2((float)accelY() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
 void Nunchuk::printDebug(Stream& stream) {
 	char buffer[75];
 
-	char cPrint = getButtonC() ? 'C' : '-';
-	char zPrint = getButtonZ() ? 'Z' : '-';
+	char cPrint = buttonC() ? 'C' : '-';
+	char zPrint = buttonZ() ? 'Z' : '-';
 
 	stream.print("Nunchuk - ");
 	sprintf(buffer,
 		"JoyX: %3u | JoyY: %3u | Ax: %4u | Ay: %4u | Az: %4u | Buttons: %c%c",
-		getJoyX(), getJoyY(), getAccelX(), getAccelY(), getAccelZ(), cPrint, zPrint);
+		joyX(), joyY(), accelX(), accelY(), accelZ(), cPrint, zPrint);
 	
 	stream.println(buffer);
 }

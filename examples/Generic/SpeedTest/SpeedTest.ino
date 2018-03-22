@@ -26,7 +26,7 @@ void loop() {
 		Serial.println("Reinitializing...");
 		delay(2000);
 
-		controller.begin();
+		controller.reconnect();
 		return;
 	}
 

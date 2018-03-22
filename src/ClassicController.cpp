@@ -22,90 +22,90 @@
 
 #include "ClassicController.h"
 
-ClassicController::ClassicController() {}
+ClassicController::ClassicController() : ExtensionController(6) {}
 
-uint8_t ClassicController::getLeftJoyX() {
+uint8_t ClassicController::leftJoyX() {
 	return controlData[0] & 0x3F;
 }
 
-uint8_t ClassicController::getLeftJoyY() {
+uint8_t ClassicController::leftJoyY() {
 	return controlData[1] & 0x3F;
 }
 
-uint8_t ClassicController::getRightJoyX() {
+uint8_t ClassicController::rightJoyX() {
 	return (controlData[1] >> 5) | (controlData[0] >> 3) | (controlData[2] >> 7);
 }
 
-uint8_t ClassicController::getRightJoyY() {
+uint8_t ClassicController::rightJoyY() {
 	return controlData[2] & 0x1F;
 }
 
-boolean ClassicController::getPadUp() {
-	return !(controlData[5] & 0x01);
+boolean ClassicController::dpadUp() {
+	return extractBit(5, 0);
 }
 
-boolean ClassicController::getPadDown() {
-	return !(controlData[4] & 0x40);
+boolean ClassicController::dpadDown() {
+	return extractBit(4, 6);
 }
 
-boolean ClassicController::getPadLeft() {
-	return !(controlData[5] & 0x02);
+boolean ClassicController::dpadLeft() {
+	return extractBit(5, 1);
 }
 
-boolean ClassicController::getPadRight() {
-	return !(controlData[4] & 0x80);
+boolean ClassicController::dpadRight() {
+	return extractBit(4, 7);
 }
 
-boolean ClassicController::getButtonA() {
-	return !(controlData[5] & 0x10);
+boolean ClassicController::buttonA() {
+	return extractBit(5, 4);
 }
 
-boolean ClassicController::getButtonB() {
-	return !(controlData[5] & 0x40);
+boolean ClassicController::buttonB() {
+	return extractBit(5, 6);
 }
 
-boolean ClassicController::getButtonX() {
-	return !(controlData[5] & 0x08);
+boolean ClassicController::buttonX() {
+	return extractBit(5, 3);
 }
 
-boolean ClassicController::getButtonY() {
-	return !(controlData[5] & 0x20);
+boolean ClassicController::buttonY() {
+	return extractBit(5, 5);
 }
 
-uint8_t ClassicController::getTriggerL() {
+uint8_t ClassicController::triggerL() {
 	return ((controlData[2] & 0x60) >> 2) | controlData[3] >> 5;
 }
 
-uint8_t ClassicController::getTriggerR() {
+uint8_t ClassicController::triggerR() {
 	return controlData[3] & 0x1F;
 }
 
-boolean ClassicController::getButtonLT() {
-	return !(controlData[4] & 0x20);
+boolean ClassicController::buttonLT() {
+	return extractBit(4, 5);
 }
 
-boolean ClassicController::getButtonRT() {
-	return !(controlData[4] & 0x02);
+boolean ClassicController::buttonRT() {
+	return extractBit(4, 1);
 }
 
-boolean ClassicController::getButtonZL() {
-	return !(controlData[5] & 0x80);
+boolean ClassicController::buttonZL() {
+	return extractBit(5, 7);
 }
 
-boolean ClassicController::getButtonZR() {
-	return !(controlData[5] & 0x04);
+boolean ClassicController::buttonZR() {
+	return extractBit(5, 2);
 }
 
-boolean ClassicController::getButtonPlus() {
-	return !(controlData[4] & 0x04);
+boolean ClassicController::buttonPlus() {
+	return extractBit(4, 2);
 }
 
-boolean ClassicController::getButtonMinus() {
-	return !(controlData[4] & 0x10);
+boolean ClassicController::buttonMinus() {
+	return extractBit(4, 4);
 }
 
-boolean ClassicController::getButtonHome() {
-	return !(controlData[4] & 0x08);
+boolean ClassicController::buttonHome() {
+	return extractBit(4, 3);
 }
 
 void ClassicController::printDebug(Stream& stream) {
@@ -113,25 +113,25 @@ void ClassicController::printDebug(Stream& stream) {
 
 	char buffer[62];
 
-	char dpadLPrint = getPadLeft() ? '<' : fillCharacter;
-	char dpadUPrint = getPadUp() ? '^' : fillCharacter;
-	char dpadDPrint = getPadDown() ? 'v' : fillCharacter;
-	char dpadRPrint = getPadRight() ? '>' : fillCharacter;
+	char dpadLPrint = dpadLeft() ? '<' : fillCharacter;
+	char dpadUPrint = dpadUp() ? '^' : fillCharacter;
+	char dpadDPrint = dpadDown() ? 'v' : fillCharacter;
+	char dpadRPrint = dpadRight() ? '>' : fillCharacter;
 
-	char aButtonPrint = getButtonA() ? 'A' : fillCharacter;
-	char bButtonPrint = getButtonB() ? 'B' : fillCharacter;
-	char xButtonPrint = getButtonX() ? 'X' : fillCharacter;
-	char yButtonPrint = getButtonY() ? 'Y' : fillCharacter;
+	char aButtonPrint = buttonA() ? 'A' : fillCharacter;
+	char bButtonPrint = buttonB() ? 'B' : fillCharacter;
+	char xButtonPrint = buttonX() ? 'X' : fillCharacter;
+	char yButtonPrint = buttonY() ? 'Y' : fillCharacter;
 
-	char plusPrint = getButtonPlus() ? '+' : fillCharacter;
-	char minusPrint = getButtonMinus() ? '-' : fillCharacter;
-	char homePrint = getButtonHome() ? 'H' : fillCharacter;
+	char plusPrint = buttonPlus() ? '+' : fillCharacter;
+	char minusPrint = buttonMinus() ? '-' : fillCharacter;
+	char homePrint = buttonHome() ? 'H' : fillCharacter;
 
-	char ltButtonPrint = getButtonLT() ? 'X' : fillCharacter;
-	char rtButtonPrint = getButtonRT() ? 'X' : fillCharacter;
+	char ltButtonPrint = buttonLT() ? 'X' : fillCharacter;
+	char rtButtonPrint = buttonRT() ? 'X' : fillCharacter;
 
-	char zlButtonPrint = getButtonZL() ? 'L' : fillCharacter;
-	char zrButtonPrint = getButtonZR() ? 'R' : fillCharacter;
+	char zlButtonPrint = buttonZL() ? 'L' : fillCharacter;
+	char zrButtonPrint = buttonZR() ? 'R' : fillCharacter;
 
 	stream.print("Classic ");
 	sprintf(buffer,
@@ -139,8 +139,8 @@ void ClassicController::printDebug(Stream& stream) {
 		dpadLPrint, dpadUPrint, dpadDPrint, dpadRPrint,
 		minusPrint, homePrint, plusPrint,
 		aButtonPrint, bButtonPrint, xButtonPrint, yButtonPrint,
-		getLeftJoyX(), getLeftJoyY(), getRightJoyX(), getRightJoyY(),
-		getTriggerL(), ltButtonPrint, getTriggerR(), rtButtonPrint,
+		leftJoyX(), leftJoyY(), rightJoyX(), rightJoyY(),
+		triggerL(), ltButtonPrint, triggerR(), rtButtonPrint,
 		zlButtonPrint, zrButtonPrint);
 	stream.println(buffer);
 }

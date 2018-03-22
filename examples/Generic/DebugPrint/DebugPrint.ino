@@ -1,20 +1,20 @@
 #include <NintendoExtensionCtrl.h>
 
-Nunchuk nchuk;
+ExtensionController controller;
 
 void setup() {
 	Serial.begin(115200);
-	nchuk.begin();
+	controller.begin();
 }
 
 void loop() {
-	boolean success = nchuk.update();  // Get new data from the controller
+	boolean success = controller.update();  // Get new data from the controller
 
 	if (success == true) {  // We've got data!
-		nchuk.printDebug();  // Print all of the values!
+		controller.printDebugRaw();  // Print all of the values!
 	}
 	else {  // Data is bad :(
 		Serial.println("Controller Disconnected!");
-		nchuk.reconnect();
+		controller.reconnect();
 	}
 }

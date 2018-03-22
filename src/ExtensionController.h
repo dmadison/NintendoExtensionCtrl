@@ -32,16 +32,26 @@ public:
 
 	void begin();
 	void initialize(boolean blocking=true);
+	void reconnect();
 
 	boolean update();
 
+	void printDebug(Stream& stream = Serial);
+	void printDebugRaw(Stream& stream = Serial);
+
 protected:
+	ExtensionController(uint8_t size);
+
+	boolean extractBit(uint8_t arrIndex, uint8_t bitNum);
+
 	const uint8_t I2C_Addr = 0x52;
+	const uint8_t DataSize = 6;  // Bytes per update
 	uint8_t controlData[6];
 
 private:
 	boolean verifyData();
 
+	void writePointer(byte pointer);
 	void writeRegister(byte reg, byte value);
 };
 

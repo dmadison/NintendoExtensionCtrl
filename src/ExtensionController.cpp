@@ -24,6 +24,8 @@
 
 ExtensionController::ExtensionController() {}
 
+ExtensionController::ExtensionController(uint8_t size) : DataSize(size) {}
+
 void ExtensionController::begin() {
 	Wire.begin();
 
@@ -44,17 +46,21 @@ void ExtensionController::initialize(boolean blocking) {
 	}
 }
 
+void ExtensionController::reconnect() {
+	delay(5);  // Breathe + clear the bus
+	initialize();
+	update();
+}
+
 boolean ExtensionController::update() {
-	Wire.beginTransmission(I2C_Addr);
-	Wire.write(0x00);  // Start at first register
-	Wire.endTransmission();
+	writePointer(0x00);  // Start at first register
 
 	delayMicroseconds(175);  // Wait for data conversion (~200 us)
 
 	uint8_t nBytesRecv = Wire.readBytes(controlData,
-		Wire.requestFrom(I2C_Addr, sizeof(controlData)));
+		Wire.requestFrom(I2C_Addr, DataSize));
 
-	if (nBytesRecv == sizeof(controlData)) {
+	if (nBytesRecv == DataSize) {
 		return verifyData();
 	}
 
@@ -65,7 +71,7 @@ boolean ExtensionController::verifyData() {
 	byte orCheck = 0x00;   // Check if data is zeroed (bad connection)
 	byte andCheck = 0xFF;  // Check if data is maxed (bad init)
 
-	for (int i = 0; i < sizeof(controlData); i++) {
+	for (int i = 0; i < DataSize; i++) {
 		orCheck |= controlData[i];
 		andCheck &= controlData[i];
 	}
@@ -77,9 +83,32 @@ boolean ExtensionController::verifyData() {
 	return true;
 }
 
+void ExtensionController::writePointer(byte pointer) {
+	Wire.beginTransmission(I2C_Addr);
+	Wire.write(pointer);
+	Wire.endTransmission();
+}
+
 void ExtensionController::writeRegister(byte reg, byte value) {
 	Wire.beginTransmission(I2C_Addr);
 	Wire.write(reg);
 	Wire.write(value);
 	Wire.endTransmission();
+}
+
+boolean ExtensionController::extractBit(uint8_t arrIndex, uint8_t bitNum) {
+	return !(controlData[arrIndex] & (1 << bitNum));
+}
+
+void ExtensionController::printDebug(Stream& stream) {
+	printDebugRaw(stream);
+}
+
+void ExtensionController::printDebugRaw(Stream& stream) {
+	char buffer[48] = "ExtCtrl -";
+
+	for (int i = 0; i < DataSize; i++){
+		sprintf(buffer, "%s %3u |", buffer, controlData[i]);
+	}
+	stream.println(buffer);
 }

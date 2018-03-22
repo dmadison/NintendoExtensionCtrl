@@ -30,7 +30,7 @@ enum NXC_ControllerType {
 	NXC_NoController,
 	NXC_UnknownController,
 	NXC_Nunchuk,
-	NXC_ClassicCon,
+	NXC_ClassicController,
 };
 
 class ExtensionController {

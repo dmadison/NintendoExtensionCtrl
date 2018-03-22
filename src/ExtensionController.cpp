@@ -77,7 +77,7 @@ NXC_ControllerType ExtensionController::identifyController() {
 	if (controlData[0] == 0x01 && controlData[1] == 0x01 &&
 		controlData[2] == 0x00 && controlData[3] == 0x00 &&
 		controlData[4] == 0x00 && controlData[5] == 0x00) {
-			return NXC_ClassicCon;
+			return NXC_ClassicController;
 	}
 
 	return NXC_UnknownController;

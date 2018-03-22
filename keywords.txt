@@ -91,4 +91,4 @@ buttonHome	KEYWORD2
 NXC_NoController	LITERAL1
 NXC_UnknownController	LITERAL1
 NXC_Nunchuk	LITERAL1
-NXC_ClassicCon	LITERAL1
+NXC_ClassicController	LITERAL1

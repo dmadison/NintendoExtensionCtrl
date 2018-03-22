@@ -28,47 +28,47 @@ reconnect	KEYWORD2
 update	KEYWORD2
 
 ## Nunchuk
-getJoyX	KEYWORD2
-getJoyY	KEYWORD2
+joyX	KEYWORD2
+joyY	KEYWORD2
 
-getAccelX	KEYWORD2
-getAccelY	KEYWORD2
-getAccelZ	KEYWORD2
+accelX	KEYWORD2
+accelY	KEYWORD2
+accelZ	KEYWORD2
 
-getButtonC	KEYWORD2
-getButtonZ	KEYWORD2
+buttonC	KEYWORD2
+buttonZ	KEYWORD2
 
-getRollAngle	KEYWORD2
-getPitchAngle	KEYWORD2
+rollAngle	KEYWORD2
+pitchAngle	KEYWORD2
 
 printDebug	KEYWORD2
 
 ## Classic Controller
-getLeftJoyX	KEYWORD2
-getLeftJoyY	KEYWORD2
+leftJoyX	KEYWORD2
+leftJoyY	KEYWORD2
 
-getRightJoyX	KEYWORD2
-getRightJoyY	KEYWORD2
+rightJoyX	KEYWORD2
+rightJoyY	KEYWORD2
 
-getPadUp	KEYWORD2
-getPadDown	KEYWORD2
-getPadLeft	KEYWORD2
-getPadRight	KEYWORD2
+dpadUp	KEYWORD2
+dpadDown	KEYWORD2
+dpadLeft	KEYWORD2
+dpadRight	KEYWORD2
 
-getButtonA	KEYWORD2
-getButtonB	KEYWORD2
-getButtonX	KEYWORD2
-getButtonY	KEYWORD2
+buttonA	KEYWORD2
+buttonB	KEYWORD2
+buttonX	KEYWORD2
+buttonY	KEYWORD2
 
-getTriggerL	KEYWORD2
-getTriggerR	KEYWORD2
+triggerL	KEYWORD2
+triggerR	KEYWORD2
 
-getButtonZL	KEYWORD2
-getButtonZR	KEYWORD2
+buttonZL	KEYWORD2
+buttonZR	KEYWORD2
 
-getButtonPlus	KEYWORD2
-getButtonMinus	KEYWORD2
-getButtonHome	KEYWORD2
+buttonPlus	KEYWORD2
+buttonMinus	KEYWORD2
+buttonHome	KEYWORD2
 
 printDebug	KEYWORD2
 

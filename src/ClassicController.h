@@ -29,34 +29,34 @@ class ClassicController : public ExtensionController {
 public:
 	ClassicController();
 
-	uint8_t getLeftJoyX();  // 6 bits, 0-63
-	uint8_t getLeftJoyY();
+	uint8_t leftJoyX();  // 6 bits, 0-63
+	uint8_t leftJoyY();
 
-	uint8_t getRightJoyX();  // 5 bits, 0-31
-	uint8_t getRightJoyY();
+	uint8_t rightJoyX();  // 5 bits, 0-31
+	uint8_t rightJoyY();
 
-	boolean getPadUp();
-	boolean getPadDown();
-	boolean getPadLeft();
-	boolean getPadRight();
+	boolean dpadUp();
+	boolean dpadDown();
+	boolean dpadLeft();
+	boolean dpadRight();
 
-	boolean getButtonA();
-	boolean getButtonB();
-	boolean getButtonX();
-	boolean getButtonY();
+	boolean buttonA();
+	boolean buttonB();
+	boolean buttonX();
+	boolean buttonY();
 
-	uint8_t getTriggerL();  // 5 bits, 0-31
-	uint8_t getTriggerR();
+	uint8_t triggerL();  // 5 bits, 0-31
+	uint8_t triggerR();
 
-	boolean getButtonLT();
-	boolean getButtonRT();
+	boolean buttonLT();
+	boolean buttonRT();
 
-	boolean getButtonZL();
-	boolean getButtonZR();
+	boolean buttonZL();
+	boolean buttonZR();
 
-	boolean getButtonPlus();
-	boolean getButtonMinus();
-	boolean getButtonHome();
+	boolean buttonPlus();
+	boolean buttonMinus();
+	boolean buttonHome();
 	
 	void printDebug(Stream& stream=Serial);
 };

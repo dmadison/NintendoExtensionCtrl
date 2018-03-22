@@ -13,7 +13,7 @@ void loop() {
 	nchuk.update();  // Get new data from the controller
 
 	// Read a button (on/off, C and Z)
-	boolean zButton = nchuk.getButtonZ();
+	boolean zButton = nchuk.buttonZ();
 	
 	Serial.print("The Z button is ");
 	if (zButton == 1) {
@@ -24,13 +24,13 @@ void loop() {
 	}
 
 	// Read a joystick axis (0-255, X and Y)
-	int joyY = nchuk.getJoyY();
+	int joyY = nchuk.joyY();
 
 	Serial.print("The joystick's Y axis is at ");
 	Serial.println(joyY);
 
 	// Read an accelerometer and print values (0-1023, X, Y, and Z)
-	int accelX = nchuk.getAccelX();
+	int accelX = nchuk.accelX();
 	
 	Serial.print("The accelerometer's X-axis is at ");
 	Serial.println(accelX);

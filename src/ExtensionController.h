@@ -27,9 +27,9 @@
 #include "Wire.h"
 
 enum NXC_ControllerType {
-	ID_Unknown,
-	ID_Nunchuk,
-	ID_ClassicCon,
+	NXC_UnknownController,
+	NXC_Nunchuk,
+	NXC_ClassicCon,
 };
 
 class ExtensionController {
@@ -47,7 +47,7 @@ public:
 	void printDebug(Stream& stream = Serial);
 	void printDebugRaw(Stream& stream = Serial);
 
-	const NXC_ControllerType controllerID = ID_Unknown;
+	const NXC_ControllerType controllerID = NXC_UnknownController;
 
 protected:
 	ExtensionController(uint8_t size, NXC_ControllerType conID);

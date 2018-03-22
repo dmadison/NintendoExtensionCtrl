@@ -63,24 +63,24 @@ NXC_ControllerType ExtensionController::identifyController() {
 		Wire.requestFrom(I2C_Addr, IDHeaderSize));
 
 	if (nBytesRecv != IDHeaderSize) {
-		return ID_Unknown;  // Bad response from device
+		return NXC_UnknownController;  // Bad response from device
 	}
 
 	// Nunchuk ID: All 0s
 	if (controlData[0] == 0x00 && controlData[1] == 0x00 &&
 		controlData[2] == 0x00 && controlData[3] == 0x00 &&
 		controlData[4] == 0x00 && controlData[5] == 0x00) {
-			return ID_Nunchuk;
+			return NXC_Nunchuk;
 	}
 
 	// Classic Con. ID: 0x0101 followed by 4 0s
 	if (controlData[0] == 0x01 && controlData[1] == 0x01 &&
 		controlData[2] == 0x00 && controlData[3] == 0x00 &&
 		controlData[4] == 0x00 && controlData[5] == 0x00) {
-			return ID_ClassicCon;
+			return NXC_ClassicCon;
 	}
 
-	return ID_Unknown;
+	return NXC_UnknownController;
 }
 
 boolean ExtensionController::update() {

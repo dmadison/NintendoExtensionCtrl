@@ -88,6 +88,6 @@ buttonHome	KEYWORD2
 #######################################
 
 # Controller Identities
-ID_Unknown	LITERAL1
-ID_Nunchuk	LITERAL1
-ID_ClassicCon	LITERAL1
+NXC_UnknownController	LITERAL1
+NXC_Nunchuk	LITERAL1
+NXC_ClassicCon	LITERAL1

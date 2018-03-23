@@ -48,30 +48,30 @@ void ExtensionController::initialize(boolean blocking) {
 
 NXC_ControllerType ExtensionController::identifyController() {
 	const uint8_t IDHeaderSize = 6;
+	const uint8_t IDPointer = 0xFE;
 
-	if (!readDataArray(0xFE, IDHeaderSize, controlData)) {
-		lastID = NXC_NoController;
-		return NXC_NoController;  // Bad response from device
+	if (!readDataArray(IDPointer, IDHeaderSize, controlData)) {
+		lastID = NXC_NoController;  // Bad response from device
+		return lastID;
 	}
+
+	lastID = NXC_UnknownController;  // Default if no matches below
 
 	// Nunchuk ID: All 0s
 	if (controlData[0] == 0x00 && controlData[1] == 0x00 &&
 		controlData[2] == 0x00 && controlData[3] == 0x00 &&
 		controlData[4] == 0x00 && controlData[5] == 0x00) {
 			lastID = NXC_Nunchuk;
-			return NXC_Nunchuk;
 	}
 
 	// Classic Con. ID: 0x0101 followed by 4 0s
-	if (controlData[0] == 0x01 && controlData[1] == 0x01 &&
+	else if (controlData[0] == 0x01 && controlData[1] == 0x01 &&
 		controlData[2] == 0x00 && controlData[3] == 0x00 &&
 		controlData[4] == 0x00 && controlData[5] == 0x00) {
 			lastID = NXC_ClassicController;
-			return NXC_ClassicController;
 	}
 
-	lastID = NXC_UnknownController;
-	return NXC_UnknownController;
+	return lastID;
 }
 
 void ExtensionController::connect() {

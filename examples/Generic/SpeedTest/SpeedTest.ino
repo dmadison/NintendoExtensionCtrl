@@ -6,7 +6,11 @@ const long TestDuration = 1000;  // Length of each test, in milliseconds
 
 void setup() {
 	Serial.begin(115200);
-	controller.begin();
+
+	while (!controller.begin()) {
+		Serial.println("No controller detected!");
+		delay(1000);
+	};
 
 	Serial.println("Starting Speed Test...");
 }
@@ -23,17 +27,18 @@ void loop() {
 	
 	if (!validData) {
 		Serial.println("ERROR! Invalid data received!");
-		Serial.println("Reinitializing...");
-		delay(2000);
 
-		controller.reconnect();
-		return;
+		while (!controller.reconnect()) {
+			Serial.println("Attempting to reconnect...");
+			delay(1000);
+		}
 	}
-
-	Serial.print("Success! Completed ");
-	Serial.print(numUpdates);
-	Serial.print(" updates in ");
-	Serial.print(TestDuration);
-	Serial.println(" milliseconds.");
+	else {
+		Serial.print("Success! Completed ");
+		Serial.print(numUpdates);
+		Serial.print(" updates in ");
+		Serial.print(TestDuration);
+		Serial.println(" milliseconds.");
+	}
 }
 

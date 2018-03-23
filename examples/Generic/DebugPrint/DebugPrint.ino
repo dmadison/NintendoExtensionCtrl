@@ -4,7 +4,11 @@ ExtensionController controller;
 
 void setup() {
 	Serial.begin(115200);
-	controller.begin();
+
+	while (!controller.begin()) {
+		Serial.println("Controller not detected!");
+		delay(1000);
+	}
 }
 
 void loop() {

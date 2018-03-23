@@ -33,6 +33,17 @@ void ExtensionController::begin() {
 	connect();
 }
 
+void ExtensionController::connect() {
+	initialize();
+	identifyController();
+	update();  // Seed with initial values
+}
+
+void ExtensionController::reconnect() {
+	delay(5);  // Breathe + clear the bus
+	connect();
+}
+
 void ExtensionController::initialize(boolean blocking) {
 	/* Initialization for unencrypted communication.
 	 * *Should* work on all devices, genuine + 3rd party.
@@ -72,17 +83,6 @@ NXC_ControllerType ExtensionController::identifyController() {
 	}
 
 	return lastID;
-}
-
-void ExtensionController::connect() {
-	initialize();
-	identifyController();
-	update();  // Seed with initial values
-}
-
-void ExtensionController::reconnect() {
-	delay(5);  // Breathe + clear the bus
-	connect();
 }
 
 boolean ExtensionController::update() {

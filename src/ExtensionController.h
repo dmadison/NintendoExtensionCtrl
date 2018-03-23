@@ -39,11 +39,11 @@ public:
 
 	void begin();
 
-	void initialize(boolean blocking = true);
-	NXC_ControllerType identifyController();
-
 	void connect();
 	void reconnect();
+
+	void initialize(boolean blocking = true);
+	NXC_ControllerType identifyController();
 
 	boolean update();
 

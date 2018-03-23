@@ -27,32 +27,34 @@ ExtensionController::ExtensionController() {}
 ExtensionController::ExtensionController(uint8_t size, NXC_ControllerType conID) 
 	: DataSize(size), controllerID(conID), enforceControllerID(true) {}
 
-void ExtensionController::begin() {
+boolean ExtensionController::begin() {
 	Wire.begin();
 
-	connect();
+	return connect();
 }
 
-void ExtensionController::connect() {
-	initialize();
-	identifyController();
-	update();  // Seed with initial values
+boolean ExtensionController::connect() {
+	if (initialize() && identifyController() != NXC_NoController) {
+		return update();  // Seed with initial values
+	}
+	return false;
 }
 
-void ExtensionController::reconnect() {
+boolean ExtensionController::reconnect() {
 	delay(5);  // Breathe + clear the bus
-	connect();
+	return connect();
 }
 
-void ExtensionController::initialize() {
+boolean ExtensionController::initialize() {
 	/* Initialization for unencrypted communication.
 	 * *Should* work on all devices, genuine + 3rd party.
 	 * See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
 	*/ 
-	writeRegister(0xF0, 0x55);
+	if (!writeRegister(0xF0, 0x55)) { return false; }
 	delay(10);
-	writeRegister(0xFB, 0x00);
+	if (!writeRegister(0xFB, 0x00)) { return false; }
 	delay(20);
+	return true;
 }
 
 NXC_ControllerType ExtensionController::identifyController() {

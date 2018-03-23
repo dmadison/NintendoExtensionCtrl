@@ -37,12 +37,12 @@ class ExtensionController {
 public:
 	ExtensionController();
 
-	void begin();
+	boolean begin();
 
-	void connect();
-	void reconnect();
+	boolean connect();
+	boolean reconnect();
 
-	void initialize();
+	boolean initialize();
 	NXC_ControllerType identifyController();
 
 	boolean update();

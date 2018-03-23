@@ -47,7 +47,7 @@ public:
 
 	boolean update();
 
-	void printDebug(Stream& stream = Serial);
+	virtual void printDebug(Stream& stream = Serial);
 	void printDebugRaw(Stream& stream = Serial);
 
 	const NXC_ControllerType controllerID = NXC_UnknownController;

@@ -66,8 +66,8 @@ private:
 
 	boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
 
-	void writePointer(byte pointer);
-	void writeRegister(byte reg, byte value);
+	boolean writePointer(byte pointer);
+	boolean writeRegister(byte reg, byte value);
 	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 
 	const boolean enforceControllerID = false;  // Off for generic controllers

@@ -113,22 +113,22 @@ boolean ExtensionController::verifyData() {
 }
 
 boolean ExtensionController::readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut) {
-	writePointer(pointer);  // Set start for data read
+	if (!writePointer(pointer)) { return false; }  // Set start for data read
 	delayMicroseconds(175);  // Wait for data conversion (~200 us)
 	return requestMulti(requestSize, dataOut);
 }
 
-void ExtensionController::writePointer(byte pointer) {
+boolean ExtensionController::writePointer(byte pointer) {
 	Wire.beginTransmission(I2C_Addr);
 	Wire.write(pointer);
-	Wire.endTransmission();
+	return Wire.endTransmission() == 0;  // 0 = No Error
 }
 
-void ExtensionController::writeRegister(byte reg, byte value) {
+boolean ExtensionController::writeRegister(byte reg, byte value) {
 	Wire.beginTransmission(I2C_Addr);
 	Wire.write(reg);
 	Wire.write(value);
-	Wire.endTransmission();
+	return Wire.endTransmission() == 0;
 }
 
 boolean ExtensionController::requestMulti(uint8_t requestSize, uint8_t * dataOut) {

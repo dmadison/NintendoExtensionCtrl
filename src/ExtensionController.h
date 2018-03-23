@@ -42,7 +42,7 @@ public:
 	void connect();
 	void reconnect();
 
-	void initialize(boolean blocking = true);
+	void initialize();
 	NXC_ControllerType identifyController();
 
 	boolean update();

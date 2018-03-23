@@ -44,17 +44,15 @@ void ExtensionController::reconnect() {
 	connect();
 }
 
-void ExtensionController::initialize(boolean blocking) {
+void ExtensionController::initialize() {
 	/* Initialization for unencrypted communication.
 	 * *Should* work on all devices, genuine + 3rd party.
 	 * See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
 	*/ 
 	writeRegister(0xF0, 0x55);
+	delay(10);
 	writeRegister(0xFB, 0x00);
-
-	if (blocking) {
-		delay(100);  // Wait after init for device startup
-	}
+	delay(20);
 }
 
 NXC_ControllerType ExtensionController::identifyController() {

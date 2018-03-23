@@ -24,7 +24,8 @@
 
 ExtensionController::ExtensionController() {}
 
-ExtensionController::ExtensionController(uint8_t size, NXC_ControllerType conID) : DataSize(size), controllerID(conID) {}
+ExtensionController::ExtensionController(uint8_t size, NXC_ControllerType conID) 
+	: DataSize(size), controllerID(conID), enforceControllerID(true) {}
 
 void ExtensionController::begin() {
 	Wire.begin();
@@ -49,6 +50,7 @@ NXC_ControllerType ExtensionController::identifyController() {
 	const uint8_t IDHeaderSize = 6;
 
 	if (!readDataArray(0xFE, IDHeaderSize, controlData)) {
+		lastID = NXC_NoController;
 		return NXC_NoController;  // Bad response from device
 	}
 
@@ -56,6 +58,7 @@ NXC_ControllerType ExtensionController::identifyController() {
 	if (controlData[0] == 0x00 && controlData[1] == 0x00 &&
 		controlData[2] == 0x00 && controlData[3] == 0x00 &&
 		controlData[4] == 0x00 && controlData[5] == 0x00) {
+			lastID = NXC_Nunchuk;
 			return NXC_Nunchuk;
 	}
 
@@ -63,9 +66,11 @@ NXC_ControllerType ExtensionController::identifyController() {
 	if (controlData[0] == 0x01 && controlData[1] == 0x01 &&
 		controlData[2] == 0x00 && controlData[3] == 0x00 &&
 		controlData[4] == 0x00 && controlData[5] == 0x00) {
+			lastID = NXC_ClassicController;
 			return NXC_ClassicController;
 	}
 
+	lastID = NXC_UnknownController;
 	return NXC_UnknownController;
 }
 
@@ -81,6 +86,9 @@ void ExtensionController::reconnect() {
 }
 
 boolean ExtensionController::update() {
+	// Before getting new control data, check if we have the right controller
+	if (enforceControllerID && lastID != controllerID) { return false; }
+
 	if (readDataArray(0x00, DataSize, controlData)) {
 		return verifyData();
 	}

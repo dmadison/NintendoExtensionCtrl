@@ -147,7 +147,7 @@ void ExtensionController::printDebug(Stream& stream) {
 }
 
 void ExtensionController::printDebugRaw(Stream& stream) {
-	char buffer[48] = "ExtCtrl -";
+	char buffer[48] = "RAW -";
 
 	for (int i = 0; i < DataSize; i++){
 		sprintf(buffer, "%s %02x |", buffer, controlData[i]);

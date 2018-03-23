@@ -147,9 +147,11 @@ void ExtensionController::printDebug(Stream& stream) {
 }
 
 void ExtensionController::printDebugRaw(Stream& stream) {
-	char buffer[48] = "RAW -";
+	// 5 characters per byte, 5 for the prefix, 1 for the null terminator
+	const uint8_t bufferSize = (sizeof(controlData) * 5) + 5 + 1;
+	char buffer[bufferSize] = "RAW -";
 
-	for (int i = 0; i < DataSize; i++){
+	for (int i = 0; i < sizeof(controlData); i++){
 		sprintf(buffer, "%s %02x |", buffer, controlData[i]);
 	}
 	stream.println(buffer);

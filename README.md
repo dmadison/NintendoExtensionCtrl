@@ -1,6 +1,6 @@
 # Nintendo Extension Controller Library
 
-This is a lightweight Arduino library for talking to Nintendo extension controllers over I²C.
+This is an Arduino library for talking to Nintendo extension controllers over I²C.
 
 ## Supported Controllers
 * Wii Nunchuk

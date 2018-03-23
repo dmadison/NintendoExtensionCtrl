@@ -150,7 +150,7 @@ void ExtensionController::printDebugRaw(Stream& stream) {
 	char buffer[48] = "ExtCtrl -";
 
 	for (int i = 0; i < DataSize; i++){
-		sprintf(buffer, "%s %3u |", buffer, controlData[i]);
+		sprintf(buffer, "%s %02x |", buffer, controlData[i]);
 	}
 	stream.println(buffer);
 }

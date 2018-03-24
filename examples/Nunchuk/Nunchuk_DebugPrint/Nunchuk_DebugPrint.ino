@@ -4,7 +4,11 @@ Nunchuk nchuk;
 
 void setup() {
 	Serial.begin(115200);
-	nchuk.begin();
+
+	while (!nchuk.begin()) {
+		Serial.println("Nunchuk not detected!");
+		delay(1000);
+	}
 }
 
 void loop() {

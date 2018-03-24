@@ -37,11 +37,13 @@ class ExtensionController {
 public:
 	ExtensionController();
 
-	void begin();
-	void initialize(boolean blocking=true);
-	NXC_ControllerType identifyController();
+	boolean begin();
 
-	void reconnect();
+	boolean connect();
+	boolean reconnect();
+
+	boolean initialize();
+	NXC_ControllerType identifyController();
 
 	boolean update();
 
@@ -62,8 +64,14 @@ protected:
 private:
 	boolean verifyData();
 
-	void writePointer(byte pointer);
-	void writeRegister(byte reg, byte value);
+	boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
+
+	boolean writePointer(byte pointer);
+	boolean writeRegister(byte reg, byte value);
+	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
+
+	const boolean enforceControllerID = false;  // Off for generic controllers
+	NXC_ControllerType lastID;  // Controller from the last identify call
 };
 
 #endif

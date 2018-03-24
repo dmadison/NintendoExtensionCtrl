@@ -24,74 +24,72 @@
 
 ExtensionController::ExtensionController() {}
 
-ExtensionController::ExtensionController(uint8_t size, NXC_ControllerType conID) : DataSize(size), controllerID(conID) {}
+ExtensionController::ExtensionController(uint8_t size, NXC_ControllerType conID) 
+	: DataSize(size), controllerID(conID), enforceControllerID(true) {}
 
-void ExtensionController::begin() {
+boolean ExtensionController::begin() {
 	Wire.begin();
 
-	initialize();
-	update();  // Seed with initial values
+	return connect();
 }
 
-void ExtensionController::initialize(boolean blocking) {
+boolean ExtensionController::connect() {
+	if (initialize() && identifyController() != NXC_NoController) {
+		return update();  // Seed with initial values
+	}
+	return false;
+}
+
+boolean ExtensionController::reconnect() {
+	delay(5);  // Breathe + clear the bus
+	return connect();
+}
+
+boolean ExtensionController::initialize() {
 	/* Initialization for unencrypted communication.
 	 * *Should* work on all devices, genuine + 3rd party.
 	 * See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
 	*/ 
-	writeRegister(0xF0, 0x55);
-	writeRegister(0xFB, 0x00);
-
-	if (blocking) {
-		delay(100);  // Wait after init for device startup
-	}
-}
-
-void ExtensionController::reconnect() {
-	delay(5);  // Breathe + clear the bus
-	initialize();
-	update();
+	if (!writeRegister(0xF0, 0x55)) { return false; }
+	delay(10);
+	if (!writeRegister(0xFB, 0x00)) { return false; }
+	delay(20);
+	return true;
 }
 
 NXC_ControllerType ExtensionController::identifyController() {
 	const uint8_t IDHeaderSize = 6;
+	const uint8_t IDPointer = 0xFE;
 
-	writePointer(0xFE);
-
-	delayMicroseconds(175);
-
-	uint8_t nBytesRecv = Wire.readBytes(controlData,
-		Wire.requestFrom(I2C_Addr, IDHeaderSize));
-
-	if (nBytesRecv != IDHeaderSize) {
-		return NXC_NoController;  // Bad response from device
+	if (!readDataArray(IDPointer, IDHeaderSize, controlData)) {
+		lastID = NXC_NoController;  // Bad response from device
+		return lastID;
 	}
+
+	lastID = NXC_UnknownController;  // Default if no matches below
 
 	// Nunchuk ID: All 0s
 	if (controlData[0] == 0x00 && controlData[1] == 0x00 &&
 		controlData[2] == 0x00 && controlData[3] == 0x00 &&
 		controlData[4] == 0x00 && controlData[5] == 0x00) {
-			return NXC_Nunchuk;
+			lastID = NXC_Nunchuk;
 	}
 
 	// Classic Con. ID: 0x0101 followed by 4 0s
-	if (controlData[0] == 0x01 && controlData[1] == 0x01 &&
+	else if (controlData[0] == 0x01 && controlData[1] == 0x01 &&
 		controlData[2] == 0x00 && controlData[3] == 0x00 &&
 		controlData[4] == 0x00 && controlData[5] == 0x00) {
-			return NXC_ClassicController;
+			lastID = NXC_ClassicController;
 	}
 
-	return NXC_UnknownController;
+	return lastID;
 }
 
 boolean ExtensionController::update() {
-	writePointer(0x00);  // Start at first register
+	// Before getting new control data, check if we have the right controller
+	if (enforceControllerID && lastID != controllerID) { return false; }
 
-	delayMicroseconds(175);  // Wait for data conversion (~200 us)
-
-	uint8_t nBytesRecv = Wire.readBytes(controlData,
-		Wire.requestFrom(I2C_Addr, DataSize));
-
-	if (nBytesRecv == DataSize) {
+	if (readDataArray(0x00, DataSize, controlData)) {
 		return verifyData();
 	}
 
@@ -114,17 +112,30 @@ boolean ExtensionController::verifyData() {
 	return true;
 }
 
-void ExtensionController::writePointer(byte pointer) {
-	Wire.beginTransmission(I2C_Addr);
-	Wire.write(pointer);
-	Wire.endTransmission();
+boolean ExtensionController::readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut) {
+	if (!writePointer(pointer)) { return false; }  // Set start for data read
+	delayMicroseconds(175);  // Wait for data conversion (~200 us)
+	return requestMulti(requestSize, dataOut);
 }
 
-void ExtensionController::writeRegister(byte reg, byte value) {
+boolean ExtensionController::writePointer(byte pointer) {
+	Wire.beginTransmission(I2C_Addr);
+	Wire.write(pointer);
+	return Wire.endTransmission() == 0;  // 0 = No Error
+}
+
+boolean ExtensionController::writeRegister(byte reg, byte value) {
 	Wire.beginTransmission(I2C_Addr);
 	Wire.write(reg);
 	Wire.write(value);
-	Wire.endTransmission();
+	return Wire.endTransmission() == 0;
+}
+
+boolean ExtensionController::requestMulti(uint8_t requestSize, uint8_t * dataOut) {
+	uint8_t nBytesRecv = Wire.readBytes(dataOut,
+		Wire.requestFrom(I2C_Addr, requestSize));
+
+	return (nBytesRecv == requestSize);  // Success if all bytes received
 }
 
 boolean ExtensionController::extractBit(uint8_t arrIndex, uint8_t bitNum) {
@@ -136,10 +147,12 @@ void ExtensionController::printDebug(Stream& stream) {
 }
 
 void ExtensionController::printDebugRaw(Stream& stream) {
-	char buffer[48] = "ExtCtrl -";
+	// 5 characters per byte, 5 for the prefix, 1 for the null terminator
+	const uint8_t bufferSize = (sizeof(controlData) * 5) + 5 + 1;
+	char buffer[bufferSize] = "RAW -";
 
-	for (int i = 0; i < DataSize; i++){
-		sprintf(buffer, "%s %3u |", buffer, controlData[i]);
+	for (int i = 0; i < sizeof(controlData); i++){
+		sprintf(buffer, "%s %02x |", buffer, controlData[i]);
 	}
 	stream.println(buffer);
 }

@@ -59,7 +59,7 @@ boolean ExtensionController::initialize() {
 
 NXC_ControllerType ExtensionController::identifyController() {
 	const uint8_t IDHeaderSize = 6;
-	const uint8_t IDPointer = 0xFE;
+	const uint8_t IDPointer = 0xFA;
 
 	if (!readDataArray(IDPointer, IDHeaderSize, controlData)) {
 		lastID = NXC_NoController;  // Bad response from device

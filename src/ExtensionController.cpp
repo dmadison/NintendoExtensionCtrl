@@ -68,17 +68,13 @@ NXC_ControllerType ExtensionController::identifyController() {
 
 	lastID = NXC_UnknownController;  // Default if no matches below
 
-	// Nunchuk ID: All 0s
-	if (controlData[0] == 0x00 && controlData[1] == 0x00 &&
-		controlData[2] == 0x00 && controlData[3] == 0x00 &&
-		controlData[4] == 0x00 && controlData[5] == 0x00) {
+	// Nunchuk ID: 0x0000
+	if (controlData[4] == 0x00 && controlData[5] == 0x00) {
 			lastID = NXC_Nunchuk;
 	}
 
-	// Classic Con. ID: 0x0101 followed by 4 0s
-	else if (controlData[0] == 0x01 && controlData[1] == 0x01 &&
-		controlData[2] == 0x00 && controlData[3] == 0x00 &&
-		controlData[4] == 0x00 && controlData[5] == 0x00) {
+	// Classic Con. ID: 0x0101
+	else if (controlData[4] == 0x01 && controlData[5] == 0x01) {
 			lastID = NXC_ClassicController;
 	}
 

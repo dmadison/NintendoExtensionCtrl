@@ -34,9 +34,13 @@ boolean ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	if (initialize() && identifyController() != NXC_NoController) {
-		return update();  // Seed with initial values
+	if (initialize()) {
+		identifyController();
+		if (controllerIDMatches()) {
+			return update();  // Seed with initial values
+		}
 	}
+
 	return false;
 }
 
@@ -81,11 +85,20 @@ NXC_ControllerType ExtensionController::identifyController() {
 	return lastID;
 }
 
-boolean ExtensionController::update() {
-	// Before getting new control data, check if we have the right controller
-	if (enforceControllerID && lastID != controllerID) { return false; }
+boolean ExtensionController::controllerIDMatches() {
+	if (lastID == NXC_NoController) {
+		return false;  // In all cases, no controller is a no-no
+	}
 
-	if (readDataArray(0x00, DataSize, controlData)) {
+	if (enforceControllerID == true && lastID != controllerID) {
+		return false;
+	}
+
+	return true;  // Controller matches or enforce is off
+}
+
+boolean ExtensionController::update() {
+	if (controllerIDMatches() && readDataArray(0x00, DataSize, controlData)) {
 		return verifyData();
 	}
 

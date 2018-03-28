@@ -71,7 +71,7 @@ private:
 	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 
 	const boolean enforceControllerID = false;  // Off for generic controllers
-	NXC_ControllerType lastID;  // Controller from the last identify call
+	NXC_ControllerType lastID = NXC_NoController;  // Controller from the last identify call
 };
 
 #endif

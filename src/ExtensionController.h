@@ -57,7 +57,6 @@ protected:
 
 	boolean extractBit(uint8_t arrIndex, uint8_t bitNum);
 
-	const uint8_t I2C_Addr = 0x52;
 	const uint8_t DataSize = 6;  // Bytes per update
 	uint8_t controlData[6];
 
@@ -71,6 +70,7 @@ private:
 	boolean writeRegister(byte reg, byte value);
 	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 
+	const uint8_t I2C_Addr = 0x52;
 	const boolean enforceControllerID = false;  // Off for generic controllers
 	NXC_ControllerType lastID = NXC_NoController;  // Controller from the last identify call
 };

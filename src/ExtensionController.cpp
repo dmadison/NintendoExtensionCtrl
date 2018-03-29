@@ -97,6 +97,10 @@ boolean ExtensionController::controllerIDMatches() {
 	return true;  // Controller matches or enforce is off
 }
 
+NXC_ControllerType ExtensionController::getID() {
+	return lastID;
+}
+
 boolean ExtensionController::update() {
 	if (controllerIDMatches() && readDataArray(0x00, DataSize, controlData)) {
 		return verifyData();

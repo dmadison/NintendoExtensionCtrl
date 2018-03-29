@@ -50,6 +50,8 @@ public:
 	void printDebug(Stream& stream = Serial);
 	void printDebugRaw(Stream& stream = Serial);
 
+	NXC_ControllerType getID();
+
 	const NXC_ControllerType controllerID = NXC_UnknownController;
 
 protected:

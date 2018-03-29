@@ -6,7 +6,7 @@ void setup() {
 	Serial.begin(115200);
 	controller.begin();
 
-	NXC_ControllerType conType = controller.identifyController();
+	NXC_ControllerType conType = controller.getID();
 
 	switch (conType) {
 		case(NXC_NoController):

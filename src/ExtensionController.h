@@ -60,9 +60,9 @@ protected:
 	uint8_t controlData[6];
 
 private:
-	boolean initialize();
+	static boolean initialize();
 
-	NXC_ControllerType identifyController();
+	static NXC_ControllerType identifyController();
 	boolean controllerIDMatches();
 
 	boolean verifyData();

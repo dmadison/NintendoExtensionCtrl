@@ -22,7 +22,7 @@
 
 #include "ClassicController.h"
 
-ClassicController::ClassicController() : ExtensionController(6, NXC_ClassicController) {}
+ClassicController::ClassicController() : ExtensionController(NXC_ClassicController, 6) {}
 
 uint8_t ClassicController::leftJoyX() {
 	return controlData[0] & 0x3F;

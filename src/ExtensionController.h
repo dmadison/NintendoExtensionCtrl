@@ -53,7 +53,7 @@ public:
 	const NXC_ControllerType controllerID = NXC_UnknownController;
 
 protected:
-	ExtensionController(uint8_t size, NXC_ControllerType conID);
+	ExtensionController(NXC_ControllerType conID, uint8_t datSize);
 
 	boolean extractBit(uint8_t arrIndex, uint8_t bitNum);
 

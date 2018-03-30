@@ -24,8 +24,8 @@
 
 ExtensionController::ExtensionController() {}
 
-ExtensionController::ExtensionController(uint8_t size, NXC_ControllerType conID) 
-	: DataSize(size), controllerID(conID), enforceControllerID(true) {}
+ExtensionController::ExtensionController(NXC_ControllerType conID, uint8_t datSize)
+	: controllerID(conID), DataSize(datSize), enforceControllerID(true) {}
 
 boolean ExtensionController::begin() {
 	Wire.begin();

@@ -96,6 +96,14 @@ boolean ExtensionController::controllerIDMatches() {
 	return true;  // Controller matches or enforce is off
 }
 
+NXC_ControllerType ExtensionController::requestIdentity() {
+	if (initialize()) {  // Must initialize before ID call will return proper data
+		return identifyController();
+	}
+
+	return NXC_NoController;  // Bad init
+}
+
 NXC_ControllerType ExtensionController::getID() {
 	return connectedID;
 }

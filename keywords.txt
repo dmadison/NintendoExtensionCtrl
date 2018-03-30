@@ -34,6 +34,7 @@ update	KEYWORD2
 printDebug	KEYWORD2
 printDebugRaw	KEYWORD2
 
+requestIdentity	KEYWORD2
 getID	KEYWORD2
 
 ## Nunchuk

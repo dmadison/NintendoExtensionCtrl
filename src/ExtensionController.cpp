@@ -65,17 +65,19 @@ NXC_ControllerType ExtensionController::identifyController() {
 	const uint8_t IDHeaderSize = 6;
 	const uint8_t IDPointer = 0xFA;
 
-	if (!readDataArray(IDPointer, IDHeaderSize, controlData)) {
+	uint8_t idData[IDHeaderSize];
+
+	if (!readDataArray(IDPointer, IDHeaderSize, idData)) {
 		return NXC_NoController;  // Bad response from device
 	}
 
 	// Nunchuk ID: 0x0000
-	if (controlData[4] == 0x00 && controlData[5] == 0x00) {
+	if (idData[4] == 0x00 && idData[5] == 0x00) {
 			return NXC_Nunchuk;
 	}
 
 	// Classic Con. ID: 0x0101
-	else if (controlData[4] == 0x01 && controlData[5] == 0x01) {
+	else if (idData[4] == 0x01 && idData[5] == 0x01) {
 			return NXC_ClassicController;
 	}
 

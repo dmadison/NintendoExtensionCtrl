@@ -42,36 +42,42 @@ public:
 	boolean connect();
 	boolean reconnect();
 
-	boolean initialize();
-	NXC_ControllerType identifyController();
-
 	boolean update();
 
 	void printDebug(Stream& stream = Serial);
 	void printDebugRaw(Stream& stream = Serial);
 
+	static NXC_ControllerType requestIdentity();
+	NXC_ControllerType getConnectedID();
+
 	const NXC_ControllerType controllerID = NXC_UnknownController;
 
 protected:
-	ExtensionController(uint8_t size, NXC_ControllerType conID);
+	ExtensionController(NXC_ControllerType conID, uint8_t datSize);
 
 	boolean extractBit(uint8_t arrIndex, uint8_t bitNum);
 
-	const uint8_t I2C_Addr = 0x52;
 	const uint8_t DataSize = 6;  // Bytes per update
 	uint8_t controlData[6];
 
 private:
+	static boolean initialize();
+
+	static NXC_ControllerType identifyController();
+	boolean controllerIDMatches();
+
 	boolean verifyData();
 
-	boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
+	static boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
 
-	boolean writePointer(byte pointer);
-	boolean writeRegister(byte reg, byte value);
-	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
+	static boolean writePointer(byte pointer);
+	static boolean writeRegister(byte reg, byte value);
+	static boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 
+	static const uint8_t I2C_Addr = 0x52;
 	const boolean enforceControllerID = false;  // Off for generic controllers
-	NXC_ControllerType lastID;  // Controller from the last identify call
+	boolean initSuccess = false;
+	NXC_ControllerType connectedID = NXC_NoController;
 };
 
 #endif

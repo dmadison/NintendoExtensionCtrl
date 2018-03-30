@@ -29,13 +29,13 @@ begin	KEYWORD2
 connect	KEYWORD2
 reconnect	KEYWORD2
 
-initialize	KEYWORD2
-identifyController	KEYWORD2
-
 update	KEYWORD2
 
 printDebug	KEYWORD2
 printDebugRaw	KEYWORD2
+
+requestIdentity	KEYWORD2
+getConnectedID	KEYWORD2
 
 ## Nunchuk
 joyX	KEYWORD2

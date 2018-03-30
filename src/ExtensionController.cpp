@@ -24,8 +24,8 @@
 
 ExtensionController::ExtensionController() {}
 
-ExtensionController::ExtensionController(uint8_t size, NXC_ControllerType conID) 
-	: DataSize(size), controllerID(conID), enforceControllerID(true) {}
+ExtensionController::ExtensionController(NXC_ControllerType conID, uint8_t datSize)
+	: controllerID(conID), DataSize(datSize), enforceControllerID(true) {}
 
 boolean ExtensionController::begin() {
 	Wire.begin();
@@ -34,9 +34,14 @@ boolean ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	if (initialize() && identifyController() != NXC_NoController) {
-		return update();  // Seed with initial values
+	initSuccess = initialize();
+	if (initSuccess) {
+		connectedID = identifyController();
+		if (controllerIDMatches()) {
+			return update();  // Seed with initial values
+		}
 	}
+
 	return false;
 }
 
@@ -61,35 +66,56 @@ NXC_ControllerType ExtensionController::identifyController() {
 	const uint8_t IDHeaderSize = 6;
 	const uint8_t IDPointer = 0xFA;
 
-	if (!readDataArray(IDPointer, IDHeaderSize, controlData)) {
-		lastID = NXC_NoController;  // Bad response from device
-		return lastID;
+	uint8_t idData[IDHeaderSize];
+
+	if (!readDataArray(IDPointer, IDHeaderSize, idData)) {
+		return NXC_NoController;  // Bad response from device
 	}
 
-	lastID = NXC_UnknownController;  // Default if no matches below
-
 	// Nunchuk ID: 0x0000
-	if (controlData[4] == 0x00 && controlData[5] == 0x00) {
-			lastID = NXC_Nunchuk;
+	if (idData[4] == 0x00 && idData[5] == 0x00) {
+			return NXC_Nunchuk;
 	}
 
 	// Classic Con. ID: 0x0101
-	else if (controlData[4] == 0x01 && controlData[5] == 0x01) {
-			lastID = NXC_ClassicController;
+	else if (idData[4] == 0x01 && idData[5] == 0x01) {
+			return NXC_ClassicController;
 	}
 
-	return lastID;
+	return NXC_UnknownController;  // No matches
+}
+
+boolean ExtensionController::controllerIDMatches() {
+	if (connectedID == controllerID) {
+		return true;  // Match!
+	}
+	else if (enforceControllerID == false && connectedID != NXC_NoController) {
+		return true;  // No enforcing and some sort of controller connected
+	}
+
+	return false;  // Enforced types or no controller connected
+}
+
+NXC_ControllerType ExtensionController::requestIdentity() {
+	if (initialize()) {  // Must initialize before ID call will return proper data
+		return identifyController();
+	}
+
+	return NXC_NoController;  // Bad init
+}
+
+NXC_ControllerType ExtensionController::getConnectedID() {
+	return connectedID;
 }
 
 boolean ExtensionController::update() {
-	// Before getting new control data, check if we have the right controller
-	if (enforceControllerID && lastID != controllerID) { return false; }
-
-	if (readDataArray(0x00, DataSize, controlData)) {
-		return verifyData();
+	if (initSuccess && controllerIDMatches()){
+		if (readDataArray(0x00, DataSize, controlData)) {
+			return verifyData();
+		}
 	}
-
-	return false;
+	
+	return initSuccess = false;  // Something went wrong. User must re-initialize
 }
 
 boolean ExtensionController::verifyData() {
@@ -147,7 +173,7 @@ void ExtensionController::printDebugRaw(Stream& stream) {
 	const uint8_t bufferSize = (sizeof(controlData) * 5) + 5 + 1;
 	char buffer[bufferSize] = "RAW -";
 
-	for (int i = 0; i < sizeof(controlData); i++){
+	for (uint8_t i = 0; i < sizeof(controlData); i++){
 		sprintf(buffer, "%s %02x |", buffer, controlData[i]);
 	}
 	stream.println(buffer);

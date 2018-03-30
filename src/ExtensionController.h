@@ -76,6 +76,7 @@ private:
 
 	static const uint8_t I2C_Addr = 0x52;
 	const boolean enforceControllerID = false;  // Off for generic controllers
+	boolean initSuccess = false;
 	NXC_ControllerType connectedID = NXC_NoController;
 };
 

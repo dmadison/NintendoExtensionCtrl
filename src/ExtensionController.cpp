@@ -34,7 +34,8 @@ boolean ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	if (initialize()) {
+	initSuccess = initialize();
+	if (initSuccess) {
 		connectedID = identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
@@ -109,11 +110,13 @@ NXC_ControllerType ExtensionController::getConnectedID() {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && readDataArray(0x00, DataSize, controlData)) {
-		return verifyData();
+	if (initSuccess && controllerIDMatches()){
+		if (readDataArray(0x00, DataSize, controlData)) {
+			return verifyData();
+		}
 	}
-
-	return false;
+	
+	return initSuccess = false;  // Something went wrong. User must re-initialize
 }
 
 boolean ExtensionController::verifyData() {

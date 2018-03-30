@@ -35,7 +35,7 @@ boolean ExtensionController::begin() {
 
 boolean ExtensionController::connect() {
 	if (initialize()) {
-		identifyController();
+		connectedID = identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
 		}
@@ -66,23 +66,20 @@ NXC_ControllerType ExtensionController::identifyController() {
 	const uint8_t IDPointer = 0xFA;
 
 	if (!readDataArray(IDPointer, IDHeaderSize, controlData)) {
-		connectedID = NXC_NoController;  // Bad response from device
-		return connectedID;
+		return NXC_NoController;  // Bad response from device
 	}
-
-	connectedID = NXC_UnknownController;  // Default if no matches below
 
 	// Nunchuk ID: 0x0000
 	if (controlData[4] == 0x00 && controlData[5] == 0x00) {
-			connectedID = NXC_Nunchuk;
+			return NXC_Nunchuk;
 	}
 
 	// Classic Con. ID: 0x0101
 	else if (controlData[4] == 0x01 && controlData[5] == 0x01) {
-			connectedID = NXC_ClassicController;
+			return NXC_ClassicController;
 	}
 
-	return connectedID;
+	return NXC_UnknownController;  // No matches
 }
 
 boolean ExtensionController::controllerIDMatches() {

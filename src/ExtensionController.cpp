@@ -66,31 +66,31 @@ NXC_ControllerType ExtensionController::identifyController() {
 	const uint8_t IDPointer = 0xFA;
 
 	if (!readDataArray(IDPointer, IDHeaderSize, controlData)) {
-		lastID = NXC_NoController;  // Bad response from device
-		return lastID;
+		connectedID = NXC_NoController;  // Bad response from device
+		return connectedID;
 	}
 
-	lastID = NXC_UnknownController;  // Default if no matches below
+	connectedID = NXC_UnknownController;  // Default if no matches below
 
 	// Nunchuk ID: 0x0000
 	if (controlData[4] == 0x00 && controlData[5] == 0x00) {
-			lastID = NXC_Nunchuk;
+			connectedID = NXC_Nunchuk;
 	}
 
 	// Classic Con. ID: 0x0101
 	else if (controlData[4] == 0x01 && controlData[5] == 0x01) {
-			lastID = NXC_ClassicController;
+			connectedID = NXC_ClassicController;
 	}
 
-	return lastID;
+	return connectedID;
 }
 
 boolean ExtensionController::controllerIDMatches() {
-	if (lastID == NXC_NoController) {
+	if (connectedID == NXC_NoController) {
 		return false;  // In all cases, no controller is a no-no
 	}
 
-	if (enforceControllerID == true && lastID != controllerID) {
+	if (enforceControllerID == true && connectedID != controllerID) {
 		return false;
 	}
 
@@ -98,7 +98,7 @@ boolean ExtensionController::controllerIDMatches() {
 }
 
 NXC_ControllerType ExtensionController::getID() {
-	return lastID;
+	return connectedID;
 }
 
 boolean ExtensionController::update() {

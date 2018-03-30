@@ -35,7 +35,7 @@ printDebug	KEYWORD2
 printDebugRaw	KEYWORD2
 
 requestIdentity	KEYWORD2
-getID	KEYWORD2
+getConnectedID	KEYWORD2
 
 ## Nunchuk
 joyX	KEYWORD2

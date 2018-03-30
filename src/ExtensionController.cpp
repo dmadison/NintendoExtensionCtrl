@@ -104,7 +104,7 @@ NXC_ControllerType ExtensionController::requestIdentity() {
 	return NXC_NoController;  // Bad init
 }
 
-NXC_ControllerType ExtensionController::getID() {
+NXC_ControllerType ExtensionController::getConnectedID() {
 	return connectedID;
 }
 

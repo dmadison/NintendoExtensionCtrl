@@ -48,7 +48,7 @@ public:
 	void printDebugRaw(Stream& stream = Serial);
 
 	static NXC_ControllerType requestIdentity();
-	NXC_ControllerType getID();
+	NXC_ControllerType getConnectedID();
 
 	const NXC_ControllerType controllerID = NXC_UnknownController;
 

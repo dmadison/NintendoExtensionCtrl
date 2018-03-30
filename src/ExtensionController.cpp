@@ -173,7 +173,7 @@ void ExtensionController::printDebugRaw(Stream& stream) {
 	const uint8_t bufferSize = (sizeof(controlData) * 5) + 5 + 1;
 	char buffer[bufferSize] = "RAW -";
 
-	for (int i = 0; i < sizeof(controlData); i++){
+	for (uint8_t i = 0; i < sizeof(controlData); i++){
 		sprintf(buffer, "%s %02x |", buffer, controlData[i]);
 	}
 	stream.println(buffer);

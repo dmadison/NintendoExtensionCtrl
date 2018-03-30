@@ -67,13 +67,13 @@ private:
 
 	boolean verifyData();
 
-	boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
+	static boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
 
-	boolean writePointer(byte pointer);
-	boolean writeRegister(byte reg, byte value);
-	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
+	static boolean writePointer(byte pointer);
+	static boolean writeRegister(byte reg, byte value);
+	static boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 
-	const uint8_t I2C_Addr = 0x52;
+	static const uint8_t I2C_Addr = 0x52;
 	const boolean enforceControllerID = false;  // Off for generic controllers
 	NXC_ControllerType lastID = NXC_NoController;  // Controller from the last identify call
 };

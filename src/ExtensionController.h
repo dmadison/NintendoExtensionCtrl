@@ -42,9 +42,6 @@ public:
 	boolean connect();
 	boolean reconnect();
 
-	boolean initialize();
-	NXC_ControllerType identifyController();
-
 	boolean update();
 
 	void printDebug(Stream& stream = Serial);
@@ -63,7 +60,11 @@ protected:
 	uint8_t controlData[6];
 
 private:
+	boolean initialize();
+
+	NXC_ControllerType identifyController();
 	boolean controllerIDMatches();
+
 	boolean verifyData();
 
 	boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);

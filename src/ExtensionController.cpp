@@ -86,15 +86,14 @@ NXC_ControllerType ExtensionController::identifyController() {
 }
 
 boolean ExtensionController::controllerIDMatches() {
-	if (connectedID == NXC_NoController) {
-		return false;  // In all cases, no controller is a no-no
+	if (connectedID == controllerID) {
+		return true;  // Match!
+	}
+	else if (enforceControllerID == false && connectedID != NXC_NoController) {
+		return true;  // No enforcing and some sort of controller connected
 	}
 
-	if (enforceControllerID == true && connectedID != controllerID) {
-		return false;
-	}
-
-	return true;  // Controller matches or enforce is off
+	return false;  // Enforced types or no controller connected
 }
 
 NXC_ControllerType ExtensionController::requestIdentity() {

@@ -20,16 +20,46 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NintendoExtensionCtrl_h
-#define NintendoExtensionCtrl_h
+#ifndef GuitarController_h
+#define GuitarController_h
 
-// Controller Base
 #include "ExtensionController.h"
 
-// Controller Types
-#include "Nunchuk.h"
-#include "ClassicController.h"
-#include "GuitarController.h"
+class GuitarController : public ExtensionController {
+public:
+	GuitarController();
+
+	uint8_t joyX();  // 6 bits, 0-63
+	uint8_t joyY();
+
+	boolean strum();
+	boolean strumUp();
+	boolean strumDown();
+
+	boolean fretGreen();
+	boolean fretRed();
+	boolean fretYellow();
+	boolean fretBlue();
+	boolean fretOrange();
+
+	uint8_t whammyBar();  // 5 bits, 0-31
+
+	uint8_t touchbar();  // 5 bits, 0-31
+	boolean touchGreen();
+	boolean touchRed();
+	boolean touchYellow();
+	boolean touchBlue();
+	boolean touchOrange();
+
+	boolean buttonPlus();
+	boolean buttonMinus();
+
+	void printDebug(Stream& stream=Serial);
+
+	boolean supportsTouchbar();
+
+private:
+	boolean touchbarData = false;  // Flag for touchbar data found
+};
 
 #endif
-

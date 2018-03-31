@@ -31,6 +31,7 @@ enum NXC_ControllerType {
 	NXC_UnknownController,
 	NXC_Nunchuk,
 	NXC_ClassicController,
+	NXC_GuitarController,
 };
 
 class ExtensionController {

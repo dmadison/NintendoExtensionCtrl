@@ -15,6 +15,7 @@ ExtensionController	KEYWORD1
 # Controller Types
 Nunchuk	KEYWORD1
 ClassicController	KEYWORD1
+GuitarController	KEYWORD1
 
 # Enumerations
 NXC_ControllerType	KEYWORD1
@@ -81,6 +82,34 @@ buttonPlus	KEYWORD2
 buttonMinus	KEYWORD2
 buttonHome	KEYWORD2
 
+## Guitar Controller
+joyX	KEYWORD2
+joyY	KEYWORD2
+
+strum	KEYWORD2
+strumUp	KEYWORD2
+strumDown	KEYWORD2
+
+fretGreen	KEYWORD2
+fretRed	KEYWORD2
+fretYellow	KEYWORD2
+fretBlue	KEYWORD2
+fretOrange	KEYWORD2
+
+whammyBar	KEYWORD2
+
+touchbar	KEYWORD2
+touchGreen	KEYWORD2
+touchRed	KEYWORD2
+touchYellow	KEYWORD2
+touchBlue	KEYWORD2
+touchOrange	KEYWORD2
+
+buttonPlus	KEYWORD2
+buttonMinus	KEYWORD2
+
+supportsTouchbar	KEYWORD2
+
 #######################################
 # Instances (KEYWORD2)
 #######################################
@@ -94,3 +123,4 @@ NXC_NoController	LITERAL1
 NXC_UnknownController	LITERAL1
 NXC_Nunchuk	LITERAL1
 NXC_ClassicController	LITERAL1
+NXC_GuitarController	LITERAL1

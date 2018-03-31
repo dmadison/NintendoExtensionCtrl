@@ -21,6 +21,9 @@ void setup() {
 		case(NXC_ClassicController):
 			Serial.println("Classic Controller detected!");
 			break;
+		case(NXC_GuitarController):
+			Serial.println("Guitar controller connected!");
+			break;
 	}
 }
 

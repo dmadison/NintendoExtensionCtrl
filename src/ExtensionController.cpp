@@ -82,6 +82,13 @@ NXC_ControllerType ExtensionController::identifyController() {
 			return NXC_ClassicController;
 	}
 
+	// Guitar Controller: 0x0000, 0xA420, 0x0103
+	else if (idData[0] == 0x00 && idData[1] == 0x00
+		&& idData[2] == 0xA4 && idData[3] == 0x20
+		&& idData[4] == 0x01 && idData[5] == 0x03) {
+			return NXC_GuitarController;
+	}
+
 	return NXC_UnknownController;  // No matches
 }
 

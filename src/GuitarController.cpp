@@ -162,7 +162,7 @@ void GuitarController::printDebug(Stream& stream) {
 
 	sprintf(buffer,
 		"%c%c | Joy:(%2u, %2u)",
-		plusPrint, minusPrint,
+		minusPrint, plusPrint,
 		joyX(), joyY());
 	stream.println(buffer);
 }

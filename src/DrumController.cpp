@@ -187,7 +187,7 @@ void DrumController::printDebug(Stream& stream) {
 		"%c\\%c%c%c/%c %c | V:%1u for %c | %c%c | Joy:(%2u, %2u)",
 		yellowPrint, redPrint, bluePrint, greenPrint, orangePrint, pedalPrint,
 		velocityPrint, velocityIDPrint,
-		plusPrint, minusPrint,
+		minusPrint, plusPrint,
 		joyX(), joyY());
 	stream.println(buffer);
 }

@@ -16,6 +16,7 @@ ExtensionController	KEYWORD1
 Nunchuk	KEYWORD1
 ClassicController	KEYWORD1
 GuitarController	KEYWORD1
+DrumController	KEYWORD1
 
 # Enumerations
 NXC_ControllerType	KEYWORD1
@@ -110,6 +111,33 @@ buttonMinus	KEYWORD2
 
 supportsTouchbar	KEYWORD2
 
+## Drum Set Controller
+joyX	KEYWORD2
+joyY	KEYWORD2
+
+drumRed	KEYWORD2
+drumBlue	KEYWORD2
+drumGreen	KEYWORD2
+
+cymbalYellow	KEYWORD2
+cymbalOrange	KEYWORD2
+	
+bassPedal	KEYWORD2
+
+buttonPlus	KEYWORD2
+buttonMinus	KEYWORD2
+
+velocityAvailable	KEYWORD2
+velocityID	KEYWORD2
+
+velocity	KEYWORD2
+velocityRed	KEYWORD2
+velocityBlue	KEYWORD2
+velocityGreen	KEYWORD2
+velocityYellow	KEYWORD2
+velocityOrange	KEYWORD2
+velocityPedal	KEYWORD2
+
 #######################################
 # Instances (KEYWORD2)
 #######################################
@@ -124,3 +152,4 @@ NXC_UnknownController	LITERAL1
 NXC_Nunchuk	LITERAL1
 NXC_ClassicController	LITERAL1
 NXC_GuitarController	LITERAL1
+NXC_DrumController	LITERAL1

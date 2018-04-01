@@ -30,6 +30,7 @@
 #include "Nunchuk.h"
 #include "ClassicController.h"
 #include "GuitarController.h"
+#include "DrumController.h"
 
 #endif
 

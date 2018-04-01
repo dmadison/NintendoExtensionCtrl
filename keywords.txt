@@ -39,6 +39,8 @@ printDebugRaw	KEYWORD2
 requestIdentity	KEYWORD2
 getConnectedID	KEYWORD2
 
+setEnforceID	KEYWORD2
+
 ## Nunchuk
 joyX	KEYWORD2
 joyY	KEYWORD2

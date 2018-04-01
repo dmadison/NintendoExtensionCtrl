@@ -123,6 +123,10 @@ NXC_ControllerType ExtensionController::getConnectedID() {
 	return connectedID;
 }
 
+void ExtensionController::setEnforceID(boolean enforce) {
+	enforceControllerID = enforce;
+}
+
 boolean ExtensionController::update() {
 	if (initSuccess && controllerIDMatches()){
 		if (readDataArray(0x00, DataSize, controlData)) {

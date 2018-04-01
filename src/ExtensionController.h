@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ExtensionController_h
-#define ExtensionController_h
+#ifndef NXC_ExtensionController_h
+#define NXC_ExtensionController_h
 
 #include "Arduino.h"
 #include "Wire.h"

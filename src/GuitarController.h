@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GuitarController_h
-#define GuitarController_h
+#ifndef NXC_GuitarController_h
+#define NXC_GuitarController_h
 
 #include "ExtensionController.h"
 

@@ -82,11 +82,19 @@ NXC_ControllerType ExtensionController::identifyController() {
 			return NXC_ClassicController;
 	}
 
-	// Guitar Controller: 0x0000, 0xA420, 0x0103
-	else if (idData[0] == 0x00 && idData[1] == 0x00
+	// Guitar Hero Controllers: 0x##00, 0xA420, 0x0103
+	else if (idData[1] == 0x00
 		&& idData[2] == 0xA4 && idData[3] == 0x20
 		&& idData[4] == 0x01 && idData[5] == 0x03) {
+
+		// Guitar: 0x00
+		if (idData[0] == 0x00) {
 			return NXC_GuitarController;
+		}
+		// Drums: 0x01
+		else if (idData[0] == 0x01) {
+			return NXC_DrumController;
+		}
 	}
 
 	return NXC_UnknownController;  // No matches

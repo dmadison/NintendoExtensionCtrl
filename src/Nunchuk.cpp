@@ -45,11 +45,11 @@ uint16_t Nunchuk::accelZ() {
 }
 
 boolean Nunchuk::buttonC() {
-	return extractBit(5, 1);
+	return extractControlBit(5, 1);
 }
 
 boolean Nunchuk::buttonZ() {
-	return extractBit(5, 0);
+	return extractControlBit(5, 0);
 }
 
 float Nunchuk::rollAngle() {

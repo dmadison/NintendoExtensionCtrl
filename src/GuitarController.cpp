@@ -37,31 +37,31 @@ boolean GuitarController::strum() {
 }
 
 boolean GuitarController::strumUp() {
-	return extractBit(5, 0);
+	return extractControlBit(5, 0);
 }
 
 boolean GuitarController::strumDown() {
-	return extractBit(4, 6);
+	return extractControlBit(4, 6);
 }
 
 boolean GuitarController::fretGreen() {
-	return extractBit(5, 4);
+	return extractControlBit(5, 4);
 }
 
 boolean GuitarController::fretRed() {
-	return extractBit(5, 6);
+	return extractControlBit(5, 6);
 }
 
 boolean GuitarController::fretYellow() {
-	return extractBit(5, 3);
+	return extractControlBit(5, 3);
 }
 
 boolean GuitarController::fretBlue() {
-	return extractBit(5, 5);
+	return extractControlBit(5, 5);
 }
 
 boolean GuitarController::fretOrange() {
-	return extractBit(5, 7);
+	return extractControlBit(5, 7);
 }
 
 uint8_t GuitarController::whammyBar() {
@@ -94,11 +94,11 @@ boolean GuitarController::touchOrange() {
 }
 
 boolean GuitarController::buttonPlus() {
-	return extractBit(4, 2);
+	return extractControlBit(4, 2);
 }
 
 boolean GuitarController::buttonMinus() {
-	return extractBit(4, 4);
+	return extractControlBit(4, 4);
 }
 
 boolean GuitarController::supportsTouchbar() {

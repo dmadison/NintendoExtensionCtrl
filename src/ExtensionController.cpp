@@ -175,7 +175,7 @@ boolean ExtensionController::requestMulti(uint8_t requestSize, uint8_t * dataOut
 	return (nBytesRecv == requestSize);  // Success if all bytes received
 }
 
-boolean ExtensionController::extractBit(uint8_t arrIndex, uint8_t bitNum) {
+boolean ExtensionController::extractControlBit(uint8_t arrIndex, uint8_t bitNum) {
 	return !(controlData[arrIndex] & (1 << bitNum));
 }
 

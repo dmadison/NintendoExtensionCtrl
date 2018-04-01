@@ -57,7 +57,7 @@ public:
 protected:
 	ExtensionController(NXC_ControllerType conID, uint8_t datSize);
 
-	boolean extractBit(uint8_t arrIndex, uint8_t bitNum);
+	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum);
 
 	const uint8_t DataSize = 6;  // Bytes per update
 	uint8_t controlData[6];

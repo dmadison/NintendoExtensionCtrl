@@ -56,13 +56,13 @@ public:
 	void setEnforceID(boolean enforce);
 
 	const NXC_ControllerType controllerID = NXC_UnknownController;
+	const uint8_t DataSize = 6;  // Bytes per update
 
 protected:
 	ExtensionController(NXC_ControllerType conID, uint8_t datSize);
 
 	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum);
-
-	const uint8_t DataSize = 6;  // Bytes per update
+	
 	uint8_t controlData[6];
 
 private:

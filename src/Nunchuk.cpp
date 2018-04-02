@@ -45,11 +45,11 @@ uint16_t Nunchuk::accelZ() {
 }
 
 boolean Nunchuk::buttonC() {
-	return extractBit(5, 1);
+	return extractControlBit(5, 1);
 }
 
 boolean Nunchuk::buttonZ() {
-	return extractBit(5, 0);
+	return extractControlBit(5, 0);
 }
 
 float Nunchuk::rollAngle() {
@@ -62,14 +62,14 @@ float Nunchuk::pitchAngle() {
 }
 
 void Nunchuk::printDebug(Stream& stream) {
-	char buffer[75];
+	char buffer[60];
 
 	char cPrint = buttonC() ? 'C' : '-';
 	char zPrint = buttonZ() ? 'Z' : '-';
 
 	stream.print("Nunchuk - ");
 	sprintf(buffer,
-		"JoyX: %3u | JoyY: %3u | Ax: %4u | Ay: %4u | Az: %4u | Buttons: %c%c",
+		"Joy:(%3u, %3u) | Accel XYZ:(%4u, %4u, %4u) | Buttons: %c%c",
 		joyX(), joyY(), accelX(), accelY(), accelZ(), cPrint, zPrint);
 	
 	stream.println(buffer);

@@ -28,7 +28,7 @@ void loop() {
 		if (red == true) {
 			Serial.println("been hit");
 		}
-		else {
+		else if (red == false) {
 			Serial.println("not been hit");
 		}
 
@@ -39,7 +39,7 @@ void loop() {
 		if (yellow == true) {
 			Serial.println("been hit");
 		}
-		else {
+		else if (yellow == false) {
 			Serial.println("not been hit");
 		}
 
@@ -47,10 +47,10 @@ void loop() {
 		boolean pedal = drums.bassPedal();
 
 		Serial.print("The bass pedal is ");
-		if (yellow == true) {
+		if (pedal == true) {
 			Serial.println("pressed");
 		}
-		else {
+		else if (pedal == false) {
 			Serial.println("not pressed");
 		}
 
@@ -111,7 +111,7 @@ void loop() {
 		if (plusButton == true) {
 			Serial.println("pressed");
 		}
-		else {
+		else if (plusButton == false) {
 			Serial.println("released");
 		}
 

@@ -38,10 +38,10 @@ void loop() {
 		boolean green = guitar.fretGreen();
 
 		Serial.print("The green fret button is ");
-		if (green == 1) {
+		if (green == true) {
 			Serial.println("pressed");
 		}
-		else if (green == 0) {
+		else if (green == false) {
 			Serial.println("released");
 		}
 
@@ -58,10 +58,10 @@ void loop() {
 			boolean touchGreen = guitar.touchGreen();
 
 			Serial.print("The green touch zone is ");
-			if (touchGreen == 1) {
+			if (touchGreen == true) {
 				Serial.println("pressed");
 			}
-			else if (touchGreen == 0) {
+			else if (touchGreen == false) {
 				Serial.println("not pressed");
 			}
 		}
@@ -82,10 +82,10 @@ void loop() {
 		boolean plusButton = guitar.buttonPlus();
 
 		Serial.print("The plus button is ");
-		if (plusButton == 1) {
+		if (plusButton == true) {
 			Serial.println("pressed");
 		}
-		else if (plusButton == 0) {
+		else if (plusButton == false) {
 			Serial.println("released");
 		}
 

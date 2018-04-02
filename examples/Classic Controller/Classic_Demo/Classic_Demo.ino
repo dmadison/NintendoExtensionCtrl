@@ -25,10 +25,10 @@ void loop() {
 		boolean padUp = classic.dpadUp();
 
 		Serial.print("The DPAD up button is ");
-		if (padUp == 1) {
+		if (padUp == true) {
 			Serial.println("pressed");
 		}
-		else if (padUp == 0) {
+		else if (padUp == false) {
 			Serial.println("released");
 		}
 
@@ -36,10 +36,10 @@ void loop() {
 		boolean aButton = classic.buttonA();
 
 		Serial.print("The A button is ");
-		if (aButton == 1) {
+		if (aButton == true) {
 			Serial.println("pressed");
 		}
-		else if (aButton == 0) {
+		else if (aButton == false) {
 			Serial.println("released");
 		}
 

@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ClassicController_h
-#define ClassicController_h
+#ifndef NXC_ClassicController_h
+#define NXC_ClassicController_h
 
 #include "ExtensionController.h"
 

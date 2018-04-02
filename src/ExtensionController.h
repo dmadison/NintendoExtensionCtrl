@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ExtensionController_h
-#define ExtensionController_h
+#ifndef NXC_ExtensionController_h
+#define NXC_ExtensionController_h
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -49,23 +49,26 @@ public:
 	void printDebug(Stream& stream = Serial);
 	void printDebugRaw(Stream& stream = Serial);
 
-	static NXC_ControllerType requestIdentity();
+	static NXC_ControllerType identifyController();
 	NXC_ControllerType getConnectedID();
+	uint8_t getRawControlData(uint8_t controlIndex);
+
+	void setEnforceID(boolean enforce);
 
 	const NXC_ControllerType controllerID = NXC_UnknownController;
+	const uint8_t ControlDataSize = 6;  // Bytes per update
 
 protected:
 	ExtensionController(NXC_ControllerType conID, uint8_t datSize);
 
-	boolean extractBit(uint8_t arrIndex, uint8_t bitNum);
-
-	const uint8_t DataSize = 6;  // Bytes per update
+	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum);
+	
 	uint8_t controlData[6];
 
 private:
 	static boolean initialize();
 
-	static NXC_ControllerType identifyController();
+	static NXC_ControllerType requestIdentity();
 	boolean controllerIDMatches();
 
 	boolean verifyData();
@@ -77,7 +80,7 @@ private:
 	static boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 
 	static const uint8_t I2C_Addr = 0x52;
-	const boolean enforceControllerID = false;  // Off for generic controllers
+	boolean enforceControllerID = false;  // Off for generic controllers
 	boolean initSuccess = false;
 	NXC_ControllerType connectedID = NXC_NoController;
 };

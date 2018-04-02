@@ -25,7 +25,7 @@
 ExtensionController::ExtensionController() {}
 
 ExtensionController::ExtensionController(NXC_ControllerType conID, uint8_t datSize)
-	: controllerID(conID), DataSize(datSize), enforceControllerID(true) {}
+	: controllerID(conID), ControlDataSize(datSize), enforceControllerID(true) {}
 
 boolean ExtensionController::begin() {
 	Wire.begin();
@@ -36,7 +36,7 @@ boolean ExtensionController::begin() {
 boolean ExtensionController::connect() {
 	initSuccess = initialize();
 	if (initSuccess) {
-		connectedID = identifyController();
+		connectedID = requestIdentity();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
 		}
@@ -62,7 +62,7 @@ boolean ExtensionController::initialize() {
 	return true;
 }
 
-NXC_ControllerType ExtensionController::identifyController() {
+NXC_ControllerType ExtensionController::requestIdentity() {
 	const uint8_t IDHeaderSize = 6;
 	const uint8_t IDPointer = 0xFA;
 
@@ -111,9 +111,9 @@ boolean ExtensionController::controllerIDMatches() {
 	return false;  // Enforced types or no controller connected
 }
 
-NXC_ControllerType ExtensionController::requestIdentity() {
+NXC_ControllerType ExtensionController::identifyController() {
 	if (initialize()) {  // Must initialize before ID call will return proper data
-		return identifyController();
+		return requestIdentity();
 	}
 
 	return NXC_NoController;  // Bad init
@@ -123,9 +123,13 @@ NXC_ControllerType ExtensionController::getConnectedID() {
 	return connectedID;
 }
 
+void ExtensionController::setEnforceID(boolean enforce) {
+	enforceControllerID = enforce;
+}
+
 boolean ExtensionController::update() {
 	if (initSuccess && controllerIDMatches()){
-		if (readDataArray(0x00, DataSize, controlData)) {
+		if (readDataArray(0x00, ControlDataSize, controlData)) {
 			return verifyData();
 		}
 	}
@@ -137,7 +141,7 @@ boolean ExtensionController::verifyData() {
 	byte orCheck = 0x00;   // Check if data is zeroed (bad connection)
 	byte andCheck = 0xFF;  // Check if data is maxed (bad init)
 
-	for (int i = 0; i < DataSize; i++) {
+	for (int i = 0; i < ControlDataSize; i++) {
 		orCheck |= controlData[i];
 		andCheck &= controlData[i];
 	}
@@ -147,6 +151,13 @@ boolean ExtensionController::verifyData() {
 	}
 	
 	return true;
+}
+
+uint8_t ExtensionController::getRawControlData(uint8_t controlIndex) {
+	if (controlIndex < ControlDataSize) {
+		return controlData[controlIndex];
+	}
+	return 0;
 }
 
 boolean ExtensionController::readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut) {
@@ -175,7 +186,7 @@ boolean ExtensionController::requestMulti(uint8_t requestSize, uint8_t * dataOut
 	return (nBytesRecv == requestSize);  // Success if all bytes received
 }
 
-boolean ExtensionController::extractBit(uint8_t arrIndex, uint8_t bitNum) {
+boolean ExtensionController::extractControlBit(uint8_t arrIndex, uint8_t bitNum) {
 	return !(controlData[arrIndex] & (1 << bitNum));
 }
 

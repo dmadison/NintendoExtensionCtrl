@@ -36,8 +36,11 @@ update	KEYWORD2
 printDebug	KEYWORD2
 printDebugRaw	KEYWORD2
 
-requestIdentity	KEYWORD2
+identifyController	KEYWORD2
 getConnectedID	KEYWORD2
+getRawControlData	KEYWORD2
+
+setEnforceID	KEYWORD2
 
 ## Nunchuk
 joyX	KEYWORD2

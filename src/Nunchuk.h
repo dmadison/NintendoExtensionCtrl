@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef Nunchuk_h
-#define Nunchuk_h
+#ifndef NXC_Nunchuk_h
+#define NXC_Nunchuk_h
 
 #include "ExtensionController.h"
 

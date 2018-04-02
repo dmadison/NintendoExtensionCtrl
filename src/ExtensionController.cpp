@@ -36,7 +36,7 @@ boolean ExtensionController::begin() {
 boolean ExtensionController::connect() {
 	initSuccess = initialize();
 	if (initSuccess) {
-		connectedID = identifyController();
+		connectedID = requestIdentity();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
 		}
@@ -62,7 +62,7 @@ boolean ExtensionController::initialize() {
 	return true;
 }
 
-NXC_ControllerType ExtensionController::identifyController() {
+NXC_ControllerType ExtensionController::requestIdentity() {
 	const uint8_t IDHeaderSize = 6;
 	const uint8_t IDPointer = 0xFA;
 
@@ -111,9 +111,9 @@ boolean ExtensionController::controllerIDMatches() {
 	return false;  // Enforced types or no controller connected
 }
 
-NXC_ControllerType ExtensionController::requestIdentity() {
+NXC_ControllerType ExtensionController::identifyController() {
 	if (initialize()) {  // Must initialize before ID call will return proper data
-		return identifyController();
+		return requestIdentity();
 	}
 
 	return NXC_NoController;  // Bad init

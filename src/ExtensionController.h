@@ -49,7 +49,7 @@ public:
 	void printDebug(Stream& stream = Serial);
 	void printDebugRaw(Stream& stream = Serial);
 
-	static NXC_ControllerType requestIdentity();
+	static NXC_ControllerType identifyController();
 	NXC_ControllerType getConnectedID();
 
 	void setEnforceID(boolean enforce);
@@ -67,7 +67,7 @@ protected:
 private:
 	static boolean initialize();
 
-	static NXC_ControllerType identifyController();
+	static NXC_ControllerType requestIdentity();
 	boolean controllerIDMatches();
 
 	boolean verifyData();

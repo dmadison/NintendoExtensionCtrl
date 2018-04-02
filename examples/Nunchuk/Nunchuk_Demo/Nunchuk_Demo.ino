@@ -25,10 +25,10 @@ void loop() {
 		boolean zButton = nchuk.buttonZ();
 
 		Serial.print("The Z button is ");
-		if (zButton == 1) {
+		if (zButton == true) {
 			Serial.println("pressed");
 		}
-		else if (zButton == 0) {
+		else if (zButton == false) {
 			Serial.println("released");
 		}
 

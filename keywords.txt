@@ -38,6 +38,7 @@ printDebugRaw	KEYWORD2
 
 identifyController	KEYWORD2
 getConnectedID	KEYWORD2
+getRawControlData	KEYWORD2
 
 setEnforceID	KEYWORD2
 

@@ -153,6 +153,13 @@ boolean ExtensionController::verifyData() {
 	return true;
 }
 
+uint8_t ExtensionController::getRawControlData(uint8_t controlIndex) {
+	if (controlIndex < DataSize) {
+		return controlData[controlIndex];
+	}
+	return 0;
+}
+
 boolean ExtensionController::readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut) {
 	if (!writePointer(pointer)) { return false; }  // Set start for data read
 	delayMicroseconds(175);  // Wait for data conversion (~200 us)

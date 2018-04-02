@@ -56,7 +56,7 @@ public:
 	void setEnforceID(boolean enforce);
 
 	const NXC_ControllerType controllerID = NXC_UnknownController;
-	const uint8_t DataSize = 6;  // Bytes per update
+	const uint8_t ControlDataSize = 6;  // Bytes per update
 
 protected:
 	ExtensionController(NXC_ControllerType conID, uint8_t datSize);

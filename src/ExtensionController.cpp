@@ -25,7 +25,7 @@
 ExtensionController::ExtensionController() {}
 
 ExtensionController::ExtensionController(NXC_ControllerType conID, uint8_t datSize)
-	: controllerID(conID), DataSize(datSize), enforceControllerID(true) {}
+	: controllerID(conID), ControlDataSize(datSize), enforceControllerID(true) {}
 
 boolean ExtensionController::begin() {
 	Wire.begin();
@@ -129,7 +129,7 @@ void ExtensionController::setEnforceID(boolean enforce) {
 
 boolean ExtensionController::update() {
 	if (initSuccess && controllerIDMatches()){
-		if (readDataArray(0x00, DataSize, controlData)) {
+		if (readDataArray(0x00, ControlDataSize, controlData)) {
 			return verifyData();
 		}
 	}
@@ -141,7 +141,7 @@ boolean ExtensionController::verifyData() {
 	byte orCheck = 0x00;   // Check if data is zeroed (bad connection)
 	byte andCheck = 0xFF;  // Check if data is maxed (bad init)
 
-	for (int i = 0; i < DataSize; i++) {
+	for (int i = 0; i < ControlDataSize; i++) {
 		orCheck |= controlData[i];
 		andCheck &= controlData[i];
 	}
@@ -154,7 +154,7 @@ boolean ExtensionController::verifyData() {
 }
 
 uint8_t ExtensionController::getRawControlData(uint8_t controlIndex) {
-	if (controlIndex < DataSize) {
+	if (controlIndex < ControlDataSize) {
 		return controlData[controlIndex];
 	}
 	return 0;

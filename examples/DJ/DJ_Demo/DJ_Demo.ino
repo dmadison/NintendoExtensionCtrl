@@ -71,9 +71,9 @@ void loop() {
 				break;
 		}
 
-		// Read a specific turntable (left/right prefix for turntable and buttons)
-		int leftTurntable = dj.leftTurntable();
-		boolean leftGreen = dj.leftButtonGreen();
+		// Read a specific turntable (left/right)
+		int leftTurntable = dj.left.turntable();
+		boolean rightGreen = dj.right.buttonGreen();
 		
 		// Read the effect dial (0-31. One rotation per rollover)
 		int fx = dj.effectDial();

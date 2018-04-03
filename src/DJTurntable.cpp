@@ -22,83 +22,23 @@
 
 #include "DJTurntable.h"
 
-DJTurntableController::DJTurntableController() : ExtensionController(NXC_DJTurntable, 6) {}
-
-// Left Turntable
-int8_t DJTurntableController::leftTurntable() {
-	int8_t turnData = controlData[3] & 0x1F;
-	turnData |= ((controlData[4] & 0x01) << 5);  // Sign bit
-
-	if (turnData >= 32) {  // Convert to signed scale
-		turnData = -32 + (turnData - 32);
-	}
-	return turnData;
-}
-
-boolean DJTurntableController::leftButtonGreen() {
-	return extractControlBit(5, 3);
-}
-
-boolean DJTurntableController::leftButtonRed() {
-	return extractControlBit(4, 5);
-}
-
-boolean DJTurntableController::leftButtonBlue() {
-	return extractControlBit(5, 7);
-}
-
-boolean DJTurntableController::leftConnected() {
-	if (tableConfig == NXC_DJTurntable_Both || tableConfig == NXC_DJTurntable_Left) {
-		return true;  // Already checked
-	}
-	return leftTurntable() != 0 | leftButtonGreen() | leftButtonRed() | leftButtonBlue();  // Any data = connected
-}
-
-// Right Turntable
-int8_t DJTurntableController::rightTurntable() {
-	int8_t turnData = ((controlData[0] & 0xC0) >> 3) | ((controlData[1] & 0xC0) >> 5) | ((controlData[2] & 0x80) >> 7);
-	turnData |= ((controlData[2] & 0x01) << 5);  // Sign bit
-
-	if (turnData >= 32) {  // Convert to signed scale
-		turnData = -32 + (turnData - 32);
-	}
-	return turnData;
-}
-
-boolean DJTurntableController::rightButtonGreen() {
-	return extractControlBit(5, 5);
-}
-
-boolean DJTurntableController::rightButtonRed() {
-	return extractControlBit(4, 1);
-}
-
-boolean DJTurntableController::rightButtonBlue() {
-	return extractControlBit(5, 2);
-}
-
-boolean DJTurntableController::rightConnected() {
-	if (tableConfig == NXC_DJTurntable_Both || tableConfig == NXC_DJTurntable_Right) {
-		return true;  // Already checked
-	}
-	return rightTurntable() != 0 | rightButtonGreen() | rightButtonRed() | rightButtonBlue();  // Any data = connected
-}
+DJTurntableController::DJTurntableController() : ExtensionController(NXC_DJTurntable, 6), left(*this), right(*this) {}
 
 // Combined Turntable
 int8_t DJTurntableController::turntable() {
-	return leftTurntable() + rightTurntable();
+	return left.turntable() + right.turntable();
 }
 
 boolean DJTurntableController::buttonGreen() {
-	return leftButtonGreen() | rightButtonGreen();
+	return left.buttonGreen() | right.buttonGreen();
 }
 
 boolean DJTurntableController::buttonRed() {
-	return leftButtonRed() | rightButtonRed();
+	return left.buttonRed() | right.buttonRed();
 }
 
 boolean DJTurntableController::buttonBlue() {
-	return leftButtonBlue() | rightButtonBlue();
+	return left.buttonBlue() | right.buttonBlue();
 }
 
 // Main Board
@@ -135,13 +75,13 @@ NXC_DJTurntable_Configuration DJTurntableController::getTurntableConfig() {
 		return tableConfig;  // Both are attached, no reason to check data
 	}
 
-	boolean leftState = leftConnected();
-	boolean rightState = rightConnected();
+	boolean leftState = left.connected();
+	boolean rightState = right.connected();
 
 	if (leftState && rightState) {
 		return tableConfig = NXC_DJTurntable_Both;
 	}
-	if (leftState) {
+	else if (leftState) {
 		return tableConfig = NXC_DJTurntable_Left;
 	}
 	else if (rightState) {
@@ -167,6 +107,7 @@ uint8_t DJTurntableController::getNumTurntables() {
 			return 2;
 			break;
 	}
+	return 0;  // Just in-case
 }
 
 void DJTurntableController::printDebug(Stream& stream) {
@@ -179,8 +120,8 @@ void DJTurntableController::printDebug(Stream& stream) {
 	if (getNumTurntables() == 0) {
 		stream.print(" No turntable found! |");
 	}
-	else if (leftConnected()) {
-		printTurntable(stream, NXC_DJTurntable_Left);
+	else if (left.connected()) {
+		printTurntable(stream, left);
 		stream.print(" |");
 	}
 
@@ -197,45 +138,89 @@ void DJTurntableController::printDebug(Stream& stream) {
 		effectDial(), crossfadeSlider());
 	stream.print(buffer);
 
-	if (rightConnected()) {
+	if (right.connected()) {
 		stream.print(" |");
-		printTurntable(stream, NXC_DJTurntable_Right);
+		printTurntable(stream, right);
 	}
 	stream.println();
 }
 
-void DJTurntableController::printTurntable(Stream& stream, NXC_DJTurntable_Configuration table) {
+void DJTurntableController::printTurntable(Stream& stream, TurntableExpansion &table) {
 	const char fillCharacter = '_';
-	char buffer[13];
 
-	char idPrint;
-	int8_t tablePrint;
-	char greenPrint;
-	char redPrint;
-	char bluePrint;
-
-	if (table == NXC_DJTurntable_Left) {
+	char idPrint = 'X';
+	if (table.side == NXC_DJTurntable_Left) {
 		idPrint = 'L';
-		tablePrint = leftTurntable();
-		greenPrint = leftButtonGreen() ? 'G' : fillCharacter;
-		redPrint = leftButtonRed() ? 'R' : fillCharacter;
-		bluePrint = leftButtonBlue() ? 'B' : fillCharacter;
 	}
-	else if (table == NXC_DJTurntable_Right) {
+	else if (table.side == NXC_DJTurntable_Right) {
 		idPrint = 'R';
-		tablePrint = rightTurntable();
-		greenPrint = rightButtonGreen() ? 'G' : fillCharacter;
-		redPrint = rightButtonRed() ? 'R' : fillCharacter;
-		bluePrint = rightButtonBlue() ? 'B' : fillCharacter;
-	}
-	else {
-		return;  // Don't print anything
 	}
 
+	int8_t tablePrint = table.turntable();
+	char greenPrint = table.buttonGreen() ? 'G' : fillCharacter;
+	char redPrint = table.buttonRed() ? 'R' : fillCharacter;
+	char bluePrint = table.buttonBlue() ? 'B' : fillCharacter;
+
+	char buffer[15];
 	sprintf(buffer,
 		" T%c:%3d %c%c%c",
 		idPrint,
 		tablePrint,
 		greenPrint, redPrint, bluePrint);
 	stream.print(buffer);
+}
+
+// Turntable Expansion Base
+boolean DJTurntableController::TurntableExpansion::connected() {
+	if (base.tableConfig == NXC_DJTurntable_Both || base.tableConfig == side) {
+		return true;  // Already checked
+	}
+	return turntable() != 0 || buttonGreen() || buttonRed() || buttonBlue();
+}
+
+int8_t DJTurntableController::TurntableExpansion::tableSignConversion(int8_t turnData) {
+	if (turnData >= 32) {  // Scales the unsigned 0-63 as signed, symmetrical about 0
+		turnData = -32 + (turnData - 32);
+	}
+	return turnData;
+}
+
+// Left Turntable
+int8_t DJTurntableController::TurntableLeft::turntable() {
+	int8_t turnData = base.controlData[3] & 0x1F;
+	turnData |= ((base.controlData[4] & 0x01) << 5);  // Sign bit
+
+	return tableSignConversion(turnData);
+}
+
+boolean DJTurntableController::TurntableLeft::buttonGreen() {
+	return base.extractControlBit(5, 3);
+}
+
+boolean DJTurntableController::TurntableLeft::buttonRed() {
+	return base.extractControlBit(4, 5);
+}
+
+boolean DJTurntableController::TurntableLeft::buttonBlue() {
+	return base.extractControlBit(5, 7);
+}
+
+// Right Turntable
+int8_t DJTurntableController::TurntableRight::turntable() {
+	int8_t turnData = ((base.controlData[0] & 0xC0) >> 3) | ((base.controlData[1] & 0xC0) >> 5) | ((base.controlData[2] & 0x80) >> 7);
+	turnData |= ((base.controlData[2] & 0x01) << 5);  // Sign bit
+
+	return tableSignConversion(turnData);
+}
+
+boolean DJTurntableController::TurntableRight::buttonGreen() {
+	return base.extractControlBit(5, 5);
+}
+
+boolean DJTurntableController::TurntableRight::buttonRed() {
+	return base.extractControlBit(4, 1);
+}
+
+boolean DJTurntableController::TurntableRight::buttonBlue() {
+	return base.extractControlBit(5, 2);
 }

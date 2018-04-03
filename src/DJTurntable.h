@@ -36,28 +36,12 @@ class DJTurntableController : public ExtensionController {
 public:
 	DJTurntableController();
 
-	// Left Turntable
-	int8_t leftTurntable();
-
-	boolean leftButtonGreen();
-	boolean leftButtonRed();
-	boolean leftButtonBlue();
-
-	// Right Turntable
-	int8_t rightTurntable();
-
-	boolean rightButtonGreen();
-	boolean rightButtonRed();
-	boolean rightButtonBlue();
-
-	// Combined Turntable
 	int8_t turntable();  // 6 bits, -32-31. Clockwise = positive, faster = larger.
 
 	boolean buttonGreen();
 	boolean buttonRed();
 	boolean buttonBlue();
 
-	// Core
 	uint8_t effectDial();  // 5 bits, 0-31. One rotation per rollover.
 	int8_t crossfadeSlider();  // 4 bits, -8-7. Negative to the left.
 	
@@ -74,11 +58,48 @@ public:
 	NXC_DJTurntable_Configuration getTurntableConfig();
 	uint8_t getNumTurntables();
 
-private:
-	boolean leftConnected();
-	boolean rightConnected();
+	class TurntableExpansion {
+	public:
+		TurntableExpansion(NXC_DJTurntable_Configuration conf, DJTurntableController &baseObj)
+			: side(conf), base(baseObj) {}
+		boolean connected();
 
-	void printTurntable(Stream& stream, NXC_DJTurntable_Configuration table);
+		virtual int8_t turntable() = 0;
+
+		virtual boolean buttonGreen() = 0;
+		virtual boolean buttonRed() = 0;
+		virtual boolean buttonBlue() = 0;
+
+		const NXC_DJTurntable_Configuration side = NXC_DJTurntable_BaseOnly;
+	protected:
+		int8_t tableSignConversion(int8_t turnData);
+		DJTurntableController & base;
+	};
+
+	class TurntableLeft : public TurntableExpansion {
+	public:
+		TurntableLeft(DJTurntableController &baseObj)
+			: TurntableExpansion(NXC_DJTurntable_Left, baseObj) {}
+		int8_t turntable();
+
+		boolean buttonGreen();
+		boolean buttonRed();
+		boolean buttonBlue();
+	} left;
+
+	class TurntableRight: public TurntableExpansion {
+	public:
+		TurntableRight(DJTurntableController &baseObj)
+			: TurntableExpansion(NXC_DJTurntable_Right, baseObj) {}
+		int8_t turntable();
+
+		boolean buttonGreen();
+		boolean buttonRed();
+		boolean buttonBlue();
+	} right;
+
+private:
+	void printTurntable(Stream& stream, TurntableExpansion &table);
 
 	NXC_DJTurntable_Configuration tableConfig = NXC_DJTurntable_BaseOnly;
 };

@@ -146,19 +146,8 @@ velocityPedal	KEYWORD2
 joyX	KEYWORD2
 joyY	KEYWORD2
 
-leftTurntable	KEYWORD2
-
-leftButtonGreen	KEYWORD2
-leftButtonRed	KEYWORD2
-leftButtonBlue	KEYWORD2
-
-rightTurntable	KEYWORD2
-
-rightButtonGreen	KEYWORD2
-rightButtonRed	KEYWORD2
-rightButtonBlue	KEYWORD2
-
 turntable	KEYWORD2
+connected	KEYWORD2
 
 buttonGreen	KEYWORD2
 buttonRed	KEYWORD2

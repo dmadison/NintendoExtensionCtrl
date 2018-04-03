@@ -95,6 +95,10 @@ NXC_ControllerType ExtensionController::requestIdentity() {
 		else if (idData[0] == 0x01) {
 			return NXC_DrumController;
 		}
+		// DJ Turntable: 0x03
+		else if (idData[0] == 0x03) {
+			return NXC_DJTurntable;
+		}
 	}
 
 	return NXC_UnknownController;  // No matches

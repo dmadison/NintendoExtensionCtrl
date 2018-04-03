@@ -27,6 +27,9 @@ void setup() {
 		case(NXC_DrumController):
 			Serial.println("Drum set controller connected!");
 			break;
+		case(NXC_DJTurntable):
+			Serial.println("DJ turntable connected!");
+			break;
 	}
 }
 

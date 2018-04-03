@@ -33,6 +33,7 @@ enum NXC_ControllerType {
 	NXC_ClassicController,
 	NXC_GuitarController,
 	NXC_DrumController,
+	NXC_DJTurntable,
 };
 
 class ExtensionController {

@@ -31,6 +31,7 @@
 #include "ClassicController.h"
 #include "GuitarController.h"
 #include "DrumController.h"
+#include "DJTurntable.h"
 
 #endif
 

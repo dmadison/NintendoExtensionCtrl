@@ -17,6 +17,7 @@ Nunchuk	KEYWORD1
 ClassicController	KEYWORD1
 GuitarController	KEYWORD1
 DrumController	KEYWORD1
+DJTurntableController	KEYWORD1
 
 # Enumerations
 NXC_ControllerType	KEYWORD1
@@ -141,6 +142,28 @@ velocityYellow	KEYWORD2
 velocityOrange	KEYWORD2
 velocityPedal	KEYWORD2
 
+## DJ Turntable Controller
+joyX	KEYWORD2
+joyY	KEYWORD2
+
+turntable	KEYWORD2
+connected	KEYWORD2
+
+buttonGreen	KEYWORD2
+buttonRed	KEYWORD2
+buttonBlue	KEYWORD2
+
+effectDial	KEYWORD2
+crossfadeSlider	KEYWORD2
+
+buttonEuphoria	KEYWORD2
+
+buttonPlus	KEYWORD2
+buttonMinus	KEYWORD2
+
+getTurntableConfig	KEYWORD2
+getNumTurntables	KEYWORD2
+
 #######################################
 # Instances (KEYWORD2)
 #######################################
@@ -156,3 +179,4 @@ NXC_Nunchuk	LITERAL1
 NXC_ClassicController	LITERAL1
 NXC_GuitarController	LITERAL1
 NXC_DrumController	LITERAL1
+NXC_DJTurntable	LITERAL1

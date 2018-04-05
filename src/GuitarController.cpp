@@ -105,7 +105,7 @@ boolean GuitarController::supportsTouchbar() {
 	if (touchbarData) {
 		return true;
 	}
-	else if (touchbar() > 0) {
+	else if (touchbar() != 31) {  // '1' for all data bits
 		touchbarData = true;
 	}
 	return false;

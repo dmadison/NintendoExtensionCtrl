@@ -114,7 +114,7 @@ boolean GuitarController::supportsTouchbar() {
 void GuitarController::printDebug(Stream& stream) {
 	const char fillCharacter = '_';
 
-	char buffer[20];
+	char buffer[25];
 
 	stream.print("Guitar: ");
 
@@ -134,9 +134,10 @@ void GuitarController::printDebug(Stream& stream) {
 	char orangePrint = fretOrange() ? 'O' : fillCharacter;
 
 	sprintf(buffer,
-		"%c | %c%c%c%c%c | ",
+		"%c | %c%c%c%c%c | W:%2u ",
 		strumPrint,
-		greenPrint, redPrint, yellowPrint, bluePrint, orangePrint);
+		greenPrint, redPrint, yellowPrint, bluePrint, orangePrint,
+		whammyBar());
 	stream.print(buffer);
 	buffer[0] = 0;
 

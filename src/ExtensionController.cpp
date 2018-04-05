@@ -157,7 +157,7 @@ boolean ExtensionController::verifyData() {
 	return true;
 }
 
-uint8_t ExtensionController::getRawControlData(uint8_t controlIndex) const {
+uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
 	if (controlIndex < ControlDataSize) {
 		return controlData[controlIndex];
 	}
@@ -217,7 +217,7 @@ void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) {
 	}
 
 	for (int i = 0; i < ControlDataSize; i++) {
-		uint8_t dataOut = getRawControlData(i);
+		uint8_t dataOut = getControlData(i);
 
 		if (baseFormat == HEX) {
 			stream.print("0x");  // Hex prefix

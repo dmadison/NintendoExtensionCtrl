@@ -53,7 +53,7 @@ public:
 
 	static NXC_ControllerType identifyController();
 	NXC_ControllerType getConnectedID() const;
-	uint8_t getRawControlData(uint8_t controlIndex) const;
+	uint8_t getControlData(uint8_t controlIndex) const;
 
 	void setEnforceID(boolean enforce);
 

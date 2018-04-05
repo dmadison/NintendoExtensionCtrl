@@ -48,11 +48,12 @@ public:
 	boolean update();
 
 	void printDebug(Stream& stream = Serial);
-	void printDebugRaw(Stream& stream = Serial);
+	void printDebugRaw(uint8_t baseFormat);
+	void printDebugRaw(Stream& stream = Serial, uint8_t baseFormat = HEX);
 
 	static NXC_ControllerType identifyController();
-	NXC_ControllerType getConnectedID();
-	uint8_t getRawControlData(uint8_t controlIndex);
+	NXC_ControllerType getConnectedID() const;
+	uint8_t getControlData(uint8_t controlIndex) const;
 
 	void setEnforceID(boolean enforce);
 
@@ -62,9 +63,7 @@ public:
 protected:
 	ExtensionController(NXC_ControllerType conID, uint8_t datSize);
 
-	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum);
-	
-	uint8_t controlData[6];
+	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
 private:
 	static boolean initialize();
@@ -81,9 +80,11 @@ private:
 	static boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 
 	static const uint8_t I2C_Addr = 0x52;
+
 	boolean enforceControllerID = false;  // Off for generic controllers
 	boolean initSuccess = false;
 	NXC_ControllerType connectedID = NXC_NoController;
+	uint8_t controlData[6];
 };
 
 #endif

@@ -25,19 +25,19 @@
 ClassicController::ClassicController() : ExtensionController(NXC_ClassicController, 6) {}
 
 uint8_t ClassicController::leftJoyX() {
-	return controlData[0] & 0x3F;
+	return getControlData(0) & 0x3F;
 }
 
 uint8_t ClassicController::leftJoyY() {
-	return controlData[1] & 0x3F;
+	return getControlData(1) & 0x3F;
 }
 
 uint8_t ClassicController::rightJoyX() {
-	return ((controlData[0] >> 3) & 0x18) | ((controlData[1] >> 5) &  0x06 ) | (controlData[2] >> 7);
+	return ((getControlData(0) >> 3) & 0x18) | ((getControlData(1) >> 5) &  0x06 ) | (getControlData(2) >> 7);
 }
 
 uint8_t ClassicController::rightJoyY() {
-	return controlData[2] & 0x1F;
+	return getControlData(2) & 0x1F;
 }
 
 boolean ClassicController::dpadUp() {
@@ -73,11 +73,11 @@ boolean ClassicController::buttonY() {
 }
 
 uint8_t ClassicController::triggerL() {
-	return ((controlData[2] & 0x60) >> 2) | controlData[3] >> 5;
+	return ((getControlData(2) & 0x60) >> 2) | getControlData(3) >> 5;
 }
 
 uint8_t ClassicController::triggerR() {
-	return controlData[3] & 0x1F;
+	return getControlData(3) & 0x1F;
 }
 
 boolean ClassicController::buttonLT() {

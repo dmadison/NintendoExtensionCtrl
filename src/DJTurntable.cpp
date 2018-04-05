@@ -43,11 +43,11 @@ boolean DJTurntableController::buttonBlue() {
 
 // Main Board
 uint8_t DJTurntableController::effectDial() {
-	return ((controlData[2] & 0x60) >> 2) | ((controlData[3] & 0xE0) >> 5);
+	return ((getControlData(2) & 0x60) >> 2) | ((getControlData(3) & 0xE0) >> 5);
 }
 
 int8_t DJTurntableController::crossfadeSlider() {
-	return ((controlData[2] & 0x1E) >> 1) - 8;  // Shifted to signed int
+	return ((getControlData(2) & 0x1E) >> 1) - 8;  // Shifted to signed int
 }
 
 boolean DJTurntableController::buttonEuphoria() {
@@ -55,11 +55,11 @@ boolean DJTurntableController::buttonEuphoria() {
 }
 
 uint8_t DJTurntableController::joyX() {
-	return controlData[0] & 0x3F;
+	return getControlData(0) & 0x3F;
 }
 
 uint8_t DJTurntableController::joyY() {
-	return controlData[1] & 0x3F;
+	return getControlData(1) & 0x3F;
 }
 
 boolean DJTurntableController::buttonPlus() {
@@ -187,8 +187,8 @@ int8_t DJTurntableController::TurntableExpansion::tableSignConversion(int8_t tur
 
 // Left Turntable
 int8_t DJTurntableController::TurntableLeft::turntable() {
-	int8_t turnData = base.controlData[3] & 0x1F;
-	turnData |= ((base.controlData[4] & 0x01) << 5);  // Sign bit
+	int8_t turnData = base.getControlData(3) & 0x1F;
+	turnData |= ((base.getControlData(4) & 0x01) << 5);  // Sign bit
 
 	return tableSignConversion(turnData);
 }
@@ -207,8 +207,8 @@ boolean DJTurntableController::TurntableLeft::buttonBlue() {
 
 // Right Turntable
 int8_t DJTurntableController::TurntableRight::turntable() {
-	int8_t turnData = ((base.controlData[0] & 0xC0) >> 3) | ((base.controlData[1] & 0xC0) >> 5) | ((base.controlData[2] & 0x80) >> 7);
-	turnData |= ((base.controlData[2] & 0x01) << 5);  // Sign bit
+	int8_t turnData = ((base.getControlData(0) & 0xC0) >> 3) | ((base.getControlData(1) & 0xC0) >> 5) | ((base.getControlData(2) & 0x80) >> 7);
+	turnData |= ((base.getControlData(2) & 0x01) << 5);  // Sign bit
 
 	return tableSignConversion(turnData);
 }

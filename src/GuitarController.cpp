@@ -25,11 +25,11 @@
 GuitarController::GuitarController() : ExtensionController(NXC_GuitarController, 6) {}
 
 uint8_t GuitarController::joyX() {
-	return controlData[0] & 0x3F;
+	return getControlData(0) & 0x3F;
 }
 
 uint8_t GuitarController::joyY() {
-	return controlData[1] & 0x3F;
+	return getControlData(1) & 0x3F;
 }
 
 boolean GuitarController::strum() {
@@ -65,11 +65,11 @@ boolean GuitarController::fretOrange() {
 }
 
 uint8_t GuitarController::whammyBar() {
-	return controlData[3] & 0x1F;
+	return getControlData(3) & 0x1F;
 }
 
 uint8_t GuitarController::touchbar() {
-	return controlData[2] & 0x1F;
+	return getControlData(2) & 0x1F;
 }
 
 boolean GuitarController::touchGreen() {

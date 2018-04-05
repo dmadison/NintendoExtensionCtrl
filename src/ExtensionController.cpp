@@ -72,32 +72,33 @@ NXC_ControllerType ExtensionController::requestIdentity() {
 		return NXC_NoController;  // Bad response from device
 	}
 
-	// Nunchuk ID: 0x0000
-	if (idData[4] == 0x00 && idData[5] == 0x00) {
+	if (idData[2] == 0xA4 && idData[3] == 0x20) {  // All valid IDs
+		// Nunchuk ID: 0x0000
+		if (idData[4] == 0x00 && idData[5] == 0x00) {
 			return NXC_Nunchuk;
-	}
+		}
 
-	// Classic Con. ID: 0x0101
-	else if (idData[4] == 0x01 && idData[5] == 0x01) {
+		// Classic Con. ID: 0x0101
+		else if (idData[4] == 0x01 && idData[5] == 0x01) {
 			return NXC_ClassicController;
-	}
-
-	// Guitar Hero Controllers: 0x##00, 0xA420, 0x0103
-	else if (idData[1] == 0x00
-		&& idData[2] == 0xA4 && idData[3] == 0x20
-		&& idData[4] <= 0x01 && idData[5] == 0x03) {
-
-		// Guitar: 0x00
-		if (idData[0] == 0x00) {
-			return NXC_GuitarController;
 		}
-		// Drums: 0x01
-		else if (idData[0] == 0x01) {
-			return NXC_DrumController;
-		}
-		// DJ Turntable: 0x03
-		else if (idData[0] == 0x03) {
-			return NXC_DJTurntable;
+
+		// Guitar Hero Controllers: 0x##00, 0xA420, 0x0103
+		else if (idData[1] == 0x00
+			&& idData[4] <= 0x01 && idData[5] == 0x03) {
+
+			// Guitar: 0x00
+			if (idData[0] == 0x00) {
+				return NXC_GuitarController;
+			}
+			// Drums: 0x01
+			else if (idData[0] == 0x01) {
+				return NXC_DrumController;
+			}
+			// DJ Turntable: 0x03
+			else if (idData[0] == 0x03) {
+				return NXC_DJTurntable;
+			}
 		}
 	}
 
@@ -123,7 +124,7 @@ NXC_ControllerType ExtensionController::identifyController() {
 	return NXC_NoController;  // Bad init
 }
 
-NXC_ControllerType ExtensionController::getConnectedID() {
+NXC_ControllerType ExtensionController::getConnectedID() const {
 	return connectedID;
 }
 
@@ -157,7 +158,7 @@ boolean ExtensionController::verifyData() {
 	return true;
 }
 
-uint8_t ExtensionController::getRawControlData(uint8_t controlIndex) {
+uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
 	if (controlIndex < ControlDataSize) {
 		return controlData[controlIndex];
 	}
@@ -190,7 +191,7 @@ boolean ExtensionController::requestMulti(uint8_t requestSize, uint8_t * dataOut
 	return (nBytesRecv == requestSize);  // Success if all bytes received
 }
 
-boolean ExtensionController::extractControlBit(uint8_t arrIndex, uint8_t bitNum) {
+boolean ExtensionController::extractControlBit(uint8_t arrIndex, uint8_t bitNum) const {
 	return !(controlData[arrIndex] & (1 << bitNum));
 }
 
@@ -198,13 +199,49 @@ void ExtensionController::printDebug(Stream& stream) {
 	printDebugRaw(stream);
 }
 
-void ExtensionController::printDebugRaw(Stream& stream) {
-	// 5 characters per byte, 5 for the prefix, 1 for the null terminator
-	const uint8_t bufferSize = (sizeof(controlData) * 5) + 5 + 1;
-	char buffer[bufferSize] = "RAW -";
+void ExtensionController::printDebugRaw(uint8_t baseFormat) {
+	printDebugRaw(Serial, baseFormat);
+}
 
-	for (uint8_t i = 0; i < sizeof(controlData); i++){
-		sprintf(buffer, "%s %02x |", buffer, controlData[i]);
+void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) {
+	char padChar = ' ';
+	if (baseFormat == BIN || baseFormat == HEX) {
+		padChar = '0';
 	}
-	stream.println(buffer);
+
+	// Calculate max # of spaces for the base
+	uint8_t maxInput = 0xFF;
+	uint8_t maxNPlaces = 0;
+	while (maxInput != 0) {
+		maxInput /= baseFormat;
+		maxNPlaces++;
+	}
+
+	for (int i = 0; i < ControlDataSize; i++) {
+		uint8_t dataOut = getControlData(i);
+
+		if (baseFormat == HEX) {
+			stream.print("0x");  // Hex prefix
+		}
+
+		// Calculate # of spaces that will be printed. Max - n = # to pad.
+		uint8_t nPlaces = 0;
+		uint8_t tempOut = dataOut;
+		while (tempOut != 0) {
+			tempOut /= baseFormat;
+			nPlaces++;
+		}
+
+		// Print pad characters
+		for (int padOut = 0; padOut < (maxNPlaces - nPlaces); padOut++) {
+			stream.print(padChar);
+		}
+
+		stream.print(dataOut, baseFormat);
+
+		if (i != ControlDataSize - 1) {  // Print separators
+			stream.print(" | ");
+		}
+	}
+	stream.println();
 }

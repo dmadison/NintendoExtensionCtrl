@@ -198,13 +198,49 @@ void ExtensionController::printDebug(Stream& stream) {
 	printDebugRaw(stream);
 }
 
-void ExtensionController::printDebugRaw(Stream& stream) {
-	// 5 characters per byte, 5 for the prefix, 1 for the null terminator
-	const uint8_t bufferSize = (sizeof(controlData) * 5) + 5 + 1;
-	char buffer[bufferSize] = "RAW -";
+void ExtensionController::printDebugRaw(uint8_t baseFormat) {
+	printDebugRaw(Serial, baseFormat);
+}
 
-	for (uint8_t i = 0; i < sizeof(controlData); i++){
-		sprintf(buffer, "%s %02x |", buffer, controlData[i]);
+void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) {
+	char padChar = ' ';
+	if (baseFormat == BIN || baseFormat == HEX) {
+		padChar = '0';
 	}
-	stream.println(buffer);
+
+	// Calculate max # of spaces for the base
+	uint8_t maxInput = 0xFF;
+	uint8_t maxNPlaces = 0;
+	while (maxInput != 0) {
+		maxInput /= baseFormat;
+		maxNPlaces++;
+	}
+
+	for (int i = 0; i < ControlDataSize; i++) {
+		uint8_t dataOut = getRawControlData(i);
+
+		if (baseFormat == HEX) {
+			stream.print("0x");  // Hex prefix
+		}
+
+		// Calculate # of spaces that will be printed. Max - n = # to pad.
+		uint8_t nPlaces = 0;
+		uint8_t tempOut = dataOut;
+		while (tempOut != 0) {
+			tempOut /= baseFormat;
+			nPlaces++;
+		}
+
+		// Print pad characters
+		for (int padOut = 0; padOut < (maxNPlaces - nPlaces); padOut++) {
+			stream.print(padChar);
+		}
+
+		stream.print(dataOut, baseFormat);
+
+		if (i != ControlDataSize - 1) {  // Print separators
+			stream.print(" | ");
+		}
+	}
+	stream.println();
 }

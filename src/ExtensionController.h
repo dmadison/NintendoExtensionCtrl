@@ -48,7 +48,8 @@ public:
 	boolean update();
 
 	void printDebug(Stream& stream = Serial);
-	void printDebugRaw(Stream& stream = Serial);
+	void printDebugRaw(uint8_t baseFormat);
+	void printDebugRaw(Stream& stream = Serial, uint8_t baseFormat = HEX);
 
 	static NXC_ControllerType identifyController();
 	NXC_ControllerType getConnectedID();

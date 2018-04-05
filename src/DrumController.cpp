@@ -25,11 +25,11 @@
 DrumController::DrumController() : ExtensionController(NXC_DrumController, 6) {}
 
 uint8_t DrumController::joyX() {
-	return controlData[0] & 0x3F;
+	return getControlData(0) & 0x3F;
 }
 
 uint8_t DrumController::joyY() {
-	return controlData[1] & 0x3F;
+	return getControlData(1) & 0x3F;
 }
 
 boolean DrumController::drumRed() {
@@ -69,7 +69,7 @@ boolean DrumController::velocityAvailable() {
 }
 
 NXC_DrumVelocityID DrumController::velocityID() {
-	uint8_t velocityID = (controlData[2] & 0x3E) >> 1;  // 5 bit identifier
+	uint8_t velocityID = (getControlData(2) & 0x3E) >> 1;  // 5 bit identifier
 
 	if (validVelocityID(velocityID)) {
 		return (NXC_DrumVelocityID) velocityID;
@@ -96,7 +96,7 @@ boolean DrumController::validVelocityID(uint8_t idIn) {
 
 uint8_t DrumController::velocity() {
 	if (velocityAvailable()) {
-		uint8_t velocityRaw = (controlData[3] & 0xE0) >> 5;
+		uint8_t velocityRaw = (getControlData(3) & 0xE0) >> 5;
 		velocityRaw = 7 - velocityRaw;  // Invert so high = fast attack
 		return velocityRaw;
 	}

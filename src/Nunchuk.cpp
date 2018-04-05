@@ -25,23 +25,23 @@
 Nunchuk::Nunchuk() : ExtensionController(NXC_Nunchuk, 6) {}
 
 uint8_t Nunchuk::joyX() {
-	return controlData[0];
+	return getControlData(0);
 }
 
 uint8_t Nunchuk::joyY() {
-	return controlData[1];
+	return getControlData(1);
 }
 
 uint16_t Nunchuk::accelX() {
-	return controlData[2] << 2 | ((controlData[5] >> 6) & 0x03) ;
+	return getControlData(2) << 2 | ((getControlData(5) >> 6) & 0x03) ;
 }
 
 uint16_t Nunchuk::accelY() {
-	return controlData[3] << 2 | ((controlData[5] >> 4) & 0x03);
+	return getControlData(3) << 2 | ((getControlData(5) >> 4) & 0x03);
 }
 
 uint16_t Nunchuk::accelZ() {
-	return controlData[4] << 2 | ((controlData[5] >> 2) & 0x03);
+	return getControlData(4) << 2 | ((getControlData(5) >> 2) & 0x03);
 }
 
 boolean Nunchuk::buttonC() {

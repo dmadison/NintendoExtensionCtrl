@@ -64,8 +64,6 @@ protected:
 	ExtensionController(NXC_ControllerType conID, uint8_t datSize);
 
 	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum) const;
-	
-	uint8_t controlData[6];
 
 private:
 	static boolean initialize();
@@ -82,9 +80,11 @@ private:
 	static boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 
 	static const uint8_t I2C_Addr = 0x52;
+
 	boolean enforceControllerID = false;  // Off for generic controllers
 	boolean initSuccess = false;
 	NXC_ControllerType connectedID = NXC_NoController;
+	uint8_t controlData[6];
 };
 
 #endif

@@ -66,7 +66,7 @@ void loop() {
 			}
 		}
 
-		// Read the whammy bar (0-31)
+		// Read the whammy bar (0-31, starting around 15-16)
 		uint8_t whammy = guitar.whammyBar();
 
 		Serial.print("The whammy bar's position is ");

@@ -52,8 +52,8 @@ public:
 	void printDebugRaw(Stream& stream = Serial, uint8_t baseFormat = HEX);
 
 	static NXC_ControllerType identifyController();
-	NXC_ControllerType getConnectedID();
-	uint8_t getRawControlData(uint8_t controlIndex);
+	NXC_ControllerType getConnectedID() const;
+	uint8_t getRawControlData(uint8_t controlIndex) const;
 
 	void setEnforceID(boolean enforce);
 
@@ -63,7 +63,7 @@ public:
 protected:
 	ExtensionController(NXC_ControllerType conID, uint8_t datSize);
 
-	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum);
+	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 	
 	uint8_t controlData[6];
 

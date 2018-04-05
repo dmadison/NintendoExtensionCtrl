@@ -123,7 +123,7 @@ NXC_ControllerType ExtensionController::identifyController() {
 	return NXC_NoController;  // Bad init
 }
 
-NXC_ControllerType ExtensionController::getConnectedID() {
+NXC_ControllerType ExtensionController::getConnectedID() const {
 	return connectedID;
 }
 
@@ -157,7 +157,7 @@ boolean ExtensionController::verifyData() {
 	return true;
 }
 
-uint8_t ExtensionController::getRawControlData(uint8_t controlIndex) {
+uint8_t ExtensionController::getRawControlData(uint8_t controlIndex) const {
 	if (controlIndex < ControlDataSize) {
 		return controlData[controlIndex];
 	}
@@ -190,7 +190,7 @@ boolean ExtensionController::requestMulti(uint8_t requestSize, uint8_t * dataOut
 	return (nBytesRecv == requestSize);  // Success if all bytes received
 }
 
-boolean ExtensionController::extractControlBit(uint8_t arrIndex, uint8_t bitNum) {
+boolean ExtensionController::extractControlBit(uint8_t arrIndex, uint8_t bitNum) const {
 	return !(controlData[arrIndex] & (1 << bitNum));
 }
 

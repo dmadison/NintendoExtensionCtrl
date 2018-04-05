@@ -72,32 +72,33 @@ NXC_ControllerType ExtensionController::requestIdentity() {
 		return NXC_NoController;  // Bad response from device
 	}
 
-	// Nunchuk ID: 0x0000
-	if (idData[4] == 0x00 && idData[5] == 0x00) {
+	if (idData[2] == 0xA4 && idData[3] == 0x20) {  // All valid IDs
+		// Nunchuk ID: 0x0000
+		if (idData[4] == 0x00 && idData[5] == 0x00) {
 			return NXC_Nunchuk;
-	}
+		}
 
-	// Classic Con. ID: 0x0101
-	else if (idData[4] == 0x01 && idData[5] == 0x01) {
+		// Classic Con. ID: 0x0101
+		else if (idData[4] == 0x01 && idData[5] == 0x01) {
 			return NXC_ClassicController;
-	}
-
-	// Guitar Hero Controllers: 0x##00, 0xA420, 0x0103
-	else if (idData[1] == 0x00
-		&& idData[2] == 0xA4 && idData[3] == 0x20
-		&& idData[4] <= 0x01 && idData[5] == 0x03) {
-
-		// Guitar: 0x00
-		if (idData[0] == 0x00) {
-			return NXC_GuitarController;
 		}
-		// Drums: 0x01
-		else if (idData[0] == 0x01) {
-			return NXC_DrumController;
-		}
-		// DJ Turntable: 0x03
-		else if (idData[0] == 0x03) {
-			return NXC_DJTurntable;
+
+		// Guitar Hero Controllers: 0x##00, 0xA420, 0x0103
+		else if (idData[1] == 0x00
+			&& idData[4] <= 0x01 && idData[5] == 0x03) {
+
+			// Guitar: 0x00
+			if (idData[0] == 0x00) {
+				return NXC_GuitarController;
+			}
+			// Drums: 0x01
+			else if (idData[0] == 0x01) {
+				return NXC_DrumController;
+			}
+			// DJ Turntable: 0x03
+			else if (idData[0] == 0x03) {
+				return NXC_DJTurntable;
+			}
 		}
 	}
 

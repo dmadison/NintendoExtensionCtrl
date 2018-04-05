@@ -42,7 +42,7 @@ public:
 	boolean fretBlue();
 	boolean fretOrange();
 
-	uint8_t whammyBar();  // 5 bits, 0-31
+	uint8_t whammyBar();  // 5 bits, 0-31 (starting at ~15-16)
 
 	uint8_t touchbar();  // 5 bits, 0-31
 	boolean touchGreen();

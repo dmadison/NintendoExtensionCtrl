@@ -27,7 +27,7 @@
 
 class ClassicController : public ExtensionController {
 public:
-	ClassicController();
+	ClassicController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 
 	uint8_t leftJoyX();  // 6 bits, 0-63
 	uint8_t leftJoyY();

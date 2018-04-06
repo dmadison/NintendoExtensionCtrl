@@ -22,7 +22,7 @@
 
 #include "DrumController.h"
 
-DrumController::DrumController() : ExtensionController(NXC_DrumController, 6) {}
+DrumController::DrumController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_DrumController, 6) {}
 
 uint8_t DrumController::joyX() {
 	return getControlData(0) & 0x3F;

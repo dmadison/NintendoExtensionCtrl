@@ -34,6 +34,8 @@
 #define NXC_I2C_TYPE TwoWire
 #endif
 
+#define NXC_I2C_DEFAULT Wire
+
 enum NXC_ControllerType {
 	NXC_NoController,
 	NXC_UnknownController,
@@ -69,7 +71,7 @@ public:
 	const uint8_t ControlDataSize = 6;  // Bytes per update
 
 protected:
-	ExtensionController(NXC_ControllerType conID, uint8_t datSize);
+	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize);
 
 	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
@@ -88,7 +90,7 @@ private:
 	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 
 	static const uint8_t I2C_Addr = 0x52;
-	NXC_I2C_TYPE& I2C_Bus = Wire;
+	NXC_I2C_TYPE& I2C_Bus = NXC_I2C_DEFAULT;
 
 	boolean enforceControllerID = false;  // Off for generic controllers
 	boolean initSuccess = false;

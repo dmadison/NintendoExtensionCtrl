@@ -34,7 +34,7 @@ enum NXC_DJTurntable_Configuration {
 
 class DJTurntableController : public ExtensionController {
 public:
-	DJTurntableController();
+	DJTurntableController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 
 	int8_t turntable();  // 6 bits, -32-31. Clockwise = positive, faster = larger.
 

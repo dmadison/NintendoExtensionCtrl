@@ -22,7 +22,7 @@
 
 #include "ClassicController.h"
 
-ClassicController::ClassicController() : ExtensionController(NXC_ClassicController, 6) {}
+ClassicController::ClassicController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_ClassicController, 6) {}
 
 uint8_t ClassicController::leftJoyX() {
 	return getControlData(0) & 0x3F;

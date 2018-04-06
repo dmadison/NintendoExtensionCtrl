@@ -28,7 +28,7 @@ ExtensionController::ExtensionController(NXC_ControllerType conID, uint8_t datSi
 	: controllerID(conID), ControlDataSize(datSize), enforceControllerID(true) {}
 
 boolean ExtensionController::begin() {
-	Wire.begin();
+	I2C_Bus.begin();
 
 	return connect();
 }
@@ -172,21 +172,21 @@ boolean ExtensionController::readDataArray(byte pointer, uint8_t requestSize, ui
 }
 
 boolean ExtensionController::writePointer(byte pointer) {
-	Wire.beginTransmission(I2C_Addr);
-	Wire.write(pointer);
-	return Wire.endTransmission() == 0;  // 0 = No Error
+	I2C_Bus.beginTransmission(I2C_Addr);
+	I2C_Bus.write(pointer);
+	return I2C_Bus.endTransmission() == 0;  // 0 = No Error
 }
 
 boolean ExtensionController::writeRegister(byte reg, byte value) {
-	Wire.beginTransmission(I2C_Addr);
-	Wire.write(reg);
-	Wire.write(value);
-	return Wire.endTransmission() == 0;
+	I2C_Bus.beginTransmission(I2C_Addr);
+	I2C_Bus.write(reg);
+	I2C_Bus.write(value);
+	return I2C_Bus.endTransmission() == 0;
 }
 
 boolean ExtensionController::requestMulti(uint8_t requestSize, uint8_t * dataOut) {
-	uint8_t nBytesRecv = Wire.readBytes(dataOut,
-		Wire.requestFrom(I2C_Addr, requestSize));
+	uint8_t nBytesRecv = I2C_Bus.readBytes(dataOut,
+		I2C_Bus.requestFrom(I2C_Addr, requestSize));
 
 	return (nBytesRecv == requestSize);  // Success if all bytes received
 }

@@ -51,7 +51,7 @@ public:
 	void printDebugRaw(uint8_t baseFormat);
 	void printDebugRaw(Stream& stream = Serial, uint8_t baseFormat = HEX);
 
-	static NXC_ControllerType identifyController();
+	NXC_ControllerType identifyController();
 	NXC_ControllerType getConnectedID() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
 
@@ -66,18 +66,18 @@ protected:
 	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
 private:
-	static boolean initialize();
+	boolean initialize();
 
-	static NXC_ControllerType requestIdentity();
+	NXC_ControllerType requestIdentity();
 	boolean controllerIDMatches();
 
 	boolean verifyData();
 
-	static boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
+	boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
 
-	static boolean writePointer(byte pointer);
-	static boolean writeRegister(byte reg, byte value);
-	static boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
+	boolean writePointer(byte pointer);
+	boolean writeRegister(byte reg, byte value);
+	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
 
 	static const uint8_t I2C_Addr = 0x52;
 

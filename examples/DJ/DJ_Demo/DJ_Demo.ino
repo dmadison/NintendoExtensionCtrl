@@ -21,7 +21,7 @@ void loop() {
 		delay(1000);
 	}
 	else {
-		// Read the turntable, basic (-32-31. Clockwise = positive, faster = larger)
+		// Read the turntable, basic (-30-29. Clockwise = positive, faster = larger)
 		int turntable = dj.turntable();
 
 		Serial.print("The turntable is ");

@@ -156,7 +156,6 @@ void DJTurntableController::printTurntable(Stream& stream, TurntableExpansion &t
 		idPrint = 'R';
 	}
 
-	int8_t tablePrint = table.turntable();
 	char greenPrint = table.buttonGreen() ? 'G' : fillCharacter;
 	char redPrint = table.buttonRed() ? 'R' : fillCharacter;
 	char bluePrint = table.buttonBlue() ? 'B' : fillCharacter;
@@ -165,7 +164,7 @@ void DJTurntableController::printTurntable(Stream& stream, TurntableExpansion &t
 	sprintf(buffer,
 		" T%c:%3d %c%c%c",
 		idPrint,
-		tablePrint,
+		table.turntable(),
 		greenPrint, redPrint, bluePrint);
 	stream.print(buffer);
 }
@@ -179,6 +178,9 @@ boolean DJTurntableController::TurntableExpansion::connected() {
 }
 
 int8_t DJTurntableController::TurntableExpansion::tableSignConversion(int8_t turnData) {
+	if (turnData >= 30 && turnData <= 33) {  // Zero stray values
+		return 0;
+	}
 	if (turnData >= 32) {  // Scales the unsigned 0-63 as signed, symmetrical about 0
 		turnData = -32 + (turnData - 32);
 	}

@@ -37,7 +37,7 @@ enum NXC_DrumVelocityID {
 
 class DrumController : public ExtensionController {
 public:
-	DrumController();
+	DrumController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 
 	uint8_t joyX();  // 6 bits, 0-63
 	uint8_t joyY();

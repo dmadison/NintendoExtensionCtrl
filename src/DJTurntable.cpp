@@ -179,6 +179,9 @@ boolean DJTurntableController::TurntableExpansion::connected() {
 }
 
 int8_t DJTurntableController::TurntableExpansion::tableSignConversion(int8_t turnData) {
+	if (turnData >= 30 && turnData <= 33) {  // Zero stray values
+		return 0;
+	}
 	if (turnData >= 32) {  // Scales the unsigned 0-63 as signed, symmetrical about 0
 		turnData = -32 + (turnData - 32);
 	}

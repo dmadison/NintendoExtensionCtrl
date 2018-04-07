@@ -36,7 +36,7 @@ class DJTurntableController : public ExtensionController {
 public:
 	DJTurntableController();
 
-	int8_t turntable();  // 6 bits, -32-31. Clockwise = positive, faster = larger.
+	int8_t turntable();  // 6 bits, -30-29. Clockwise = positive, faster = larger.
 
 	boolean buttonGreen();
 	boolean buttonRed();

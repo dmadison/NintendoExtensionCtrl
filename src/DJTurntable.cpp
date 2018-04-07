@@ -156,7 +156,6 @@ void DJTurntableController::printTurntable(Stream& stream, TurntableExpansion &t
 		idPrint = 'R';
 	}
 
-	int8_t tablePrint = table.turntable();
 	char greenPrint = table.buttonGreen() ? 'G' : fillCharacter;
 	char redPrint = table.buttonRed() ? 'R' : fillCharacter;
 	char bluePrint = table.buttonBlue() ? 'B' : fillCharacter;
@@ -165,7 +164,7 @@ void DJTurntableController::printTurntable(Stream& stream, TurntableExpansion &t
 	sprintf(buffer,
 		" T%c:%3d %c%c%c",
 		idPrint,
-		tablePrint,
+		table.turntable(),
 		greenPrint, redPrint, bluePrint);
 	stream.print(buffer);
 }

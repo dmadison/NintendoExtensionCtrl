@@ -41,6 +41,9 @@ boolean ExtensionController::connect() {
 			return update();  // Seed with initial values
 		}
 	}
+	else {
+		connectedID = NXC_NoController;  // Bad init, nothing connected
+	}
 
 	return false;
 }

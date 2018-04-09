@@ -41,6 +41,9 @@ boolean ExtensionController::connect() {
 			return update();  // Seed with initial values
 		}
 	}
+	else {
+		connectedID = NXC_NoController;  // Bad init, nothing connected
+	}
 
 	return false;
 }
@@ -227,10 +230,11 @@ void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) {
 		// Calculate # of spaces that will be printed. Max - n = # to pad.
 		uint8_t nPlaces = 0;
 		uint8_t tempOut = dataOut;
-		while (tempOut != 0) {
+		do {
 			tempOut /= baseFormat;
 			nPlaces++;
-		}
+		} while (tempOut != 0);
+
 
 		// Print pad characters
 		for (int padOut = 0; padOut < (maxNPlaces - nPlaces); padOut++) {

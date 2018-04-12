@@ -20,31 +20,32 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_Comms_h
-#define NXC_Comms_h
-
-#include "Arduino.h"
-
-#if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MKL26Z64__) || \
-    defined(__MK64FX512__) || defined(__MK66FX1M0__) // Teensy 3.0/3.1-3.2/LC/3.5/3.6
-#include <i2c_t3.h>
-#define NXC_I2C_TYPE i2c_t3
-#else
-#include <Wire.h>  // All other platforms
-#define NXC_I2C_TYPE TwoWire
-#endif
-
-#define NXC_I2C_DEFAULT Wire
+#include "NXC_Comms.h"
 
 namespace NXC_Comms {
-	const uint8_t I2C_Addr = 0x52;  // Address for all controllers
-	const int I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
+	boolean writePointer(NXC_I2C_TYPE& i2c, byte ptr) {
+		i2c.beginTransmission(I2C_Addr);
+		i2c.write(ptr);
+		return i2c.endTransmission() == 0;  // 0 = No Error
+	}
 
-	boolean writePointer(NXC_I2C_TYPE& i2c, byte ptr);
-	boolean writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte value);
-	boolean requestMultiple(NXC_I2C_TYPE& i2c, uint8_t requestSize, uint8_t * dataOut);
+	boolean writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte value) {
+		i2c.beginTransmission(I2C_Addr);
+		i2c.write(reg);
+		i2c.write(value);
+		return i2c.endTransmission() == 0;
+	}
 
-	boolean readDataArray(NXC_I2C_TYPE& i2c, byte ptr, uint8_t requestSize, uint8_t * dataOut);
+	boolean requestMultiple(NXC_I2C_TYPE& i2c, uint8_t requestSize, uint8_t * dataOut) {
+		uint8_t nBytesRecv = i2c.readBytes(dataOut,
+			i2c.requestFrom(I2C_Addr, requestSize));
+
+		return (nBytesRecv == requestSize);  // Success if all bytes received
+	}
+
+	boolean readDataArray(NXC_I2C_TYPE& i2c, byte ptr, uint8_t requestSize, uint8_t * dataOut) {
+		if (!writePointer(i2c, ptr)) { return false; }  // Set start for data read
+		delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
+		return requestMultiple(i2c, requestSize, dataOut);
+	}
 }
-
-#endif

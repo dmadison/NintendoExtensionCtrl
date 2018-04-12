@@ -58,8 +58,6 @@ protected:
 private:
 	boolean controllerIDMatches();
 
-	boolean verifyData();
-
 	NXC_I2C_TYPE& I2C_Bus = NXC_I2C_DEFAULT;
 
 	boolean enforceControllerID = false;  // Off for generic controllers

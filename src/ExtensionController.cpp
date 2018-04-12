@@ -79,27 +79,11 @@ void ExtensionController::setEnforceID(boolean enforce) {
 boolean ExtensionController::update() {
 	if (initSuccess && controllerIDMatches()){
 		if (NXCtrl::readDataArray(I2C_Bus, 0x00, ControlDataSize, controlData)) {
-			return verifyData();
+			return NXCtrl::verifyData(controlData, ControlDataSize);
 		}
 	}
 	
 	return initSuccess = false;  // Something went wrong. User must re-initialize
-}
-
-boolean ExtensionController::verifyData() {
-	byte orCheck = 0x00;   // Check if data is zeroed (bad connection)
-	byte andCheck = 0xFF;  // Check if data is maxed (bad init)
-
-	for (int i = 0; i < ControlDataSize; i++) {
-		orCheck |= controlData[i];
-		andCheck &= controlData[i];
-	}
-
-	if (orCheck == 0x00 || andCheck == 0xFF) {
-		return false;  // No data or bad data
-	}
-	
-	return true;
 }
 
 uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {

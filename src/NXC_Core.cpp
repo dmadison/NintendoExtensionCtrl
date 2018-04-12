@@ -109,5 +109,21 @@ namespace NintendoExtensionCtrl {
 		}
 		return identifyController(idData);
 	}
+
+	boolean verifyData(const uint8_t * dataIn, uint8_t dataSize) {
+		byte orCheck = 0x00;   // Check if data is zeroed (bad connection)
+		byte andCheck = 0xFF;  // Check if data is maxed (bad init)
+
+		for (int i = 0; i < dataSize; i++) {
+			orCheck |= dataIn[i];
+			andCheck &= dataIn[i];
+		}
+
+		if (orCheck == 0x00 || andCheck == 0xFF) {
+			return false;  // No data or bad data
+		}
+
+		return true;
+	}
 }
 

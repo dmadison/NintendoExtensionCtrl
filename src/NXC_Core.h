@@ -64,6 +64,9 @@ namespace NintendoExtensionCtrl {
 	boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t * idData);
 	NXC_ControllerType identifyController(const uint8_t * idData);
 	NXC_ControllerType identifyController(NXC_I2C_TYPE& i2c = NXC_I2C_DEFAULT);
+
+	// Utility
+	boolean verifyData(const uint8_t * dataIn, uint8_t dataSize);
 }
 
 namespace NXCtrl = NintendoExtensionCtrl;  // Alias for shorter access

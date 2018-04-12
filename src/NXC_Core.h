@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_Comms_h
-#define NXC_Comms_h
+#ifndef NXC_Core_h
+#define NXC_Core_h
 
 #include "Arduino.h"
 
@@ -36,7 +36,7 @@
 
 #define NXC_I2C_DEFAULT Wire
 
-namespace NXC_Comms {
+namespace NXC_Core {
 	const uint8_t I2C_Addr = 0x52;  // Address for all controllers
 	const int I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
 

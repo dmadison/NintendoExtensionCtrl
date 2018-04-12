@@ -24,7 +24,7 @@
 #define NXC_ExtensionController_h
 
 #include "Arduino.h"
-#include "NXC_Comms.h"
+#include "NXC_Core.h"
 
 enum NXC_ControllerType {
 	NXC_NoController,

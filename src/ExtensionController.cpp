@@ -58,9 +58,9 @@ boolean ExtensionController::initialize() {
 	 * *Should* work on all devices, genuine + 3rd party.
 	 * See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
 	*/ 
-	if (!NXC_Comms::writeRegister(I2C_Bus, 0xF0, 0x55)) { return false; }
+	if (!NXC_Core::writeRegister(I2C_Bus, 0xF0, 0x55)) { return false; }
 	delay(10);
-	if (!NXC_Comms::writeRegister(I2C_Bus, 0xFB, 0x00)) { return false; }
+	if (!NXC_Core::writeRegister(I2C_Bus, 0xFB, 0x00)) { return false; }
 	delay(20);
 	return true;
 }
@@ -71,7 +71,7 @@ NXC_ControllerType ExtensionController::requestIdentity() {
 
 	uint8_t idData[IDHeaderSize];
 
-	if (!NXC_Comms::readDataArray(I2C_Bus, IDPointer, IDHeaderSize, idData)) {
+	if (!NXC_Core::readDataArray(I2C_Bus, IDPointer, IDHeaderSize, idData)) {
 		return NXC_NoController;  // Bad response from device
 	}
 
@@ -137,7 +137,7 @@ void ExtensionController::setEnforceID(boolean enforce) {
 
 boolean ExtensionController::update() {
 	if (initSuccess && controllerIDMatches()){
-		if (NXC_Comms::readDataArray(I2C_Bus, 0x00, ControlDataSize, controlData)) {
+		if (NXC_Core::readDataArray(I2C_Bus, 0x00, ControlDataSize, controlData)) {
 			return verifyData();
 		}
 	}

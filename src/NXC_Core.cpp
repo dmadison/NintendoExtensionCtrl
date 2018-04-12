@@ -20,9 +20,9 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "NXC_Comms.h"
+#include "NXC_Core.h"
 
-namespace NXC_Comms {
+namespace NXC_Core {
 	boolean writePointer(NXC_I2C_TYPE& i2c, byte ptr) {
 		i2c.beginTransmission(I2C_Addr);
 		i2c.write(ptr);

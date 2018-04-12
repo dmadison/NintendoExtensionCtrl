@@ -41,35 +41,35 @@ uint8_t ClassicController::rightJoyY() {
 }
 
 boolean ClassicController::dpadUp() {
-	return extractControlBit(5, 0);
+	return getControlBit(5, 0);
 }
 
 boolean ClassicController::dpadDown() {
-	return extractControlBit(4, 6);
+	return getControlBit(4, 6);
 }
 
 boolean ClassicController::dpadLeft() {
-	return extractControlBit(5, 1);
+	return getControlBit(5, 1);
 }
 
 boolean ClassicController::dpadRight() {
-	return extractControlBit(4, 7);
+	return getControlBit(4, 7);
 }
 
 boolean ClassicController::buttonA() {
-	return extractControlBit(5, 4);
+	return getControlBit(5, 4);
 }
 
 boolean ClassicController::buttonB() {
-	return extractControlBit(5, 6);
+	return getControlBit(5, 6);
 }
 
 boolean ClassicController::buttonX() {
-	return extractControlBit(5, 3);
+	return getControlBit(5, 3);
 }
 
 boolean ClassicController::buttonY() {
-	return extractControlBit(5, 5);
+	return getControlBit(5, 5);
 }
 
 uint8_t ClassicController::triggerL() {
@@ -81,31 +81,31 @@ uint8_t ClassicController::triggerR() {
 }
 
 boolean ClassicController::buttonLT() {
-	return extractControlBit(4, 5);
+	return getControlBit(4, 5);
 }
 
 boolean ClassicController::buttonRT() {
-	return extractControlBit(4, 1);
+	return getControlBit(4, 1);
 }
 
 boolean ClassicController::buttonZL() {
-	return extractControlBit(5, 7);
+	return getControlBit(5, 7);
 }
 
 boolean ClassicController::buttonZR() {
-	return extractControlBit(5, 2);
+	return getControlBit(5, 2);
 }
 
 boolean ClassicController::buttonPlus() {
-	return extractControlBit(4, 2);
+	return getControlBit(4, 2);
 }
 
 boolean ClassicController::buttonMinus() {
-	return extractControlBit(4, 4);
+	return getControlBit(4, 4);
 }
 
 boolean ClassicController::buttonHome() {
-	return extractControlBit(4, 3);
+	return getControlBit(4, 3);
 }
 
 void ClassicController::printDebug(Stream& stream) {

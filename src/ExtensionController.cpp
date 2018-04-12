@@ -109,7 +109,7 @@ uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
 	return 0;
 }
 
-boolean ExtensionController::extractControlBit(uint8_t arrIndex, uint8_t bitNum) const {
+boolean ExtensionController::getControlBit(uint8_t arrIndex, uint8_t bitNum) const {
 	return !(controlData[arrIndex] & (1 << bitNum));
 }
 

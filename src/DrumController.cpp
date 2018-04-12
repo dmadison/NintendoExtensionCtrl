@@ -33,39 +33,39 @@ uint8_t DrumController::joyY() {
 }
 
 boolean DrumController::drumRed() {
-	return extractControlBit(5, 6);
+	return getControlBit(5, 6);
 }
 
 boolean DrumController::drumBlue() {
-	return extractControlBit(5, 3);
+	return getControlBit(5, 3);
 }
 
 boolean DrumController::drumGreen() {
-	return extractControlBit(5, 4);
+	return getControlBit(5, 4);
 }
 
 boolean DrumController::cymbalYellow() {
-	return extractControlBit(5, 5);
+	return getControlBit(5, 5);
 }
 
 boolean DrumController::cymbalOrange() {
-	return extractControlBit(5, 7);
+	return getControlBit(5, 7);
 }
 
 boolean DrumController::bassPedal() {
-	return extractControlBit(5, 2);
+	return getControlBit(5, 2);
 }
 
 boolean DrumController::buttonPlus() {
-	return extractControlBit(4, 2);
+	return getControlBit(4, 2);
 }
 
 boolean DrumController::buttonMinus() {
-	return extractControlBit(4, 4);
+	return getControlBit(4, 4);
 }
 
 boolean DrumController::velocityAvailable() {
-	return extractControlBit(2, 6);
+	return getControlBit(2, 6);
 }
 
 NXC_DrumVelocityID DrumController::velocityID() {

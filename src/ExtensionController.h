@@ -53,7 +53,7 @@ public:
 protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize);
 
-	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum) const;
+	boolean getControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
 private:
 	boolean controllerIDMatches();

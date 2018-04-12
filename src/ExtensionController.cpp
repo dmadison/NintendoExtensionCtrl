@@ -106,45 +106,5 @@ void ExtensionController::printDebugRaw(uint8_t baseFormat) {
 }
 
 void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) {
-	char padChar = ' ';
-	if (baseFormat == BIN || baseFormat == HEX) {
-		padChar = '0';
-	}
-
-	// Calculate max # of spaces for the base
-	uint8_t maxInput = 0xFF;
-	uint8_t maxNPlaces = 0;
-	while (maxInput != 0) {
-		maxInput /= baseFormat;
-		maxNPlaces++;
-	}
-
-	for (int i = 0; i < ControlDataSize; i++) {
-		uint8_t dataOut = getControlData(i);
-
-		if (baseFormat == HEX) {
-			stream.print("0x");  // Hex prefix
-		}
-
-		// Calculate # of spaces that will be printed. Max - n = # to pad.
-		uint8_t nPlaces = 0;
-		uint8_t tempOut = dataOut;
-		do {
-			tempOut /= baseFormat;
-			nPlaces++;
-		} while (tempOut != 0);
-
-
-		// Print pad characters
-		for (int padOut = 0; padOut < (maxNPlaces - nPlaces); padOut++) {
-			stream.print(padChar);
-		}
-
-		stream.print(dataOut, baseFormat);
-
-		if (i != ControlDataSize - 1) {  // Print separators
-			stream.print(" | ");
-		}
-	}
-	stream.println();
+	NXCtrl::printRaw(controlData, ControlDataSize, stream, baseFormat);
 }

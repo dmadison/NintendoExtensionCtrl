@@ -67,6 +67,7 @@ namespace NintendoExtensionCtrl {
 
 	// Utility
 	boolean verifyData(const uint8_t * dataIn, uint8_t dataSize);
+	void printRaw(const uint8_t * dataIn, uint8_t dataSize, Stream& stream = Serial, uint8_t baseFormat = HEX);
 }
 
 namespace NXCtrl = NintendoExtensionCtrl;  // Alias for shorter access

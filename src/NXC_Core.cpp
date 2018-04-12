@@ -125,5 +125,49 @@ namespace NintendoExtensionCtrl {
 
 		return true;
 	}
+
+	void printRaw(const uint8_t * dataIn, uint8_t dataSize, Stream& stream, uint8_t baseFormat) {
+		char padChar = ' ';
+		if (baseFormat == BIN || baseFormat == HEX) {
+			padChar = '0';
+		}
+
+		// Calculate max # of spaces for the base
+		uint8_t maxInput = 0xFF;
+		uint8_t maxNPlaces = 0;
+		while (maxInput != 0) {
+			maxInput /= baseFormat;
+			maxNPlaces++;
+		}
+
+		for (int i = 0; i < dataSize; i++) {
+			uint8_t dataOut = dataIn[i];
+
+			if (baseFormat == HEX) {
+				stream.print("0x");  // Hex prefix
+			}
+
+			// Calculate # of spaces that will be printed. Max - n = # to pad.
+			uint8_t nPlaces = 0;
+			uint8_t tempOut = dataOut;
+			do {
+				tempOut /= baseFormat;
+				nPlaces++;
+			} while (tempOut != 0);
+
+
+			// Print pad characters
+			for (int padOut = 0; padOut < (maxNPlaces - nPlaces); padOut++) {
+				stream.print(padChar);
+			}
+
+			stream.print(dataOut, baseFormat);
+
+			if (i != dataSize - 1) {  // Print separators
+				stream.print(" | ");
+			}
+		}
+		stream.println();
+	}
 }
 

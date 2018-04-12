@@ -34,9 +34,9 @@ boolean ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	initSuccess = initialize();
+	initSuccess = NXCtrl::initialize();
 	if (initSuccess) {
-		connectedID = requestIdentity();
+		identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
 		}
@@ -53,59 +53,8 @@ boolean ExtensionController::reconnect() {
 	return connect();
 }
 
-boolean ExtensionController::initialize() {
-	/* Initialization for unencrypted communication.
-	 * *Should* work on all devices, genuine + 3rd party.
-	 * See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
-	*/ 
-	if (!NXCtrl::writeRegister(I2C_Bus, 0xF0, 0x55)) { return false; }
-	delay(10);
-	if (!NXCtrl::writeRegister(I2C_Bus, 0xFB, 0x00)) { return false; }
-	delay(20);
-	return true;
-}
-
-NXC_ControllerType ExtensionController::requestIdentity() {
-	const uint8_t IDHeaderSize = 6;
-	const uint8_t IDPointer = 0xFA;
-
-	uint8_t idData[IDHeaderSize];
-
-	if (!NXCtrl::readDataArray(I2C_Bus, IDPointer, IDHeaderSize, idData)) {
-		return NXC_NoController;  // Bad response from device
-	}
-
-	if (idData[2] == 0xA4 && idData[3] == 0x20) {  // All valid IDs
-		// Nunchuk ID: 0x0000
-		if (idData[4] == 0x00 && idData[5] == 0x00) {
-			return NXC_Nunchuk;
-		}
-
-		// Classic Con. ID: 0x0101
-		else if (idData[4] == 0x01 && idData[5] == 0x01) {
-			return NXC_ClassicController;
-		}
-
-		// Guitar Hero Controllers: 0x##00, 0xA420, 0x0103
-		else if (idData[1] == 0x00
-			&& idData[4] <= 0x01 && idData[5] == 0x03) {
-
-			// Guitar: 0x00
-			if (idData[0] == 0x00) {
-				return NXC_GuitarController;
-			}
-			// Drums: 0x01
-			else if (idData[0] == 0x01) {
-				return NXC_DrumController;
-			}
-			// DJ Turntable: 0x03
-			else if (idData[0] == 0x03) {
-				return NXC_DJTurntable;
-			}
-		}
-	}
-
-	return NXC_UnknownController;  // No matches
+NXC_ControllerType ExtensionController::identifyController() {
+	return connectedID = NXCtrl::identifyController(I2C_Bus);
 }
 
 boolean ExtensionController::controllerIDMatches() {
@@ -117,14 +66,6 @@ boolean ExtensionController::controllerIDMatches() {
 	}
 
 	return false;  // Enforced types or no controller connected
-}
-
-NXC_ControllerType ExtensionController::identifyController() {
-	if (initialize()) {  // Must initialize before ID call will return proper data
-		return requestIdentity();
-	}
-
-	return NXC_NoController;  // Bad init
 }
 
 NXC_ControllerType ExtensionController::getConnectedID() const {

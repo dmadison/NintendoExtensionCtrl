@@ -26,16 +26,6 @@
 #include "Arduino.h"
 #include "NXC_Core.h"
 
-enum NXC_ControllerType {
-	NXC_NoController,
-	NXC_UnknownController,
-	NXC_Nunchuk,
-	NXC_ClassicController,
-	NXC_GuitarController,
-	NXC_DrumController,
-	NXC_DJTurntable,
-};
-
 class ExtensionController {
 public:
 	ExtensionController();
@@ -66,9 +56,6 @@ protected:
 	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
 private:
-	boolean initialize();
-
-	NXC_ControllerType requestIdentity();
 	boolean controllerIDMatches();
 
 	boolean verifyData();

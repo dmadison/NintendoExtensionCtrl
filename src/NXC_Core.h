@@ -36,15 +36,34 @@
 
 #define NXC_I2C_DEFAULT Wire
 
+enum NXC_ControllerType {
+	NXC_NoController,
+	NXC_UnknownController,
+	NXC_Nunchuk,
+	NXC_ClassicController,
+	NXC_GuitarController,
+	NXC_DrumController,
+	NXC_DJTurntable,
+};
+
 namespace NintendoExtensionCtrl {
 	const uint8_t I2C_Addr = 0x52;  // Address for all controllers
 	const int I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
 
+	// I2C Low-Level Comms
 	boolean writePointer(NXC_I2C_TYPE& i2c, byte ptr);
 	boolean writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte value);
 	boolean requestMultiple(NXC_I2C_TYPE& i2c, uint8_t requestSize, uint8_t * dataOut);
 
 	boolean readDataArray(NXC_I2C_TYPE& i2c, byte ptr, uint8_t requestSize, uint8_t * dataOut);
+
+	// Controller Data
+	boolean initialize(NXC_I2C_TYPE& i2c = NXC_I2C_DEFAULT);
+
+	const uint8_t IDHeaderSize = 6;
+	boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t * idData);
+	NXC_ControllerType identifyController(const uint8_t * idData);
+	NXC_ControllerType identifyController(NXC_I2C_TYPE& i2c = NXC_I2C_DEFAULT);
 }
 
 namespace NXCtrl = NintendoExtensionCtrl;  // Alias for shorter access

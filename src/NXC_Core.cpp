@@ -22,7 +22,7 @@
 
 #include "NXC_Core.h"
 
-namespace NXC_Core {
+namespace NintendoExtensionCtrl {
 	boolean writePointer(NXC_I2C_TYPE& i2c, byte ptr) {
 		i2c.beginTransmission(I2C_Addr);
 		i2c.write(ptr);
@@ -49,3 +49,4 @@ namespace NXC_Core {
 		return requestMultiple(i2c, requestSize, dataOut);
 	}
 }
+

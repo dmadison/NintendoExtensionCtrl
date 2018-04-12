@@ -36,7 +36,7 @@
 
 #define NXC_I2C_DEFAULT Wire
 
-namespace NXC_Core {
+namespace NintendoExtensionCtrl {
 	const uint8_t I2C_Addr = 0x52;  // Address for all controllers
 	const int I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
 
@@ -46,5 +46,7 @@ namespace NXC_Core {
 
 	boolean readDataArray(NXC_I2C_TYPE& i2c, byte ptr, uint8_t requestSize, uint8_t * dataOut);
 }
+
+namespace NXCtrl = NintendoExtensionCtrl;  // Alias for shorter access
 
 #endif

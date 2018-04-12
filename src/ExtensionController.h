@@ -24,17 +24,7 @@
 #define NXC_ExtensionController_h
 
 #include "Arduino.h"
-
-#if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MKL26Z64__) || \
-    defined(__MK64FX512__) || defined(__MK66FX1M0__) // Teensy 3.0/3.1-3.2/LC/3.5/3.6
-#include "i2c_t3.h"
-#define NXC_I2C_TYPE i2c_t3
-#else
-#include "Wire.h"  // All other platforms
-#define NXC_I2C_TYPE TwoWire
-#endif
-
-#define NXC_I2C_DEFAULT Wire
+#include "NXC_Comms.h"
 
 enum NXC_ControllerType {
 	NXC_NoController,
@@ -83,13 +73,6 @@ private:
 
 	boolean verifyData();
 
-	boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
-
-	boolean writePointer(byte pointer);
-	boolean writeRegister(byte reg, byte value);
-	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
-
-	static const uint8_t I2C_Addr = 0x52;
 	NXC_I2C_TYPE& I2C_Bus = NXC_I2C_DEFAULT;
 
 	boolean enforceControllerID = false;  // Off for generic controllers

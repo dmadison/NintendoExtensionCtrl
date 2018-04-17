@@ -67,7 +67,7 @@ public:
 	uint8_t velocityOrange();
 	uint8_t velocityPedal();
 
-	void printDebug(Stream& stream = Serial);
+	void printDebug(Stream& stream = NXC_SERIAL_DEFAULT);
 private:
 	boolean validVelocityID(uint8_t idIn);
 };

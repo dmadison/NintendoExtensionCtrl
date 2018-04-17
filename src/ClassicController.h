@@ -58,7 +58,7 @@ public:
 	boolean buttonMinus();
 	boolean buttonHome();
 	
-	void printDebug(Stream& stream=Serial);
+	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
 };
 
 #endif

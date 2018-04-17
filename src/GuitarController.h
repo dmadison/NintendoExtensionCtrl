@@ -54,7 +54,7 @@ public:
 	boolean buttonPlus();
 	boolean buttonMinus();
 
-	void printDebug(Stream& stream=Serial);
+	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
 
 	boolean supportsTouchbar();
 

@@ -43,10 +43,10 @@ public:
 
 	void setEnforceID(boolean enforce);
 
-	void printDebug(Stream& stream = Serial);
-	void printDebugID(Stream& stream = Serial);
+	void printDebug(Stream& stream = NXC_SERIAL_DEFAULT);
+	void printDebugID(Stream& stream = NXC_SERIAL_DEFAULT);
 	void printDebugRaw(uint8_t baseFormat);
-	void printDebugRaw(Stream& stream = Serial, uint8_t baseFormat = HEX);
+	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT, uint8_t baseFormat = HEX);
 
 	const NXC_ControllerType controllerID = NXC_UnknownController;
 	const uint8_t ControlDataSize = 6;  // Bytes per update

@@ -115,7 +115,7 @@ void ExtensionController::printDebugID(Stream& stream) {
 }
 
 void ExtensionController::printDebugRaw(uint8_t baseFormat) {
-	printDebugRaw(Serial, baseFormat);
+	printDebugRaw(NXC_SERIAL_DEFAULT, baseFormat);
 }
 
 void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) {

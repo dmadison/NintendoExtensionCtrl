@@ -42,7 +42,7 @@ public:
 	float rollAngle();  // -180.0 to 180.0
 	float pitchAngle();
 
-	void printDebug(Stream& stream=Serial);
+	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
 };
 
 #endif

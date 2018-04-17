@@ -53,7 +53,7 @@ public:
 	boolean buttonPlus();
 	boolean buttonMinus();
 
-	void printDebug(Stream& stream=Serial);
+	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
 
 	NXC_DJTurntable_Configuration getTurntableConfig();
 	uint8_t getNumTurntables();

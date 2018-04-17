@@ -35,6 +35,7 @@
 #endif
 
 #define NXC_I2C_DEFAULT Wire
+#define NXC_SERIAL_DEFAULT Serial
 
 enum NXC_ControllerType {
 	NXC_NoController,
@@ -67,7 +68,7 @@ namespace NintendoExtensionCtrl {
 
 	// Utility
 	boolean verifyData(const uint8_t * dataIn, uint8_t dataSize);
-	void printRaw(const uint8_t * dataIn, uint8_t dataSize, Stream& stream = Serial, uint8_t baseFormat = HEX);
+	void printRaw(const uint8_t * dataIn, uint8_t dataSize, Stream& stream = NXC_SERIAL_DEFAULT, uint8_t baseFormat = HEX);
 }
 
 namespace NXCtrl = NintendoExtensionCtrl;  // Alias for shorter access

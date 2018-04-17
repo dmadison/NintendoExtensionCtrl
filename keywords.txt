@@ -41,6 +41,7 @@ getControlData	KEYWORD2
 setEnforceID	KEYWORD2
 
 printDebug	KEYWORD2
+printDebugID	KEYWORD2
 printDebugRaw	KEYWORD2
 
 ## Nunchuk

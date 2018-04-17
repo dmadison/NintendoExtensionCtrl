@@ -44,6 +44,7 @@ public:
 	void setEnforceID(boolean enforce);
 
 	void printDebug(Stream& stream = Serial);
+	void printDebugID(Stream& stream = Serial);
 	void printDebugRaw(uint8_t baseFormat);
 	void printDebugRaw(Stream& stream = Serial, uint8_t baseFormat = HEX);
 

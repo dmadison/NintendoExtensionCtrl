@@ -101,6 +101,19 @@ void ExtensionController::printDebug(Stream& stream) {
 	printDebugRaw(stream);
 }
 
+void ExtensionController::printDebugID(Stream& stream) {
+	uint8_t idData[NXCtrl::IDHeaderSize];
+	boolean success = NXCtrl::requestIdentity(I2C_Bus, idData);
+
+	if (success) {
+		stream.print("ID: ");
+		NXCtrl::printRaw(idData, NXCtrl::IDHeaderSize, stream);
+	}
+	else {
+		stream.println("Bad ID Read");
+	}
+}
+
 void ExtensionController::printDebugRaw(uint8_t baseFormat) {
 	printDebugRaw(Serial, baseFormat);
 }

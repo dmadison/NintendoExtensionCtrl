@@ -37,6 +37,7 @@ identifyController	KEYWORD2
 
 getConnectedID	KEYWORD2
 getControlData	KEYWORD2
+getControlBit	KEYWORD2
 
 setEnforceID	KEYWORD2
 

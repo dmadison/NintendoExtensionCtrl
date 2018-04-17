@@ -40,6 +40,7 @@ public:
 
 	NXC_ControllerType getConnectedID() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
+	boolean getControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
 	void setEnforceID(boolean enforce);
 
@@ -53,8 +54,6 @@ public:
 
 protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize);
-
-	boolean getControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
 private:
 	boolean controllerIDMatches();

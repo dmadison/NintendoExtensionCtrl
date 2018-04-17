@@ -81,7 +81,7 @@ namespace NintendoExtensionCtrl {
 
 			// Guitar Hero Controllers: 0x##00, 0xA420, 0x0103
 			else if (idData[1] == 0x00
-				&& idData[4] <= 0x01 && idData[5] == 0x03) {
+				&& idData[4] == 0x01 && idData[5] == 0x03) {
 
 				// Guitar: 0x00
 				if (idData[0] == 0x00) {

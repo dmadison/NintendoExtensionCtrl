@@ -26,6 +26,8 @@
 #include "Arduino.h"
 #include "NXC_Core.h"
 
+#define NXC_CONTROL_DATA_MAX 6  // Max # of control data bytes
+
 class ExtensionController {
 public:
 	ExtensionController();
@@ -50,7 +52,7 @@ public:
 	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT, uint8_t baseFormat = HEX);
 
 	const NXC_ControllerType controllerID = NXC_UnknownController;
-	const uint8_t ControlDataSize = 6;  // Bytes per update
+	const uint8_t ControlDataSize = NXC_CONTROL_DATA_MAX;  // Bytes per update
 
 protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize);
@@ -62,7 +64,7 @@ private:
 
 	boolean enforceControllerID = false;  // Off for generic controllers
 	NXC_ControllerType connectedID = NXC_NoController;
-	uint8_t controlData[6];
+	uint8_t controlData[NXC_CONTROL_DATA_MAX];
 };
 
 #endif

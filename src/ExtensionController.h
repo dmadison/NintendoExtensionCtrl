@@ -23,7 +23,6 @@
 #ifndef NXC_ExtensionController_h
 #define NXC_ExtensionController_h
 
-#include "Arduino.h"
 #include "NXC_Core.h"
 
 #define NXC_CONTROL_DATA_MAX 6  // Max # of control data bytes

@@ -34,8 +34,7 @@ boolean ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	initSuccess = NXCtrl::initialize();
-	if (initSuccess) {
+	if (NXCtrl::initialize()) {
 		identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
@@ -77,13 +76,13 @@ void ExtensionController::setEnforceID(boolean enforce) {
 }
 
 boolean ExtensionController::update() {
-	if (initSuccess && controllerIDMatches()){
+	if (controllerIDMatches()){
 		if (NXCtrl::readDataArray(I2C_Bus, 0x00, ControlDataSize, controlData)) {
 			return NXCtrl::verifyData(controlData, ControlDataSize);
 		}
 	}
 	
-	return initSuccess = false;  // Something went wrong. User must re-initialize
+	return false;  // Something went wrong :(
 }
 
 uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {

@@ -61,7 +61,6 @@ private:
 	NXC_I2C_TYPE& I2C_Bus = NXC_I2C_DEFAULT;
 
 	boolean enforceControllerID = false;  // Off for generic controllers
-	boolean initSuccess = false;
 	NXC_ControllerType connectedID = NXC_NoController;
 	uint8_t controlData[6];
 };

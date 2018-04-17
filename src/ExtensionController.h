@@ -36,16 +36,16 @@ public:
 	boolean reconnect();
 
 	boolean update();
-
-	void printDebug(Stream& stream = Serial);
-	void printDebugRaw(uint8_t baseFormat);
-	void printDebugRaw(Stream& stream = Serial, uint8_t baseFormat = HEX);
-
 	NXC_ControllerType identifyController();
+
 	NXC_ControllerType getConnectedID() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
 
 	void setEnforceID(boolean enforce);
+
+	void printDebug(Stream& stream = Serial);
+	void printDebugRaw(uint8_t baseFormat);
+	void printDebugRaw(Stream& stream = Serial, uint8_t baseFormat = HEX);
 
 	const NXC_ControllerType controllerID = NXC_UnknownController;
 	const uint8_t ControlDataSize = 6;  // Bytes per update

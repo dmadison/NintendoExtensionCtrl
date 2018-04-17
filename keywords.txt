@@ -33,15 +33,15 @@ connect	KEYWORD2
 reconnect	KEYWORD2
 
 update	KEYWORD2
-
-printDebug	KEYWORD2
-printDebugRaw	KEYWORD2
-
 identifyController	KEYWORD2
+
 getConnectedID	KEYWORD2
 getControlData	KEYWORD2
 
 setEnforceID	KEYWORD2
+
+printDebug	KEYWORD2
+printDebugRaw	KEYWORD2
 
 ## Nunchuk
 joyX	KEYWORD2

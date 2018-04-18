@@ -23,32 +23,23 @@
 #ifndef NXC_ExtensionController_h
 #define NXC_ExtensionController_h
 
-#include "Arduino.h"
+#include "NXC_Core.h"
 
-#if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MKL26Z64__) || \
-    defined(__MK64FX512__) || defined(__MK66FX1M0__) // Teensy 3.0/3.1-3.2/LC/3.5/3.6
-#include "i2c_t3.h"
-#define NXC_I2C_TYPE i2c_t3
-#else
-#include "Wire.h"  // All other platforms
-#define NXC_I2C_TYPE TwoWire
-#endif
+#define NXC_CONTROL_DATA_MAX 6  // Max # of control data bytes
 
-#define NXC_I2C_DEFAULT Wire
-
-enum NXC_ControllerType {
-	NXC_NoController,
-	NXC_UnknownController,
-	NXC_Nunchuk,
-	NXC_ClassicController,
-	NXC_GuitarController,
-	NXC_DrumController,
-	NXC_DJTurntable,
+struct ExtensionData {
+	friend class ExtensionController;
+	ExtensionData(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
+private:
+	NXC_I2C_TYPE& I2C_Bus = NXC_I2C_DEFAULT;
+	NXC_ControllerType connectedID = NXC_NoController;
+	uint8_t controlData[NXC_CONTROL_DATA_MAX];
 };
 
 class ExtensionController {
 public:
-	ExtensionController();
+	ExtensionController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
+	ExtensionController(ExtensionData& busData);
 
 	boolean begin();
 
@@ -56,46 +47,31 @@ public:
 	boolean reconnect();
 
 	boolean update();
-
-	void printDebug(Stream& stream = Serial);
-	void printDebugRaw(uint8_t baseFormat);
-	void printDebugRaw(Stream& stream = Serial, uint8_t baseFormat = HEX);
-
 	NXC_ControllerType identifyController();
+
 	NXC_ControllerType getConnectedID() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
+	boolean getControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
 	void setEnforceID(boolean enforce);
 
-	const NXC_ControllerType controllerID = NXC_UnknownController;
-	const uint8_t ControlDataSize = 6;  // Bytes per update
+	void printDebug(Stream& stream = NXC_SERIAL_DEFAULT);
+	void printDebugID(Stream& stream = NXC_SERIAL_DEFAULT);
+	void printDebugRaw(uint8_t baseFormat);
+	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT, uint8_t baseFormat = HEX);
+
+	const NXC_ControllerType ControllerID = NXC_UnknownController;
+	const uint8_t ControlDataSize = NXC_CONTROL_DATA_MAX;  // Bytes per update
 
 protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize);
-
-	boolean extractControlBit(uint8_t arrIndex, uint8_t bitNum) const;
+	ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize);
 
 private:
-	boolean initialize();
-
-	NXC_ControllerType requestIdentity();
 	boolean controllerIDMatches();
 
-	boolean verifyData();
-
-	boolean readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut);
-
-	boolean writePointer(byte pointer);
-	boolean writeRegister(byte reg, byte value);
-	boolean requestMulti(uint8_t requestSize, uint8_t * dataOut);
-
-	static const uint8_t I2C_Addr = 0x52;
-	NXC_I2C_TYPE& I2C_Bus = NXC_I2C_DEFAULT;
-
+	ExtensionData * busData;
 	boolean enforceControllerID = false;  // Off for generic controllers
-	boolean initSuccess = false;
-	NXC_ControllerType connectedID = NXC_NoController;
-	uint8_t controlData[6];
 };
 
 #endif

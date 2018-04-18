@@ -23,6 +23,7 @@
 #include "DJTurntable.h"
 
 DJTurntableController::DJTurntableController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_DJTurntable, 6), left(*this), right(*this) {}
+DJTurntableController::DJTurntableController(ExtensionData& busData) : ExtensionController(busData, NXC_DJTurntable, 6), left(*this), right(*this) {}
 
 // Combined Turntable
 int8_t DJTurntableController::turntable() {
@@ -51,7 +52,7 @@ int8_t DJTurntableController::crossfadeSlider() {
 }
 
 boolean DJTurntableController::buttonEuphoria() {
-	return extractControlBit(5, 4);
+	return getControlBit(5, 4);
 }
 
 uint8_t DJTurntableController::joyX() {
@@ -63,11 +64,11 @@ uint8_t DJTurntableController::joyY() {
 }
 
 boolean DJTurntableController::buttonPlus() {
-	return extractControlBit(4, 2);
+	return getControlBit(4, 2);
 }
 
 boolean DJTurntableController::buttonMinus() {
-	return extractControlBit(4, 4);
+	return getControlBit(4, 4);
 }
 
 NXC_DJTurntable_Configuration DJTurntableController::getTurntableConfig() {
@@ -196,15 +197,15 @@ int8_t DJTurntableController::TurntableLeft::turntable() {
 }
 
 boolean DJTurntableController::TurntableLeft::buttonGreen() {
-	return base.extractControlBit(5, 3);
+	return base.getControlBit(5, 3);
 }
 
 boolean DJTurntableController::TurntableLeft::buttonRed() {
-	return base.extractControlBit(4, 5);
+	return base.getControlBit(4, 5);
 }
 
 boolean DJTurntableController::TurntableLeft::buttonBlue() {
-	return base.extractControlBit(5, 7);
+	return base.getControlBit(5, 7);
 }
 
 // Right Turntable
@@ -216,13 +217,13 @@ int8_t DJTurntableController::TurntableRight::turntable() {
 }
 
 boolean DJTurntableController::TurntableRight::buttonGreen() {
-	return base.extractControlBit(5, 5);
+	return base.getControlBit(5, 5);
 }
 
 boolean DJTurntableController::TurntableRight::buttonRed() {
-	return base.extractControlBit(4, 1);
+	return base.getControlBit(4, 1);
 }
 
 boolean DJTurntableController::TurntableRight::buttonBlue() {
-	return base.extractControlBit(5, 2);
+	return base.getControlBit(5, 2);
 }

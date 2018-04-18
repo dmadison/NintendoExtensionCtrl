@@ -23,6 +23,7 @@
 #include "Nunchuk.h"
 
 Nunchuk::Nunchuk(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_Nunchuk, 6) {}
+Nunchuk::Nunchuk(ExtensionData& busData) : ExtensionController(busData, NXC_Nunchuk, 6) {}
 
 uint8_t Nunchuk::joyX() {
 	return getControlData(0);
@@ -45,11 +46,11 @@ uint16_t Nunchuk::accelZ() {
 }
 
 boolean Nunchuk::buttonC() {
-	return extractControlBit(5, 1);
+	return getControlBit(5, 1);
 }
 
 boolean Nunchuk::buttonZ() {
-	return extractControlBit(5, 0);
+	return getControlBit(5, 0);
 }
 
 float Nunchuk::rollAngle() {

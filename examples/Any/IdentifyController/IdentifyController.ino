@@ -31,6 +31,7 @@ void setup() {
 			Serial.println("DJ turntable connected!");
 			break;
 	}
+	controller.printDebugID();
 }
 
 void loop() {

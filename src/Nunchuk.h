@@ -28,6 +28,7 @@
 class Nunchuk : public ExtensionController {
 public:
 	Nunchuk(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
+	Nunchuk(ExtensionData& busData);
 
 	uint8_t joyX();  // 8 bits, 0-255
 	uint8_t joyY();
@@ -42,7 +43,7 @@ public:
 	float rollAngle();  // -180.0 to 180.0
 	float pitchAngle();
 
-	void printDebug(Stream& stream=Serial);
+	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
 };
 
 #endif

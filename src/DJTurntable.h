@@ -35,6 +35,7 @@ enum NXC_DJTurntable_Configuration {
 class DJTurntableController : public ExtensionController {
 public:
 	DJTurntableController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
+	DJTurntableController(ExtensionData& busData);
 
 	int8_t turntable();  // 6 bits, -30-29. Clockwise = positive, faster = larger.
 
@@ -53,7 +54,7 @@ public:
 	boolean buttonPlus();
 	boolean buttonMinus();
 
-	void printDebug(Stream& stream=Serial);
+	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
 
 	NXC_DJTurntable_Configuration getTurntableConfig();
 	uint8_t getNumTurntables();

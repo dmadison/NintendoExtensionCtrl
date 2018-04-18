@@ -22,27 +22,39 @@
 
 #include "ExtensionController.h"
 
-ExtensionController::ExtensionController() {}
+ExtensionData::ExtensionData(NXC_I2C_TYPE& i2cBus)
+	: I2C_Bus(i2cBus) {}
+
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) {
+	busData = new ExtensionData(i2cBus);
+}
+
+ExtensionController::ExtensionController(ExtensionData& busData) :
+	busData(&busData) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize)
-	: controllerID(conID), ControlDataSize(datSize), I2C_Bus(i2cBus), enforceControllerID(true) {}
+	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true) {
+	busData = new ExtensionData(i2cBus);
+}
+
+ExtensionController::ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize)
+	: ControllerID(conID), ControlDataSize(datSize), busData(&busData), enforceControllerID(true) {}
 
 boolean ExtensionController::begin() {
-	I2C_Bus.begin();
+	busData->I2C_Bus.begin();
 
 	return connect();
 }
 
 boolean ExtensionController::connect() {
-	initSuccess = initialize();
-	if (initSuccess) {
-		connectedID = requestIdentity();
+	if (NXCtrl::initialize()) {
+		identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
 		}
 	}
 	else {
-		connectedID = NXC_NoController;  // Bad init, nothing connected
+		busData->connectedID = NXC_NoController;  // Bad init, nothing connected
 	}
 
 	return false;
@@ -53,82 +65,23 @@ boolean ExtensionController::reconnect() {
 	return connect();
 }
 
-boolean ExtensionController::initialize() {
-	/* Initialization for unencrypted communication.
-	 * *Should* work on all devices, genuine + 3rd party.
-	 * See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
-	*/ 
-	if (!writeRegister(0xF0, 0x55)) { return false; }
-	delay(10);
-	if (!writeRegister(0xFB, 0x00)) { return false; }
-	delay(20);
-	return true;
-}
-
-NXC_ControllerType ExtensionController::requestIdentity() {
-	const uint8_t IDHeaderSize = 6;
-	const uint8_t IDPointer = 0xFA;
-
-	uint8_t idData[IDHeaderSize];
-
-	if (!readDataArray(IDPointer, IDHeaderSize, idData)) {
-		return NXC_NoController;  // Bad response from device
-	}
-
-	if (idData[2] == 0xA4 && idData[3] == 0x20) {  // All valid IDs
-		// Nunchuk ID: 0x0000
-		if (idData[4] == 0x00 && idData[5] == 0x00) {
-			return NXC_Nunchuk;
-		}
-
-		// Classic Con. ID: 0x0101
-		else if (idData[4] == 0x01 && idData[5] == 0x01) {
-			return NXC_ClassicController;
-		}
-
-		// Guitar Hero Controllers: 0x##00, 0xA420, 0x0103
-		else if (idData[1] == 0x00
-			&& idData[4] <= 0x01 && idData[5] == 0x03) {
-
-			// Guitar: 0x00
-			if (idData[0] == 0x00) {
-				return NXC_GuitarController;
-			}
-			// Drums: 0x01
-			else if (idData[0] == 0x01) {
-				return NXC_DrumController;
-			}
-			// DJ Turntable: 0x03
-			else if (idData[0] == 0x03) {
-				return NXC_DJTurntable;
-			}
-		}
-	}
-
-	return NXC_UnknownController;  // No matches
+NXC_ControllerType ExtensionController::identifyController() {
+	return busData->connectedID = NXCtrl::identifyController(busData->I2C_Bus);
 }
 
 boolean ExtensionController::controllerIDMatches() {
-	if (connectedID == controllerID) {
+	if (busData->connectedID == ControllerID) {
 		return true;  // Match!
 	}
-	else if (enforceControllerID == false && connectedID != NXC_NoController) {
+	else if (enforceControllerID == false && busData->connectedID != NXC_NoController) {
 		return true;  // No enforcing and some sort of controller connected
 	}
 
 	return false;  // Enforced types or no controller connected
 }
 
-NXC_ControllerType ExtensionController::identifyController() {
-	if (initialize()) {  // Must initialize before ID call will return proper data
-		return requestIdentity();
-	}
-
-	return NXC_NoController;  // Bad init
-}
-
 NXC_ControllerType ExtensionController::getConnectedID() const {
-	return connectedID;
+	return busData->connectedID;
 }
 
 void ExtensionController::setEnforceID(boolean enforce) {
@@ -136,116 +89,44 @@ void ExtensionController::setEnforceID(boolean enforce) {
 }
 
 boolean ExtensionController::update() {
-	if (initSuccess && controllerIDMatches()){
-		if (readDataArray(0x00, ControlDataSize, controlData)) {
-			return verifyData();
+	if (controllerIDMatches()){
+		if (NXCtrl::readDataArray(busData->I2C_Bus, 0x00, ControlDataSize, busData->controlData)) {
+			return NXCtrl::verifyData(busData->controlData, ControlDataSize);
 		}
 	}
 	
-	return initSuccess = false;  // Something went wrong. User must re-initialize
-}
-
-boolean ExtensionController::verifyData() {
-	byte orCheck = 0x00;   // Check if data is zeroed (bad connection)
-	byte andCheck = 0xFF;  // Check if data is maxed (bad init)
-
-	for (int i = 0; i < ControlDataSize; i++) {
-		orCheck |= controlData[i];
-		andCheck &= controlData[i];
-	}
-
-	if (orCheck == 0x00 || andCheck == 0xFF) {
-		return false;  // No data or bad data
-	}
-	
-	return true;
+	return false;  // Something went wrong :(
 }
 
 uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
-	if (controlIndex < ControlDataSize) {
-		return controlData[controlIndex];
-	}
-	return 0;
+	return busData->controlData[controlIndex];
 }
 
-boolean ExtensionController::readDataArray(byte pointer, uint8_t requestSize, uint8_t * dataOut) {
-	if (!writePointer(pointer)) { return false; }  // Set start for data read
-	delayMicroseconds(175);  // Wait for data conversion (~200 us)
-	return requestMulti(requestSize, dataOut);
-}
-
-boolean ExtensionController::writePointer(byte pointer) {
-	I2C_Bus.beginTransmission(I2C_Addr);
-	I2C_Bus.write(pointer);
-	return I2C_Bus.endTransmission() == 0;  // 0 = No Error
-}
-
-boolean ExtensionController::writeRegister(byte reg, byte value) {
-	I2C_Bus.beginTransmission(I2C_Addr);
-	I2C_Bus.write(reg);
-	I2C_Bus.write(value);
-	return I2C_Bus.endTransmission() == 0;
-}
-
-boolean ExtensionController::requestMulti(uint8_t requestSize, uint8_t * dataOut) {
-	uint8_t nBytesRecv = I2C_Bus.readBytes(dataOut,
-		I2C_Bus.requestFrom(I2C_Addr, requestSize));
-
-	return (nBytesRecv == requestSize);  // Success if all bytes received
-}
-
-boolean ExtensionController::extractControlBit(uint8_t arrIndex, uint8_t bitNum) const {
-	return !(controlData[arrIndex] & (1 << bitNum));
+boolean ExtensionController::getControlBit(uint8_t arrIndex, uint8_t bitNum) const {
+	return !(busData->controlData[arrIndex] & (1 << bitNum));
 }
 
 void ExtensionController::printDebug(Stream& stream) {
 	printDebugRaw(stream);
 }
 
+void ExtensionController::printDebugID(Stream& stream) {
+	uint8_t idData[NXCtrl::IDHeaderSize];
+	boolean success = NXCtrl::requestIdentity(busData->I2C_Bus, idData);
+
+	if (success) {
+		stream.print("ID: ");
+		NXCtrl::printRaw(idData, NXCtrl::IDHeaderSize, stream);
+	}
+	else {
+		stream.println("Bad ID Read");
+	}
+}
+
 void ExtensionController::printDebugRaw(uint8_t baseFormat) {
-	printDebugRaw(Serial, baseFormat);
+	printDebugRaw(NXC_SERIAL_DEFAULT, baseFormat);
 }
 
 void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) {
-	char padChar = ' ';
-	if (baseFormat == BIN || baseFormat == HEX) {
-		padChar = '0';
-	}
-
-	// Calculate max # of spaces for the base
-	uint8_t maxInput = 0xFF;
-	uint8_t maxNPlaces = 0;
-	while (maxInput != 0) {
-		maxInput /= baseFormat;
-		maxNPlaces++;
-	}
-
-	for (int i = 0; i < ControlDataSize; i++) {
-		uint8_t dataOut = getControlData(i);
-
-		if (baseFormat == HEX) {
-			stream.print("0x");  // Hex prefix
-		}
-
-		// Calculate # of spaces that will be printed. Max - n = # to pad.
-		uint8_t nPlaces = 0;
-		uint8_t tempOut = dataOut;
-		do {
-			tempOut /= baseFormat;
-			nPlaces++;
-		} while (tempOut != 0);
-
-
-		// Print pad characters
-		for (int padOut = 0; padOut < (maxNPlaces - nPlaces); padOut++) {
-			stream.print(padChar);
-		}
-
-		stream.print(dataOut, baseFormat);
-
-		if (i != ControlDataSize - 1) {  // Print separators
-			stream.print(" | ");
-		}
-	}
-	stream.println();
+	NXCtrl::printRaw(busData->controlData, ControlDataSize, stream, baseFormat);
 }

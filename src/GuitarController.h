@@ -28,6 +28,7 @@
 class GuitarController : public ExtensionController {
 public:
 	GuitarController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
+	GuitarController(ExtensionData& busData);
 
 	uint8_t joyX();  // 6 bits, 0-63
 	uint8_t joyY();
@@ -54,7 +55,7 @@ public:
 	boolean buttonPlus();
 	boolean buttonMinus();
 
-	void printDebug(Stream& stream=Serial);
+	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
 
 	boolean supportsTouchbar();
 

@@ -33,12 +33,12 @@ ExtensionController::ExtensionController(ExtensionData& busData) :
 	busData(&busData) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize)
-	: controllerID(conID), ControlDataSize(datSize), enforceControllerID(true) {
+	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true) {
 	busData = new ExtensionData(i2cBus);
 }
 
 ExtensionController::ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize)
-	: controllerID(conID), ControlDataSize(datSize), busData(&busData), enforceControllerID(false) {}
+	: ControllerID(conID), ControlDataSize(datSize), busData(&busData), enforceControllerID(false) {}
 
 boolean ExtensionController::begin() {
 	busData->I2C_Bus.begin();
@@ -70,7 +70,7 @@ NXC_ControllerType ExtensionController::identifyController() {
 }
 
 boolean ExtensionController::controllerIDMatches() {
-	if (busData->connectedID == controllerID) {
+	if (busData->connectedID == ControllerID) {
 		return true;  // Match!
 	}
 	else if (enforceControllerID == false && busData->connectedID != NXC_NoController) {

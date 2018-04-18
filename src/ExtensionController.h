@@ -60,7 +60,7 @@ public:
 	void printDebugRaw(uint8_t baseFormat);
 	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT, uint8_t baseFormat = HEX);
 
-	const NXC_ControllerType controllerID = NXC_UnknownController;
+	const NXC_ControllerType ControllerID = NXC_UnknownController;
 	const uint8_t ControlDataSize = NXC_CONTROL_DATA_MAX;  // Bytes per update
 
 protected:

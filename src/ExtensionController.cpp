@@ -38,7 +38,7 @@ ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerTyp
 }
 
 ExtensionController::ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize)
-	: controllerID(conID), ControlDataSize(datSize), busData(&busData), enforceControllerID(true) {}
+	: controllerID(conID), ControlDataSize(datSize), busData(&busData), enforceControllerID(false) {}
 
 boolean ExtensionController::begin() {
 	busData->I2C_Bus.begin();

@@ -99,10 +99,7 @@ boolean ExtensionController::update() {
 }
 
 uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
-	if (controlIndex < ControlDataSize) {
-		return busData->controlData[controlIndex];
-	}
-	return 0;
+	return busData->controlData[controlIndex];
 }
 
 boolean ExtensionController::getControlBit(uint8_t arrIndex, uint8_t bitNum) const {

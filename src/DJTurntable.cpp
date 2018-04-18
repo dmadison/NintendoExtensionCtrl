@@ -23,6 +23,7 @@
 #include "DJTurntable.h"
 
 DJTurntableController::DJTurntableController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_DJTurntable, 6), left(*this), right(*this) {}
+DJTurntableController::DJTurntableController(ExtensionData& busData) : ExtensionController(busData, NXC_DJTurntable, 6), left(*this), right(*this) {}
 
 // Combined Turntable
 int8_t DJTurntableController::turntable() {

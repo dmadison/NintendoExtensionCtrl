@@ -28,6 +28,7 @@
 class Nunchuk : public ExtensionController {
 public:
 	Nunchuk(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
+	Nunchuk(ExtensionData& busData);
 
 	uint8_t joyX();  // 8 bits, 0-255
 	uint8_t joyY();

@@ -9,8 +9,9 @@
 # Library
 NintendoExtensionCtrl	KEYWORD1
 
-# Controller Base Class
+# Controller Base Classes
 ExtensionController	KEYWORD1
+ExtensionData	KEYWORD1
 
 # Controller Types
 Nunchuk	KEYWORD1

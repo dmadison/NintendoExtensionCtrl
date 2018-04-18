@@ -23,6 +23,7 @@
 #include "GuitarController.h"
 
 GuitarController::GuitarController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_GuitarController, 6) {}
+GuitarController::GuitarController(ExtensionData& busData) : ExtensionController(busData, NXC_GuitarController, 6) {}
 
 uint8_t GuitarController::joyX() {
 	return getControlData(0) & 0x3F;

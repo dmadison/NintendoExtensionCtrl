@@ -23,6 +23,7 @@
 #include "Nunchuk.h"
 
 Nunchuk::Nunchuk(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_Nunchuk, 6) {}
+Nunchuk::Nunchuk(ExtensionData& busData) : ExtensionController(busData, NXC_Nunchuk, 6) {}
 
 uint8_t Nunchuk::joyX() {
 	return getControlData(0);

@@ -27,9 +27,19 @@
 
 #define NXC_CONTROL_DATA_MAX 6  // Max # of control data bytes
 
+struct ExtensionData {
+	friend class ExtensionController;
+	ExtensionData(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
+private:
+	NXC_I2C_TYPE& I2C_Bus = NXC_I2C_DEFAULT;
+	NXC_ControllerType connectedID = NXC_NoController;
+	uint8_t controlData[NXC_CONTROL_DATA_MAX];
+};
+
 class ExtensionController {
 public:
-	ExtensionController();
+	ExtensionController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
+	ExtensionController(ExtensionData& busData);
 
 	boolean begin();
 
@@ -55,15 +65,13 @@ public:
 
 protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize);
+	ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize);
 
 private:
 	boolean controllerIDMatches();
 
-	NXC_I2C_TYPE& I2C_Bus = NXC_I2C_DEFAULT;
-
+	ExtensionData * busData;
 	boolean enforceControllerID = false;  // Off for generic controllers
-	NXC_ControllerType connectedID = NXC_NoController;
-	uint8_t controlData[NXC_CONTROL_DATA_MAX];
 };
 
 #endif

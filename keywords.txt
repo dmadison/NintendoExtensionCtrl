@@ -22,6 +22,8 @@ DJTurntableController	KEYWORD1
 
 # Enumerations
 NXC_ControllerType	KEYWORD1
+NXC_DrumVelocityID	KEYWORD1
+NXC_DJTurntable_Configuration	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -183,3 +185,18 @@ NXC_ClassicController	LITERAL1
 NXC_GuitarController	LITERAL1
 NXC_DrumController	LITERAL1
 NXC_DJTurntable	LITERAL1
+
+# Drum Velocity IDs
+NXC_Drum_None	LITERAL1
+NXC_Drum_Red	LITERAL1
+NXC_Drum_Blue	LITERAL1
+NXC_Drum_Green	LITERAL1
+NXC_Drum_Yellow	LITERAL1
+NXC_Drum_Orange	LITERAL1
+NXC_Drum_Pedal	LITERAL1
+
+# DJ Turntable Configurations
+NXC_DJTurntable_BaseOnly	LITERAL1
+NXC_DJTurntable_Left	LITERAL1
+NXC_DJTurntable_Right	LITERAL1
+NXC_DJTurntable_Both	LITERAL1

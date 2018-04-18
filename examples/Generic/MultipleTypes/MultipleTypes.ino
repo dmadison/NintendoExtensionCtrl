@@ -1,13 +1,10 @@
 #include <NintendoExtensionCtrl.h>
 
 ExtensionData busData(Wire);  // Shared data for the controller on the 'Wire' bus
+ExtensionController controller(busData);  // Generic type: works with any ID, and requests the max # of bytes possible
 
 Nunchuk nchuk(busData);
 ClassicController classic(busData);
-
-// You can use any of the controllers for your begin / connect / update
-// calls, so long as they share the same extension data
-#define controller nchuk
 
 void setup() {
 	Serial.begin(115200);

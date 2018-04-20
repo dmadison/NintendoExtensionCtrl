@@ -170,8 +170,8 @@ namespace NintendoExtensionCtrl {
 		stream.println();
 	}
 
-	RolloverChange::RolloverChange(uint8_t min, uint8_t max, uint8_t compRange) :
-		minValue(min), maxValue(max), compareRange(compRange) {}
+	RolloverChange::RolloverChange(uint8_t min, uint8_t max) :
+		minValue(min), maxValue(max) {}
 	
 	int8_t RolloverChange::getChange(uint8_t valIn) {
 		if (valIn == lastValue  ||
@@ -201,12 +201,19 @@ namespace NintendoExtensionCtrl {
 	}
 
 	boolean RolloverChange::atRollover(uint8_t c1, uint8_t c2) const {
-		return c1 <= minValue + compareRange &&
-			c2 >= maxValue - compareRange;
+		return c1 <= minValue + comparisonRange() &&
+			c2 >= maxValue - comparisonRange();
 	}
 
 	int8_t RolloverChange::rolloverOut(uint8_t c1, uint8_t c2) const {
 		return (maxValue - c2) + c1 + 1;
+	}
+
+	uint8_t RolloverChange::comparisonRange() const {
+		// Covers exactly half of the range, as the range check is applied
+		// at both the min and max. With a comparison value of half of the range,
+		// it's presumed that a difference of half or greater is due to a rollover.
+		return ((maxValue - minValue) / 4) - 1;  // Covers exactly half the range (-1 for inclusive)
 	}
 }
 

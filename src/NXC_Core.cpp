@@ -191,11 +191,6 @@ namespace NintendoExtensionCtrl {
 			outValue = -rolloverOut(lastValue, valIn);
 		}
 
-		// Change > comparison range. Assumed spurious, report 0
-		else if (abs(valIn - lastValue) >= compareRange) {
-			outValue = 0;
-		}
-
 		// Within normal range
 		else {
 			outValue = valIn - lastValue;

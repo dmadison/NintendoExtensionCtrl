@@ -75,9 +75,8 @@ namespace NintendoExtensionCtrl {
 		RolloverChange(uint8_t min, uint8_t max);
 		int8_t getChange(uint8_t valIn);
 	private:
-		boolean atRollover(uint8_t c1, uint8_t c2) const;
 		int8_t rolloverOut(uint8_t c1, uint8_t c2) const;
-		uint8_t comparisonRange() const;  // +/- either end of the range
+		uint8_t halfRange() const;
 
 		const uint8_t minValue;
 		const uint8_t maxValue;

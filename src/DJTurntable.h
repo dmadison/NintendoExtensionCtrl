@@ -74,7 +74,7 @@ public:
 		const NXC_DJTurntable_Configuration side = NXC_DJTurntable_BaseOnly;
 	protected:
 		int8_t tableSignConversion(int8_t turnData) const;
-		DJTurntableController & base;
+		const DJTurntableController & base;
 	};
 
 	class TurntableLeft : public TurntableExpansion {
@@ -104,7 +104,7 @@ public:
 		EffectRollover(DJTurntableController & controller) : RolloverChange(0, 31), dj(controller) {}
 		int8_t getChange();
 	private:
-		DJTurntableController & dj;
+		const DJTurntableController & dj;
 	};
 
 private:

@@ -69,6 +69,13 @@ NXC_ControllerType ExtensionController::identifyController() {
 	return busData->connectedID = NXCtrl::identifyController(busData->I2C_Bus);
 }
 
+void ExtensionController::reset() {
+	busData->connectedID = NXC_NoController;
+	for (int i = 0; i < NXC_CONTROL_DATA_MAX; i++) {
+		busData->controlData[i] = 0;
+	}
+}
+
 boolean ExtensionController::controllerIDMatches() const {
 	if (busData->connectedID == ControllerID) {
 		return true;  // Match!

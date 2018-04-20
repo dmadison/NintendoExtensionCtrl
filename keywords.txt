@@ -42,6 +42,8 @@ reconnect	KEYWORD2
 update	KEYWORD2
 identifyController	KEYWORD2
 
+reset	KEYWORD2
+
 getConnectedID	KEYWORD2
 getControlData	KEYWORD2
 getControlBit	KEYWORD2

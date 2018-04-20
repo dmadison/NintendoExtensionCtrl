@@ -179,8 +179,8 @@ boolean DJTurntableController::TurntableExpansion::connected() const {
 }
 
 int8_t DJTurntableController::TurntableExpansion::tableSignConversion(int8_t turnData) const {
-	if (turnData >= 32) {  // Scales the unsigned 0-63 as signed, symmetrical about 0
-		turnData = -32 + (turnData - 32);
+	if (turnData & 0x80) {  // If sign bit is 1...
+		turnData |= 0x60;  // Flip missing bits to '1's
 	}
 	return turnData;
 }
@@ -188,7 +188,7 @@ int8_t DJTurntableController::TurntableExpansion::tableSignConversion(int8_t tur
 // Left Turntable
 int8_t DJTurntableController::TurntableLeft::turntable() const {
 	int8_t turnData = base.getControlData(3) & 0x1F;
-	turnData |= ((base.getControlData(4) & 0x01) << 5);  // Sign bit
+	turnData |= ((base.getControlData(4) & 0x01) << 7);  // Sign bit
 
 	return tableSignConversion(turnData);
 }
@@ -208,7 +208,7 @@ boolean DJTurntableController::TurntableLeft::buttonBlue() const {
 // Right Turntable
 int8_t DJTurntableController::TurntableRight::turntable() const {
 	int8_t turnData = ((base.getControlData(0) & 0xC0) >> 3) | ((base.getControlData(1) & 0xC0) >> 5) | ((base.getControlData(2) & 0x80) >> 7);
-	turnData |= ((base.getControlData(2) & 0x01) << 5);  // Sign bit
+	turnData |= ((base.getControlData(2) & 0x01) << 7);  // Sign bit
 
 	return tableSignConversion(turnData);
 }

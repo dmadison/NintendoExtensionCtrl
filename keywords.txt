@@ -25,6 +25,10 @@ NXC_ControllerType	KEYWORD1
 NXC_DrumVelocityID	KEYWORD1
 NXC_DJTurntable_Configuration	KEYWORD1
 
+# Sub-Classes
+TurntableExpansion	KEYWORD1
+EffectRollover	KEYWORD1
+
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
@@ -47,6 +51,9 @@ setEnforceID	KEYWORD2
 printDebug	KEYWORD2
 printDebugID	KEYWORD2
 printDebugRaw	KEYWORD2
+
+# Helper Classes
+getChange	KEYWORD2
 
 ## Nunchuk
 joyX	KEYWORD2

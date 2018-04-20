@@ -69,6 +69,20 @@ namespace NintendoExtensionCtrl {
 	// Utility
 	boolean verifyData(const uint8_t * dataIn, uint8_t dataSize);
 	void printRaw(const uint8_t * dataIn, uint8_t dataSize, Stream& stream = NXC_SERIAL_DEFAULT, uint8_t baseFormat = HEX);
+
+	class RolloverChange {
+	public:
+		RolloverChange(uint8_t min, uint8_t max);
+		int8_t getChange(uint8_t valIn);
+	private:
+		int8_t rolloverOut(uint8_t c1, uint8_t c2) const;
+		uint8_t halfRange() const;
+
+		const uint8_t minValue;
+		const uint8_t maxValue;
+
+		uint8_t lastValue = 0;
+	};
 }
 
 namespace NXCtrl = NintendoExtensionCtrl;  // Alias for shorter access

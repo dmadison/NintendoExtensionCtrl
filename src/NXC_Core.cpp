@@ -169,5 +169,41 @@ namespace NintendoExtensionCtrl {
 		}
 		stream.println();
 	}
+
+	RolloverChange::RolloverChange(uint8_t min, uint8_t max) :
+		minValue(min), maxValue(max) {}
+
+	int8_t RolloverChange::getChange(uint8_t valIn) {
+		if (valIn == lastValue ||
+			valIn < minValue || valIn > maxValue) {
+			return 0;  // No change, or out of range
+		}
+
+		int8_t outValue = 0;
+		if (abs(valIn - lastValue) >= halfRange()){  // Assume rollover
+			// Rollover, going up
+			if (valIn < lastValue) {
+				outValue = rolloverOut(valIn, lastValue);
+			}
+			// Rollover, going down
+			else if (valIn > lastValue) {
+				outValue = -rolloverOut(lastValue, valIn);
+			}
+		}
+		else {  // Normal change
+			outValue = valIn - lastValue;
+		}
+
+		lastValue = valIn;  // Store current value for comparison next time
+		return outValue;
+	}
+
+	int8_t RolloverChange::rolloverOut(uint8_t c1, uint8_t c2) const {
+		return (maxValue - c2) + c1 + 1;
+	}
+
+	uint8_t RolloverChange::halfRange() const {
+		return ((maxValue - minValue) / 2) + 1;
+	}
 }
 

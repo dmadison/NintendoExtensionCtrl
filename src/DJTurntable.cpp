@@ -227,3 +227,8 @@ boolean DJTurntableController::TurntableRight::buttonRed() {
 boolean DJTurntableController::TurntableRight::buttonBlue() {
 	return base.getControlBit(5, 2);
 }
+
+// Effect Rollover
+int8_t DJTurntableController::EffectRollover::getChange() {
+	return RolloverChange::getChange(dj.effectDial());
+}

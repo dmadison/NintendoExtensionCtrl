@@ -99,6 +99,14 @@ public:
 		boolean buttonBlue();
 	} right;
 
+	class EffectRollover : private NXCtrl::RolloverChange {
+	public:
+		EffectRollover(DJTurntableController & controller) : RolloverChange(0, 31, 6), dj(controller) {}
+		int8_t getChange();
+	private:
+		DJTurntableController & dj;
+	};
+
 private:
 	void printTurntable(Stream& stream, TurntableExpansion &table);
 

@@ -55,10 +55,10 @@ public:
 
 	void setEnforceID(boolean enforce);
 
-	void printDebug(Stream& stream = NXC_SERIAL_DEFAULT);
-	void printDebugID(Stream& stream = NXC_SERIAL_DEFAULT);
-	void printDebugRaw(uint8_t baseFormat);
-	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT, uint8_t baseFormat = HEX);
+	void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+	void printDebugID(Stream& stream = NXC_SERIAL_DEFAULT) const;
+	void printDebugRaw(uint8_t baseFormat) const;
+	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT, uint8_t baseFormat = HEX) const;
 
 	const NXC_ControllerType ControllerID = NXC_UnknownController;
 	const uint8_t ControlDataSize = NXC_CONTROL_DATA_MAX;  // Bytes per update
@@ -68,7 +68,7 @@ protected:
 	ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize);
 
 private:
-	boolean controllerIDMatches();
+	boolean controllerIDMatches() const;
 
 	ExtensionData * busData;
 	boolean enforceControllerID = false;  // Off for generic controllers

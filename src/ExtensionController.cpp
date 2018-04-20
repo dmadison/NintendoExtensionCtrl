@@ -69,7 +69,7 @@ NXC_ControllerType ExtensionController::identifyController() {
 	return busData->connectedID = NXCtrl::identifyController(busData->I2C_Bus);
 }
 
-boolean ExtensionController::controllerIDMatches() {
+boolean ExtensionController::controllerIDMatches() const {
 	if (busData->connectedID == ControllerID) {
 		return true;  // Match!
 	}
@@ -106,11 +106,11 @@ boolean ExtensionController::getControlBit(uint8_t arrIndex, uint8_t bitNum) con
 	return !(busData->controlData[arrIndex] & (1 << bitNum));
 }
 
-void ExtensionController::printDebug(Stream& stream) {
+void ExtensionController::printDebug(Stream& stream) const {
 	printDebugRaw(stream);
 }
 
-void ExtensionController::printDebugID(Stream& stream) {
+void ExtensionController::printDebugID(Stream& stream) const {
 	uint8_t idData[NXCtrl::IDHeaderSize];
 	boolean success = NXCtrl::requestIdentity(busData->I2C_Bus, idData);
 
@@ -123,10 +123,10 @@ void ExtensionController::printDebugID(Stream& stream) {
 	}
 }
 
-void ExtensionController::printDebugRaw(uint8_t baseFormat) {
+void ExtensionController::printDebugRaw(uint8_t baseFormat) const {
 	printDebugRaw(NXC_SERIAL_DEFAULT, baseFormat);
 }
 
-void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) {
+void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) const {
 	NXCtrl::printRaw(busData->controlData, ControlDataSize, stream, baseFormat);
 }

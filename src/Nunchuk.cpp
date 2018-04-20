@@ -25,44 +25,44 @@
 Nunchuk::Nunchuk(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_Nunchuk, 6) {}
 Nunchuk::Nunchuk(ExtensionData& busData) : ExtensionController(busData, NXC_Nunchuk, 6) {}
 
-uint8_t Nunchuk::joyX() {
+uint8_t Nunchuk::joyX() const {
 	return getControlData(0);
 }
 
-uint8_t Nunchuk::joyY() {
+uint8_t Nunchuk::joyY() const {
 	return getControlData(1);
 }
 
-uint16_t Nunchuk::accelX() {
+uint16_t Nunchuk::accelX() const {
 	return getControlData(2) << 2 | ((getControlData(5) >> 6) & 0x03) ;
 }
 
-uint16_t Nunchuk::accelY() {
+uint16_t Nunchuk::accelY() const {
 	return getControlData(3) << 2 | ((getControlData(5) >> 4) & 0x03);
 }
 
-uint16_t Nunchuk::accelZ() {
+uint16_t Nunchuk::accelZ() const {
 	return getControlData(4) << 2 | ((getControlData(5) >> 2) & 0x03);
 }
 
-boolean Nunchuk::buttonC() {
+boolean Nunchuk::buttonC() const {
 	return getControlBit(5, 1);
 }
 
-boolean Nunchuk::buttonZ() {
+boolean Nunchuk::buttonZ() const {
 	return getControlBit(5, 0);
 }
 
-float Nunchuk::rollAngle() {
+float Nunchuk::rollAngle() const {
 	return atan2((float)accelX() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
-float Nunchuk::pitchAngle() {
+float Nunchuk::pitchAngle() const {
 	// Inverted so pulling back is a positive pitch
 	return -atan2((float)accelY() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
-void Nunchuk::printDebug(Stream& stream) {
+void Nunchuk::printDebug(Stream& stream) const {
 	char buffer[60];
 
 	char cPrint = buttonC() ? 'C' : '-';

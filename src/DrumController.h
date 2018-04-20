@@ -40,37 +40,37 @@ public:
 	DrumController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	DrumController(ExtensionData& busData);
 
-	uint8_t joyX();  // 6 bits, 0-63
-	uint8_t joyY();
+	uint8_t joyX() const;  // 6 bits, 0-63
+	uint8_t joyY() const;
 
-	boolean drumRed();
-	boolean drumBlue();
-	boolean drumGreen();
+	boolean drumRed() const;
+	boolean drumBlue() const;
+	boolean drumGreen() const;
 
-	boolean cymbalYellow();
-	boolean cymbalOrange();
+	boolean cymbalYellow() const;
+	boolean cymbalOrange() const;
 	
-	boolean bassPedal();
+	boolean bassPedal() const;
 
-	boolean buttonPlus();
-	boolean buttonMinus();
+	boolean buttonPlus() const;
+	boolean buttonMinus() const;
 
-	boolean velocityAvailable();
-	NXC_DrumVelocityID velocityID();
+	boolean velocityAvailable() const;
+	NXC_DrumVelocityID velocityID() const;
 
-	uint8_t velocity();  // 3 bits, 0-7. 7 is fast/hard, 1 is slow/soft, 0 is not hit.
-	uint8_t velocity(NXC_DrumVelocityID idIn);  // velocity by ID
+	uint8_t velocity() const;  // 3 bits, 0-7. 7 is fast/hard, 1 is slow/soft, 0 is not hit.
+	uint8_t velocity(NXC_DrumVelocityID idIn) const;  // velocity by ID
 
-	uint8_t velocityRed();
-	uint8_t velocityBlue();
-	uint8_t velocityGreen();
-	uint8_t velocityYellow();
-	uint8_t velocityOrange();
-	uint8_t velocityPedal();
+	uint8_t velocityRed() const;
+	uint8_t velocityBlue() const;
+	uint8_t velocityGreen() const;
+	uint8_t velocityYellow() const;
+	uint8_t velocityOrange() const;
+	uint8_t velocityPedal() const;
 
-	void printDebug(Stream& stream = NXC_SERIAL_DEFAULT);
+	void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
 private:
-	boolean validVelocityID(uint8_t idIn);
+	boolean validVelocityID(uint8_t idIn) const;
 };
 
 #endif

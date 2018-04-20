@@ -37,22 +37,22 @@ public:
 	DJTurntableController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	DJTurntableController(ExtensionData& busData);
 
-	int8_t turntable();  // 6 bits, -30-29. Clockwise = positive, faster = larger.
+	int8_t turntable() const;  // 6 bits, -30-29. Clockwise = positive, faster = larger.
 
-	boolean buttonGreen();
-	boolean buttonRed();
-	boolean buttonBlue();
+	boolean buttonGreen() const;
+	boolean buttonRed() const;
+	boolean buttonBlue() const;
 
-	uint8_t effectDial();  // 5 bits, 0-31. One rotation per rollover.
-	int8_t crossfadeSlider();  // 4 bits, -8-7. Negative to the left.
+	uint8_t effectDial() const;  // 5 bits, 0-31. One rotation per rollover.
+	int8_t crossfadeSlider() const;  // 4 bits, -8-7. Negative to the left.
 	
-	boolean buttonEuphoria();
+	boolean buttonEuphoria() const;
 
-	uint8_t joyX();  // 6 bits, 0-63
-	uint8_t joyY();
+	uint8_t joyX() const;  // 6 bits, 0-63
+	uint8_t joyY() const;
 
-	boolean buttonPlus();
-	boolean buttonMinus();
+	boolean buttonPlus() const;
+	boolean buttonMinus() const;
 
 	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
 
@@ -63,17 +63,17 @@ public:
 	public:
 		TurntableExpansion(NXC_DJTurntable_Configuration conf, DJTurntableController &baseObj)
 			: side(conf), base(baseObj) {}
-		boolean connected();
+		boolean connected() const;
 
-		virtual int8_t turntable() = 0;
+		virtual int8_t turntable() const = 0;
 
-		virtual boolean buttonGreen() = 0;
-		virtual boolean buttonRed() = 0;
-		virtual boolean buttonBlue() = 0;
+		virtual boolean buttonGreen() const = 0;
+		virtual boolean buttonRed() const = 0;
+		virtual boolean buttonBlue() const = 0;
 
 		const NXC_DJTurntable_Configuration side = NXC_DJTurntable_BaseOnly;
 	protected:
-		int8_t tableSignConversion(int8_t turnData);
+		int8_t tableSignConversion(int8_t turnData) const;
 		DJTurntableController & base;
 	};
 
@@ -81,22 +81,22 @@ public:
 	public:
 		TurntableLeft(DJTurntableController &baseObj)
 			: TurntableExpansion(NXC_DJTurntable_Left, baseObj) {}
-		int8_t turntable();
+		int8_t turntable() const;
 
-		boolean buttonGreen();
-		boolean buttonRed();
-		boolean buttonBlue();
+		boolean buttonGreen() const;
+		boolean buttonRed() const;
+		boolean buttonBlue()  const;
 	} left;
 
 	class TurntableRight: public TurntableExpansion {
 	public:
 		TurntableRight(DJTurntableController &baseObj)
 			: TurntableExpansion(NXC_DJTurntable_Right, baseObj) {}
-		int8_t turntable();
+		int8_t turntable() const;
 
-		boolean buttonGreen();
-		boolean buttonRed();
-		boolean buttonBlue();
+		boolean buttonGreen() const;
+		boolean buttonRed() const;
+		boolean buttonBlue() const;
 	} right;
 
 	class EffectRollover : private NXCtrl::RolloverChange {
@@ -108,7 +108,7 @@ public:
 	};
 
 private:
-	void printTurntable(Stream& stream, TurntableExpansion &table);
+	void printTurntable(Stream& stream, TurntableExpansion &table) const;
 
 	NXC_DJTurntable_Configuration tableConfig = NXC_DJTurntable_BaseOnly;
 };

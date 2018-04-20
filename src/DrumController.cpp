@@ -25,51 +25,51 @@
 DrumController::DrumController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_DrumController, 6) {}
 DrumController::DrumController(ExtensionData& busData) : ExtensionController(busData, NXC_DrumController, 6) {}
 
-uint8_t DrumController::joyX() {
+uint8_t DrumController::joyX() const {
 	return getControlData(0) & 0x3F;
 }
 
-uint8_t DrumController::joyY() {
+uint8_t DrumController::joyY() const {
 	return getControlData(1) & 0x3F;
 }
 
-boolean DrumController::drumRed() {
+boolean DrumController::drumRed() const {
 	return getControlBit(5, 6);
 }
 
-boolean DrumController::drumBlue() {
+boolean DrumController::drumBlue() const {
 	return getControlBit(5, 3);
 }
 
-boolean DrumController::drumGreen() {
+boolean DrumController::drumGreen() const {
 	return getControlBit(5, 4);
 }
 
-boolean DrumController::cymbalYellow() {
+boolean DrumController::cymbalYellow() const {
 	return getControlBit(5, 5);
 }
 
-boolean DrumController::cymbalOrange() {
+boolean DrumController::cymbalOrange() const {
 	return getControlBit(5, 7);
 }
 
-boolean DrumController::bassPedal() {
+boolean DrumController::bassPedal() const {
 	return getControlBit(5, 2);
 }
 
-boolean DrumController::buttonPlus() {
+boolean DrumController::buttonPlus() const {
 	return getControlBit(4, 2);
 }
 
-boolean DrumController::buttonMinus() {
+boolean DrumController::buttonMinus() const {
 	return getControlBit(4, 4);
 }
 
-boolean DrumController::velocityAvailable() {
+boolean DrumController::velocityAvailable() const {
 	return getControlBit(2, 6);
 }
 
-NXC_DrumVelocityID DrumController::velocityID() {
+NXC_DrumVelocityID DrumController::velocityID() const {
 	uint8_t velocityID = (getControlData(2) & 0x3E) >> 1;  // 5 bit identifier
 
 	if (validVelocityID(velocityID)) {
@@ -79,7 +79,7 @@ NXC_DrumVelocityID DrumController::velocityID() {
 	return NXC_Drum_None;
 }
 
-boolean DrumController::validVelocityID(uint8_t idIn) {
+boolean DrumController::validVelocityID(uint8_t idIn) const {
 	switch (idIn) {
 		case(NXC_Drum_None):  // Intentionally fall through cases
 		case(NXC_Drum_Red):
@@ -95,7 +95,7 @@ boolean DrumController::validVelocityID(uint8_t idIn) {
 	}
 }
 
-uint8_t DrumController::velocity() {
+uint8_t DrumController::velocity() const {
 	if (velocityAvailable()) {
 		uint8_t velocityRaw = (getControlData(3) & 0xE0) >> 5;
 		velocityRaw = 7 - velocityRaw;  // Invert so high = fast attack
@@ -104,38 +104,38 @@ uint8_t DrumController::velocity() {
 	return 0;  // Invalid data
 }
 
-uint8_t DrumController::velocity(NXC_DrumVelocityID idIn) {
+uint8_t DrumController::velocity(NXC_DrumVelocityID idIn) const {
 	if (idIn == velocityID()) {
 		return velocity();
 	}
 	return 0;  // ID mismatch
 }
 
-uint8_t DrumController::velocityRed() {
+uint8_t DrumController::velocityRed() const {
 	return velocity(NXC_Drum_Red);
 }
 
-uint8_t DrumController::velocityBlue() {
+uint8_t DrumController::velocityBlue() const {
 	return velocity(NXC_Drum_Blue);
 }
 
-uint8_t DrumController::velocityGreen() {
+uint8_t DrumController::velocityGreen() const {
 	return velocity(NXC_Drum_Green);
 }
 
-uint8_t DrumController::velocityYellow() {
+uint8_t DrumController::velocityYellow() const {
 	return velocity(NXC_Drum_Yellow);
 }
 
-uint8_t DrumController::velocityOrange() {
+uint8_t DrumController::velocityOrange() const {
 	return velocity(NXC_Drum_Orange);
 }
 
-uint8_t DrumController::velocityPedal() {
+uint8_t DrumController::velocityPedal() const {
 	return velocity(NXC_Drum_Pedal);  // Fix this
 }
 
-void DrumController::printDebug(Stream& stream) {
+void DrumController::printDebug(Stream& stream) const {
 	const char fillCharacter = '_';
 	
 	char buffer[45];

@@ -25,91 +25,91 @@
 ClassicController::ClassicController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_ClassicController, 6) {}
 ClassicController::ClassicController(ExtensionData& busData) : ExtensionController(busData, NXC_ClassicController, 6) {}
 
-uint8_t ClassicController::leftJoyX() {
+uint8_t ClassicController::leftJoyX() const {
 	return getControlData(0) & 0x3F;
 }
 
-uint8_t ClassicController::leftJoyY() {
+uint8_t ClassicController::leftJoyY() const {
 	return getControlData(1) & 0x3F;
 }
 
-uint8_t ClassicController::rightJoyX() {
+uint8_t ClassicController::rightJoyX() const {
 	return ((getControlData(0) >> 3) & 0x18) | ((getControlData(1) >> 5) &  0x06 ) | (getControlData(2) >> 7);
 }
 
-uint8_t ClassicController::rightJoyY() {
+uint8_t ClassicController::rightJoyY() const {
 	return getControlData(2) & 0x1F;
 }
 
-boolean ClassicController::dpadUp() {
+boolean ClassicController::dpadUp() const {
 	return getControlBit(5, 0);
 }
 
-boolean ClassicController::dpadDown() {
+boolean ClassicController::dpadDown() const {
 	return getControlBit(4, 6);
 }
 
-boolean ClassicController::dpadLeft() {
+boolean ClassicController::dpadLeft() const {
 	return getControlBit(5, 1);
 }
 
-boolean ClassicController::dpadRight() {
+boolean ClassicController::dpadRight() const {
 	return getControlBit(4, 7);
 }
 
-boolean ClassicController::buttonA() {
+boolean ClassicController::buttonA() const {
 	return getControlBit(5, 4);
 }
 
-boolean ClassicController::buttonB() {
+boolean ClassicController::buttonB() const {
 	return getControlBit(5, 6);
 }
 
-boolean ClassicController::buttonX() {
+boolean ClassicController::buttonX() const {
 	return getControlBit(5, 3);
 }
 
-boolean ClassicController::buttonY() {
+boolean ClassicController::buttonY() const {
 	return getControlBit(5, 5);
 }
 
-uint8_t ClassicController::triggerL() {
+uint8_t ClassicController::triggerL() const {
 	return ((getControlData(2) & 0x60) >> 2) | getControlData(3) >> 5;
 }
 
-uint8_t ClassicController::triggerR() {
+uint8_t ClassicController::triggerR() const {
 	return getControlData(3) & 0x1F;
 }
 
-boolean ClassicController::buttonLT() {
+boolean ClassicController::buttonLT() const {
 	return getControlBit(4, 5);
 }
 
-boolean ClassicController::buttonRT() {
+boolean ClassicController::buttonRT() const {
 	return getControlBit(4, 1);
 }
 
-boolean ClassicController::buttonZL() {
+boolean ClassicController::buttonZL() const {
 	return getControlBit(5, 7);
 }
 
-boolean ClassicController::buttonZR() {
+boolean ClassicController::buttonZR() const {
 	return getControlBit(5, 2);
 }
 
-boolean ClassicController::buttonPlus() {
+boolean ClassicController::buttonPlus() const {
 	return getControlBit(4, 2);
 }
 
-boolean ClassicController::buttonMinus() {
+boolean ClassicController::buttonMinus() const {
 	return getControlBit(4, 4);
 }
 
-boolean ClassicController::buttonHome() {
+boolean ClassicController::buttonHome() const {
 	return getControlBit(4, 3);
 }
 
-void ClassicController::printDebug(Stream& stream) {
+void ClassicController::printDebug(Stream& stream) const {
 	const char fillCharacter = '_';
 
 	char buffer[62];

@@ -25,80 +25,80 @@
 GuitarController::GuitarController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_GuitarController, 6) {}
 GuitarController::GuitarController(ExtensionData& busData) : ExtensionController(busData, NXC_GuitarController, 6) {}
 
-uint8_t GuitarController::joyX() {
+uint8_t GuitarController::joyX() const {
 	return getControlData(0) & 0x3F;
 }
 
-uint8_t GuitarController::joyY() {
+uint8_t GuitarController::joyY() const {
 	return getControlData(1) & 0x3F;
 }
 
-boolean GuitarController::strum() {
+boolean GuitarController::strum() const {
 	return strumUp() | strumDown();
 }
 
-boolean GuitarController::strumUp() {
+boolean GuitarController::strumUp() const {
 	return getControlBit(5, 0);
 }
 
-boolean GuitarController::strumDown() {
+boolean GuitarController::strumDown() const {
 	return getControlBit(4, 6);
 }
 
-boolean GuitarController::fretGreen() {
+boolean GuitarController::fretGreen() const {
 	return getControlBit(5, 4);
 }
 
-boolean GuitarController::fretRed() {
+boolean GuitarController::fretRed() const {
 	return getControlBit(5, 6);
 }
 
-boolean GuitarController::fretYellow() {
+boolean GuitarController::fretYellow() const {
 	return getControlBit(5, 3);
 }
 
-boolean GuitarController::fretBlue() {
+boolean GuitarController::fretBlue() const {
 	return getControlBit(5, 5);
 }
 
-boolean GuitarController::fretOrange() {
+boolean GuitarController::fretOrange() const {
 	return getControlBit(5, 7);
 }
 
-uint8_t GuitarController::whammyBar() {
+uint8_t GuitarController::whammyBar() const {
 	return getControlData(3) & 0x1F;
 }
 
-uint8_t GuitarController::touchbar() {
+uint8_t GuitarController::touchbar() const {
 	return getControlData(2) & 0x1F;
 }
 
-boolean GuitarController::touchGreen() {
+boolean GuitarController::touchGreen() const {
 	return touchbar() != 0 && touchbar() <= 7;
 }
 
-boolean GuitarController::touchRed() {
+boolean GuitarController::touchRed() const {
 	return touchbar() >= 7 && touchbar() <= 13;
 }
 
-boolean GuitarController::touchYellow() {
+boolean GuitarController::touchYellow() const {
 	return touchbar() >= 12 && touchbar() <= 21
 		&& touchbar() != 15;	// The "not touched" value
 }
 
-boolean GuitarController::touchBlue() {
+boolean GuitarController::touchBlue() const {
 	return touchbar() >= 20 && touchbar() <= 26;
 }
 
-boolean GuitarController::touchOrange() {
+boolean GuitarController::touchOrange() const {
 	return touchbar() >= 26;
 }
 
-boolean GuitarController::buttonPlus() {
+boolean GuitarController::buttonPlus() const {
 	return getControlBit(4, 2);
 }
 
-boolean GuitarController::buttonMinus() {
+boolean GuitarController::buttonMinus() const {
 	return getControlBit(4, 4);
 }
 

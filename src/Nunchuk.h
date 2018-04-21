@@ -30,20 +30,20 @@ public:
 	Nunchuk(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	Nunchuk(ExtensionData& busData);
 
-	uint8_t joyX();  // 8 bits, 0-255
-	uint8_t joyY();
+	uint8_t joyX() const;  // 8 bits, 0-255
+	uint8_t joyY() const;
 
-	uint16_t accelX();  // 10 bits, 0-1023
-	uint16_t accelY();
-	uint16_t accelZ();
+	uint16_t accelX() const;  // 10 bits, 0-1023
+	uint16_t accelY() const;
+	uint16_t accelZ() const;
 
-	boolean buttonC();
-	boolean buttonZ();
+	boolean buttonC() const;
+	boolean buttonZ() const;
 
-	float rollAngle();  // -180.0 to 180.0
-	float pitchAngle();
+	float rollAngle() const;  // -180.0 to 180.0
+	float pitchAngle() const;
 
-	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
+	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT) const;
 };
 
 #endif

@@ -30,30 +30,30 @@ public:
 	GuitarController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	GuitarController(ExtensionData& busData);
 
-	uint8_t joyX();  // 6 bits, 0-63
-	uint8_t joyY();
+	uint8_t joyX() const;  // 6 bits, 0-63
+	uint8_t joyY() const;
 
-	boolean strum();
-	boolean strumUp();
-	boolean strumDown();
+	boolean strum() const;
+	boolean strumUp() const;
+	boolean strumDown() const;
 
-	boolean fretGreen();
-	boolean fretRed();
-	boolean fretYellow();
-	boolean fretBlue();
-	boolean fretOrange();
+	boolean fretGreen() const;
+	boolean fretRed() const;
+	boolean fretYellow() const;
+	boolean fretBlue() const;
+	boolean fretOrange() const;
 
-	uint8_t whammyBar();  // 5 bits, 0-31 (starting at ~15-16)
+	uint8_t whammyBar() const;  // 5 bits, 0-31 (starting at ~15-16)
 
-	uint8_t touchbar();  // 5 bits, 0-31
-	boolean touchGreen();
-	boolean touchRed();
-	boolean touchYellow();
-	boolean touchBlue();
-	boolean touchOrange();
+	uint8_t touchbar() const;  // 5 bits, 0-31
+	boolean touchGreen() const;
+	boolean touchRed() const;
+	boolean touchYellow() const;
+	boolean touchBlue() const;
+	boolean touchOrange() const;
 
-	boolean buttonPlus();
-	boolean buttonMinus();
+	boolean buttonPlus() const;
+	boolean buttonMinus() const;
 
 	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
 

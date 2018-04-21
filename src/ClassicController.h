@@ -30,36 +30,36 @@ public:
 	ClassicController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	ClassicController(ExtensionData& busData);
 
-	uint8_t leftJoyX();  // 6 bits, 0-63
-	uint8_t leftJoyY();
+	uint8_t leftJoyX() const;  // 6 bits, 0-63
+	uint8_t leftJoyY() const;
 
-	uint8_t rightJoyX();  // 5 bits, 0-31
-	uint8_t rightJoyY();
+	uint8_t rightJoyX() const;  // 5 bits, 0-31
+	uint8_t rightJoyY() const;
 
-	boolean dpadUp();
-	boolean dpadDown();
-	boolean dpadLeft();
-	boolean dpadRight();
+	boolean dpadUp() const;
+	boolean dpadDown() const;
+	boolean dpadLeft() const;
+	boolean dpadRight() const;
 
-	boolean buttonA();
-	boolean buttonB();
-	boolean buttonX();
-	boolean buttonY();
+	boolean buttonA() const;
+	boolean buttonB() const;
+	boolean buttonX() const;
+	boolean buttonY() const;
 
-	uint8_t triggerL();  // 5 bits, 0-31
-	uint8_t triggerR();
+	uint8_t triggerL() const;  // 5 bits, 0-31
+	uint8_t triggerR() const;
 
-	boolean buttonLT();
-	boolean buttonRT();
+	boolean buttonLT() const;
+	boolean buttonRT() const;
 
-	boolean buttonZL();
-	boolean buttonZR();
+	boolean buttonZL() const;
+	boolean buttonZR() const;
 
-	boolean buttonPlus();
-	boolean buttonMinus();
-	boolean buttonHome();
+	boolean buttonPlus() const;
+	boolean buttonMinus() const;
+	boolean buttonHome() const;
 	
-	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
+	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT) const;
 };
 
 #endif

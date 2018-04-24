@@ -25,7 +25,23 @@
 
 #include "ExtensionController.h"
 
-class ClassicController : public ExtensionController {
+namespace NintendoExtensionCtrl {
+	class GamepadCore : virtual public ExtensionController {
+	public:
+		boolean dpadUp() const;
+		boolean dpadDown() const;
+		boolean dpadLeft() const;
+		boolean dpadRight() const;
+
+		boolean buttonA() const;
+		boolean buttonB() const;
+
+		boolean buttonStart() const;
+		boolean buttonSelect() const;
+	};
+}
+
+class ClassicController : public NintendoExtensionCtrl::GamepadCore {
 public:
 	ClassicController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	ClassicController(ExtensionData& busData);
@@ -36,13 +52,6 @@ public:
 	uint8_t rightJoyX() const;  // 5 bits, 0-31
 	uint8_t rightJoyY() const;
 
-	boolean dpadUp() const;
-	boolean dpadDown() const;
-	boolean dpadLeft() const;
-	boolean dpadRight() const;
-
-	boolean buttonA() const;
-	boolean buttonB() const;
 	boolean buttonX() const;
 	boolean buttonY() const;
 

@@ -22,6 +22,40 @@
 
 #include "ClassicController.h"
 
+namespace NintendoExtensionCtrl {
+	boolean GamepadCore::dpadUp() const {
+		return getControlBit(5, 0);
+	}
+
+	boolean GamepadCore::dpadDown() const {
+		return getControlBit(4, 6);
+	}
+
+	boolean GamepadCore::dpadLeft() const {
+		return getControlBit(5, 1);
+	}
+
+	boolean GamepadCore::dpadRight() const {
+		return getControlBit(4, 7);
+	}
+
+	boolean GamepadCore::buttonA() const {
+		return getControlBit(5, 4);
+	}
+
+	boolean GamepadCore::buttonB() const {
+		return getControlBit(5, 6);
+	}
+
+	boolean GamepadCore::buttonStart() const {
+		return getControlBit(4, 2);
+	}
+
+	boolean GamepadCore::buttonSelect() const {
+		return getControlBit(4, 4);
+	}
+}
+
 ClassicController::ClassicController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_ClassicController, 6) {}
 ClassicController::ClassicController(ExtensionData& busData) : ExtensionController(busData, NXC_ClassicController, 6) {}
 
@@ -39,30 +73,6 @@ uint8_t ClassicController::rightJoyX() const {
 
 uint8_t ClassicController::rightJoyY() const {
 	return getControlData(2) & 0x1F;
-}
-
-boolean ClassicController::dpadUp() const {
-	return getControlBit(5, 0);
-}
-
-boolean ClassicController::dpadDown() const {
-	return getControlBit(4, 6);
-}
-
-boolean ClassicController::dpadLeft() const {
-	return getControlBit(5, 1);
-}
-
-boolean ClassicController::dpadRight() const {
-	return getControlBit(4, 7);
-}
-
-boolean ClassicController::buttonA() const {
-	return getControlBit(5, 4);
-}
-
-boolean ClassicController::buttonB() const {
-	return getControlBit(5, 6);
 }
 
 boolean ClassicController::buttonX() const {
@@ -98,11 +108,11 @@ boolean ClassicController::buttonZR() const {
 }
 
 boolean ClassicController::buttonPlus() const {
-	return getControlBit(4, 2);
+	return buttonStart();
 }
 
 boolean ClassicController::buttonMinus() const {
-	return getControlBit(4, 4);
+	return buttonSelect();
 }
 
 boolean ClassicController::buttonHome() const {

@@ -39,9 +39,18 @@ namespace NintendoExtensionCtrl {
 		boolean buttonStart() const;
 		boolean buttonSelect() const;
 	};
+
+	class GamepadSuper : virtual public GamepadCore {
+	public:
+		boolean buttonX() const;
+		boolean buttonY() const;
+
+		boolean buttonL() const;
+		boolean buttonR() const;
+	};
 }
 
-class ClassicController : public NintendoExtensionCtrl::GamepadCore {
+class ClassicController : public NintendoExtensionCtrl::GamepadSuper {
 public:
 	ClassicController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	ClassicController(ExtensionData& busData);
@@ -52,14 +61,8 @@ public:
 	uint8_t rightJoyX() const;  // 5 bits, 0-31
 	uint8_t rightJoyY() const;
 
-	boolean buttonX() const;
-	boolean buttonY() const;
-
 	uint8_t triggerL() const;  // 5 bits, 0-31
 	uint8_t triggerR() const;
-
-	boolean buttonL() const;
-	boolean buttonR() const;
 
 	boolean buttonZL() const;
 	boolean buttonZR() const;

@@ -55,8 +55,12 @@ public:
 	boolean buttonZL() const;
 	boolean buttonZR() const;
 
+	boolean buttonStart() const;
+	boolean buttonSelect() const;
+
 	boolean buttonPlus() const;
 	boolean buttonMinus() const;
+
 	boolean buttonHome() const;
 	
 	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT) const;

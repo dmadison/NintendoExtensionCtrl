@@ -101,8 +101,12 @@ buttonRT	KEYWORD2
 buttonZL	KEYWORD2
 buttonZR	KEYWORD2
 
+buttonStart	KEYWORD2
+buttonSelect	KEYWORD2
+
 buttonPlus	KEYWORD2
 buttonMinus	KEYWORD2
+
 buttonHome	KEYWORD2
 
 ## Guitar Controller

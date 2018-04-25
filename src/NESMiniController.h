@@ -20,21 +20,17 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NintendoExtensionCtrl_h
-#define NintendoExtensionCtrl_h
+#ifndef NXC_NESMiniController_h
+#define NXC_NESMiniController_h
 
-// Controller Base
-#include "ExtensionController.h"
-
-// Wii Controllers
-#include "Nunchuk.h"
 #include "ClassicController.h"
-#include "GuitarController.h"
-#include "DrumController.h"
-#include "DJTurntable.h"
 
-// Mini Controllers
-#include "NESMiniController.h"
+class NESMiniController : public NintendoExtensionCtrl::GamepadCore {
+public:
+	NESMiniController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
+	NESMiniController(ExtensionData& busData);
+	
+	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT) const;
+};
 
 #endif
-

@@ -20,21 +20,30 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NintendoExtensionCtrl_h
-#define NintendoExtensionCtrl_h
-
-// Controller Base
-#include "ExtensionController.h"
-
-// Wii Controllers
-#include "Nunchuk.h"
-#include "ClassicController.h"
-#include "GuitarController.h"
-#include "DrumController.h"
-#include "DJTurntable.h"
-
-// Mini Controllers
 #include "NESMiniController.h"
 
-#endif
+NESMiniController::NESMiniController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_ClassicController, 6) {}
+NESMiniController::NESMiniController(ExtensionData& busData) : ExtensionController(busData, NXC_ClassicController, 6) {}
 
+void NESMiniController::printDebug(Stream& stream) const {
+	const char fillCharacter = '_';
+	
+	stream.print("NES ");
+
+	stream.print(dpadLeft() ? '<' : fillCharacter);
+	stream.print(dpadUp() ? '^' : fillCharacter);
+	stream.print(dpadDown() ? 'v' : fillCharacter);
+	stream.print(dpadRight() ? '>' : fillCharacter);
+	stream.print(" | ");
+
+	buttonSelect() ? (void) stream.print("SEL") : NXCtrl::printRepeat(fillCharacter, 3, stream);
+	stream.print(' ');
+
+	buttonStart() ? (void) stream.print("STR") : NXCtrl::printRepeat(fillCharacter, 3, stream);
+	stream.print(" | ");
+
+	stream.print(buttonB() ? 'B' : fillCharacter);
+	stream.print(buttonA() ? 'A' : fillCharacter);
+
+	stream.println();
+}

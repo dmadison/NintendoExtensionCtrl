@@ -13,12 +13,15 @@ NintendoExtensionCtrl	KEYWORD1
 ExtensionController	KEYWORD1
 ExtensionData	KEYWORD1
 
-# Controller Types
+# Wii Controllers
 Nunchuk	KEYWORD1
 ClassicController	KEYWORD1
 GuitarController	KEYWORD1
 DrumController	KEYWORD1
 DJTurntableController	KEYWORD1
+
+# Mini Controllers
+NESMiniController	KEYWORD1
 
 # Enumerations
 NXC_ControllerType	KEYWORD1
@@ -181,6 +184,9 @@ buttonMinus	KEYWORD2
 
 getTurntableConfig	KEYWORD2
 getNumTurntables	KEYWORD2
+
+## NES Mini Controller
+# (Covered by the Classic Controller keywords)
 
 #######################################
 # Instances (KEYWORD2)

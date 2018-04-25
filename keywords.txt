@@ -22,6 +22,7 @@ DJTurntableController	KEYWORD1
 
 # Mini Controllers
 NESMiniController	KEYWORD1
+SNESMiniController	KEYWORD1
 
 # Enumerations
 NXC_ControllerType	KEYWORD1
@@ -186,6 +187,9 @@ getTurntableConfig	KEYWORD2
 getNumTurntables	KEYWORD2
 
 ## NES Mini Controller
+# (Covered by the Classic Controller keywords)
+
+## SNES Mini Controller
 # (Covered by the Classic Controller keywords)
 
 #######################################

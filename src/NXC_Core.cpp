@@ -170,6 +170,12 @@ namespace NintendoExtensionCtrl {
 		stream.println();
 	}
 
+	void printRepeat(char c, uint8_t nPrint, Stream& stream) {
+		for (int i = 0; i < nPrint; i++) {
+			stream.print(c);
+		}
+	}
+
 	RolloverChange::RolloverChange(uint8_t min, uint8_t max) :
 		minValue(min), maxValue(max) {}
 

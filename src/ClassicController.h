@@ -49,14 +49,18 @@ public:
 	uint8_t triggerL() const;  // 5 bits, 0-31
 	uint8_t triggerR() const;
 
-	boolean buttonLT() const;
-	boolean buttonRT() const;
+	boolean buttonL() const;
+	boolean buttonR() const;
 
 	boolean buttonZL() const;
 	boolean buttonZR() const;
 
+	boolean buttonStart() const;
+	boolean buttonSelect() const;
+
 	boolean buttonPlus() const;
 	boolean buttonMinus() const;
+
 	boolean buttonHome() const;
 	
 	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT) const;

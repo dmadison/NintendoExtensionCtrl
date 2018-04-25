@@ -81,11 +81,11 @@ uint8_t ClassicController::triggerR() const {
 	return getControlData(3) & 0x1F;
 }
 
-boolean ClassicController::buttonLT() const {
+boolean ClassicController::buttonL() const {
 	return getControlBit(4, 5);
 }
 
-boolean ClassicController::buttonRT() const {
+boolean ClassicController::buttonR() const {
 	return getControlBit(4, 1);
 }
 
@@ -97,12 +97,20 @@ boolean ClassicController::buttonZR() const {
 	return getControlBit(5, 2);
 }
 
-boolean ClassicController::buttonPlus() const {
+boolean ClassicController::buttonStart() const {
 	return getControlBit(4, 2);
 }
 
-boolean ClassicController::buttonMinus() const {
+boolean ClassicController::buttonSelect() const {
 	return getControlBit(4, 4);
+}
+
+boolean ClassicController::buttonPlus() const {
+	return buttonStart();
+}
+
+boolean ClassicController::buttonMinus() const {
+	return buttonSelect();
 }
 
 boolean ClassicController::buttonHome() const {
@@ -128,8 +136,8 @@ void ClassicController::printDebug(Stream& stream) const {
 	char minusPrint = buttonMinus() ? '-' : fillCharacter;
 	char homePrint = buttonHome() ? 'H' : fillCharacter;
 
-	char ltButtonPrint = buttonLT() ? 'X' : fillCharacter;
-	char rtButtonPrint = buttonRT() ? 'X' : fillCharacter;
+	char ltButtonPrint = buttonL() ? 'X' : fillCharacter;
+	char rtButtonPrint = buttonR() ? 'X' : fillCharacter;
 
 	char zlButtonPrint = buttonZL() ? 'L' : fillCharacter;
 	char zrButtonPrint = buttonZR() ? 'R' : fillCharacter;

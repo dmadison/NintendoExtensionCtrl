@@ -22,58 +22,6 @@
 
 #include "ClassicController.h"
 
-namespace NintendoExtensionCtrl {
-	// Core Gamepad
-	boolean GamepadCore::dpadUp() const {
-		return getControlBit(5, 0);
-	}
-
-	boolean GamepadCore::dpadDown() const {
-		return getControlBit(4, 6);
-	}
-
-	boolean GamepadCore::dpadLeft() const {
-		return getControlBit(5, 1);
-	}
-
-	boolean GamepadCore::dpadRight() const {
-		return getControlBit(4, 7);
-	}
-
-	boolean GamepadCore::buttonA() const {
-		return getControlBit(5, 4);
-	}
-
-	boolean GamepadCore::buttonB() const {
-		return getControlBit(5, 6);
-	}
-
-	boolean GamepadCore::buttonStart() const {
-		return getControlBit(4, 2);
-	}
-
-	boolean GamepadCore::buttonSelect() const {
-		return getControlBit(4, 4);
-	}
-
-	// Super Gamepad
-	boolean GamepadSuper::buttonX() const {
-		return getControlBit(5, 3);
-	}
-
-	boolean GamepadSuper::buttonY() const {
-		return getControlBit(5, 5);
-	}
-
-	boolean GamepadSuper::buttonL() const {
-		return getControlBit(4, 5);
-	}
-
-	boolean GamepadSuper::buttonR() const {
-		return getControlBit(4, 1);
-	}
-}
-
 ClassicController::ClassicController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_ClassicController, 6) {}
 ClassicController::ClassicController(ExtensionData& busData) : ExtensionController(busData, NXC_ClassicController, 6) {}
 
@@ -93,12 +41,52 @@ uint8_t ClassicController::rightJoyY() const {
 	return getControlData(2) & 0x1F;
 }
 
+boolean ClassicController::dpadUp() const {
+	return getControlBit(5, 0);
+}
+
+boolean ClassicController::dpadDown() const {
+	return getControlBit(4, 6);
+}
+
+boolean ClassicController::dpadLeft() const {
+	return getControlBit(5, 1);
+}
+
+boolean ClassicController::dpadRight() const {
+	return getControlBit(4, 7);
+}
+
+boolean ClassicController::buttonA() const {
+	return getControlBit(5, 4);
+}
+
+boolean ClassicController::buttonB() const {
+	return getControlBit(5, 6);
+}
+
+boolean ClassicController::buttonX() const {
+	return getControlBit(5, 3);
+}
+
+boolean ClassicController::buttonY() const {
+	return getControlBit(5, 5);
+}
+
 uint8_t ClassicController::triggerL() const {
 	return ((getControlData(2) & 0x60) >> 2) | getControlData(3) >> 5;
 }
 
 uint8_t ClassicController::triggerR() const {
 	return getControlData(3) & 0x1F;
+}
+
+boolean ClassicController::buttonL() const {
+	return getControlBit(4, 5);
+}
+
+boolean ClassicController::buttonR() const {
+	return getControlBit(4, 1);
 }
 
 boolean ClassicController::buttonZL() const {
@@ -110,11 +98,11 @@ boolean ClassicController::buttonZR() const {
 }
 
 boolean ClassicController::buttonPlus() const {
-	return buttonStart();
+	return getControlBit(4, 2);
 }
 
 boolean ClassicController::buttonMinus() const {
-	return buttonSelect();
+	return getControlBit(4, 4);
 }
 
 boolean ClassicController::buttonHome() const {

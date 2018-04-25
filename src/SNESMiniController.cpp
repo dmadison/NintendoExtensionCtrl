@@ -22,8 +22,8 @@
 
 #include "SNESMiniController.h"
 
-SNESMiniController::SNESMiniController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_ClassicController, 6) {}
-SNESMiniController::SNESMiniController(ExtensionData& busData) : ExtensionController(busData, NXC_ClassicController, 6) {}
+SNESMiniController::SNESMiniController(NXC_I2C_TYPE& i2cBus) : ClassicController(i2cBus) {}
+SNESMiniController::SNESMiniController(ExtensionData& busData) : ClassicController(busData) {}
 
 void SNESMiniController::printDebug(Stream& stream) const {
 	const char fillCharacter = '_';

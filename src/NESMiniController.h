@@ -25,7 +25,7 @@
 
 #include "ClassicController.h"
 
-class NESMiniController : public NintendoExtensionCtrl::GamepadCore {
+class NESMiniController : public ClassicController {
 public:
 	NESMiniController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	NESMiniController(ExtensionData& busData);

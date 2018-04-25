@@ -25,7 +25,7 @@
 
 #include "ClassicController.h"
 
-class SNESMiniController : public NintendoExtensionCtrl::GamepadSuper {
+class SNESMiniController : public ClassicController {
 public:
 	SNESMiniController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	SNESMiniController(ExtensionData& busData);

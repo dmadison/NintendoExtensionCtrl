@@ -40,6 +40,7 @@ class ExtensionController {
 public:
 	ExtensionController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	ExtensionController(ExtensionData& busData);
+	~ExtensionController();
 
 	boolean begin();
 
@@ -73,6 +74,8 @@ private:
 	boolean controllerIDMatches() const;
 
 	ExtensionData * busData;
+	const boolean AllocatedData = false;
+
 	boolean enforceControllerID = false;  // Off for generic controllers
 };
 

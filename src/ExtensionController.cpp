@@ -25,7 +25,7 @@
 ExtensionData::ExtensionData(NXC_I2C_TYPE& i2cBus)
 	: I2C_Bus(i2cBus) {}
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) {
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : AllocatedData(true) {
 	busData = new ExtensionData(i2cBus);
 }
 
@@ -33,12 +33,16 @@ ExtensionController::ExtensionController(ExtensionData& busData) :
 	busData(&busData) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize)
-	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true) {
+	: ControllerID(conID), ControlDataSize(datSize), AllocatedData(true), enforceControllerID(true) {
 	busData = new ExtensionData(i2cBus);
 }
 
 ExtensionController::ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize)
 	: ControllerID(conID), ControlDataSize(datSize), busData(&busData), enforceControllerID(true) {}
+
+ExtensionController::~ExtensionController() {
+	if (AllocatedData) { delete busData; }
+}
 
 boolean ExtensionController::begin() {
 	busData->I2C_Bus.begin();

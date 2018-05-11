@@ -60,7 +60,6 @@ boolean ExtensionController::connect() {
 }
 
 boolean ExtensionController::reconnect() {
-	delay(5);  // Breathe + clear the bus
 	return connect();
 }
 

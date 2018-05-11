@@ -25,23 +25,22 @@
 ExtensionData::ExtensionData(NXC_I2C_TYPE& i2cBus)
 	: I2C_Bus(i2cBus) {}
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) {
-	busData = new ExtensionData(i2cBus);
-}
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : busData(*new ExtensionData(i2cBus)), AllocatedData(true) {}
 
-ExtensionController::ExtensionController(ExtensionData& busData) :
-	busData(&busData) {}
+ExtensionController::ExtensionController(ExtensionData& busData) : busData(busData) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize)
-	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true) {
-	busData = new ExtensionData(i2cBus);
-}
+	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(*new ExtensionData(i2cBus)), AllocatedData(true)  {}
 
 ExtensionController::ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize)
-	: ControllerID(conID), ControlDataSize(datSize), busData(&busData), enforceControllerID(true) {}
+	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(busData) {}
+
+ExtensionController::~ExtensionController() {
+	if (AllocatedData) { delete &busData; }
+}
 
 boolean ExtensionController::begin() {
-	busData->I2C_Bus.begin();
+	busData.I2C_Bus.begin();
 
 	return connect();
 }
@@ -54,7 +53,7 @@ boolean ExtensionController::connect() {
 		}
 	}
 	else {
-		busData->connectedID = NXC_NoController;  // Bad init, nothing connected
+		busData.connectedID = NXC_NoController;  // Bad init, nothing connected
 	}
 
 	return false;
@@ -66,21 +65,21 @@ boolean ExtensionController::reconnect() {
 }
 
 NXC_ControllerType ExtensionController::identifyController() {
-	return busData->connectedID = NXCtrl::identifyController(busData->I2C_Bus);
+	return busData.connectedID = NXCtrl::identifyController(busData.I2C_Bus);
 }
 
 void ExtensionController::reset() {
-	busData->connectedID = NXC_NoController;
+	busData.connectedID = NXC_NoController;
 	for (int i = 0; i < NXC_CONTROL_DATA_MAX; i++) {
-		busData->controlData[i] = 0;
+		busData.controlData[i] = 0;
 	}
 }
 
 boolean ExtensionController::controllerIDMatches() const {
-	if (busData->connectedID == ControllerID) {
+	if (busData.connectedID == ControllerID) {
 		return true;  // Match!
 	}
-	else if (enforceControllerID == false && busData->connectedID != NXC_NoController) {
+	else if (enforceControllerID == false && busData.connectedID != NXC_NoController) {
 		return true;  // No enforcing and some sort of controller connected
 	}
 
@@ -88,7 +87,7 @@ boolean ExtensionController::controllerIDMatches() const {
 }
 
 NXC_ControllerType ExtensionController::getConnectedID() const {
-	return busData->connectedID;
+	return busData.connectedID;
 }
 
 void ExtensionController::setEnforceID(boolean enforce) {
@@ -97,8 +96,8 @@ void ExtensionController::setEnforceID(boolean enforce) {
 
 boolean ExtensionController::update() {
 	if (controllerIDMatches()){
-		if (NXCtrl::readDataArray(busData->I2C_Bus, 0x00, ControlDataSize, busData->controlData)) {
-			return NXCtrl::verifyData(busData->controlData, ControlDataSize);
+		if (NXCtrl::readDataArray(busData.I2C_Bus, 0x00, ControlDataSize, busData.controlData)) {
+			return NXCtrl::verifyData(busData.controlData, ControlDataSize);
 		}
 	}
 	
@@ -106,11 +105,11 @@ boolean ExtensionController::update() {
 }
 
 uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
-	return busData->controlData[controlIndex];
+	return busData.controlData[controlIndex];
 }
 
 boolean ExtensionController::getControlBit(uint8_t arrIndex, uint8_t bitNum) const {
-	return !(busData->controlData[arrIndex] & (1 << bitNum));
+	return !(busData.controlData[arrIndex] & (1 << bitNum));
 }
 
 void ExtensionController::printDebug(Stream& stream) const {
@@ -119,7 +118,7 @@ void ExtensionController::printDebug(Stream& stream) const {
 
 void ExtensionController::printDebugID(Stream& stream) const {
 	uint8_t idData[NXCtrl::IDHeaderSize];
-	boolean success = NXCtrl::requestIdentity(busData->I2C_Bus, idData);
+	boolean success = NXCtrl::requestIdentity(busData.I2C_Bus, idData);
 
 	if (success) {
 		stream.print("ID: ");
@@ -135,5 +134,5 @@ void ExtensionController::printDebugRaw(uint8_t baseFormat) const {
 }
 
 void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) const {
-	NXCtrl::printRaw(busData->controlData, ControlDataSize, stream, baseFormat);
+	NXCtrl::printRaw(busData.controlData, ControlDataSize, stream, baseFormat);
 }

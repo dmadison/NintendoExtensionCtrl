@@ -73,10 +73,10 @@ protected:
 private:
 	boolean controllerIDMatches() const;
 
-	ExtensionData * busData;
-	const boolean AllocatedData = false;
-
 	boolean enforceControllerID = false;  // Off for generic controllers
+
+	ExtensionData & busData;
+	const boolean AllocatedData = false;
 };
 
 #endif

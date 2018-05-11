@@ -60,6 +60,7 @@ boolean ExtensionController::connect() {
 }
 
 boolean ExtensionController::reconnect() {
+	reset();
 	return connect();
 }
 

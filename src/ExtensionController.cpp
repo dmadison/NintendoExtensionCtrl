@@ -46,7 +46,7 @@ boolean ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	if (NXCtrl::initialize()) {
+	if (NXCtrl::initialize(busData.I2C_Bus)) {
 		identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values

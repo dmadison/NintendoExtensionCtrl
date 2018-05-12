@@ -170,6 +170,10 @@ namespace NintendoExtensionCtrl {
 		stream.println();
 	}
 
+	void printRaw(uint8_t dataIn, Stream& stream, uint8_t baseFormat) {
+		printRaw(&dataIn, 1, stream, baseFormat);
+	}
+
 	void printRepeat(char c, uint8_t nPrint, Stream& stream) {
 		for (int i = 0; i < nPrint; i++) {
 			stream.print(c);

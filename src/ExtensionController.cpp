@@ -122,17 +122,17 @@ void ExtensionController::printDebugID(Stream& stream) const {
 
 	if (success) {
 		stream.print("ID: ");
-		NXCtrl::printRaw(idData, NXCtrl::IDHeaderSize, stream);
+		NXCtrl::printRaw(idData, NXCtrl::IDHeaderSize, HEX, stream);
 	}
 	else {
 		stream.println("Bad ID Read");
 	}
 }
 
-void ExtensionController::printDebugRaw(uint8_t baseFormat) const {
-	printDebugRaw(NXC_SERIAL_DEFAULT, baseFormat);
+void ExtensionController::printDebugRaw(Stream& stream) const {
+	printDebugRaw(HEX, stream);
 }
 
-void ExtensionController::printDebugRaw(Stream& stream, uint8_t baseFormat) const {
-	NXCtrl::printRaw(busData.controlData, ControlDataSize, stream, baseFormat);
+void ExtensionController::printDebugRaw(uint8_t baseFormat, Stream& stream) const {
+	NXCtrl::printRaw(busData.controlData, ControlDataSize, baseFormat, stream);
 }

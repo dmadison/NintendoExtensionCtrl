@@ -60,8 +60,8 @@ public:
 
 	void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
 	void printDebugID(Stream& stream = NXC_SERIAL_DEFAULT) const;
-	void printDebugRaw(uint8_t baseFormat) const;
-	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT, uint8_t baseFormat = HEX) const;
+	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT) const;
+	void printDebugRaw(uint8_t baseFormat, Stream& stream = NXC_SERIAL_DEFAULT) const;
 
 	const NXC_ControllerType ControllerID = NXC_UnknownController;
 	const uint8_t ControlDataSize = NXC_CONTROL_DATA_MAX;  // Bytes per update

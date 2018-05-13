@@ -34,7 +34,7 @@ uint8_t Nunchuk::joyY() const {
 }
 
 uint16_t Nunchuk::accelX() const {
-	return getControlData(2) << 2 | ((getControlData(5) >> 6) & 0x03) ;
+	return getControlData(2) << 2 | ((getControlData(5) >> 2) & 0x03) ;
 }
 
 uint16_t Nunchuk::accelY() const {
@@ -42,7 +42,7 @@ uint16_t Nunchuk::accelY() const {
 }
 
 uint16_t Nunchuk::accelZ() const {
-	return getControlData(4) << 2 | ((getControlData(5) >> 2) & 0x03);
+	return getControlData(4) << 2 | ((getControlData(5) >> 6) & 0x03);
 }
 
 boolean Nunchuk::buttonC() const {

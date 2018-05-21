@@ -4,8 +4,9 @@ ClassicController classic;
 
 void setup() {
 	Serial.begin(115200);
+	classic.begin();
 
-	while (!classic.begin()) {
+	while (!classic.connect()) {
 		Serial.println("Classic Controller not detected!");
 		delay(1000);
 	}

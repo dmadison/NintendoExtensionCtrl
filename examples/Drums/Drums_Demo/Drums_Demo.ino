@@ -4,8 +4,9 @@ DrumController drums;
 
 void setup() {
 	Serial.begin(115200);
+	drums.begin();
 
-	while (!drums.begin()) {
+	while (!drums.connect()) {
 		Serial.println("Drum set controller not detected!");
 		delay(1000);
 	}

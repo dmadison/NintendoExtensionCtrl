@@ -4,8 +4,9 @@ NESMiniController snes;
 
 void setup() {
 	Serial.begin(115200);
+	snes.begin();
 
-	while (!snes.begin()) {
+	while (!snes.connect()) {
 		Serial.println("SNES Classic Controller not detected!");
 		delay(1000);
 	}

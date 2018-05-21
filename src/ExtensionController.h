@@ -42,7 +42,7 @@ public:
 	ExtensionController(ExtensionData& busData);
 	~ExtensionController();
 
-	boolean begin();
+	void begin();
 
 	boolean connect();
 	boolean reconnect();

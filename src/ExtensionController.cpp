@@ -39,10 +39,8 @@ ExtensionController::~ExtensionController() {
 	if (AllocatedData) { delete &busData; }
 }
 
-boolean ExtensionController::begin() {
+void ExtensionController::begin() {
 	busData.I2C_Bus.begin();
-
-	return connect();
 }
 
 boolean ExtensionController::connect() {

@@ -126,7 +126,7 @@ namespace NintendoExtensionCtrl {
 		return true;
 	}
 
-	void printRaw(const uint8_t * dataIn, uint8_t dataSize, Stream& stream, uint8_t baseFormat) {
+	void printRaw(const uint8_t * dataIn, uint8_t dataSize, uint8_t baseFormat, Stream& stream) {
 		char padChar = ' ';
 		if (baseFormat == BIN || baseFormat == HEX) {
 			padChar = '0';
@@ -168,6 +168,10 @@ namespace NintendoExtensionCtrl {
 			}
 		}
 		stream.println();
+	}
+
+	void printRaw(uint8_t dataIn, uint8_t baseFormat, Stream& stream) {
+		printRaw(&dataIn, 1, baseFormat, stream);
 	}
 
 	void printRepeat(char c, uint8_t nPrint, Stream& stream) {

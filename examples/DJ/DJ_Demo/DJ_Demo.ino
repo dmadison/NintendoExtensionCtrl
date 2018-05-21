@@ -4,8 +4,9 @@ DJTurntableController dj;
 
 void setup() {
 	Serial.begin(115200);
+	dj.begin();
 
-	while (!dj.begin()) {
+	while (!dj.connect()) {
 		Serial.println("DJ controller not detected!");
 		delay(1000);
 	}

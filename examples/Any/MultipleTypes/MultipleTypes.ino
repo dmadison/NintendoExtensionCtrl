@@ -8,8 +8,9 @@ ClassicController classic(busData);
 
 void setup() {
 	Serial.begin(115200);
+	controller.begin();
 
-	while (!controller.begin()) {
+	while (!controller.connect()) {
 		Serial.println("No controller found!");
 		delay(1000);
 	}

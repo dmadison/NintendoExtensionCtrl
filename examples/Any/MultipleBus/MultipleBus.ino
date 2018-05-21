@@ -10,12 +10,14 @@ void setup() {
 	while (!Serial);  // Wait for serial for debug
 	Serial.println("Attempting connection to controllers...");
 
-	while (!nchuk1.begin()) {
+	nchuk1.begin();
+	while (!nchuk1.connect()) {
 		Serial.println("Nunchuk on bus #1 not detected!");
 		delay(1000);
 	}
 
-	while (!nchuk2.begin()) {
+	nchuk2.begin();
+	while (!nchuk2.connect()) {
 		Serial.println("Nunchuk on bus #2 not detected!");
 		delay(1000);
 	}

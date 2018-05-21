@@ -4,8 +4,9 @@ ExtensionController controller;
 
 void setup() {
 	Serial.begin(115200);
+	controller.begin();
 
-	while (!controller.begin()) {
+	while (!controller.connect()) {
 		Serial.println("Controller not detected!");
 		delay(1000);
 	}

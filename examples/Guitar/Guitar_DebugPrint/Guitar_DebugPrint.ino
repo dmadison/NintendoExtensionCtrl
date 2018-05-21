@@ -4,8 +4,9 @@ GuitarController guitar;
 
 void setup() {
 	Serial.begin(115200);
+	guitar.begin();
 
-	while (!guitar.begin()) {
+	while (!guitar.connect()) {
 		Serial.println("Guitar controller not detected!");
 		delay(1000);
 	}

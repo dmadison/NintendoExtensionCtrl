@@ -6,8 +6,9 @@ const long TestDuration = 1000;  // Length of each test, in milliseconds
 
 void setup() {
 	Serial.begin(115200);
+	controller.begin();
 
-	while (!controller.begin()) {
+	while (!controller.connect()) {
 		Serial.println("No controller detected!");
 		delay(1000);
 	};

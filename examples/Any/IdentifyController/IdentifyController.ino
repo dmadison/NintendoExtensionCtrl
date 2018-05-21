@@ -5,6 +5,7 @@ ExtensionController controller;
 void setup() {
 	Serial.begin(115200);
 	controller.begin();
+	controller.connect();
 
 	NXC_ControllerType conType = controller.getConnectedID();
 

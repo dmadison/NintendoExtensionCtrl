@@ -24,17 +24,8 @@
 #define NXC_Core_h
 
 #include "Arduino.h"
+#include "NXC_Comms.h"
 
-#if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MKL26Z64__) || \
-    defined(__MK64FX512__) || defined(__MK66FX1M0__) // Teensy 3.0/3.1-3.2/LC/3.5/3.6
-#include <i2c_t3.h>
-#define NXC_I2C_TYPE i2c_t3
-#else
-#include <Wire.h>  // All other platforms
-#define NXC_I2C_TYPE TwoWire
-#endif
-
-#define NXC_I2C_DEFAULT Wire
 #define NXC_SERIAL_DEFAULT Serial
 
 enum NXC_ControllerType {
@@ -48,24 +39,6 @@ enum NXC_ControllerType {
 };
 
 namespace NintendoExtensionCtrl {
-
-	class ExtensionComms {
-	public:
-		ExtensionComms(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef) {}
-
-		void startBus();
-
-		boolean writePointer(byte ptr);
-		boolean writeRegister(byte reg, byte value);
-		boolean requestMultiple(uint8_t requestSize, uint8_t * dataOut);
-
-		boolean readDataArray(byte ptr, uint8_t requestSize, uint8_t * dataOut);
-	private:
-		static const uint8_t I2C_Addr = 0x52;  // Address for all controllers
-		static const long ConversionDelay = 175;  // Microseconds, ~200 on AVR
-
-		NXC_I2C_TYPE & i2c;
-	};
 
 	// Identity
 	const uint8_t IDHeaderSize = 6;

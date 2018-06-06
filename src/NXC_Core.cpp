@@ -23,35 +23,6 @@
 #include "NXC_Core.h"
 
 namespace NintendoExtensionCtrl {
-	void ExtensionComms::startBus() {
-		i2c.begin();
-	}
-
-	boolean ExtensionComms::writePointer(byte ptr) {
-		i2c.beginTransmission(I2C_Addr);
-		i2c.write(ptr);
-		return i2c.endTransmission() == 0;  // 0 = No Error
-	}
-
-	boolean ExtensionComms::writeRegister(byte reg, byte value) {
-		i2c.beginTransmission(I2C_Addr);
-		i2c.write(reg);
-		i2c.write(value);
-		return i2c.endTransmission() == 0;
-	}
-
-	boolean ExtensionComms::requestMultiple(uint8_t requestSize, uint8_t * dataOut) {
-		uint8_t nBytesRecv = i2c.readBytes(dataOut,
-			i2c.requestFrom(I2C_Addr, requestSize));
-
-		return (nBytesRecv == requestSize);  // Success if all bytes received
-	}
-
-	boolean ExtensionComms::readDataArray(byte ptr, uint8_t requestSize, uint8_t * dataOut) {
-		if (!writePointer(ptr)) { return false; }  // Set start for data read
-		delayMicroseconds(ConversionDelay);  // Wait for data conversion
-		return requestMultiple(requestSize, dataOut);
-	}
 
 	boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t * idData) {
 		const uint8_t IDPointer = 0xFA;

@@ -23,48 +23,53 @@
 #include "NXC_Core.h"
 
 namespace NintendoExtensionCtrl {
-	boolean writePointer(NXC_I2C_TYPE& i2c, byte ptr) {
+	void ExtensionComms::startBus() {
+		i2c.begin();
+	}
+
+	boolean ExtensionComms::writePointer(byte ptr) {
 		i2c.beginTransmission(I2C_Addr);
 		i2c.write(ptr);
 		return i2c.endTransmission() == 0;  // 0 = No Error
 	}
 
-	boolean writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte value) {
+	boolean ExtensionComms::writeRegister(byte reg, byte value) {
 		i2c.beginTransmission(I2C_Addr);
 		i2c.write(reg);
 		i2c.write(value);
 		return i2c.endTransmission() == 0;
 	}
 
-	boolean requestMultiple(NXC_I2C_TYPE& i2c, uint8_t requestSize, uint8_t * dataOut) {
+	boolean ExtensionComms::requestMultiple(uint8_t requestSize, uint8_t * dataOut) {
 		uint8_t nBytesRecv = i2c.readBytes(dataOut,
 			i2c.requestFrom(I2C_Addr, requestSize));
 
 		return (nBytesRecv == requestSize);  // Success if all bytes received
 	}
 
-	boolean readDataArray(NXC_I2C_TYPE& i2c, byte ptr, uint8_t requestSize, uint8_t * dataOut) {
-		if (!writePointer(i2c, ptr)) { return false; }  // Set start for data read
-		delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
-		return requestMultiple(i2c, requestSize, dataOut);
+	boolean ExtensionComms::readDataArray(byte ptr, uint8_t requestSize, uint8_t * dataOut) {
+		if (!writePointer(ptr)) { return false; }  // Set start for data read
+		delayMicroseconds(ConversionDelay);  // Wait for data conversion
+		return requestMultiple(requestSize, dataOut);
 	}
 
-	boolean initialize(NXC_I2C_TYPE& i2c) {
+	boolean ExtensionComms::initializeController() {
 		/* Initialization for unencrypted communication.
 		* *Should* work on all devices, genuine + 3rd party.
 		* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
 		*/
-		if (!writeRegister(i2c, 0xF0, 0x55)) { return false; }
+		if (!writeRegister(0xF0, 0x55)) { return false; }
 		delay(10);
-		//if (!writeRegister(i2c, 0xFB, 0x00)) { return false; }
+		//if (!writeRegister(0xFB, 0x00)) { return false; }
 		//delay(20);
 		return true;
 	}
 
 	boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t * idData) {
 		const uint8_t IDPointer = 0xFA;
+		ExtensionComms comms(i2c);
 
-		return readDataArray(i2c, IDPointer, IDHeaderSize, idData);
+		return comms.readDataArray(IDPointer, IDHeaderSize, idData);
 	}
 
 	NXC_ControllerType identifyController(const uint8_t * idData) {

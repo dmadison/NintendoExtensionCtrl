@@ -25,26 +25,26 @@
 ExtensionData::ExtensionData(NXC_I2C_TYPE& i2cBus)
 	: I2C_Bus(i2cBus) {}
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : busData(*new ExtensionData(i2cBus)), AllocatedData(true) {}
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : busData(*new ExtensionData(i2cBus)), AllocatedData(true), i2c(i2cBus) {}
 
-ExtensionController::ExtensionController(ExtensionData& busData) : busData(busData) {}
+ExtensionController::ExtensionController(ExtensionData& busData) : busData(busData), i2c(busData.I2C_Bus) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize)
-	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(*new ExtensionData(i2cBus)), AllocatedData(true)  {}
+	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(*new ExtensionData(i2cBus)), AllocatedData(true), i2c(i2cBus) {}
 
 ExtensionController::ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize)
-	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(busData) {}
+	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(busData), i2c(busData.I2C_Bus) {}
 
 ExtensionController::~ExtensionController() {
 	if (AllocatedData) { delete &busData; }
 }
 
 void ExtensionController::begin() {
-	busData.I2C_Bus.begin();
+	i2c.startBus();
 }
 
 boolean ExtensionController::connect() {
-	if (NXCtrl::initialize(busData.I2C_Bus)) {
+	if (i2c.initializeController()) {
 		identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
@@ -94,7 +94,7 @@ void ExtensionController::setEnforceID(boolean enforce) {
 
 boolean ExtensionController::update() {
 	if (controllerIDMatches()){
-		if (NXCtrl::readDataArray(busData.I2C_Bus, 0x00, ControlDataSize, busData.controlData)) {
+		if (i2c.readDataArray(0x00, ControlDataSize, busData.controlData)) {
 			return NXCtrl::verifyData(busData.controlData, ControlDataSize);
 		}
 	}

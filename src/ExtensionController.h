@@ -77,6 +77,8 @@ private:
 
 	ExtensionData & busData;
 	const boolean AllocatedData = false;
+
+	NintendoExtensionCtrl::ExtensionComms i2c;
 };
 
 #endif

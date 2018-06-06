@@ -25,35 +25,11 @@
 
 #include "Arduino.h"
 #include "NXC_Comms.h"
+#include "NXC_Identity.h"
 
 #define NXC_SERIAL_DEFAULT Serial
 
-enum NXC_ControllerType {
-	NXC_NoController,
-	NXC_UnknownController,
-	NXC_Nunchuk,
-	NXC_ClassicController,
-	NXC_GuitarController,
-	NXC_DrumController,
-	NXC_DJTurntable,
-};
-
 namespace NintendoExtensionCtrl {
-
-	class ExtensionIdentifier {
-	public:
-		ExtensionIdentifier(ExtensionComms &comms) : i2c(comms) {}
-
-		NXC_ControllerType identifyController();
-
-		boolean requestIdentity(uint8_t * idData);
-		NXC_ControllerType identifyController(const uint8_t * idData);
-		
-		static const uint8_t IDPointer = 0xFA;
-		static const uint8_t IDSize = 6;
-	private:
-		ExtensionComms & i2c;
-	};
 
 	// Utility
 	boolean verifyData(const uint8_t * dataIn, uint8_t dataSize);

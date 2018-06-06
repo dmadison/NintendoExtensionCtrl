@@ -27,8 +27,6 @@
 #include "NXC_Comms.h"
 #include "NXC_Identity.h"
 
-#define NXC_SERIAL_DEFAULT Serial
-
 namespace NintendoExtensionCtrl {
 
 	// Utility

@@ -35,6 +35,7 @@
 #endif
 
 #define NXC_I2C_DEFAULT Wire
+#define NXC_SERIAL_DEFAULT Serial
 
 namespace NintendoExtensionCtrl {
 	class ExtensionComms {

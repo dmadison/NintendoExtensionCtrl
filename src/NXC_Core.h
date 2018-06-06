@@ -53,8 +53,6 @@ namespace NintendoExtensionCtrl {
 	public:
 		ExtensionComms(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef) {}
 
-		boolean initializeController();
-
 		void startBus();
 
 		boolean writePointer(byte ptr);

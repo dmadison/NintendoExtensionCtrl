@@ -53,18 +53,6 @@ namespace NintendoExtensionCtrl {
 		return requestMultiple(requestSize, dataOut);
 	}
 
-	boolean ExtensionComms::initializeController() {
-		/* Initialization for unencrypted communication.
-		* *Should* work on all devices, genuine + 3rd party.
-		* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
-		*/
-		if (!writeRegister(0xF0, 0x55)) { return false; }
-		delay(10);
-		//if (!writeRegister(0xFB, 0x00)) { return false; }
-		//delay(20);
-		return true;
-	}
-
 	boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t * idData) {
 		const uint8_t IDPointer = 0xFA;
 		ExtensionComms comms(i2c);

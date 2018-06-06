@@ -71,6 +71,7 @@ protected:
 	ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize);
 
 private:
+	boolean initialize();
 	boolean controllerIDMatches() const;
 
 	boolean enforceControllerID = false;  // Off for generic controllers

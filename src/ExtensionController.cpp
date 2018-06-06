@@ -43,8 +43,20 @@ void ExtensionController::begin() {
 	i2c.startBus();
 }
 
+boolean ExtensionController::initialize() {
+	/* Initialization for unencrypted communication.
+	* *Should* work on all devices, genuine + 3rd party.
+	* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
+	*/
+	if (!i2c.writeRegister(0xF0, 0x55)) { return false; }
+	delay(10);
+	//if (!i2c.writeRegister(0xFB, 0x00)) { return false; }
+	//delay(20);
+	return true;
+}
+
 boolean ExtensionController::connect() {
-	if (i2c.initializeController()) {
+	if (initialize()) {
 		identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values

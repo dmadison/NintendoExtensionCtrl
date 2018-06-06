@@ -80,6 +80,7 @@ private:
 	const boolean AllocatedData = false;
 
 	NintendoExtensionCtrl::ExtensionComms i2c;
+	NintendoExtensionCtrl::ExtensionIdentifier id = NintendoExtensionCtrl::ExtensionIdentifier(i2c);
 };
 
 #endif

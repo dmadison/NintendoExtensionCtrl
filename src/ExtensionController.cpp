@@ -75,7 +75,7 @@ boolean ExtensionController::reconnect() {
 }
 
 NXC_ControllerType ExtensionController::identifyController() {
-	return busData.connectedID = NXCtrl::identifyController(busData.I2C_Bus);
+	return busData.connectedID = id.identifyController();
 }
 
 void ExtensionController::reset() {
@@ -127,12 +127,12 @@ void ExtensionController::printDebug(Stream& stream) const {
 }
 
 void ExtensionController::printDebugID(Stream& stream) const {
-	uint8_t idData[NXCtrl::IDHeaderSize];
-	boolean success = NXCtrl::requestIdentity(busData.I2C_Bus, idData);
+	uint8_t idData[id.IDSize];
+	boolean success = id.requestIdentity(idData);
 
 	if (success) {
 		stream.print("ID: ");
-		NXCtrl::printRaw(idData, NXCtrl::IDHeaderSize, HEX, stream);
+		NXCtrl::printRaw(idData, id.IDSize, HEX, stream);
 	}
 	else {
 		stream.println("Bad ID Read");

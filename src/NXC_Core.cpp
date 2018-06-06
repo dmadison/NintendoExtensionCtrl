@@ -24,14 +24,11 @@
 
 namespace NintendoExtensionCtrl {
 
-	boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t * idData) {
-		const uint8_t IDPointer = 0xFA;
-		ExtensionComms comms(i2c);
-
-		return comms.readDataArray(IDPointer, IDHeaderSize, idData);
+	boolean ExtensionIdentifier::requestIdentity(uint8_t * idData) {
+		return i2c.readDataArray(IDPointer, IDSize, idData);
 	}
 
-	NXC_ControllerType identifyController(const uint8_t * idData) {
+	NXC_ControllerType ExtensionIdentifier::identifyController(const uint8_t * idData) {
 		if (idData[2] == 0xA4 && idData[3] == 0x20) {  // All valid IDs
 			// Nunchuk ID: 0x0000
 			if (idData[4] == 0x00 && idData[5] == 0x00) {
@@ -65,10 +62,10 @@ namespace NintendoExtensionCtrl {
 		return NXC_UnknownController;  // No matches
 	}
 
-	NXC_ControllerType identifyController(NXC_I2C_TYPE& i2c) {
-		uint8_t idData[IDHeaderSize];
+	NXC_ControllerType ExtensionIdentifier::identifyController() {
+		uint8_t idData[IDSize];
 
-		if (!requestIdentity(i2c, idData)) {
+		if (!requestIdentity(idData)) {
 			return NXC_NoController;  // Bad response from device
 		}
 		return identifyController(idData);

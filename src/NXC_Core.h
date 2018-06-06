@@ -40,11 +40,20 @@ enum NXC_ControllerType {
 
 namespace NintendoExtensionCtrl {
 
-	// Identity
-	const uint8_t IDHeaderSize = 6;
-	boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t * idData);
-	NXC_ControllerType identifyController(const uint8_t * idData);
-	NXC_ControllerType identifyController(NXC_I2C_TYPE& i2c = NXC_I2C_DEFAULT);
+	class ExtensionIdentifier {
+	public:
+		ExtensionIdentifier(ExtensionComms &comms) : i2c(comms) {}
+
+		NXC_ControllerType identifyController();
+
+		boolean requestIdentity(uint8_t * idData);
+		NXC_ControllerType identifyController(const uint8_t * idData);
+		
+		static const uint8_t IDPointer = 0xFA;
+		static const uint8_t IDSize = 6;
+	private:
+		ExtensionComms & i2c;
+	};
 
 	// Utility
 	boolean verifyData(const uint8_t * dataIn, uint8_t dataSize);

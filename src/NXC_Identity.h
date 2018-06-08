@@ -27,6 +27,7 @@
 
 enum NXC_ControllerType {
 	NXC_NoController,
+	NXC_AnyController,
 	NXC_UnknownController,
 	NXC_Nunchuk,
 	NXC_ClassicController,

@@ -24,6 +24,7 @@
 #define NXC_Comms_h
 
 #include "Arduino.h"
+#include "NXC_Identity.h"
 
 #if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MKL26Z64__) || \
     defined(__MK64FX512__) || defined(__MK66FX1M0__) // Teensy 3.0/3.1-3.2/LC/3.5/3.6
@@ -38,9 +39,9 @@
 #define NXC_SERIAL_DEFAULT Serial
 
 namespace NintendoExtensionCtrl {
-	class ExtensionComms {
+	class Extension_I2C {
 	public:
-		ExtensionComms(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef) {}
+		Extension_I2C(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef) {}
 
 		void startBus() {
 			i2c.begin();
@@ -77,6 +78,56 @@ namespace NintendoExtensionCtrl {
 		static const long ConversionDelay = 175;  // Microseconds, ~200 on AVR
 
 		NXC_I2C_TYPE & i2c;
+	};
+
+	class ExtensionComms  {
+	public:
+		ExtensionComms(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef) {}
+
+		void startBus() {
+			i2c.startBus();
+		}
+
+		// Control Data
+		boolean initialize() {
+			/* Initialization for unencrypted communication.
+			* *Should* work on all devices, genuine + 3rd party.
+			* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
+			*/
+			if (!i2c.writeRegister(0xF0, 0x55)) { return false; }
+			delay(10);
+			//if (!i2c.writeRegister(0xFB, 0x00)) { return false; }
+			//delay(20);
+			return true;
+		}
+
+		boolean requestControlData(size_t size, uint8_t * controlData) {
+			return i2c.readDataArray(0x00, size, controlData);
+		}
+
+		// Identity
+		boolean requestIdentity(uint8_t * idData) {
+			return i2c.readDataArray(IDPointer, IDSize, idData);
+		}
+
+		NXC_ControllerType identifyController(const uint8_t * idData) {
+			return NintendoExtensionCtrl::identifyController(idData);
+		}
+
+		NXC_ControllerType identifyController() {
+			uint8_t idData[IDSize];
+
+			if (!requestIdentity(idData)) {
+				return NXC_NoController;  // Bad response from device
+			}
+			return identifyController(idData);
+		}
+
+		static const uint8_t IDPointer = 0xFA;
+		static const uint8_t IDSize = 6;
+
+	private:
+		Extension_I2C i2c;
 	};
 }
 

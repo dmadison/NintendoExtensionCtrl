@@ -24,7 +24,6 @@
 #define NXC_Identity_h
 
 #include "Arduino.h"
-#include "NXC_Comms.h"
 
 enum NXC_ControllerType {
 	NXC_NoController,
@@ -70,33 +69,6 @@ namespace NintendoExtensionCtrl {
 
 		return NXC_UnknownController;  // No matches
 	}
-
-	class ExtensionIdentifier {
-	public:
-		ExtensionIdentifier(ExtensionComms &comms) : i2c(comms) {}
-
-		boolean requestIdentity(uint8_t * idData) {
-			return i2c.readDataArray(IDPointer, IDSize, idData);
-		}
-
-		NXC_ControllerType identifyController() {
-			uint8_t idData[IDSize];
-
-			if (!requestIdentity(idData)) {
-				return NXC_NoController;  // Bad response from device
-			}
-			return identifyController(idData);
-		}
-
-		NXC_ControllerType identifyController(const uint8_t * idData) {
-			return NintendoExtensionCtrl::identifyController(idData);
-		}
-		
-		static const uint8_t IDPointer = 0xFA;
-		static const uint8_t IDSize = 6;
-	private:
-		ExtensionComms & i2c;
-	};
 }
 
 #endif

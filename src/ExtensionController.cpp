@@ -25,38 +25,26 @@
 ExtensionData::ExtensionData(NXC_I2C_TYPE& i2cBus)
 	: I2C_Bus(i2cBus) {}
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : busData(*new ExtensionData(i2cBus)), AllocatedData(true), i2c(i2cBus) {}
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : busData(*new ExtensionData(i2cBus)), AllocatedData(true), comms(i2cBus) {}
 
-ExtensionController::ExtensionController(ExtensionData& busData) : busData(busData), i2c(busData.I2C_Bus) {}
+ExtensionController::ExtensionController(ExtensionData& busData) : busData(busData), comms(busData.I2C_Bus) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize)
-	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(*new ExtensionData(i2cBus)), AllocatedData(true), i2c(i2cBus) {}
+	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(*new ExtensionData(i2cBus)), AllocatedData(true), comms(i2cBus) {}
 
 ExtensionController::ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize)
-	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(busData), i2c(busData.I2C_Bus) {}
+	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(busData), comms(busData.I2C_Bus) {}
 
 ExtensionController::~ExtensionController() {
 	if (AllocatedData) { delete &busData; }
 }
 
 void ExtensionController::begin() {
-	i2c.startBus();
-}
-
-boolean ExtensionController::initialize() {
-	/* Initialization for unencrypted communication.
-	* *Should* work on all devices, genuine + 3rd party.
-	* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
-	*/
-	if (!i2c.writeRegister(0xF0, 0x55)) { return false; }
-	delay(10);
-	//if (!i2c.writeRegister(0xFB, 0x00)) { return false; }
-	//delay(20);
-	return true;
+	comms.startBus();
 }
 
 boolean ExtensionController::connect() {
-	if (initialize()) {
+	if (comms.initialize()) {
 		identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
@@ -75,7 +63,7 @@ boolean ExtensionController::reconnect() {
 }
 
 NXC_ControllerType ExtensionController::identifyController() {
-	return busData.connectedID = id.identifyController();
+	return busData.connectedID = comms.identifyController();
 }
 
 void ExtensionController::reset() {
@@ -105,10 +93,8 @@ void ExtensionController::setEnforceID(boolean enforce) {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches()){
-		if (i2c.readDataArray(0x00, ControlDataSize, busData.controlData)) {
-			return NXCtrl::verifyData(busData.controlData, ControlDataSize);
-		}
+	if (controllerIDMatches() && comms.requestControlData(ControlDataSize, busData.controlData)) {
+		return NXCtrl::verifyData(busData.controlData, ControlDataSize);
 	}
 	
 	return false;  // Something went wrong :(
@@ -127,12 +113,12 @@ void ExtensionController::printDebug(Stream& stream) const {
 }
 
 void ExtensionController::printDebugID(Stream& stream) const {
-	uint8_t idData[id.IDSize];
-	boolean success = id.requestIdentity(idData);
+	uint8_t idData[comms.IDSize];
+	boolean success = comms.requestIdentity(idData);
 
 	if (success) {
 		stream.print("ID: ");
-		NXCtrl::printRaw(idData, id.IDSize, HEX, stream);
+		NXCtrl::printRaw(idData, comms.IDSize, HEX, stream);
 	}
 	else {
 		stream.println("Bad ID Read");

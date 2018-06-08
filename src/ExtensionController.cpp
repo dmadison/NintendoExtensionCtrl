@@ -25,19 +25,15 @@
 ExtensionData::ExtensionData(NXC_I2C_TYPE& i2cBus)
 	: I2C_Bus(i2cBus) {}
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : busData(*new ExtensionData(i2cBus)), AllocatedData(true), comms(i2cBus) {}
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : comms(i2cBus) {}
 
 ExtensionController::ExtensionController(ExtensionData& busData) : busData(busData), comms(busData.I2C_Bus) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize)
-	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(*new ExtensionData(i2cBus)), AllocatedData(true), comms(i2cBus) {}
+	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), comms(i2cBus) {}
 
 ExtensionController::ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize)
 	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), busData(busData), comms(busData.I2C_Bus) {}
-
-ExtensionController::~ExtensionController() {
-	if (AllocatedData) { delete &busData; }
-}
 
 void ExtensionController::begin() {
 	comms.startBus();

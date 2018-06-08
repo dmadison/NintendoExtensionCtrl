@@ -40,7 +40,6 @@ class ExtensionController {
 public:
 	ExtensionController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	ExtensionController(ExtensionData& busData);
-	~ExtensionController();
 
 	void begin();
 
@@ -75,8 +74,8 @@ private:
 
 	boolean enforceControllerID = false;  // Off for generic controllers
 
-	ExtensionData & busData;
-	const boolean AllocatedData = false;
+	ExtensionData portData;
+	ExtensionData & busData = portData;
 
 	NintendoExtensionCtrl::ExtensionComms comms;
 };

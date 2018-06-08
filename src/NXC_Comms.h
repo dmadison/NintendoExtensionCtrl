@@ -39,9 +39,9 @@
 #define NXC_SERIAL_DEFAULT Serial
 
 namespace NintendoExtensionCtrl {
-	class Extension_I2C {
+	class I2C_SlaveCtrl {
 	public:
-		Extension_I2C(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef) {}
+		I2C_SlaveCtrl(NXC_I2C_TYPE& i2cRef, uint8_t addr) : I2C_Addr(addr), i2c(i2cRef) {}
 
 		void startBus() {
 			i2c.begin();
@@ -74,7 +74,7 @@ namespace NintendoExtensionCtrl {
 		}
 
 	private:
-		static const uint8_t I2C_Addr = 0x52;  // Address for all controllers
+		const uint8_t I2C_Addr;  // Address for all commands
 		static const long ConversionDelay = 175;  // Microseconds, ~200 on AVR
 
 		NXC_I2C_TYPE & i2c;
@@ -82,7 +82,7 @@ namespace NintendoExtensionCtrl {
 
 	class ExtensionComms  {
 	public:
-		ExtensionComms(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef) {}
+		ExtensionComms(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef, I2C_Addr) {}
 
 		void startBus() {
 			i2c.startBus();
@@ -127,7 +127,8 @@ namespace NintendoExtensionCtrl {
 		static const uint8_t IDSize = 6;
 
 	private:
-		Extension_I2C i2c;
+		static const uint8_t I2C_Addr = 0x52;  // Address for all controllers
+		I2C_SlaveCtrl i2c;
 	};
 }
 

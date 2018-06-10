@@ -25,8 +25,6 @@
 
 #include "NXC_Core.h"
 
-#define NXC_CONTROL_DATA_MAX 6  // Max # of control data bytes
-
 class ExtensionController {
 public:
 	ExtensionController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
@@ -53,7 +51,8 @@ public:
 	void printDebugRaw(uint8_t baseFormat, Stream& stream = NXC_SERIAL_DEFAULT) const;
 
 	const NXC_ControllerType ControllerID = NXC_UnknownController;
-	const uint8_t ControlDataSize = NXC_CONTROL_DATA_MAX;  // Bytes per update
+	static const uint8_t ControlDataSize = 6;  // Enough for standard request size
+	const uint8_t RequestSize = ControlDataSize;  // Bytes per update
 
 protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize);
@@ -64,7 +63,7 @@ private:
 	boolean enforceControllerID = false;  // Off for generic controllers
 
 	NXC_ControllerType connectedID = NXC_NoController;
-	uint8_t controlData[NXC_CONTROL_DATA_MAX];
+	uint8_t controlData[ControlDataSize];
 
 	NintendoExtensionCtrl::ExtensionComms comms;
 };

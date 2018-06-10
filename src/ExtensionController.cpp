@@ -24,8 +24,8 @@
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : comms(i2cBus) {}
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize)
-	: ControllerID(conID), ControlDataSize(datSize), enforceControllerID(true), comms(i2cBus) {}
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t reqSize)
+	: ControllerID(conID), RequestSize(reqSize), enforceControllerID(true), comms(i2cBus) {}
 
 void ExtensionController::begin() {
 	comms.startBus();
@@ -56,7 +56,7 @@ NXC_ControllerType ExtensionController::identifyController() {
 
 void ExtensionController::reset() {
 	connectedID = NXC_NoController;
-	for (int i = 0; i < NXC_CONTROL_DATA_MAX; i++) {
+	for (int i = 0; i < ControlDataSize; i++) {
 		controlData[i] = 0;
 	}
 }
@@ -81,8 +81,8 @@ void ExtensionController::setEnforceID(boolean enforce) {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && comms.requestControlData(ControlDataSize, controlData)) {
-		return NXCtrl::verifyData(controlData, ControlDataSize);
+	if (controllerIDMatches() && comms.requestControlData(RequestSize, controlData)) {
+		return NXCtrl::verifyData(controlData, RequestSize);
 	}
 	
 	return false;  // Something went wrong :(
@@ -118,5 +118,5 @@ void ExtensionController::printDebugRaw(Stream& stream) const {
 }
 
 void ExtensionController::printDebugRaw(uint8_t baseFormat, Stream& stream) const {
-	NXCtrl::printRaw(controlData, ControlDataSize, baseFormat, stream);
+	NXCtrl::printRaw(controlData, RequestSize, baseFormat, stream);
 }

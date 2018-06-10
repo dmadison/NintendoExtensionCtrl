@@ -25,25 +25,43 @@
 
 #include "ExtensionController.h"
 
-class Nunchuk : public ExtensionController {
+namespace NintendoExtensionCtrl {
+	namespace DataMaps {
+		class Nunchuk : private ControlDataMap {
+		public:
+			using ControlDataMap::ControlDataMap;
+
+			uint8_t joyX() const;  // 8 bits, 0-255
+			uint8_t joyY() const;
+
+			uint16_t accelX() const;  // 10 bits, 0-1023
+			uint16_t accelY() const;
+			uint16_t accelZ() const;
+
+			boolean buttonC() const;
+			boolean buttonZ() const;
+
+			float rollAngle() const;  // -180.0 to 180.0
+			float pitchAngle() const;
+
+			void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+		};
+	}
+}
+
+class Nunchuk : public ExtensionController, public NintendoExtensionCtrl::DataMaps::Nunchuk {
 public:
-	Nunchuk(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-	Nunchuk(ExtensionData& busData);
+	typedef NintendoExtensionCtrl::DataMaps::Nunchuk DataMap;
 
-	uint8_t joyX() const;  // 8 bits, 0-255
-	uint8_t joyY() const;
+	Nunchuk(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
+		ExtensionController(i2cBus, NXC_Nunchuk, 6),
+		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	uint16_t accelX() const;  // 10 bits, 0-1023
-	uint16_t accelY() const;
-	uint16_t accelZ() const;
+	Nunchuk(ExtensionData& busData) :
+		ExtensionController(busData, NXC_Nunchuk, 6),
+		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	boolean buttonC() const;
-	boolean buttonZ() const;
-
-	float rollAngle() const;  // -180.0 to 180.0
-	float pitchAngle() const;
-
-	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT) const;
+	using DataMap::printDebug;
 };
 
 #endif

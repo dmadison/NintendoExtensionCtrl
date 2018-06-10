@@ -80,4 +80,6 @@ private:
 	NintendoExtensionCtrl::ExtensionComms comms;
 };
 
+#include "NXC_DataMaps.h"
+
 #endif

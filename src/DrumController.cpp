@@ -22,8 +22,8 @@
 
 #include "DrumController.h"
 
-DrumController::DrumController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_DrumController, 6) {}
-DrumController::DrumController(ExtensionData& busData) : ExtensionController(busData, NXC_DrumController, 6) {}
+namespace NintendoExtensionCtrl {
+namespace DataMaps {
 
 uint8_t DrumController::joyX() const {
 	return getControlData(0) & 0x3F;
@@ -192,3 +192,6 @@ void DrumController::printDebug(Stream& stream) const {
 		joyX(), joyY());
 	stream.println(buffer);
 }
+
+}  // End "DataMaps" namespace
+}  // End "NintendoExtensionCtrl" namespace

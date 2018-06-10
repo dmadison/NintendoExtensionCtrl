@@ -22,8 +22,8 @@
 
 #include "GuitarController.h"
 
-GuitarController::GuitarController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_GuitarController, 6) {}
-GuitarController::GuitarController(ExtensionData& busData) : ExtensionController(busData, NXC_GuitarController, 6) {}
+namespace NintendoExtensionCtrl {
+namespace DataMaps {
 
 uint8_t GuitarController::joyX() const {
 	return getControlData(0) & 0x3F;
@@ -168,3 +168,6 @@ void GuitarController::printDebug(Stream& stream) {
 		joyX(), joyY());
 	stream.println(buffer);
 }
+
+}  // End "DataMaps" namespace
+}  // End "NintendoExtensionCtrl" namespace

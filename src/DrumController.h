@@ -35,42 +35,60 @@ enum NXC_DrumVelocityID {
 	NXC_Drum_Pedal = 0x1B,
 };
 
-class DrumController : public ExtensionController {
+namespace NintendoExtensionCtrl {
+	namespace DataMaps {
+		class DrumController : private ControlDataMap {
+		public:
+			using ControlDataMap::ControlDataMap;
+
+			uint8_t joyX() const;  // 6 bits, 0-63
+			uint8_t joyY() const;
+
+			boolean drumRed() const;
+			boolean drumBlue() const;
+			boolean drumGreen() const;
+
+			boolean cymbalYellow() const;
+			boolean cymbalOrange() const;
+
+			boolean bassPedal() const;
+
+			boolean buttonPlus() const;
+			boolean buttonMinus() const;
+
+			boolean velocityAvailable() const;
+			NXC_DrumVelocityID velocityID() const;
+
+			uint8_t velocity() const;  // 3 bits, 0-7. 7 is fast/hard, 1 is slow/soft, 0 is not hit.
+			uint8_t velocity(NXC_DrumVelocityID idIn) const;  // velocity by ID
+
+			uint8_t velocityRed() const;
+			uint8_t velocityBlue() const;
+			uint8_t velocityGreen() const;
+			uint8_t velocityYellow() const;
+			uint8_t velocityOrange() const;
+			uint8_t velocityPedal() const;
+
+			void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+		private:
+			boolean validVelocityID(uint8_t idIn) const;
+		};
+	}
+}
+
+class DrumController : public ExtensionController, public NintendoExtensionCtrl::DataMaps::DrumController {
 public:
-	DrumController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-	DrumController(ExtensionData& busData);
+	typedef NintendoExtensionCtrl::DataMaps::DrumController DataMap;
 
-	uint8_t joyX() const;  // 6 bits, 0-63
-	uint8_t joyY() const;
+	DrumController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
+		ExtensionController(i2cBus, NXC_DrumController, 6),
+		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	boolean drumRed() const;
-	boolean drumBlue() const;
-	boolean drumGreen() const;
+	DrumController(ExtensionData& busData) :
+		ExtensionController(busData, NXC_DrumController, 6),
+		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	boolean cymbalYellow() const;
-	boolean cymbalOrange() const;
-	
-	boolean bassPedal() const;
-
-	boolean buttonPlus() const;
-	boolean buttonMinus() const;
-
-	boolean velocityAvailable() const;
-	NXC_DrumVelocityID velocityID() const;
-
-	uint8_t velocity() const;  // 3 bits, 0-7. 7 is fast/hard, 1 is slow/soft, 0 is not hit.
-	uint8_t velocity(NXC_DrumVelocityID idIn) const;  // velocity by ID
-
-	uint8_t velocityRed() const;
-	uint8_t velocityBlue() const;
-	uint8_t velocityGreen() const;
-	uint8_t velocityYellow() const;
-	uint8_t velocityOrange() const;
-	uint8_t velocityPedal() const;
-
-	void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
-private:
-	boolean validVelocityID(uint8_t idIn) const;
+	using DataMap::printDebug;
 };
 
 #endif

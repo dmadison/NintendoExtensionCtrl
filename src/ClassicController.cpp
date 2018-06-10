@@ -22,8 +22,8 @@
 
 #include "ClassicController.h"
 
-ClassicController::ClassicController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_ClassicController, 6) {}
-ClassicController::ClassicController(ExtensionData& busData) : ExtensionController(busData, NXC_ClassicController, 6) {}
+namespace NintendoExtensionCtrl {
+namespace DataMaps {
 
 uint8_t ClassicController::leftJoyX() const {
 	return getControlData(0) & 0x3F;
@@ -153,3 +153,6 @@ void ClassicController::printDebug(Stream& stream) const {
 		zlButtonPrint, zrButtonPrint);
 	stream.println(buffer);
 }
+
+}  // End "DataMaps" namespace
+}  // End "NintendoExtensionCtrl" namespace

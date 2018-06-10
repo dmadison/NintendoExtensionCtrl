@@ -25,42 +25,60 @@
 
 #include "ExtensionController.h"
 
-class GuitarController : public ExtensionController {
+namespace NintendoExtensionCtrl {
+	namespace DataMaps {
+		class GuitarController : private ControlDataMap {
+		public:
+			using ControlDataMap::ControlDataMap;
+
+			uint8_t joyX() const;  // 6 bits, 0-63
+			uint8_t joyY() const;
+
+			boolean strum() const;
+			boolean strumUp() const;
+			boolean strumDown() const;
+
+			boolean fretGreen() const;
+			boolean fretRed() const;
+			boolean fretYellow() const;
+			boolean fretBlue() const;
+			boolean fretOrange() const;
+
+			uint8_t whammyBar() const;  // 5 bits, 0-31 (starting at ~15-16)
+
+			uint8_t touchbar() const;  // 5 bits, 0-31
+			boolean touchGreen() const;
+			boolean touchRed() const;
+			boolean touchYellow() const;
+			boolean touchBlue() const;
+			boolean touchOrange() const;
+
+			boolean buttonPlus() const;
+			boolean buttonMinus() const;
+
+			void printDebug(Stream& stream = NXC_SERIAL_DEFAULT);
+
+			boolean supportsTouchbar();
+
+		private:
+			boolean touchbarData = false;  // Flag for touchbar data found
+		};
+	}
+}
+
+class GuitarController : public ExtensionController, public NintendoExtensionCtrl::DataMaps::GuitarController {
 public:
-	GuitarController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-	GuitarController(ExtensionData& busData);
+	typedef NintendoExtensionCtrl::DataMaps::GuitarController DataMap;
 
-	uint8_t joyX() const;  // 6 bits, 0-63
-	uint8_t joyY() const;
+	GuitarController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
+		ExtensionController(i2cBus, NXC_GuitarController, 6),
+		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	boolean strum() const;
-	boolean strumUp() const;
-	boolean strumDown() const;
+	GuitarController(ExtensionData& busData) :
+		ExtensionController(busData, NXC_GuitarController, 6),
+		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	boolean fretGreen() const;
-	boolean fretRed() const;
-	boolean fretYellow() const;
-	boolean fretBlue() const;
-	boolean fretOrange() const;
-
-	uint8_t whammyBar() const;  // 5 bits, 0-31 (starting at ~15-16)
-
-	uint8_t touchbar() const;  // 5 bits, 0-31
-	boolean touchGreen() const;
-	boolean touchRed() const;
-	boolean touchYellow() const;
-	boolean touchBlue() const;
-	boolean touchOrange() const;
-
-	boolean buttonPlus() const;
-	boolean buttonMinus() const;
-
-	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT);
-
-	boolean supportsTouchbar();
-
-private:
-	boolean touchbarData = false;  // Flag for touchbar data found
+	using DataMap::printDebug;
 };
 
 #endif

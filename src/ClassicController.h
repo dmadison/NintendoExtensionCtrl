@@ -25,45 +25,63 @@
 
 #include "ExtensionController.h"
 
-class ClassicController : public ExtensionController {
+namespace NintendoExtensionCtrl {
+	namespace DataMaps {
+		class ClassicController : private ControlDataMap {
+		public:
+			using ControlDataMap::ControlDataMap;
+
+			uint8_t leftJoyX() const;  // 6 bits, 0-63
+			uint8_t leftJoyY() const;
+
+			uint8_t rightJoyX() const;  // 5 bits, 0-31
+			uint8_t rightJoyY() const;
+
+			boolean dpadUp() const;
+			boolean dpadDown() const;
+			boolean dpadLeft() const;
+			boolean dpadRight() const;
+
+			boolean buttonA() const;
+			boolean buttonB() const;
+			boolean buttonX() const;
+			boolean buttonY() const;
+
+			uint8_t triggerL() const;  // 5 bits, 0-31
+			uint8_t triggerR() const;
+
+			boolean buttonL() const;
+			boolean buttonR() const;
+
+			boolean buttonZL() const;
+			boolean buttonZR() const;
+
+			boolean buttonStart() const;
+			boolean buttonSelect() const;
+
+			boolean buttonPlus() const;
+			boolean buttonMinus() const;
+
+			boolean buttonHome() const;
+
+			void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+		};
+	}
+}
+
+class ClassicController : public ExtensionController, public NintendoExtensionCtrl::DataMaps::ClassicController {
 public:
-	ClassicController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-	ClassicController(ExtensionData& busData);
+	typedef NintendoExtensionCtrl::DataMaps::ClassicController DataMap;
 
-	uint8_t leftJoyX() const;  // 6 bits, 0-63
-	uint8_t leftJoyY() const;
+	ClassicController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) : 
+		ExtensionController(i2cBus, NXC_ClassicController, 6), 
+		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	uint8_t rightJoyX() const;  // 5 bits, 0-31
-	uint8_t rightJoyY() const;
-
-	boolean dpadUp() const;
-	boolean dpadDown() const;
-	boolean dpadLeft() const;
-	boolean dpadRight() const;
-
-	boolean buttonA() const;
-	boolean buttonB() const;
-	boolean buttonX() const;
-	boolean buttonY() const;
-
-	uint8_t triggerL() const;  // 5 bits, 0-31
-	uint8_t triggerR() const;
-
-	boolean buttonL() const;
-	boolean buttonR() const;
-
-	boolean buttonZL() const;
-	boolean buttonZR() const;
-
-	boolean buttonStart() const;
-	boolean buttonSelect() const;
-
-	boolean buttonPlus() const;
-	boolean buttonMinus() const;
-
-	boolean buttonHome() const;
+	ClassicController(ExtensionData& busData) : 
+		ExtensionController(busData, NXC_ClassicController, 6), 
+		DataMap(*(static_cast<ExtensionController*>(this))) {}
 	
-	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT) const;
+	using DataMap::printDebug;
 };
 
 #endif

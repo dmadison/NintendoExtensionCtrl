@@ -22,8 +22,8 @@
 
 #include "Nunchuk.h"
 
-Nunchuk::Nunchuk(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_Nunchuk, 6) {}
-Nunchuk::Nunchuk(ExtensionData& busData) : ExtensionController(busData, NXC_Nunchuk, 6) {}
+namespace NintendoExtensionCtrl {
+namespace DataMaps {
 
 uint8_t Nunchuk::joyX() const {
 	return getControlData(0);
@@ -34,7 +34,7 @@ uint8_t Nunchuk::joyY() const {
 }
 
 uint16_t Nunchuk::accelX() const {
-	return getControlData(2) << 2 | ((getControlData(5) >> 2) & 0x03) ;
+	return getControlData(2) << 2 | ((getControlData(5) >> 2) & 0x03);
 }
 
 uint16_t Nunchuk::accelY() const {
@@ -72,6 +72,9 @@ void Nunchuk::printDebug(Stream& stream) const {
 	sprintf(buffer,
 		"Joy:(%3u, %3u) | Accel XYZ:(%4u, %4u, %4u) | Buttons: %c%c",
 		joyX(), joyY(), accelX(), accelY(), accelZ(), cPrint, zPrint);
-	
+
 	stream.println(buffer);
 }
+
+}  // End "DataMaps" namespace
+}  // End "NintendoExtensionCtrl" namespace

@@ -22,9 +22,6 @@
 
 #include "ExtensionController.h"
 
-ExtensionData::ExtensionData(NXC_I2C_TYPE& i2cBus)
-	: I2C_Bus(i2cBus) {}
-
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : comms(i2cBus) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize)
@@ -42,7 +39,7 @@ boolean ExtensionController::connect() {
 		}
 	}
 	else {
-		busData.connectedID = NXC_NoController;  // Bad init, nothing connected
+		connectedID = NXC_NoController;  // Bad init, nothing connected
 	}
 
 	return false;
@@ -54,21 +51,21 @@ boolean ExtensionController::reconnect() {
 }
 
 NXC_ControllerType ExtensionController::identifyController() {
-	return busData.connectedID = comms.identifyController();
+	return connectedID = comms.identifyController();
 }
 
 void ExtensionController::reset() {
-	busData.connectedID = NXC_NoController;
+	connectedID = NXC_NoController;
 	for (int i = 0; i < NXC_CONTROL_DATA_MAX; i++) {
-		busData.controlData[i] = 0;
+		controlData[i] = 0;
 	}
 }
 
 boolean ExtensionController::controllerIDMatches() const {
-	if (busData.connectedID == ControllerID) {
+	if (connectedID == ControllerID) {
 		return true;  // Match!
 	}
-	else if (enforceControllerID == false && busData.connectedID != NXC_NoController) {
+	else if (enforceControllerID == false && connectedID != NXC_NoController) {
 		return true;  // No enforcing and some sort of controller connected
 	}
 
@@ -76,7 +73,7 @@ boolean ExtensionController::controllerIDMatches() const {
 }
 
 NXC_ControllerType ExtensionController::getConnectedID() const {
-	return busData.connectedID;
+	return connectedID;
 }
 
 void ExtensionController::setEnforceID(boolean enforce) {
@@ -84,19 +81,19 @@ void ExtensionController::setEnforceID(boolean enforce) {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && comms.requestControlData(ControlDataSize, busData.controlData)) {
-		return NXCtrl::verifyData(busData.controlData, ControlDataSize);
+	if (controllerIDMatches() && comms.requestControlData(ControlDataSize, controlData)) {
+		return NXCtrl::verifyData(controlData, ControlDataSize);
 	}
 	
 	return false;  // Something went wrong :(
 }
 
 uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
-	return busData.controlData[controlIndex];
+	return controlData[controlIndex];
 }
 
 boolean ExtensionController::getControlBit(uint8_t arrIndex, uint8_t bitNum) const {
-	return !(busData.controlData[arrIndex] & (1 << bitNum));
+	return !(controlData[arrIndex] & (1 << bitNum));
 }
 
 void ExtensionController::printDebug(Stream& stream) const {
@@ -121,5 +118,5 @@ void ExtensionController::printDebugRaw(Stream& stream) const {
 }
 
 void ExtensionController::printDebugRaw(uint8_t baseFormat, Stream& stream) const {
-	NXCtrl::printRaw(busData.controlData, ControlDataSize, baseFormat, stream);
+	NXCtrl::printRaw(controlData, ControlDataSize, baseFormat, stream);
 }

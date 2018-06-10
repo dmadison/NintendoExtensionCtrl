@@ -27,15 +27,6 @@
 
 #define NXC_CONTROL_DATA_MAX 6  // Max # of control data bytes
 
-struct ExtensionData {
-	friend class ExtensionController;
-	ExtensionData(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-private:
-	NXC_I2C_TYPE& I2C_Bus = NXC_I2C_DEFAULT;
-	NXC_ControllerType connectedID = NXC_NoController;
-	uint8_t controlData[NXC_CONTROL_DATA_MAX];
-};
-
 class ExtensionController {
 public:
 	ExtensionController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
@@ -72,7 +63,8 @@ private:
 
 	boolean enforceControllerID = false;  // Off for generic controllers
 
-	ExtensionData busData;
+	NXC_ControllerType connectedID = NXC_NoController;
+	uint8_t controlData[NXC_CONTROL_DATA_MAX];
 
 	NintendoExtensionCtrl::ExtensionComms comms;
 };

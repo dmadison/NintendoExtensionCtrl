@@ -43,31 +43,31 @@ namespace NintendoExtensionCtrl {
 	public:
 		I2C_SlaveCtrl(NXC_I2C_TYPE& i2cRef, uint8_t addr) : I2C_Addr(addr), i2c(i2cRef) {}
 
-		void startBus() {
+		void startBus() const {
 			i2c.begin();
 		}
 
-		boolean writePointer(byte ptr) {
+		boolean writePointer(byte ptr) const {
 			i2c.beginTransmission(I2C_Addr);
 			i2c.write(ptr);
 			return i2c.endTransmission() == 0;  // 0 = No Error
 		}
 
-		boolean writeRegister(byte reg, byte value) {
+		boolean writeRegister(byte reg, byte value) const {
 			i2c.beginTransmission(I2C_Addr);
 			i2c.write(reg);
 			i2c.write(value);
 			return i2c.endTransmission() == 0;
 		}
 
-		boolean requestMultiple(uint8_t requestSize, uint8_t * dataOut) {
+		boolean requestMultiple(uint8_t requestSize, uint8_t * dataOut) const {
 			uint8_t nBytesRecv = i2c.readBytes(dataOut,
 				i2c.requestFrom(I2C_Addr, requestSize));
 
 			return (nBytesRecv == requestSize);  // Success if all bytes received
 		}
 
-		boolean readDataArray(byte ptr, uint8_t requestSize, uint8_t * dataOut) {
+		boolean readDataArray(byte ptr, uint8_t requestSize, uint8_t * dataOut) const {
 			if (!writePointer(ptr)) { return false; }  // Set start for data read
 			delayMicroseconds(ConversionDelay);  // Wait for data conversion
 			return requestMultiple(requestSize, dataOut);
@@ -106,15 +106,15 @@ namespace NintendoExtensionCtrl {
 		}
 
 		// Identity
-		boolean requestIdentity(uint8_t * idData) {
+		boolean requestIdentity(uint8_t * idData) const {
 			return i2c.readDataArray(IDPointer, IDSize, idData);
 		}
 
-		NXC_ControllerType identifyController(const uint8_t * idData) {
+		NXC_ControllerType identifyController(const uint8_t * idData) const {
 			return NintendoExtensionCtrl::identifyController(idData);
 		}
 
-		NXC_ControllerType identifyController() {
+		NXC_ControllerType identifyController() const {
 			uint8_t idData[IDSize];
 
 			if (!requestIdentity(idData)) {

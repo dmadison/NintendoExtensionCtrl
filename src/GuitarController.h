@@ -66,15 +66,8 @@ namespace NintendoExtensionCtrl {
 	}
 }
 
-class GuitarController : public ExtensionController, public NintendoExtensionCtrl::DataMaps::GuitarController {
-public:
-	typedef NintendoExtensionCtrl::DataMaps::GuitarController DataMap;
-
-	GuitarController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
-		ExtensionController(i2cBus, NXC_GuitarController, 6),
-		DataMap(*(static_cast<ExtensionController*>(this))) {}
-
-	using DataMap::printDebug;
-};
+typedef NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::DataMaps::GuitarController, NXC_GuitarController, 6>
+	GuitarController;
 
 #endif

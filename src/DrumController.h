@@ -76,15 +76,8 @@ namespace NintendoExtensionCtrl {
 	}
 }
 
-class DrumController : public ExtensionController, public NintendoExtensionCtrl::DataMaps::DrumController {
-public:
-	typedef NintendoExtensionCtrl::DataMaps::DrumController DataMap;
-
-	DrumController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
-		ExtensionController(i2cBus, NXC_DrumController, 6),
-		DataMap(*(static_cast<ExtensionController*>(this))) {}
-
-	using DataMap::printDebug;
-};
+typedef NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::DataMaps::DrumController, NXC_DrumController, 6>
+	DrumController;
 
 #endif

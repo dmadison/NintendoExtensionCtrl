@@ -116,15 +116,8 @@ namespace NintendoExtensionCtrl {
 	}
 }
 
-class DJTurntableController : public ExtensionController, public NintendoExtensionCtrl::DataMaps::DJTurntableController {
-public:
-	typedef NintendoExtensionCtrl::DataMaps::DJTurntableController DataMap;
-
-	DJTurntableController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
-		ExtensionController(i2cBus, NXC_DJTurntable, 6),
-		DataMap(*(static_cast<ExtensionController*>(this))) {}
-
-	using DataMap::printDebug;
-};
+typedef NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::DataMaps::DJTurntableController, NXC_DJTurntable, 6>
+	DJTurntableController;
 
 #endif

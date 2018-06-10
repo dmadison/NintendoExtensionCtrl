@@ -49,15 +49,8 @@ namespace NintendoExtensionCtrl {
 	}
 }
 
-class Nunchuk : public ExtensionController, public NintendoExtensionCtrl::DataMaps::Nunchuk {
-public:
-	typedef NintendoExtensionCtrl::DataMaps::Nunchuk DataMap;
-
-	Nunchuk(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
-		ExtensionController(i2cBus, NXC_Nunchuk, 6),
-		DataMap(*(static_cast<ExtensionController*>(this))) {}
-
-	using DataMap::printDebug;
-};
+typedef NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::DataMaps::Nunchuk, NXC_Nunchuk, 6>
+	Nunchuk;
 
 #endif

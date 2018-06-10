@@ -69,15 +69,8 @@ namespace NintendoExtensionCtrl {
 	}
 }
 
-class ClassicController : public ExtensionController, public NintendoExtensionCtrl::DataMaps::ClassicController {
-public:
-	typedef NintendoExtensionCtrl::DataMaps::ClassicController DataMap;
-
-	ClassicController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) : 
-		ExtensionController(i2cBus, NXC_ClassicController, 6), 
-		DataMap(*(static_cast<ExtensionController*>(this))) {}
-	
-	using DataMap::printDebug;
-};
+typedef NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::DataMaps::ClassicController, NXC_ClassicController, 6>
+	ClassicController;
 
 #endif

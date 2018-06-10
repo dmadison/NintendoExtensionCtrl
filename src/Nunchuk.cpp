@@ -23,46 +23,45 @@
 #include "Nunchuk.h"
 
 namespace NintendoExtensionCtrl {
-namespace DataMaps {
 
-uint8_t Nunchuk::joyX() const {
+uint8_t Nunchuk_Data::joyX() const {
 	return getControlData(0);
 }
 
-uint8_t Nunchuk::joyY() const {
+uint8_t Nunchuk_Data::joyY() const {
 	return getControlData(1);
 }
 
-uint16_t Nunchuk::accelX() const {
+uint16_t Nunchuk_Data::accelX() const {
 	return getControlData(2) << 2 | ((getControlData(5) >> 2) & 0x03);
 }
 
-uint16_t Nunchuk::accelY() const {
+uint16_t Nunchuk_Data::accelY() const {
 	return getControlData(3) << 2 | ((getControlData(5) >> 4) & 0x03);
 }
 
-uint16_t Nunchuk::accelZ() const {
+uint16_t Nunchuk_Data::accelZ() const {
 	return getControlData(4) << 2 | ((getControlData(5) >> 6) & 0x03);
 }
 
-boolean Nunchuk::buttonC() const {
+boolean Nunchuk_Data::buttonC() const {
 	return getControlBit(5, 1);
 }
 
-boolean Nunchuk::buttonZ() const {
+boolean Nunchuk_Data::buttonZ() const {
 	return getControlBit(5, 0);
 }
 
-float Nunchuk::rollAngle() const {
+float Nunchuk_Data::rollAngle() const {
 	return atan2((float)accelX() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
-float Nunchuk::pitchAngle() const {
+float Nunchuk_Data::pitchAngle() const {
 	// Inverted so pulling back is a positive pitch
 	return -atan2((float)accelY() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
-void Nunchuk::printDebug(Stream& stream) const {
+void Nunchuk_Data::printDebug(Stream& stream) const {
 	char buffer[60];
 
 	char cPrint = buttonC() ? 'C' : '-';
@@ -76,5 +75,4 @@ void Nunchuk::printDebug(Stream& stream) const {
 	stream.println(buffer);
 }
 
-}  // End "DataMaps" namespace
 }  // End "NintendoExtensionCtrl" namespace

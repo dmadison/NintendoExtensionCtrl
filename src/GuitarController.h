@@ -26,48 +26,46 @@
 #include "ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	namespace DataMaps {
-		class GuitarController : private ControlDataMap {
-		public:
-			using ControlDataMap::ControlDataMap;
+	class GuitarController_Data : private ControlDataMap {
+	public:
+		using ControlDataMap::ControlDataMap;
 
-			uint8_t joyX() const;  // 6 bits, 0-63
-			uint8_t joyY() const;
+		uint8_t joyX() const;  // 6 bits, 0-63
+		uint8_t joyY() const;
 
-			boolean strum() const;
-			boolean strumUp() const;
-			boolean strumDown() const;
+		boolean strum() const;
+		boolean strumUp() const;
+		boolean strumDown() const;
 
-			boolean fretGreen() const;
-			boolean fretRed() const;
-			boolean fretYellow() const;
-			boolean fretBlue() const;
-			boolean fretOrange() const;
+		boolean fretGreen() const;
+		boolean fretRed() const;
+		boolean fretYellow() const;
+		boolean fretBlue() const;
+		boolean fretOrange() const;
 
-			uint8_t whammyBar() const;  // 5 bits, 0-31 (starting at ~15-16)
+		uint8_t whammyBar() const;  // 5 bits, 0-31 (starting at ~15-16)
 
-			uint8_t touchbar() const;  // 5 bits, 0-31
-			boolean touchGreen() const;
-			boolean touchRed() const;
-			boolean touchYellow() const;
-			boolean touchBlue() const;
-			boolean touchOrange() const;
+		uint8_t touchbar() const;  // 5 bits, 0-31
+		boolean touchGreen() const;
+		boolean touchRed() const;
+		boolean touchYellow() const;
+		boolean touchBlue() const;
+		boolean touchOrange() const;
 
-			boolean buttonPlus() const;
-			boolean buttonMinus() const;
+		boolean buttonPlus() const;
+		boolean buttonMinus() const;
 
-			void printDebug(Stream& stream = NXC_SERIAL_DEFAULT);
+		void printDebug(Stream& stream = NXC_SERIAL_DEFAULT);
 
-			boolean supportsTouchbar();
+		boolean supportsTouchbar();
 
-		private:
-			boolean touchbarData = false;  // Flag for touchbar data found
-		};
-	}
+	private:
+		boolean touchbarData = false;  // Flag for touchbar data found
+	};
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DataMaps::GuitarController, NXC_GuitarController, 6>
+	<NintendoExtensionCtrl::GuitarController_Data, NXC_GuitarController, 6>
 	GuitarController;
 
 #endif

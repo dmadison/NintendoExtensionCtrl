@@ -26,51 +26,49 @@
 #include "ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	namespace DataMaps {
-		class ClassicController : private ControlDataMap {
-		public:
-			using ControlDataMap::ControlDataMap;
+	class ClassicController_Data : private ControlDataMap {
+	public:
+		using ControlDataMap::ControlDataMap;
 
-			uint8_t leftJoyX() const;  // 6 bits, 0-63
-			uint8_t leftJoyY() const;
+		uint8_t leftJoyX() const;  // 6 bits, 0-63
+		uint8_t leftJoyY() const;
 
-			uint8_t rightJoyX() const;  // 5 bits, 0-31
-			uint8_t rightJoyY() const;
+		uint8_t rightJoyX() const;  // 5 bits, 0-31
+		uint8_t rightJoyY() const;
 
-			boolean dpadUp() const;
-			boolean dpadDown() const;
-			boolean dpadLeft() const;
-			boolean dpadRight() const;
+		boolean dpadUp() const;
+		boolean dpadDown() const;
+		boolean dpadLeft() const;
+		boolean dpadRight() const;
 
-			boolean buttonA() const;
-			boolean buttonB() const;
-			boolean buttonX() const;
-			boolean buttonY() const;
+		boolean buttonA() const;
+		boolean buttonB() const;
+		boolean buttonX() const;
+		boolean buttonY() const;
 
-			uint8_t triggerL() const;  // 5 bits, 0-31
-			uint8_t triggerR() const;
+		uint8_t triggerL() const;  // 5 bits, 0-31
+		uint8_t triggerR() const;
 
-			boolean buttonL() const;
-			boolean buttonR() const;
+		boolean buttonL() const;
+		boolean buttonR() const;
 
-			boolean buttonZL() const;
-			boolean buttonZR() const;
+		boolean buttonZL() const;
+		boolean buttonZR() const;
 
-			boolean buttonStart() const;
-			boolean buttonSelect() const;
+		boolean buttonStart() const;
+		boolean buttonSelect() const;
 
-			boolean buttonPlus() const;
-			boolean buttonMinus() const;
+		boolean buttonPlus() const;
+		boolean buttonMinus() const;
 
-			boolean buttonHome() const;
+		boolean buttonHome() const;
 
-			void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
-		};
-	}
+		void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+	};
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DataMaps::ClassicController, NXC_ClassicController, 6>
+	<NintendoExtensionCtrl::ClassicController_Data, NXC_ClassicController, 6>
 	ClassicController;
 
 #endif

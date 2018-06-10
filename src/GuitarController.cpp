@@ -23,86 +23,85 @@
 #include "GuitarController.h"
 
 namespace NintendoExtensionCtrl {
-namespace DataMaps {
 
-uint8_t GuitarController::joyX() const {
+uint8_t GuitarController_Data::joyX() const {
 	return getControlData(0) & 0x3F;
 }
 
-uint8_t GuitarController::joyY() const {
+uint8_t GuitarController_Data::joyY() const {
 	return getControlData(1) & 0x3F;
 }
 
-boolean GuitarController::strum() const {
+boolean GuitarController_Data::strum() const {
 	return strumUp() | strumDown();
 }
 
-boolean GuitarController::strumUp() const {
+boolean GuitarController_Data::strumUp() const {
 	return getControlBit(5, 0);
 }
 
-boolean GuitarController::strumDown() const {
+boolean GuitarController_Data::strumDown() const {
 	return getControlBit(4, 6);
 }
 
-boolean GuitarController::fretGreen() const {
+boolean GuitarController_Data::fretGreen() const {
 	return getControlBit(5, 4);
 }
 
-boolean GuitarController::fretRed() const {
+boolean GuitarController_Data::fretRed() const {
 	return getControlBit(5, 6);
 }
 
-boolean GuitarController::fretYellow() const {
+boolean GuitarController_Data::fretYellow() const {
 	return getControlBit(5, 3);
 }
 
-boolean GuitarController::fretBlue() const {
+boolean GuitarController_Data::fretBlue() const {
 	return getControlBit(5, 5);
 }
 
-boolean GuitarController::fretOrange() const {
+boolean GuitarController_Data::fretOrange() const {
 	return getControlBit(5, 7);
 }
 
-uint8_t GuitarController::whammyBar() const {
+uint8_t GuitarController_Data::whammyBar() const {
 	return getControlData(3) & 0x1F;
 }
 
-uint8_t GuitarController::touchbar() const {
+uint8_t GuitarController_Data::touchbar() const {
 	return getControlData(2) & 0x1F;
 }
 
-boolean GuitarController::touchGreen() const {
+boolean GuitarController_Data::touchGreen() const {
 	return touchbar() != 0 && touchbar() <= 7;
 }
 
-boolean GuitarController::touchRed() const {
+boolean GuitarController_Data::touchRed() const {
 	return touchbar() >= 7 && touchbar() <= 13;
 }
 
-boolean GuitarController::touchYellow() const {
+boolean GuitarController_Data::touchYellow() const {
 	return touchbar() >= 12 && touchbar() <= 21
 		&& touchbar() != 15;	// The "not touched" value
 }
 
-boolean GuitarController::touchBlue() const {
+boolean GuitarController_Data::touchBlue() const {
 	return touchbar() >= 20 && touchbar() <= 26;
 }
 
-boolean GuitarController::touchOrange() const {
+boolean GuitarController_Data::touchOrange() const {
 	return touchbar() >= 26;
 }
 
-boolean GuitarController::buttonPlus() const {
+boolean GuitarController_Data::buttonPlus() const {
 	return getControlBit(4, 2);
 }
 
-boolean GuitarController::buttonMinus() const {
+boolean GuitarController_Data::buttonMinus() const {
 	return getControlBit(4, 4);
 }
 
-boolean GuitarController::supportsTouchbar() {
+boolean GuitarController_Data::supportsTouchbar() {
 	if (touchbarData) {
 		return true;
 	}
@@ -112,7 +111,7 @@ boolean GuitarController::supportsTouchbar() {
 	return false;
 }
 
-void GuitarController::printDebug(Stream& stream) {
+void GuitarController_Data::printDebug(Stream& stream) {
 	const char fillCharacter = '_';
 
 	char buffer[25];
@@ -169,5 +168,4 @@ void GuitarController::printDebug(Stream& stream) {
 	stream.println(buffer);
 }
 
-}  // End "DataMaps" namespace
 }  // End "NintendoExtensionCtrl" namespace

@@ -36,48 +36,46 @@ enum NXC_DrumVelocityID {
 };
 
 namespace NintendoExtensionCtrl {
-	namespace DataMaps {
-		class DrumController : private ControlDataMap {
-		public:
-			using ControlDataMap::ControlDataMap;
+	class DrumController_Data : private ControlDataMap {
+	public:
+		using ControlDataMap::ControlDataMap;
 
-			uint8_t joyX() const;  // 6 bits, 0-63
-			uint8_t joyY() const;
+		uint8_t joyX() const;  // 6 bits, 0-63
+		uint8_t joyY() const;
 
-			boolean drumRed() const;
-			boolean drumBlue() const;
-			boolean drumGreen() const;
+		boolean drumRed() const;
+		boolean drumBlue() const;
+		boolean drumGreen() const;
 
-			boolean cymbalYellow() const;
-			boolean cymbalOrange() const;
+		boolean cymbalYellow() const;
+		boolean cymbalOrange() const;
 
-			boolean bassPedal() const;
+		boolean bassPedal() const;
 
-			boolean buttonPlus() const;
-			boolean buttonMinus() const;
+		boolean buttonPlus() const;
+		boolean buttonMinus() const;
 
-			boolean velocityAvailable() const;
-			NXC_DrumVelocityID velocityID() const;
+		boolean velocityAvailable() const;
+		NXC_DrumVelocityID velocityID() const;
 
-			uint8_t velocity() const;  // 3 bits, 0-7. 7 is fast/hard, 1 is slow/soft, 0 is not hit.
-			uint8_t velocity(NXC_DrumVelocityID idIn) const;  // velocity by ID
+		uint8_t velocity() const;  // 3 bits, 0-7. 7 is fast/hard, 1 is slow/soft, 0 is not hit.
+		uint8_t velocity(NXC_DrumVelocityID idIn) const;  // velocity by ID
 
-			uint8_t velocityRed() const;
-			uint8_t velocityBlue() const;
-			uint8_t velocityGreen() const;
-			uint8_t velocityYellow() const;
-			uint8_t velocityOrange() const;
-			uint8_t velocityPedal() const;
+		uint8_t velocityRed() const;
+		uint8_t velocityBlue() const;
+		uint8_t velocityGreen() const;
+		uint8_t velocityYellow() const;
+		uint8_t velocityOrange() const;
+		uint8_t velocityPedal() const;
 
-			void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
-		private:
-			boolean validVelocityID(uint8_t idIn) const;
-		};
-	}
+		void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+	private:
+		boolean validVelocityID(uint8_t idIn) const;
+	};
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DataMaps::DrumController, NXC_DrumController, 6>
+	<NintendoExtensionCtrl::DrumController_Data, NXC_DrumController, 6>
 	DrumController;
 
 #endif

@@ -26,31 +26,29 @@
 #include "ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	namespace DataMaps {
-		class Nunchuk : private ControlDataMap {
-		public:
-			using ControlDataMap::ControlDataMap;
+	class Nunchuk_Data : private ControlDataMap {
+	public:
+		using ControlDataMap::ControlDataMap;
 
-			uint8_t joyX() const;  // 8 bits, 0-255
-			uint8_t joyY() const;
+		uint8_t joyX() const;  // 8 bits, 0-255
+		uint8_t joyY() const;
 
-			uint16_t accelX() const;  // 10 bits, 0-1023
-			uint16_t accelY() const;
-			uint16_t accelZ() const;
+		uint16_t accelX() const;  // 10 bits, 0-1023
+		uint16_t accelY() const;
+		uint16_t accelZ() const;
 
-			boolean buttonC() const;
-			boolean buttonZ() const;
+		boolean buttonC() const;
+		boolean buttonZ() const;
 
-			float rollAngle() const;  // -180.0 to 180.0
-			float pitchAngle() const;
+		float rollAngle() const;  // -180.0 to 180.0
+		float pitchAngle() const;
 
-			void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
-		};
-	}
+		void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+	};
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DataMaps::Nunchuk, NXC_Nunchuk, 6>
+	<NintendoExtensionCtrl::Nunchuk_Data, NXC_Nunchuk, 6>
 	Nunchuk;
 
 #endif

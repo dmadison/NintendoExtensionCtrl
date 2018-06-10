@@ -23,101 +23,100 @@
 #include "ClassicController.h"
 
 namespace NintendoExtensionCtrl {
-namespace DataMaps {
 
-uint8_t ClassicController::leftJoyX() const {
+uint8_t ClassicController_Data::leftJoyX() const {
 	return getControlData(0) & 0x3F;
 }
 
-uint8_t ClassicController::leftJoyY() const {
+uint8_t ClassicController_Data::leftJoyY() const {
 	return getControlData(1) & 0x3F;
 }
 
-uint8_t ClassicController::rightJoyX() const {
+uint8_t ClassicController_Data::rightJoyX() const {
 	return ((getControlData(0) >> 3) & 0x18) | ((getControlData(1) >> 5) &  0x06 ) | (getControlData(2) >> 7);
 }
 
-uint8_t ClassicController::rightJoyY() const {
+uint8_t ClassicController_Data::rightJoyY() const {
 	return getControlData(2) & 0x1F;
 }
 
-boolean ClassicController::dpadUp() const {
+boolean ClassicController_Data::dpadUp() const {
 	return getControlBit(5, 0);
 }
 
-boolean ClassicController::dpadDown() const {
+boolean ClassicController_Data::dpadDown() const {
 	return getControlBit(4, 6);
 }
 
-boolean ClassicController::dpadLeft() const {
+boolean ClassicController_Data::dpadLeft() const {
 	return getControlBit(5, 1);
 }
 
-boolean ClassicController::dpadRight() const {
+boolean ClassicController_Data::dpadRight() const {
 	return getControlBit(4, 7);
 }
 
-boolean ClassicController::buttonA() const {
+boolean ClassicController_Data::buttonA() const {
 	return getControlBit(5, 4);
 }
 
-boolean ClassicController::buttonB() const {
+boolean ClassicController_Data::buttonB() const {
 	return getControlBit(5, 6);
 }
 
-boolean ClassicController::buttonX() const {
+boolean ClassicController_Data::buttonX() const {
 	return getControlBit(5, 3);
 }
 
-boolean ClassicController::buttonY() const {
+boolean ClassicController_Data::buttonY() const {
 	return getControlBit(5, 5);
 }
 
-uint8_t ClassicController::triggerL() const {
+uint8_t ClassicController_Data::triggerL() const {
 	return ((getControlData(2) & 0x60) >> 2) | getControlData(3) >> 5;
 }
 
-uint8_t ClassicController::triggerR() const {
+uint8_t ClassicController_Data::triggerR() const {
 	return getControlData(3) & 0x1F;
 }
 
-boolean ClassicController::buttonL() const {
+boolean ClassicController_Data::buttonL() const {
 	return getControlBit(4, 5);
 }
 
-boolean ClassicController::buttonR() const {
+boolean ClassicController_Data::buttonR() const {
 	return getControlBit(4, 1);
 }
 
-boolean ClassicController::buttonZL() const {
+boolean ClassicController_Data::buttonZL() const {
 	return getControlBit(5, 7);
 }
 
-boolean ClassicController::buttonZR() const {
+boolean ClassicController_Data::buttonZR() const {
 	return getControlBit(5, 2);
 }
 
-boolean ClassicController::buttonStart() const {
+boolean ClassicController_Data::buttonStart() const {
 	return getControlBit(4, 2);
 }
 
-boolean ClassicController::buttonSelect() const {
+boolean ClassicController_Data::buttonSelect() const {
 	return getControlBit(4, 4);
 }
 
-boolean ClassicController::buttonPlus() const {
+boolean ClassicController_Data::buttonPlus() const {
 	return buttonStart();
 }
 
-boolean ClassicController::buttonMinus() const {
+boolean ClassicController_Data::buttonMinus() const {
 	return buttonSelect();
 }
 
-boolean ClassicController::buttonHome() const {
+boolean ClassicController_Data::buttonHome() const {
 	return getControlBit(4, 3);
 }
 
-void ClassicController::printDebug(Stream& stream) const {
+void ClassicController_Data::printDebug(Stream& stream) const {
 	const char fillCharacter = '_';
 
 	char buffer[62];
@@ -154,5 +153,4 @@ void ClassicController::printDebug(Stream& stream) const {
 	stream.println(buffer);
 }
 
-}  // End "DataMaps" namespace
 }  // End "NintendoExtensionCtrl" namespace

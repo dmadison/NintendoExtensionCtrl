@@ -23,53 +23,52 @@
 #include "DrumController.h"
 
 namespace NintendoExtensionCtrl {
-namespace DataMaps {
 
-uint8_t DrumController::joyX() const {
+uint8_t DrumController_Data::joyX() const {
 	return getControlData(0) & 0x3F;
 }
 
-uint8_t DrumController::joyY() const {
+uint8_t DrumController_Data::joyY() const {
 	return getControlData(1) & 0x3F;
 }
 
-boolean DrumController::drumRed() const {
+boolean DrumController_Data::drumRed() const {
 	return getControlBit(5, 6);
 }
 
-boolean DrumController::drumBlue() const {
+boolean DrumController_Data::drumBlue() const {
 	return getControlBit(5, 3);
 }
 
-boolean DrumController::drumGreen() const {
+boolean DrumController_Data::drumGreen() const {
 	return getControlBit(5, 4);
 }
 
-boolean DrumController::cymbalYellow() const {
+boolean DrumController_Data::cymbalYellow() const {
 	return getControlBit(5, 5);
 }
 
-boolean DrumController::cymbalOrange() const {
+boolean DrumController_Data::cymbalOrange() const {
 	return getControlBit(5, 7);
 }
 
-boolean DrumController::bassPedal() const {
+boolean DrumController_Data::bassPedal() const {
 	return getControlBit(5, 2);
 }
 
-boolean DrumController::buttonPlus() const {
+boolean DrumController_Data::buttonPlus() const {
 	return getControlBit(4, 2);
 }
 
-boolean DrumController::buttonMinus() const {
+boolean DrumController_Data::buttonMinus() const {
 	return getControlBit(4, 4);
 }
 
-boolean DrumController::velocityAvailable() const {
+boolean DrumController_Data::velocityAvailable() const {
 	return getControlBit(2, 6);
 }
 
-NXC_DrumVelocityID DrumController::velocityID() const {
+NXC_DrumVelocityID DrumController_Data::velocityID() const {
 	uint8_t velocityID = (getControlData(2) & 0x3E) >> 1;  // 5 bit identifier
 
 	if (validVelocityID(velocityID)) {
@@ -79,7 +78,7 @@ NXC_DrumVelocityID DrumController::velocityID() const {
 	return NXC_Drum_None;
 }
 
-boolean DrumController::validVelocityID(uint8_t idIn) const {
+boolean DrumController_Data::validVelocityID(uint8_t idIn) const {
 	switch (idIn) {
 		case(NXC_Drum_None):  // Intentionally fall through cases
 		case(NXC_Drum_Red):
@@ -95,7 +94,7 @@ boolean DrumController::validVelocityID(uint8_t idIn) const {
 	}
 }
 
-uint8_t DrumController::velocity() const {
+uint8_t DrumController_Data::velocity() const {
 	if (velocityAvailable()) {
 		uint8_t velocityRaw = (getControlData(3) & 0xE0) >> 5;
 		velocityRaw = 7 - velocityRaw;  // Invert so high = fast attack
@@ -104,38 +103,38 @@ uint8_t DrumController::velocity() const {
 	return 0;  // Invalid data
 }
 
-uint8_t DrumController::velocity(NXC_DrumVelocityID idIn) const {
+uint8_t DrumController_Data::velocity(NXC_DrumVelocityID idIn) const {
 	if (idIn == velocityID()) {
 		return velocity();
 	}
 	return 0;  // ID mismatch
 }
 
-uint8_t DrumController::velocityRed() const {
+uint8_t DrumController_Data::velocityRed() const {
 	return velocity(NXC_Drum_Red);
 }
 
-uint8_t DrumController::velocityBlue() const {
+uint8_t DrumController_Data::velocityBlue() const {
 	return velocity(NXC_Drum_Blue);
 }
 
-uint8_t DrumController::velocityGreen() const {
+uint8_t DrumController_Data::velocityGreen() const {
 	return velocity(NXC_Drum_Green);
 }
 
-uint8_t DrumController::velocityYellow() const {
+uint8_t DrumController_Data::velocityYellow() const {
 	return velocity(NXC_Drum_Yellow);
 }
 
-uint8_t DrumController::velocityOrange() const {
+uint8_t DrumController_Data::velocityOrange() const {
 	return velocity(NXC_Drum_Orange);
 }
 
-uint8_t DrumController::velocityPedal() const {
+uint8_t DrumController_Data::velocityPedal() const {
 	return velocity(NXC_Drum_Pedal);  // Fix this
 }
 
-void DrumController::printDebug(Stream& stream) const {
+void DrumController_Data::printDebug(Stream& stream) const {
 	const char fillCharacter = '_';
 	
 	char buffer[45];
@@ -193,5 +192,4 @@ void DrumController::printDebug(Stream& stream) const {
 	stream.println(buffer);
 }
 
-}  // End "DataMaps" namespace
 }  // End "NintendoExtensionCtrl" namespace

@@ -84,10 +84,6 @@ public:
 		ExtensionController(i2cBus, NXC_DrumController, 6),
 		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	DrumController(ExtensionData& busData) :
-		ExtensionController(busData, NXC_DrumController, 6),
-		DataMap(*(static_cast<ExtensionController*>(this))) {}
-
 	using DataMap::printDebug;
 };
 

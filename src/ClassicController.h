@@ -76,10 +76,6 @@ public:
 	ClassicController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) : 
 		ExtensionController(i2cBus, NXC_ClassicController, 6), 
 		DataMap(*(static_cast<ExtensionController*>(this))) {}
-
-	ClassicController(ExtensionData& busData) : 
-		ExtensionController(busData, NXC_ClassicController, 6), 
-		DataMap(*(static_cast<ExtensionController*>(this))) {}
 	
 	using DataMap::printDebug;
 };

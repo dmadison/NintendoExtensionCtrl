@@ -57,10 +57,6 @@ public:
 		ExtensionController(i2cBus, NXC_Nunchuk, 6),
 		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	Nunchuk(ExtensionData& busData) :
-		ExtensionController(busData, NXC_Nunchuk, 6),
-		DataMap(*(static_cast<ExtensionController*>(this))) {}
-
 	using DataMap::printDebug;
 };
 

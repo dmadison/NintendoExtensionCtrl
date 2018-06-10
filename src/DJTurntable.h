@@ -124,10 +124,6 @@ public:
 		ExtensionController(i2cBus, NXC_DJTurntable, 6),
 		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	DJTurntableController(ExtensionData& busData) :
-		ExtensionController(busData, NXC_DJTurntable, 6),
-		DataMap(*(static_cast<ExtensionController*>(this))) {}
-
 	using DataMap::printDebug;
 };
 

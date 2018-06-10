@@ -74,10 +74,6 @@ public:
 		ExtensionController(i2cBus, NXC_GuitarController, 6),
 		DataMap(*(static_cast<ExtensionController*>(this))) {}
 
-	GuitarController(ExtensionData& busData) :
-		ExtensionController(busData, NXC_GuitarController, 6),
-		DataMap(*(static_cast<ExtensionController*>(this))) {}
-
 	using DataMap::printDebug;
 };
 

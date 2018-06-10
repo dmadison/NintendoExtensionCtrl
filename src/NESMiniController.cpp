@@ -23,7 +23,6 @@
 #include "NESMiniController.h"
 
 NESMiniController::NESMiniController(NXC_I2C_TYPE& i2cBus) : ClassicController(i2cBus) {}
-NESMiniController::NESMiniController(ExtensionData& busData) : ClassicController(busData) {}
 
 void NESMiniController::printDebug(Stream& stream) const {
 	const char fillCharacter = '_';

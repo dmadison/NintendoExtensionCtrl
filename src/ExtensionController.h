@@ -39,7 +39,6 @@ private:
 class ExtensionController {
 public:
 	ExtensionController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-	ExtensionController(ExtensionData& busData);
 
 	void begin();
 
@@ -67,15 +66,13 @@ public:
 
 protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize);
-	ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize);
 
 private:
 	boolean controllerIDMatches() const;
 
 	boolean enforceControllerID = false;  // Off for generic controllers
 
-	ExtensionData portData;
-	ExtensionData & busData = portData;
+	ExtensionData busData;
 
 	NintendoExtensionCtrl::ExtensionComms comms;
 };

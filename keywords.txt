@@ -52,8 +52,6 @@ getConnectedID	KEYWORD2
 getControlData	KEYWORD2
 getControlBit	KEYWORD2
 
-setEnforceID	KEYWORD2
-
 printDebug	KEYWORD2
 printDebugID	KEYWORD2
 printDebugRaw	KEYWORD2

@@ -50,7 +50,6 @@ public:
 	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(uint8_t baseFormat, Stream& stream = NXC_SERIAL_DEFAULT) const;
 
-	const NXC_ControllerType ControllerID = NXC_UnknownController;
 	static const uint8_t ControlDataSize = 6;  // Enough for standard request size
 	const uint8_t RequestSize = ControlDataSize;  // Bytes per update
 
@@ -60,8 +59,7 @@ protected:
 private:
 	boolean controllerIDMatches() const;
 
-	boolean enforceControllerID = false;  // Off for generic controllers
-
+	const NXC_ControllerType ID_Limit = NXC_AnyController;
 	NXC_ControllerType connectedID = NXC_NoController;
 	uint8_t controlData[ControlDataSize];
 

@@ -22,10 +22,15 @@
 
 #include "ExtensionController.h"
 
+// Limit request size to the size of the control data array
+constexpr uint8_t LimitRequestSize(uint8_t reqSize) {
+	return reqSize > ExtensionController::ControlDataSize ? ExtensionController::ControlDataSize : reqSize;
+}
+
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : comms(i2cBus) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t reqSize)
-	: ID_Limit(conID), RequestSize(reqSize), comms(i2cBus) {}
+	: ID_Limit(conID), RequestSize(LimitRequestSize(reqSize)), comms(i2cBus) {}
 
 void ExtensionController::begin() {
 	comms.startBus();

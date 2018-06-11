@@ -51,10 +51,9 @@ public:
 	void printDebugRaw(uint8_t baseFormat, Stream& stream = NXC_SERIAL_DEFAULT) const;
 
 	static const uint8_t ControlDataSize = 6;  // Enough for standard request size
-	const uint8_t RequestSize = ControlDataSize;  // Bytes per update
 
 protected:
-	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize);
+	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID);
 
 private:
 	boolean controllerIDMatches() const;

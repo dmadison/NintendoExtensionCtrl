@@ -40,13 +40,13 @@ namespace NintendoExtensionCtrl {
 		const ExtensionController & ControlData;
 	};
 
-	template <class ControllerMap, NXC_ControllerType controllerID, uint8_t requestSize>
+	template <class ControllerMap, NXC_ControllerType controllerID>
 	class BuildControllerClass : public ExtensionController, public ControllerMap {
 	public:
 		typedef ControllerMap DataMap;  // Make controller data class easily accessible
 
 		BuildControllerClass(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
-			ExtensionController(i2cBus, controllerID, requestSize),
+			ExtensionController(i2cBus, controllerID),
 			DataMap(*(static_cast<ExtensionController*>(this))) {}
 
 		using DataMap::printDebug;  // Use the controller-specific print

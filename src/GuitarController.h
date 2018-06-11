@@ -65,7 +65,7 @@ namespace NintendoExtensionCtrl {
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::GuitarController_Data, NXC_GuitarController, 6>
+	<NintendoExtensionCtrl::GuitarController_Data, NXC_GuitarController>
 	GuitarController;
 
 #endif

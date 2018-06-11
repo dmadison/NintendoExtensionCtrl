@@ -22,15 +22,10 @@
 
 #include "ExtensionController.h"
 
-// Limit request size to the size of the control data array
-constexpr uint8_t LimitRequestSize(uint8_t reqSize) {
-	return reqSize > ExtensionController::ControlDataSize ? ExtensionController::ControlDataSize : reqSize;
-}
-
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : comms(i2cBus) {}
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t reqSize)
-	: ID_Limit(conID), RequestSize(LimitRequestSize(reqSize)), comms(i2cBus) {}
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID)
+	: ID_Limit(conID), comms(i2cBus) {}
 
 void ExtensionController::begin() {
 	comms.startBus();
@@ -82,8 +77,8 @@ NXC_ControllerType ExtensionController::getConnectedID() const {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && comms.requestControlData(RequestSize, controlData)) {
-		return NXCtrl::verifyData(controlData, RequestSize);
+	if (controllerIDMatches() && comms.requestControlData(ControlDataSize, controlData)) {
+		return NXCtrl::verifyData(controlData, ControlDataSize);
 	}
 	
 	return false;  // Something went wrong :(
@@ -119,5 +114,5 @@ void ExtensionController::printDebugRaw(Stream& stream) const {
 }
 
 void ExtensionController::printDebugRaw(uint8_t baseFormat, Stream& stream) const {
-	NXCtrl::printRaw(controlData, RequestSize, baseFormat, stream);
+	NXCtrl::printRaw(controlData, ControlDataSize, baseFormat, stream);
 }

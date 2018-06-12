@@ -23,7 +23,7 @@
 #ifndef NXC_GuitarController_h
 #define NXC_GuitarController_h
 
-#include "ExtensionController.h"
+#include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
 	class GuitarController_Data : private ControlDataMap {

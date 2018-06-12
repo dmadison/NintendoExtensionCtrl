@@ -24,18 +24,18 @@
 #define NintendoExtensionCtrl_h
 
 // Controller Base
-#include "ExtensionController.h"
+#include "internal/ExtensionController.h"
 
 // Wii Controllers
-#include "Nunchuk.h"
-#include "ClassicController.h"
-#include "GuitarController.h"
-#include "DrumController.h"
-#include "DJTurntable.h"
+#include "controllers/Nunchuk.h"
+#include "controllers/ClassicController.h"
+#include "controllers/GuitarController.h"
+#include "controllers/DrumController.h"
+#include "controllers/DJTurntable.h"
 
 // Mini Controllers
-#include "NESMiniController.h"
-#include "SNESMiniController.h"
+#include "controllers/NESMiniController.h"
+#include "controllers/SNESMiniController.h"
 
 #endif
 

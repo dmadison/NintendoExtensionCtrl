@@ -23,7 +23,7 @@
 #ifndef NXC_DJTurntable_h
 #define NXC_DJTurntable_h
 
-#include "ExtensionController.h"
+#include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
 	class DJTurntableController_Data : private ControlDataMap {

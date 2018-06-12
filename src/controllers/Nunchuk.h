@@ -23,7 +23,7 @@
 #ifndef NXC_Nunchuk_h
 #define NXC_Nunchuk_h
 
-#include "ExtensionController.h"
+#include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
 	class Nunchuk_Data : private ControlDataMap {

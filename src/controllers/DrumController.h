@@ -23,7 +23,7 @@
 #ifndef NXC_DrumController_h
 #define NXC_DrumController_h
 
-#include "ExtensionController.h"
+#include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
 	class DrumController_Data : private ControlDataMap {

@@ -23,7 +23,7 @@
 #ifndef NXC_ClassicController_h
 #define NXC_ClassicController_h
 
-#include "ExtensionController.h"
+#include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
 	class ClassicController_Data : private ControlDataMap {

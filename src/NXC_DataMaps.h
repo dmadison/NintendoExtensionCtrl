@@ -40,7 +40,7 @@ namespace NintendoExtensionCtrl {
 		const ExtensionController & ControlData;
 	};
 
-	template <class ControllerMap, NXC_ControllerType controllerID>
+	template <class ControllerMap, ExtensionType controllerID>
 	class BuildControllerClass : public ExtensionController, public ControllerMap {
 	public:
 		typedef ControllerMap DataMap;  // Make controller data class easily accessible

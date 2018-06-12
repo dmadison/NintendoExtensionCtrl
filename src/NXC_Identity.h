@@ -25,28 +25,28 @@
 
 #include "Arduino.h"
 
-enum NXC_ControllerType {
-	NXC_NoController,
-	NXC_AnyController,
-	NXC_UnknownController,
-	NXC_Nunchuk,
-	NXC_ClassicController,
-	NXC_GuitarController,
-	NXC_DrumController,
-	NXC_DJTurntable,
+enum class ExtensionType {
+	NoController,
+	AnyController,
+	UnknownController,
+	Nunchuk,
+	ClassicController,
+	GuitarController,
+	DrumController,
+	DJTurntableController,
 };
 
 namespace NintendoExtensionCtrl {
-	inline NXC_ControllerType identifyController(const uint8_t * idData) {
+	inline ExtensionType identifyController(const uint8_t * idData) {
 		if (idData[2] == 0xA4 && idData[3] == 0x20) {  // All valid IDs
 			// Nunchuk ID: 0x0000
 			if (idData[4] == 0x00 && idData[5] == 0x00) {
-				return NXC_Nunchuk;
+				return ExtensionType::Nunchuk;
 			}
 
 			// Classic Con. ID: 0x0101
 			else if (idData[4] == 0x01 && idData[5] == 0x01) {
-				return NXC_ClassicController;
+				return ExtensionType::ClassicController;
 			}
 
 			// Guitar Hero Controllers: 0x##00, 0xA420, 0x0103
@@ -55,20 +55,20 @@ namespace NintendoExtensionCtrl {
 
 				// Guitar: 0x00
 				if (idData[0] == 0x00) {
-					return NXC_GuitarController;
+					return ExtensionType::GuitarController;
 				}
 				// Drums: 0x01
 				else if (idData[0] == 0x01) {
-					return NXC_DrumController;
+					return ExtensionType::DrumController;
 				}
 				// DJ Turntable: 0x03
 				else if (idData[0] == 0x03) {
-					return NXC_DJTurntable;
+					return ExtensionType::DJTurntableController;
 				}
 			}
 		}
 
-		return NXC_UnknownController;  // No matches
+		return ExtensionType::UnknownController;  // No matches
 	}
 }
 

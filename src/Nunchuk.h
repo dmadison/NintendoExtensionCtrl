@@ -48,7 +48,7 @@ namespace NintendoExtensionCtrl {
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::Nunchuk_Data, NXC_Nunchuk>
+	<NintendoExtensionCtrl::Nunchuk_Data, ExtensionType::Nunchuk>
 	Nunchuk;
 
 #endif

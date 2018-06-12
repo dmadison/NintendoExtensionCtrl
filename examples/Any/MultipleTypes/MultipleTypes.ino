@@ -19,13 +19,13 @@ void loop() {
 	boolean success = extensionPort.update();  // Get new data from the controller
 
 	if (success == true) {  // We've got data!
-		NXC_ControllerType conType = extensionPort.getConnectedID();
+		ExtensionType conType = extensionPort.getConnectedID();
 
 		switch (conType) {
-			case(NXC_Nunchuk):
+			case(ExtensionType::Nunchuk):
 				nchuk.printDebug();
 				break;
-			case(NXC_ClassicController):
+			case(ExtensionType::ClassicController):
 				classic.printDebug();
 				break;
 			default:

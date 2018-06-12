@@ -110,15 +110,15 @@ namespace NintendoExtensionCtrl {
 			return i2c.readDataArray(IDPointer, IDSize, idData);
 		}
 
-		NXC_ControllerType identifyController(const uint8_t * idData) const {
+		ExtensionType identifyController(const uint8_t * idData) const {
 			return NintendoExtensionCtrl::identifyController(idData);
 		}
 
-		NXC_ControllerType identifyController() const {
+		ExtensionType identifyController() const {
 			uint8_t idData[IDSize];
 
 			if (!requestIdentity(idData)) {
-				return NXC_NoController;  // Bad response from device
+				return ExtensionType::NoController;  // Bad response from device
 			}
 			return identifyController(idData);
 		}

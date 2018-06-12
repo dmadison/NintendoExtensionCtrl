@@ -35,11 +35,11 @@ public:
 	boolean reconnect();
 
 	boolean update();
-	NXC_ControllerType identifyController();
+	ExtensionType identifyController();
 
 	void reset();
 
-	NXC_ControllerType getConnectedID() const;
+	ExtensionType getConnectedID() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
 	boolean getControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
@@ -53,13 +53,13 @@ public:
 	static const uint8_t ControlDataSize = 6;  // Enough for standard request size
 
 protected:
-	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID);
+	ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID);
 
 private:
 	boolean controllerIDMatches() const;
 
-	const NXC_ControllerType ID_Limit = NXC_AnyController;
-	NXC_ControllerType connectedID = NXC_NoController;
+	const ExtensionType ID_Limit = ExtensionType::AnyController;
+	ExtensionType connectedID = ExtensionType::NoController;
 	uint8_t controlData[ControlDataSize];
 
 	NintendoExtensionCtrl::ExtensionComms comms;

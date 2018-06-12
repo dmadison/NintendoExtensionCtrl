@@ -24,7 +24,7 @@
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : comms(i2cBus) {}
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID)
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID)
 	: ID_Limit(conID), comms(i2cBus) {}
 
 void ExtensionController::begin() {
@@ -39,7 +39,7 @@ boolean ExtensionController::connect() {
 		}
 	}
 	else {
-		connectedID = NXC_NoController;  // Bad init, nothing connected
+		connectedID = ExtensionType::NoController;  // Bad init, nothing connected
 	}
 
 	return false;
@@ -50,12 +50,12 @@ boolean ExtensionController::reconnect() {
 	return connect();
 }
 
-NXC_ControllerType ExtensionController::identifyController() {
+ExtensionType ExtensionController::identifyController() {
 	return connectedID = comms.identifyController();
 }
 
 void ExtensionController::reset() {
-	connectedID = NXC_NoController;
+	connectedID = ExtensionType::NoController;
 	for (int i = 0; i < ControlDataSize; i++) {
 		controlData[i] = 0;
 	}
@@ -65,14 +65,14 @@ boolean ExtensionController::controllerIDMatches() const {
 	if (connectedID == ID_Limit) {
 		return true;  // Match!
 	}
-	else if (ID_Limit == NXC_AnyController && connectedID != NXC_NoController) {
+	else if (ID_Limit == ExtensionType::AnyController && connectedID != ExtensionType::NoController) {
 		return true;  // No enforcing and some sort of controller connected
 	}
 
 	return false;  // Enforced types or no controller connected
 }
 
-NXC_ControllerType ExtensionController::getConnectedID() const {
+ExtensionType ExtensionController::getConnectedID() const {
 	return connectedID;
 }
 

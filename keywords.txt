@@ -25,7 +25,7 @@ NESMiniController	KEYWORD1
 SNESMiniController	KEYWORD1
 
 # Enumerations
-NXC_ControllerType	KEYWORD1
+ExtensionType	KEYWORD1
 NXC_DrumVelocityID	KEYWORD1
 NXC_DJTurntable_Configuration	KEYWORD1
 
@@ -199,13 +199,16 @@ getNumTurntables	KEYWORD2
 #######################################
 
 # Controller Identities
-NXC_NoController	LITERAL1
-NXC_UnknownController	LITERAL1
-NXC_Nunchuk	LITERAL1
-NXC_ClassicController	LITERAL1
-NXC_GuitarController	LITERAL1
-NXC_DrumController	LITERAL1
-NXC_DJTurntable	LITERAL1
+NoController	LITERAL1
+AnyController	LITERAL1
+UnknownController	LITERAL1
+
+## ( These IDs are commented out, as these interfere with the class definitions )
+# Nunchuk	LITERAL1
+# ClassicController	LITERAL1
+# GuitarController	LITERAL1
+# DrumController	LITERAL1
+# DJTurntableController	LITERAL1
 
 # Drum Velocity IDs
 NXC_Drum_None	LITERAL1

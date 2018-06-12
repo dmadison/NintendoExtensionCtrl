@@ -96,8 +96,8 @@ namespace NintendoExtensionCtrl {
 			*/
 			if (!i2c.writeRegister(0xF0, 0x55)) { return false; }
 			delay(10);
-			//if (!i2c.writeRegister(0xFB, 0x00)) { return false; }
-			//delay(20);
+			if (!i2c.writeRegister(0xFB, 0x00)) { return false; }
+			delay(20);
 			return true;
 		}
 

@@ -2,8 +2,8 @@
 
 ExtensionController controller;  // Port for communicating with extension controllers
 
-Nunchuk::DataMap nchuk(controller);  // Read Nunchuk formatted data from the port
-ClassicController::DataMap classic(controller);  // Read Classic Controller formatted data from the port
+Nunchuk::Data nchuk(controller);  // Read Nunchuk formatted data from the port
+ClassicController::Data classic(controller);  // Read Classic Controller formatted data from the port
 
 void setup() {
 	Serial.begin(115200);

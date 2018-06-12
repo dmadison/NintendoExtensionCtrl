@@ -35,10 +35,10 @@ void SNESMiniController::printDebug(Stream& stream) const {
 	stream.print(dpadRight() ? '>' : fillCharacter);
 	stream.print(" | ");
 
-	buttonSelect() ? (void) stream.print("SEL") : NXCtrl::printRepeat(fillCharacter, 3, stream);
+	buttonSelect() ? (void) stream.print("SEL") : NintendoExtensionCtrl::printRepeat(fillCharacter, 3, stream);
 	stream.print(' ');
 
-	buttonStart() ? (void) stream.print("STR") : NXCtrl::printRepeat(fillCharacter, 3, stream);
+	buttonStart() ? (void) stream.print("STR") : NintendoExtensionCtrl::printRepeat(fillCharacter, 3, stream);
 	stream.print(" | ");
 
 	stream.print(buttonA() ? 'A' : fillCharacter);

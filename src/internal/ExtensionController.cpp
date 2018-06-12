@@ -78,7 +78,7 @@ ExtensionType ExtensionController::getConnectedID() const {
 
 boolean ExtensionController::update() {
 	if (controllerIDMatches() && comms.requestControlData(ControlDataSize, controlData)) {
-		return NXCtrl::verifyData(controlData, ControlDataSize);
+		return NintendoExtensionCtrl::verifyData(controlData, ControlDataSize);
 	}
 	
 	return false;  // Something went wrong :(
@@ -102,7 +102,7 @@ void ExtensionController::printDebugID(Stream& stream) const {
 
 	if (success) {
 		stream.print("ID: ");
-		NXCtrl::printRaw(idData, comms.IDSize, HEX, stream);
+		NintendoExtensionCtrl::printRaw(idData, comms.IDSize, HEX, stream);
 	}
 	else {
 		stream.println("Bad ID Read");
@@ -114,5 +114,5 @@ void ExtensionController::printDebugRaw(Stream& stream) const {
 }
 
 void ExtensionController::printDebugRaw(uint8_t baseFormat, Stream& stream) const {
-	NXCtrl::printRaw(controlData, ControlDataSize, baseFormat, stream);
+	NintendoExtensionCtrl::printRaw(controlData, ControlDataSize, baseFormat, stream);
 }

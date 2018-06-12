@@ -99,7 +99,7 @@ namespace NintendoExtensionCtrl {
 			boolean buttonBlue() const;
 		} right;
 
-		class EffectRollover : private NXCtrl::RolloverChange {
+		class EffectRollover : private NintendoExtensionCtrl::RolloverChange {
 		public:
 			EffectRollover(DJTurntableController_Data & controller) : RolloverChange(0, 31), dj(controller) {}
 			int8_t getChange();

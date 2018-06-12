@@ -50,6 +50,4 @@ namespace NintendoExtensionCtrl {
 	};
 }
 
-namespace NXCtrl = NintendoExtensionCtrl;  // Alias for shorter access
-
 #endif

@@ -70,8 +70,8 @@ boolean DJTurntableController_Data::buttonMinus() const {
 	return getControlBit(4, 4);
 }
 
-NXC_DJTurntable_Configuration DJTurntableController_Data::getTurntableConfig() {
-	if (tableConfig == NXC_DJTurntable_Both) {
+DJTurntableController_Data::TurntableConfig DJTurntableController_Data::getTurntableConfig() {
+	if (tableConfig == TurntableConfig::Both) {
 		return tableConfig;  // Both are attached, no reason to check data
 	}
 
@@ -79,16 +79,16 @@ NXC_DJTurntable_Configuration DJTurntableController_Data::getTurntableConfig() {
 	boolean rightState = right.connected();
 
 	if (leftState && rightState) {
-		return tableConfig = NXC_DJTurntable_Both;
+		return tableConfig = TurntableConfig::Both;
 	}
 	else if (leftState) {
-		return tableConfig = NXC_DJTurntable_Left;
+		return tableConfig = TurntableConfig::Left;
 	}
 	else if (rightState) {
-		return tableConfig = NXC_DJTurntable_Right;
+		return tableConfig = TurntableConfig::Right;
 	}
 	else {
-		return tableConfig = NXC_DJTurntable_BaseOnly;
+		return tableConfig = TurntableConfig::BaseOnly;
 	}
 }
 
@@ -96,14 +96,14 @@ uint8_t DJTurntableController_Data::getNumTurntables() {
 	getTurntableConfig();  // Update config from data
 
 	switch (tableConfig) {
-		case NXC_DJTurntable_BaseOnly:
+		case TurntableConfig::BaseOnly:
 			return 0;
 			break;
-		case NXC_DJTurntable_Left:
-		case NXC_DJTurntable_Right:
+		case TurntableConfig::Left:
+		case TurntableConfig::Right:
 			return 1;
 			break;
-		case NXC_DJTurntable_Both:
+		case TurntableConfig::Both:
 			return 2;
 			break;
 	}
@@ -149,10 +149,10 @@ void DJTurntableController_Data::printTurntable(Stream& stream, TurntableExpansi
 	const char fillCharacter = '_';
 
 	char idPrint = 'X';
-	if (table.side == NXC_DJTurntable_Left) {
+	if (table.side == TurntableConfig::Left) {
 		idPrint = 'L';
 	}
-	else if (table.side == NXC_DJTurntable_Right) {
+	else if (table.side == TurntableConfig::Right) {
 		idPrint = 'R';
 	}
 
@@ -171,7 +171,7 @@ void DJTurntableController_Data::printTurntable(Stream& stream, TurntableExpansi
 
 // Turntable Expansion Base
 boolean DJTurntableController_Data::TurntableExpansion::connected() const {
-	if (base.tableConfig == NXC_DJTurntable_Both || base.tableConfig == side) {
+	if (base.tableConfig == TurntableConfig::Both || base.tableConfig == side) {
 		return true;  // Already checked
 	}
 	return turntable() != 0 || buttonGreen() || buttonRed() || buttonBlue();

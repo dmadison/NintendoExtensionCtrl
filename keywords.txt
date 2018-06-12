@@ -27,7 +27,7 @@ SNESMiniController	KEYWORD1
 # Enumerations
 ExtensionType	KEYWORD1
 VelocityID	KEYWORD1
-NXC_DJTurntable_Configuration	KEYWORD1
+TurntableConfig	KEYWORD1
 
 # Sub-Classes
 TurntableExpansion	KEYWORD1
@@ -219,8 +219,8 @@ Yellow	LITERAL1
 Orange	LITERAL1
 Pedal	LITERAL1
 
-# DJ Turntable Configurations
-NXC_DJTurntable_BaseOnly	LITERAL1
-NXC_DJTurntable_Left	LITERAL1
-NXC_DJTurntable_Right	LITERAL1
-NXC_DJTurntable_Both	LITERAL1
+# DJ Turntable Configurations (Scoped to class)
+BaseOnly	LITERAL1
+Left	LITERAL1
+Right	LITERAL1
+Both	LITERAL1

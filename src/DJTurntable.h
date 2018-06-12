@@ -25,17 +25,17 @@
 
 #include "ExtensionController.h"
 
-enum NXC_DJTurntable_Configuration {
-	NXC_DJTurntable_BaseOnly,
-	NXC_DJTurntable_Left,
-	NXC_DJTurntable_Right,
-	NXC_DJTurntable_Both,
-};
-
 namespace NintendoExtensionCtrl {
 	class DJTurntableController_Data : private ControlDataMap {
 	public:
 		DJTurntableController_Data(ExtensionController & dataSource) : ControlDataMap(dataSource), left(*this), right(*this) {}
+
+		enum class TurntableConfig {
+			BaseOnly,
+			Left,
+			Right,
+			Both,
+		};
 
 		int8_t turntable() const;  // 6 bits, -30-29. Clockwise = positive, faster = larger.
 
@@ -56,12 +56,12 @@ namespace NintendoExtensionCtrl {
 
 		void printDebug(Stream& stream = NXC_SERIAL_DEFAULT);
 
-		NXC_DJTurntable_Configuration getTurntableConfig();
+		TurntableConfig getTurntableConfig();
 		uint8_t getNumTurntables();
 
 		class TurntableExpansion {
 		public:
-			TurntableExpansion(NXC_DJTurntable_Configuration conf, DJTurntableController_Data &baseObj)
+			TurntableExpansion(TurntableConfig conf, DJTurntableController_Data &baseObj)
 				: side(conf), base(baseObj) {}
 			boolean connected() const;
 
@@ -71,7 +71,7 @@ namespace NintendoExtensionCtrl {
 			virtual boolean buttonRed() const = 0;
 			virtual boolean buttonBlue() const = 0;
 
-			const NXC_DJTurntable_Configuration side = NXC_DJTurntable_BaseOnly;
+			const TurntableConfig side = TurntableConfig::BaseOnly;
 		protected:
 			int8_t tableSignConversion(int8_t turnData) const;
 			const DJTurntableController_Data & base;
@@ -80,7 +80,7 @@ namespace NintendoExtensionCtrl {
 		class TurntableLeft : public TurntableExpansion {
 		public:
 			TurntableLeft(DJTurntableController_Data &baseObj)
-				: TurntableExpansion(NXC_DJTurntable_Left, baseObj) {}
+				: TurntableExpansion(TurntableConfig::Left, baseObj) {}
 			int8_t turntable() const;
 
 			boolean buttonGreen() const;
@@ -91,7 +91,7 @@ namespace NintendoExtensionCtrl {
 		class TurntableRight : public TurntableExpansion {
 		public:
 			TurntableRight(DJTurntableController_Data &baseObj)
-				: TurntableExpansion(NXC_DJTurntable_Right, baseObj) {}
+				: TurntableExpansion(TurntableConfig::Right, baseObj) {}
 			int8_t turntable() const;
 
 			boolean buttonGreen() const;
@@ -110,7 +110,7 @@ namespace NintendoExtensionCtrl {
 	private:
 		void printTurntable(Stream& stream, TurntableExpansion &table) const;
 
-		NXC_DJTurntable_Configuration tableConfig = NXC_DJTurntable_BaseOnly;
+		TurntableConfig tableConfig = TurntableConfig::BaseOnly;
 	};
 }
 

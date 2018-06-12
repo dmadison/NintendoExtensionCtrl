@@ -53,21 +53,21 @@ void loop() {
 		}
 
 		// Read the turntable config
-		NXC_DJTurntable_Configuration config = dj.getTurntableConfig();
+		DJTurntableController::TurntableConfig config = dj.getTurntableConfig();
 		
 		Serial.print("Connected turntables: ");
 
 		switch (config) {
-			case(NXC_DJTurntable_BaseOnly):
+			case(DJTurntableController::TurntableConfig::BaseOnly):
 				Serial.println("None");
 				break;
-			case(NXC_DJTurntable_Left):
+			case(DJTurntableController::TurntableConfig::Left):
 				Serial.println("Left");
 				break;
-			case(NXC_DJTurntable_Right):
+			case(DJTurntableController::TurntableConfig::Right):
 				Serial.println("Right");
 				break;
-			case(NXC_DJTurntable_Both):
+			case(DJTurntableController::TurntableConfig::Both):
 				Serial.println("Both");
 				break;
 		}

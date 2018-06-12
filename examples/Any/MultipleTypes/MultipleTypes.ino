@@ -1,25 +1,25 @@
 #include <NintendoExtensionCtrl.h>
 
-ExtensionController extensionPort;  // Port for communicating with extension controllers
+ExtensionController controller;  // Port for communicating with extension controllers
 
-Nunchuk::DataMap nchuk(extensionPort);  // Read Nunchuk formatted data from the port
-ClassicController::DataMap classic(extensionPort);  // Read Classic Controller formatted data from the port
+Nunchuk::DataMap nchuk(controller);  // Read Nunchuk formatted data from the port
+ClassicController::DataMap classic(controller);  // Read Classic Controller formatted data from the port
 
 void setup() {
 	Serial.begin(115200);
-	extensionPort.begin();
+	controller.begin();
 
-	while (!extensionPort.connect()) {
+	while (!controller.connect()) {
 		Serial.println("No controller found!");
 		delay(1000);
 	}
 }
 
 void loop() {
-	boolean success = extensionPort.update();  // Get new data from the controller
+	boolean success = controller.update();  // Get new data from the controller
 
 	if (success == true) {  // We've got data!
-		ExtensionType conType = extensionPort.getConnectedID();
+		ExtensionType conType = controller.getConnectedID();
 
 		switch (conType) {
 			case(ExtensionType::Nunchuk):

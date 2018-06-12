@@ -25,20 +25,20 @@
 
 #include "ExtensionController.h"
 
-enum NXC_DrumVelocityID {
-	NXC_Drum_None = 0x1F,
-	NXC_Drum_Red = 0x19,
-	NXC_Drum_Blue = 0x0F,
-	NXC_Drum_Green = 0x12,
-	NXC_Drum_Yellow = 0x11,
-	NXC_Drum_Orange = 0x0E,
-	NXC_Drum_Pedal = 0x1B,
-};
-
 namespace NintendoExtensionCtrl {
 	class DrumController_Data : private ControlDataMap {
 	public:
 		using ControlDataMap::ControlDataMap;
+
+		enum VelocityID : uint8_t {
+			None = 0x1F,
+			Red = 0x19,
+			Blue = 0x0F,
+			Green = 0x12,
+			Yellow = 0x11,
+			Orange = 0x0E,
+			Pedal = 0x1B,
+		};
 
 		uint8_t joyX() const;  // 6 bits, 0-63
 		uint8_t joyY() const;
@@ -56,10 +56,10 @@ namespace NintendoExtensionCtrl {
 		boolean buttonMinus() const;
 
 		boolean velocityAvailable() const;
-		NXC_DrumVelocityID velocityID() const;
+		VelocityID velocityID() const;
 
 		uint8_t velocity() const;  // 3 bits, 0-7. 7 is fast/hard, 1 is slow/soft, 0 is not hit.
-		uint8_t velocity(NXC_DrumVelocityID idIn) const;  // velocity by ID
+		uint8_t velocity(VelocityID idIn) const;  // velocity by ID
 
 		uint8_t velocityRed() const;
 		uint8_t velocityBlue() const;

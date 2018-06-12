@@ -26,7 +26,7 @@ SNESMiniController	KEYWORD1
 
 # Enumerations
 ExtensionType	KEYWORD1
-NXC_DrumVelocityID	KEYWORD1
+VelocityID	KEYWORD1
 NXC_DJTurntable_Configuration	KEYWORD1
 
 # Sub-Classes
@@ -210,14 +210,14 @@ UnknownController	LITERAL1
 # DrumController	LITERAL1
 # DJTurntableController	LITERAL1
 
-# Drum Velocity IDs
-NXC_Drum_None	LITERAL1
-NXC_Drum_Red	LITERAL1
-NXC_Drum_Blue	LITERAL1
-NXC_Drum_Green	LITERAL1
-NXC_Drum_Yellow	LITERAL1
-NXC_Drum_Orange	LITERAL1
-NXC_Drum_Pedal	LITERAL1
+# Drum Velocity IDs (Scoped to class)
+None	LITERAL1
+Red	LITERAL1
+Blue	LITERAL1
+Green	LITERAL1
+Yellow	LITERAL1
+Orange	LITERAL1
+Pedal	LITERAL1
 
 # DJ Turntable Configurations
 NXC_DJTurntable_BaseOnly	LITERAL1

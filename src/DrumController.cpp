@@ -68,25 +68,25 @@ boolean DrumController_Data::velocityAvailable() const {
 	return getControlBit(2, 6);
 }
 
-NXC_DrumVelocityID DrumController_Data::velocityID() const {
-	uint8_t velocityID = (getControlData(2) & 0x3E) >> 1;  // 5 bit identifier
+DrumController_Data::VelocityID DrumController_Data::velocityID() const {
+	uint8_t id = (getControlData(2) & 0x3E) >> 1;  // 5 bit identifier
 
-	if (validVelocityID(velocityID)) {
-		return (NXC_DrumVelocityID) velocityID;
+	if (validVelocityID(id)) {
+		return (VelocityID) id;
 	}
 
-	return NXC_Drum_None;
+	return VelocityID::None;
 }
 
 boolean DrumController_Data::validVelocityID(uint8_t idIn) const {
 	switch (idIn) {
-		case(NXC_Drum_None):  // Intentionally fall through cases
-		case(NXC_Drum_Red):
-		case(NXC_Drum_Blue):
-		case(NXC_Drum_Green):
-		case(NXC_Drum_Yellow):
-		case(NXC_Drum_Orange):
-		case(NXC_Drum_Pedal):
+		case(VelocityID::None):  // Intentionally fall through cases
+		case(VelocityID::Red):
+		case(VelocityID::Blue):
+		case(VelocityID::Green):
+		case(VelocityID::Yellow):
+		case(VelocityID::Orange):
+		case(VelocityID::Pedal):
 			return true;  // One of the above, is a valid ID
 			break;
 		default:
@@ -103,7 +103,7 @@ uint8_t DrumController_Data::velocity() const {
 	return 0;  // Invalid data
 }
 
-uint8_t DrumController_Data::velocity(NXC_DrumVelocityID idIn) const {
+uint8_t DrumController_Data::velocity(VelocityID idIn) const {
 	if (idIn == velocityID()) {
 		return velocity();
 	}
@@ -111,27 +111,27 @@ uint8_t DrumController_Data::velocity(NXC_DrumVelocityID idIn) const {
 }
 
 uint8_t DrumController_Data::velocityRed() const {
-	return velocity(NXC_Drum_Red);
+	return velocity(VelocityID::Red);
 }
 
 uint8_t DrumController_Data::velocityBlue() const {
-	return velocity(NXC_Drum_Blue);
+	return velocity(VelocityID::Blue);
 }
 
 uint8_t DrumController_Data::velocityGreen() const {
-	return velocity(NXC_Drum_Green);
+	return velocity(VelocityID::Green);
 }
 
 uint8_t DrumController_Data::velocityYellow() const {
-	return velocity(NXC_Drum_Yellow);
+	return velocity(VelocityID::Yellow);
 }
 
 uint8_t DrumController_Data::velocityOrange() const {
-	return velocity(NXC_Drum_Orange);
+	return velocity(VelocityID::Orange);
 }
 
 uint8_t DrumController_Data::velocityPedal() const {
-	return velocity(NXC_Drum_Pedal);  // Fix this
+	return velocity(VelocityID::Pedal);
 }
 
 void DrumController_Data::printDebug(Stream& stream) const {
@@ -157,24 +157,24 @@ void DrumController_Data::printDebug(Stream& stream) const {
 		velocityPrint = velocity();
 
 		switch (velocityID()) {
-			case (NXC_Drum_None):
+			case (VelocityID::None):
 				break;  // Keep as fillCharacter
-			case(NXC_Drum_Red):
+			case(VelocityID::Red):
 				velocityIDPrint = 'R';
 				break;
-			case(NXC_Drum_Blue):
+			case(VelocityID::Blue):
 				velocityIDPrint = 'B';
 				break;
-			case(NXC_Drum_Green):
+			case(VelocityID::Green):
 				velocityIDPrint = 'G';
 				break;
-			case(NXC_Drum_Yellow):
+			case(VelocityID::Yellow):
 				velocityIDPrint = 'Y';
 				break;
-			case(NXC_Drum_Orange):
+			case(VelocityID::Orange):
 				velocityIDPrint = 'O';
 				break;
-			case(NXC_Drum_Pedal):
+			case(VelocityID::Pedal):
 				velocityIDPrint = 'P';
 				break;
 		}

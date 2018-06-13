@@ -88,10 +88,6 @@ uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
 	return controlData[controlIndex];
 }
 
-boolean ExtensionController::getControlBit(uint8_t arrIndex, uint8_t bitNum) const {
-	return !(controlData[arrIndex] & (1 << bitNum));
-}
-
 void ExtensionController::printDebug(Stream& stream) const {
 	printDebugRaw(stream);
 }

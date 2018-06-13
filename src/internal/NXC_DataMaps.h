@@ -33,7 +33,7 @@ namespace NintendoExtensionCtrl {
 		}
 
 		boolean getControlBit(uint8_t index, uint8_t pos) const {
-			return ControlData.getControlBit(index, pos);
+			return !(getControlData(index) & (1 << pos));  // Inverted logic, '0' is pressed
 		}
 
 	private:

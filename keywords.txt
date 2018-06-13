@@ -50,7 +50,6 @@ reset	KEYWORD2
 
 getConnectedID	KEYWORD2
 getControlData	KEYWORD2
-getControlBit	KEYWORD2
 
 printDebug	KEYWORD2
 printDebugID	KEYWORD2

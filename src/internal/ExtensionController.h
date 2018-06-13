@@ -41,7 +41,6 @@ public:
 
 	ExtensionType getConnectedID() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
-	boolean getControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
 	void setEnforceID(boolean enforce);
 

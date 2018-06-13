@@ -23,7 +23,9 @@
 #ifndef NXC_ExtensionController_h
 #define NXC_ExtensionController_h
 
-#include "NXC_Core.h"
+#include "NXC_Identity.h"
+#include "NXC_Comms.h"
+#include "NXC_Utils.h"
 
 class ExtensionController {
 public:

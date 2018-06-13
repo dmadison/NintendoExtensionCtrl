@@ -23,9 +23,7 @@
 #ifndef NXC_Core_h
 #define NXC_Core_h
 
-#include "Arduino.h"
 #include "NXC_Comms.h"
-#include "NXC_Identity.h"
 
 namespace NintendoExtensionCtrl {
 

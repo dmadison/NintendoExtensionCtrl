@@ -20,7 +20,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "NXC_Core.h"
+#include "NXC_Utils.h"
 
 namespace NintendoExtensionCtrl {
 

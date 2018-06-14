@@ -97,19 +97,19 @@ boolean ClassicController_Data::buttonZR() const {
 }
 
 boolean ClassicController_Data::buttonStart() const {
-	return getControlBit(4, 2);
+	return buttonPlus();
 }
 
 boolean ClassicController_Data::buttonSelect() const {
-	return getControlBit(4, 4);
+	return buttonMinus();
 }
 
 boolean ClassicController_Data::buttonPlus() const {
-	return buttonStart();
+	return getControlBit(4, 2);
 }
 
 boolean ClassicController_Data::buttonMinus() const {
-	return buttonSelect();
+	return getControlBit(4, 4);
 }
 
 boolean ClassicController_Data::buttonHome() const {

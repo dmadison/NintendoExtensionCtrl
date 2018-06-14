@@ -11,7 +11,7 @@ NintendoExtensionCtrl	KEYWORD1
 
 # Controller Base Classes
 ExtensionController	KEYWORD1
-ExtensionData	KEYWORD1
+Data	KEYWORD1
 
 # Wii Controllers
 Nunchuk	KEYWORD1
@@ -25,9 +25,9 @@ NESMiniController	KEYWORD1
 SNESMiniController	KEYWORD1
 
 # Enumerations
-NXC_ControllerType	KEYWORD1
-NXC_DrumVelocityID	KEYWORD1
-NXC_DJTurntable_Configuration	KEYWORD1
+ExtensionType	KEYWORD1
+VelocityID	KEYWORD1
+TurntableConfig	KEYWORD1
 
 # Sub-Classes
 TurntableExpansion	KEYWORD1
@@ -50,9 +50,6 @@ reset	KEYWORD2
 
 getConnectedID	KEYWORD2
 getControlData	KEYWORD2
-getControlBit	KEYWORD2
-
-setEnforceID	KEYWORD2
 
 printDebug	KEYWORD2
 printDebugID	KEYWORD2
@@ -201,25 +198,28 @@ getNumTurntables	KEYWORD2
 #######################################
 
 # Controller Identities
-NXC_NoController	LITERAL1
-NXC_UnknownController	LITERAL1
-NXC_Nunchuk	LITERAL1
-NXC_ClassicController	LITERAL1
-NXC_GuitarController	LITERAL1
-NXC_DrumController	LITERAL1
-NXC_DJTurntable	LITERAL1
+NoController	LITERAL1
+AnyController	LITERAL1
+UnknownController	LITERAL1
 
-# Drum Velocity IDs
-NXC_Drum_None	LITERAL1
-NXC_Drum_Red	LITERAL1
-NXC_Drum_Blue	LITERAL1
-NXC_Drum_Green	LITERAL1
-NXC_Drum_Yellow	LITERAL1
-NXC_Drum_Orange	LITERAL1
-NXC_Drum_Pedal	LITERAL1
+## ( These IDs are commented out, as these interfere with the class definitions )
+# Nunchuk	LITERAL1
+# ClassicController	LITERAL1
+# GuitarController	LITERAL1
+# DrumController	LITERAL1
+# DJTurntableController	LITERAL1
 
-# DJ Turntable Configurations
-NXC_DJTurntable_BaseOnly	LITERAL1
-NXC_DJTurntable_Left	LITERAL1
-NXC_DJTurntable_Right	LITERAL1
-NXC_DJTurntable_Both	LITERAL1
+# Drum Velocity IDs (Scoped to class)
+None	LITERAL1
+Red	LITERAL1
+Blue	LITERAL1
+Green	LITERAL1
+Yellow	LITERAL1
+Orange	LITERAL1
+Pedal	LITERAL1
+
+# DJ Turntable Configurations (Scoped to class)
+BaseOnly	LITERAL1
+Left	LITERAL1
+Right	LITERAL1
+Both	LITERAL1

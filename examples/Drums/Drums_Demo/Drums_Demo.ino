@@ -61,27 +61,27 @@ void loop() {
 		if (drums.velocityAvailable()) {
 			Serial.print("available! ");
 
-			NXC_DrumVelocityID id = drums.velocityID();
+			DrumController::VelocityID id = drums.velocityID();
 			switch (id) {
-				case(NXC_Drum_None):
+				case(DrumController::None):
 					Serial.print("No Drum"); // Should never happen, hopefully
 					break;
-				case(NXC_Drum_Red):
+				case(DrumController::Red):
 					Serial.print("Red");
 					break;
-				case(NXC_Drum_Blue):
+				case(DrumController::Blue):
 					Serial.print("Blue");
 					break;
-				case(NXC_Drum_Green):
+				case(DrumController::Green):
 					Serial.print("Green");
 					break;
-				case(NXC_Drum_Yellow):
+				case(DrumController::Yellow):
 					Serial.print("Yellow");
 					break;
-				case(NXC_Drum_Orange):
+				case(DrumController::Orange):
 					Serial.print("Orange");
 					break;
-				case(NXC_Drum_Pedal):
+				case(DrumController::Pedal):
 					Serial.print("Bass pedal");
 					break;
 			}

@@ -20,15 +20,14 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_NESMiniController_h
-#define NXC_NESMiniController_h
+#ifndef NXC_SNESMiniController_h
+#define NXC_SNESMiniController_h
 
 #include "ClassicController.h"
 
-class NESMiniController : public ClassicController {
+class SNESMiniController : public ClassicController {
 public:
-	NESMiniController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-	NESMiniController(ExtensionData& busData);
+	SNESMiniController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	
 	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT) const;
 };

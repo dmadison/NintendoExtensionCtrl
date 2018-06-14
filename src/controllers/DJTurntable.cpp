@@ -22,57 +22,56 @@
 
 #include "DJTurntable.h"
 
-DJTurntableController::DJTurntableController(NXC_I2C_TYPE& i2cBus) : ExtensionController(i2cBus, NXC_DJTurntable, 6), left(*this), right(*this) {}
-DJTurntableController::DJTurntableController(ExtensionData& busData) : ExtensionController(busData, NXC_DJTurntable, 6), left(*this), right(*this) {}
+namespace NintendoExtensionCtrl {
 
 // Combined Turntable
-int8_t DJTurntableController::turntable() const {
+int8_t DJTurntableController_Data::turntable() const {
 	return left.turntable() + right.turntable();
 }
 
-boolean DJTurntableController::buttonGreen() const {
+boolean DJTurntableController_Data::buttonGreen() const {
 	return left.buttonGreen() | right.buttonGreen();
 }
 
-boolean DJTurntableController::buttonRed() const {
+boolean DJTurntableController_Data::buttonRed() const {
 	return left.buttonRed() | right.buttonRed();
 }
 
-boolean DJTurntableController::buttonBlue() const {
+boolean DJTurntableController_Data::buttonBlue() const {
 	return left.buttonBlue() | right.buttonBlue();
 }
 
 // Main Board
-uint8_t DJTurntableController::effectDial() const {
+uint8_t DJTurntableController_Data::effectDial() const {
 	return ((getControlData(2) & 0x60) >> 2) | ((getControlData(3) & 0xE0) >> 5);
 }
 
-int8_t DJTurntableController::crossfadeSlider() const {
+int8_t DJTurntableController_Data::crossfadeSlider() const {
 	return ((getControlData(2) & 0x1E) >> 1) - 8;  // Shifted to signed int
 }
 
-boolean DJTurntableController::buttonEuphoria() const {
+boolean DJTurntableController_Data::buttonEuphoria() const {
 	return getControlBit(5, 4);
 }
 
-uint8_t DJTurntableController::joyX() const {
+uint8_t DJTurntableController_Data::joyX() const {
 	return getControlData(0) & 0x3F;
 }
 
-uint8_t DJTurntableController::joyY() const {
+uint8_t DJTurntableController_Data::joyY() const {
 	return getControlData(1) & 0x3F;
 }
 
-boolean DJTurntableController::buttonPlus() const {
+boolean DJTurntableController_Data::buttonPlus() const {
 	return getControlBit(4, 2);
 }
 
-boolean DJTurntableController::buttonMinus() const {
+boolean DJTurntableController_Data::buttonMinus() const {
 	return getControlBit(4, 4);
 }
 
-NXC_DJTurntable_Configuration DJTurntableController::getTurntableConfig() {
-	if (tableConfig == NXC_DJTurntable_Both) {
+DJTurntableController_Data::TurntableConfig DJTurntableController_Data::getTurntableConfig() {
+	if (tableConfig == TurntableConfig::Both) {
 		return tableConfig;  // Both are attached, no reason to check data
 	}
 
@@ -80,38 +79,38 @@ NXC_DJTurntable_Configuration DJTurntableController::getTurntableConfig() {
 	boolean rightState = right.connected();
 
 	if (leftState && rightState) {
-		return tableConfig = NXC_DJTurntable_Both;
+		return tableConfig = TurntableConfig::Both;
 	}
 	else if (leftState) {
-		return tableConfig = NXC_DJTurntable_Left;
+		return tableConfig = TurntableConfig::Left;
 	}
 	else if (rightState) {
-		return tableConfig = NXC_DJTurntable_Right;
+		return tableConfig = TurntableConfig::Right;
 	}
 	else {
-		return tableConfig = NXC_DJTurntable_BaseOnly;
+		return tableConfig = TurntableConfig::BaseOnly;
 	}
 }
 
-uint8_t DJTurntableController::getNumTurntables() {
+uint8_t DJTurntableController_Data::getNumTurntables() {
 	getTurntableConfig();  // Update config from data
 
 	switch (tableConfig) {
-		case NXC_DJTurntable_BaseOnly:
+		case TurntableConfig::BaseOnly:
 			return 0;
 			break;
-		case NXC_DJTurntable_Left:
-		case NXC_DJTurntable_Right:
+		case TurntableConfig::Left:
+		case TurntableConfig::Right:
 			return 1;
 			break;
-		case NXC_DJTurntable_Both:
+		case TurntableConfig::Both:
 			return 2;
 			break;
 	}
 	return 0;  // Just in-case
 }
 
-void DJTurntableController::printDebug(Stream& stream) {
+void DJTurntableController_Data::printDebug(Stream& stream) {
 	const char fillCharacter = '_';
 
 	char buffer[45];
@@ -146,14 +145,14 @@ void DJTurntableController::printDebug(Stream& stream) {
 	stream.println();
 }
 
-void DJTurntableController::printTurntable(Stream& stream, TurntableExpansion &table) const {
+void DJTurntableController_Data::printTurntable(Stream& stream, TurntableExpansion &table) const {
 	const char fillCharacter = '_';
 
 	char idPrint = 'X';
-	if (table.side == NXC_DJTurntable_Left) {
+	if (table.side == TurntableConfig::Left) {
 		idPrint = 'L';
 	}
-	else if (table.side == NXC_DJTurntable_Right) {
+	else if (table.side == TurntableConfig::Right) {
 		idPrint = 'R';
 	}
 
@@ -171,14 +170,14 @@ void DJTurntableController::printTurntable(Stream& stream, TurntableExpansion &t
 }
 
 // Turntable Expansion Base
-boolean DJTurntableController::TurntableExpansion::connected() const {
-	if (base.tableConfig == NXC_DJTurntable_Both || base.tableConfig == side) {
+boolean DJTurntableController_Data::TurntableExpansion::connected() const {
+	if (base.tableConfig == TurntableConfig::Both || base.tableConfig == side) {
 		return true;  // Already checked
 	}
 	return turntable() != 0 || buttonGreen() || buttonRed() || buttonBlue();
 }
 
-int8_t DJTurntableController::TurntableExpansion::tableSignConversion(int8_t turnData) const {
+int8_t DJTurntableController_Data::TurntableExpansion::tableSignConversion(int8_t turnData) const {
 	if (turnData & 0x80) {  // If sign bit is 1...
 		turnData |= 0x60;  // Flip missing bits to '1's
 	}
@@ -186,46 +185,49 @@ int8_t DJTurntableController::TurntableExpansion::tableSignConversion(int8_t tur
 }
 
 // Left Turntable
-int8_t DJTurntableController::TurntableLeft::turntable() const {
+int8_t DJTurntableController_Data::TurntableLeft::turntable() const {
 	int8_t turnData = base.getControlData(3) & 0x1F;
 	turnData |= ((base.getControlData(4) & 0x01) << 7);  // Sign bit
 
 	return tableSignConversion(turnData);
 }
 
-boolean DJTurntableController::TurntableLeft::buttonGreen() const {
+boolean DJTurntableController_Data::TurntableLeft::buttonGreen() const {
 	return base.getControlBit(5, 3);
 }
 
-boolean DJTurntableController::TurntableLeft::buttonRed() const {
+boolean DJTurntableController_Data::TurntableLeft::buttonRed() const {
 	return base.getControlBit(4, 5);
 }
 
-boolean DJTurntableController::TurntableLeft::buttonBlue() const {
+boolean DJTurntableController_Data::TurntableLeft::buttonBlue() const {
 	return base.getControlBit(5, 7);
 }
 
 // Right Turntable
-int8_t DJTurntableController::TurntableRight::turntable() const {
+int8_t DJTurntableController_Data::TurntableRight::turntable() const {
 	int8_t turnData = ((base.getControlData(0) & 0xC0) >> 3) | ((base.getControlData(1) & 0xC0) >> 5) | ((base.getControlData(2) & 0x80) >> 7);
 	turnData |= ((base.getControlData(2) & 0x01) << 7);  // Sign bit
 
 	return tableSignConversion(turnData);
 }
 
-boolean DJTurntableController::TurntableRight::buttonGreen() const {
+boolean DJTurntableController_Data::TurntableRight::buttonGreen() const {
 	return base.getControlBit(5, 5);
 }
 
-boolean DJTurntableController::TurntableRight::buttonRed() const {
+boolean DJTurntableController_Data::TurntableRight::buttonRed() const {
 	return base.getControlBit(4, 1);
 }
 
-boolean DJTurntableController::TurntableRight::buttonBlue() const {
+boolean DJTurntableController_Data::TurntableRight::buttonBlue() const {
 	return base.getControlBit(5, 2);
 }
 
 // Effect Rollover
-int8_t DJTurntableController::EffectRollover::getChange() {
+int8_t DJTurntableController_Data::EffectRollover::getChange() {
 	return RolloverChange::getChange(dj.effectDial());
 }
+
+}  // End "NintendoExtensionCtrl" namespace
+

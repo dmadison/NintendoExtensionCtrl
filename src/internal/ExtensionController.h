@@ -23,24 +23,13 @@
 #ifndef NXC_ExtensionController_h
 #define NXC_ExtensionController_h
 
-#include "NXC_Core.h"
-
-#define NXC_CONTROL_DATA_MAX 6  // Max # of control data bytes
-
-struct ExtensionData {
-	friend class ExtensionController;
-	ExtensionData(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-private:
-	NXC_I2C_TYPE& I2C_Bus = NXC_I2C_DEFAULT;
-	NXC_ControllerType connectedID = NXC_NoController;
-	uint8_t controlData[NXC_CONTROL_DATA_MAX];
-};
+#include "NXC_Identity.h"
+#include "NXC_Comms.h"
+#include "NXC_Utils.h"
 
 class ExtensionController {
 public:
 	ExtensionController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-	ExtensionController(ExtensionData& busData);
-	~ExtensionController();
 
 	void begin();
 
@@ -48,13 +37,12 @@ public:
 	boolean reconnect();
 
 	boolean update();
-	NXC_ControllerType identifyController();
+	ExtensionType identifyController();
 
 	void reset();
 
-	NXC_ControllerType getConnectedID() const;
+	ExtensionType getConnectedID() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
-	boolean getControlBit(uint8_t arrIndex, uint8_t bitNum) const;
 
 	void setEnforceID(boolean enforce);
 
@@ -63,20 +51,21 @@ public:
 	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(uint8_t baseFormat, Stream& stream = NXC_SERIAL_DEFAULT) const;
 
-	const NXC_ControllerType ControllerID = NXC_UnknownController;
-	const uint8_t ControlDataSize = NXC_CONTROL_DATA_MAX;  // Bytes per update
+	static const uint8_t ControlDataSize = 6;  // Enough for standard request size
 
 protected:
-	ExtensionController(NXC_I2C_TYPE& i2cBus, NXC_ControllerType conID, uint8_t datSize);
-	ExtensionController(ExtensionData& busData, NXC_ControllerType conID, uint8_t datSize);
+	ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID);
 
 private:
 	boolean controllerIDMatches() const;
 
-	boolean enforceControllerID = false;  // Off for generic controllers
+	const ExtensionType ID_Limit = ExtensionType::AnyController;
+	ExtensionType connectedID = ExtensionType::NoController;
+	uint8_t controlData[ControlDataSize];
 
-	ExtensionData & busData;
-	const boolean AllocatedData = false;
+	NintendoExtensionCtrl::ExtensionComms comms;
 };
+
+#include "NXC_DataMaps.h"
 
 #endif

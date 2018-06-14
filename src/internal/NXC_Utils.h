@@ -20,30 +20,32 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "NESMiniController.h"
+#ifndef NXC_Core_h
+#define NXC_Core_h
 
-NESMiniController::NESMiniController(NXC_I2C_TYPE& i2cBus) : ClassicController(i2cBus) {}
-NESMiniController::NESMiniController(ExtensionData& busData) : ClassicController(busData) {}
+#include "NXC_Comms.h"
 
-void NESMiniController::printDebug(Stream& stream) const {
-	const char fillCharacter = '_';
-	
-	stream.print("NES ");
+namespace NintendoExtensionCtrl {
 
-	stream.print(dpadLeft() ? '<' : fillCharacter);
-	stream.print(dpadUp() ? '^' : fillCharacter);
-	stream.print(dpadDown() ? 'v' : fillCharacter);
-	stream.print(dpadRight() ? '>' : fillCharacter);
-	stream.print(" | ");
+	// Utility
+	boolean verifyData(const uint8_t * dataIn, uint8_t dataSize);
+	void printRaw(const uint8_t * dataIn, uint8_t dataSize, uint8_t baseFormat = HEX, Stream& stream = NXC_SERIAL_DEFAULT);
+	void printRaw(uint8_t dataIn, uint8_t baseFormat = HEX, Stream& stream = NXC_SERIAL_DEFAULT);
+	void printRepeat(char c, uint8_t nPrint, Stream& stream = NXC_SERIAL_DEFAULT);
 
-	buttonSelect() ? (void) stream.print("SEL") : NXCtrl::printRepeat(fillCharacter, 3, stream);
-	stream.print(' ');
+	class RolloverChange {
+	public:
+		RolloverChange(uint8_t min, uint8_t max);
+		int8_t getChange(uint8_t valIn);
+	private:
+		int8_t rolloverOut(uint8_t c1, uint8_t c2) const;
+		uint8_t halfRange() const;
 
-	buttonStart() ? (void) stream.print("STR") : NXCtrl::printRepeat(fillCharacter, 3, stream);
-	stream.print(" | ");
+		const uint8_t minValue;
+		const uint8_t maxValue;
 
-	stream.print(buttonB() ? 'B' : fillCharacter);
-	stream.print(buttonA() ? 'A' : fillCharacter);
-
-	stream.println();
+		uint8_t lastValue = 0;
+	};
 }
+
+#endif

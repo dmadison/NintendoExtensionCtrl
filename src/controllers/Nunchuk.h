@@ -20,17 +20,35 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_SNESMiniController_h
-#define NXC_SNESMiniController_h
+#ifndef NXC_Nunchuk_h
+#define NXC_Nunchuk_h
 
-#include "ClassicController.h"
+#include "internal/ExtensionController.h"
 
-class SNESMiniController : public ClassicController {
-public:
-	SNESMiniController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-	SNESMiniController(ExtensionData& busData);
-	
-	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT) const;
-};
+namespace NintendoExtensionCtrl {
+	class Nunchuk_Data : private ControlDataMap {
+	public:
+		using ControlDataMap::ControlDataMap;
+
+		uint8_t joyX() const;  // 8 bits, 0-255
+		uint8_t joyY() const;
+
+		uint16_t accelX() const;  // 10 bits, 0-1023
+		uint16_t accelY() const;
+		uint16_t accelZ() const;
+
+		boolean buttonC() const;
+		boolean buttonZ() const;
+
+		float rollAngle() const;  // -180.0 to 180.0
+		float pitchAngle() const;
+
+		void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+	};
+}
+
+typedef NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::Nunchuk_Data, ExtensionType::Nunchuk>
+	Nunchuk;
 
 #endif

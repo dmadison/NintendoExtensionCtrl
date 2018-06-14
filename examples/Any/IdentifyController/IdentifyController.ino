@@ -7,28 +7,28 @@ void setup() {
 	controller.begin();
 	controller.connect();
 
-	NXC_ControllerType conType = controller.getConnectedID();
+	ExtensionType conType = controller.getConnectedID();
 
 	switch (conType) {
-		case(NXC_NoController):
+		case(ExtensionType::NoController):
 			Serial.println("No controller detected");
 			break;
-		case(NXC_UnknownController):
+		case(ExtensionType::UnknownController):
 			Serial.println("Unknown controller detected");
 			break;
-		case(NXC_Nunchuk):
+		case(ExtensionType::Nunchuk):
 			Serial.println("Nunchuk detected!");
 			break;
-		case(NXC_ClassicController):
+		case(ExtensionType::ClassicController):
 			Serial.println("Classic Controller detected!");
 			break;
-		case(NXC_GuitarController):
+		case(ExtensionType::GuitarController):
 			Serial.println("Guitar controller connected!");
 			break;
-		case(NXC_DrumController):
+		case(ExtensionType::DrumController):
 			Serial.println("Drum set controller connected!");
 			break;
-		case(NXC_DJTurntable):
+		case(ExtensionType::DJTurntableController):
 			Serial.println("DJ turntable connected!");
 			break;
 	}

@@ -29,9 +29,9 @@ namespace NintendoExtensionCtrl {
 
 	// Utility
 	boolean verifyData(const uint8_t * dataIn, uint8_t dataSize);
-	void printRaw(const uint8_t * dataIn, uint8_t dataSize, uint8_t baseFormat = HEX, Stream& stream = NXC_SERIAL_DEFAULT);
-	void printRaw(uint8_t dataIn, uint8_t baseFormat = HEX, Stream& stream = NXC_SERIAL_DEFAULT);
-	void printRepeat(char c, uint8_t nPrint, Stream& stream = NXC_SERIAL_DEFAULT);
+	void printRaw(const uint8_t * dataIn, uint8_t dataSize, uint8_t baseFormat = HEX, Print& output = NXC_SERIAL_DEFAULT);
+	void printRaw(uint8_t dataIn, uint8_t baseFormat = HEX, Print& output = NXC_SERIAL_DEFAULT);
+	void printRepeat(char c, uint8_t nPrint, Print& output = NXC_SERIAL_DEFAULT);
 
 	class RolloverChange {
 	public:

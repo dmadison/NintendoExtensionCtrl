@@ -116,7 +116,7 @@ boolean ClassicController_Data::buttonHome() const {
 	return getControlBit(4, 3);
 }
 
-void ClassicController_Data::printDebug(Stream& stream) const {
+void ClassicController_Data::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 
 	char buffer[62];
@@ -141,7 +141,7 @@ void ClassicController_Data::printDebug(Stream& stream) const {
 	char zlButtonPrint = buttonZL() ? 'L' : fillCharacter;
 	char zrButtonPrint = buttonZR() ? 'R' : fillCharacter;
 
-	stream.print("Classic ");
+	output.print("Classic ");
 	sprintf(buffer,
 		"%c%c%c%c | %c%c%c | %c%c%c%c L:(%2u, %2u) R:(%2u, %2u) | LT:%2u%c RT:%2u%c Z:%c%c",
 		dpadLPrint, dpadUPrint, dpadDPrint, dpadRPrint,
@@ -150,7 +150,7 @@ void ClassicController_Data::printDebug(Stream& stream) const {
 		leftJoyX(), leftJoyY(), rightJoyX(), rightJoyY(),
 		triggerL(), ltButtonPrint, triggerR(), rtButtonPrint,
 		zlButtonPrint, zrButtonPrint);
-	stream.println(buffer);
+	output.println(buffer);
 }
 
 }  // End "NintendoExtensionCtrl" namespace

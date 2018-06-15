@@ -46,10 +46,10 @@ public:
 
 	void setEnforceID(boolean enforce);
 
-	void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
-	void printDebugID(Stream& stream = NXC_SERIAL_DEFAULT) const;
-	void printDebugRaw(Stream& stream = NXC_SERIAL_DEFAULT) const;
-	void printDebugRaw(uint8_t baseFormat, Stream& stream = NXC_SERIAL_DEFAULT) const;
+	void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
+	void printDebugID(Print& output = NXC_SERIAL_DEFAULT) const;
+	void printDebugRaw(Print& output = NXC_SERIAL_DEFAULT) const;
+	void printDebugRaw(uint8_t baseFormat, Print& output = NXC_SERIAL_DEFAULT) const;
 
 	static const uint8_t ControlDataSize = 6;  // Enough for standard request size
 

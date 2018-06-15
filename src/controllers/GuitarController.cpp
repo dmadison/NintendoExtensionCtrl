@@ -111,12 +111,12 @@ boolean GuitarController_Data::supportsTouchbar() {
 	return false;
 }
 
-void GuitarController_Data::printDebug(Stream& stream) {
+void GuitarController_Data::printDebug(Print& output) {
 	const char fillCharacter = '_';
 
 	char buffer[25];
 
-	stream.print("Guitar: ");
+	output.print("Guitar: ");
 
 	// Strum + Fret Buttons
 	char strumPrint = fillCharacter;
@@ -138,7 +138,7 @@ void GuitarController_Data::printDebug(Stream& stream) {
 		strumPrint,
 		greenPrint, redPrint, yellowPrint, bluePrint, orangePrint,
 		whammyBar());
-	stream.print(buffer);
+	output.print(buffer);
 	buffer[0] = 0;
 
 	// Touchbar, if World Controller
@@ -153,7 +153,7 @@ void GuitarController_Data::printDebug(Stream& stream) {
 			"Touch:%2u - %c%c%c%c%c | ",
 			touchbar(),
 			greenPrint, redPrint, yellowPrint, bluePrint, orangePrint);
-		stream.print(buffer);
+		output.print(buffer);
 		buffer[0] = 0;
 	}
 
@@ -165,7 +165,7 @@ void GuitarController_Data::printDebug(Stream& stream) {
 		"%c%c | Joy:(%2u, %2u)",
 		minusPrint, plusPrint,
 		joyX(), joyY());
-	stream.println(buffer);
+	output.println(buffer);
 }
 
 }  // End "NintendoExtensionCtrl" namespace

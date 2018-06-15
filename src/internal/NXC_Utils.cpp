@@ -40,7 +40,7 @@ namespace NintendoExtensionCtrl {
 		return true;
 	}
 
-	void printRaw(const uint8_t * dataIn, uint8_t dataSize, uint8_t baseFormat, Stream& stream) {
+	void printRaw(const uint8_t * dataIn, uint8_t dataSize, uint8_t baseFormat, Print& output) {
 		char padChar = ' ';
 		if (baseFormat == BIN || baseFormat == HEX) {
 			padChar = '0';
@@ -58,7 +58,7 @@ namespace NintendoExtensionCtrl {
 			uint8_t dataOut = dataIn[i];
 
 			if (baseFormat == HEX) {
-				stream.print("0x");  // Hex prefix
+				output.print("0x");  // Hex prefix
 			}
 
 			// Calculate # of spaces that will be printed. Max - n = # to pad.
@@ -72,25 +72,25 @@ namespace NintendoExtensionCtrl {
 
 			// Print pad characters
 			for (int padOut = 0; padOut < (maxNPlaces - nPlaces); padOut++) {
-				stream.print(padChar);
+				output.print(padChar);
 			}
 
-			stream.print(dataOut, baseFormat);
+			output.print(dataOut, baseFormat);
 
 			if (i != dataSize - 1) {  // Print separators
-				stream.print(" | ");
+				output.print(" | ");
 			}
 		}
-		stream.println();
+		output.println();
 	}
 
-	void printRaw(uint8_t dataIn, uint8_t baseFormat, Stream& stream) {
-		printRaw(&dataIn, 1, baseFormat, stream);
+	void printRaw(uint8_t dataIn, uint8_t baseFormat, Print& output) {
+		printRaw(&dataIn, 1, baseFormat, output);
 	}
 
-	void printRepeat(char c, uint8_t nPrint, Stream& stream) {
+	void printRepeat(char c, uint8_t nPrint, Print& output) {
 		for (int i = 0; i < nPrint; i++) {
-			stream.print(c);
+			output.print(c);
 		}
 	}
 

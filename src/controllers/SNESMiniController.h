@@ -29,7 +29,7 @@ class SNESMiniController : public ClassicController {
 public:
 	SNESMiniController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
 	
-	void printDebug(Stream& stream=NXC_SERIAL_DEFAULT) const;
+	void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 };
 
 #endif

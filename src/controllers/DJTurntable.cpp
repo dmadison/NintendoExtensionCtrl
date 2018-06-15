@@ -110,19 +110,19 @@ uint8_t DJTurntableController_Data::getNumTurntables() {
 	return 0;  // Just in-case
 }
 
-void DJTurntableController_Data::printDebug(Stream& stream) {
+void DJTurntableController_Data::printDebug(Print& output) {
 	const char fillCharacter = '_';
 
 	char buffer[45];
 
-	stream.print("DJ:");
+	output.print("DJ:");
 
 	if (getNumTurntables() == 0) {
-		stream.print(" No turntable found! |");
+		output.print(" No turntable found! |");
 	}
 	else if (left.connected()) {
-		printTurntable(stream, left);
-		stream.print(" |");
+		printTurntable(output, left);
+		output.print(" |");
 	}
 
 	char plusPrint = buttonPlus() ? '+' : fillCharacter;
@@ -136,16 +136,16 @@ void DJTurntableController_Data::printDebug(Stream& stream) {
 		euphoriaPrint,
 		minusPrint, plusPrint,
 		effectDial(), crossfadeSlider());
-	stream.print(buffer);
+	output.print(buffer);
 
 	if (right.connected()) {
-		stream.print(" |");
-		printTurntable(stream, right);
+		output.print(" |");
+		printTurntable(output, right);
 	}
-	stream.println();
+	output.println();
 }
 
-void DJTurntableController_Data::printTurntable(Stream& stream, TurntableExpansion &table) const {
+void DJTurntableController_Data::printTurntable(Print& output, TurntableExpansion &table) const {
 	const char fillCharacter = '_';
 
 	char idPrint = 'X';
@@ -166,7 +166,7 @@ void DJTurntableController_Data::printTurntable(Stream& stream, TurntableExpansi
 		idPrint,
 		table.turntable(),
 		greenPrint, redPrint, bluePrint);
-	stream.print(buffer);
+	output.print(buffer);
 }
 
 // Turntable Expansion Base

@@ -61,18 +61,18 @@ float Nunchuk_Data::pitchAngle() const {
 	return -atan2((float)accelY() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
-void Nunchuk_Data::printDebug(Stream& stream) const {
+void Nunchuk_Data::printDebug(Print& output) const {
 	char buffer[60];
 
 	char cPrint = buttonC() ? 'C' : '-';
 	char zPrint = buttonZ() ? 'Z' : '-';
 
-	stream.print("Nunchuk - ");
+	output.print("Nunchuk - ");
 	sprintf(buffer,
 		"Joy:(%3u, %3u) | Accel XYZ:(%4u, %4u, %4u) | Buttons: %c%c",
 		joyX(), joyY(), accelX(), accelY(), accelZ(), cPrint, zPrint);
 
-	stream.println(buffer);
+	output.println(buffer);
 }
 
 }  // End "NintendoExtensionCtrl" namespace

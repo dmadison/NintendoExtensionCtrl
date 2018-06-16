@@ -100,7 +100,15 @@ namespace NintendoExtensionCtrl {
 
 			const TurntableConfig side = TurntableConfig::BaseOnly;
 		protected:
-			int8_t tableSignConversion(int8_t turnData) const;
+			int8_t getTurntableSpeed(uint8_t turnData, boolean turnSign) const {
+				turnData |= turnSign << 7;  // Sign bit
+
+				if (turnData & 0x80) {  // If sign bit is 1...
+					turnData |= 0x60;  // Flip missing bits to '1's
+				}
+				return (int8_t) turnData;
+			}
+
 			const DJTurntableController_Data & base;
 		};
 

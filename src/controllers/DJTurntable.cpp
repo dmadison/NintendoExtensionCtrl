@@ -177,19 +177,11 @@ boolean DJTurntableController_Data::TurntableExpansion::connected() const {
 	return turntable() != 0 || buttonGreen() || buttonRed() || buttonBlue();
 }
 
-int8_t DJTurntableController_Data::TurntableExpansion::tableSignConversion(int8_t turnData) const {
-	if (turnData & 0x80) {  // If sign bit is 1...
-		turnData |= 0x60;  // Flip missing bits to '1's
-	}
-	return turnData;
-}
-
 // Left Turntable
 int8_t DJTurntableController_Data::TurntableLeft::turntable() const {
-	int8_t turnData = base.getControlData(Maps::Left_Turntable);
-	turnData |= base.getControlData(Maps::Left_TurntableSign) << 7;  // Sign bit
-
-	return tableSignConversion(turnData);
+	uint8_t turnData = base.getControlData(Maps::Left_Turntable);
+	boolean turnSign = base.getControlData(Maps::Left_TurntableSign);
+	return getTurntableSpeed(turnData, turnSign);
 }
 
 boolean DJTurntableController_Data::TurntableLeft::buttonGreen() const {
@@ -206,10 +198,9 @@ boolean DJTurntableController_Data::TurntableLeft::buttonBlue() const {
 
 // Right Turntable
 int8_t DJTurntableController_Data::TurntableRight::turntable() const {
-	int8_t turnData = base.getControlData(Maps::Right_Turntable);
-	turnData |= base.getControlData(Maps::Right_TurntableSign) << 7;  // Sign bit
-
-	return tableSignConversion(turnData);
+	uint8_t turnData = base.getControlData(Maps::Right_Turntable);
+	boolean turnSign = base.getControlData(Maps::Right_TurntableSign);
+	return getTurntableSpeed(turnData, turnSign);
 }
 
 boolean DJTurntableController_Data::TurntableRight::buttonGreen() const {

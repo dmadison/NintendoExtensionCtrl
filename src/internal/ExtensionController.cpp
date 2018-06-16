@@ -88,27 +88,27 @@ uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
 	return controlData[controlIndex];
 }
 
-void ExtensionController::printDebug(Stream& stream) const {
-	printDebugRaw(stream);
+void ExtensionController::printDebug(Print& output) const {
+	printDebugRaw(output);
 }
 
-void ExtensionController::printDebugID(Stream& stream) const {
+void ExtensionController::printDebugID(Print& output) const {
 	uint8_t idData[comms.IDSize];
 	boolean success = comms.requestIdentity(idData);
 
 	if (success) {
-		stream.print("ID: ");
-		NintendoExtensionCtrl::printRaw(idData, comms.IDSize, HEX, stream);
+		output.print("ID: ");
+		NintendoExtensionCtrl::printRaw(idData, comms.IDSize, HEX, output);
 	}
 	else {
-		stream.println("Bad ID Read");
+		output.println("Bad ID Read");
 	}
 }
 
-void ExtensionController::printDebugRaw(Stream& stream) const {
-	printDebugRaw(HEX, stream);
+void ExtensionController::printDebugRaw(Print& output) const {
+	printDebugRaw(HEX, output);
 }
 
-void ExtensionController::printDebugRaw(uint8_t baseFormat, Stream& stream) const {
-	NintendoExtensionCtrl::printRaw(controlData, ControlDataSize, baseFormat, stream);
+void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const {
+	NintendoExtensionCtrl::printRaw(controlData, ControlDataSize, baseFormat, output);
 }

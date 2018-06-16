@@ -55,7 +55,7 @@ namespace NintendoExtensionCtrl {
 		boolean buttonPlus() const;
 		boolean buttonMinus() const;
 
-		void printDebug(Stream& stream = NXC_SERIAL_DEFAULT);
+		void printDebug(Print& output = NXC_SERIAL_DEFAULT);
 
 		boolean supportsTouchbar();
 

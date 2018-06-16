@@ -134,12 +134,12 @@ uint8_t DrumController_Data::velocityPedal() const {
 	return velocity(VelocityID::Pedal);
 }
 
-void DrumController_Data::printDebug(Stream& stream) const {
+void DrumController_Data::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 	
 	char buffer[45];
 	
-	stream.print("Drums: ");
+	output.print("Drums: ");
 
 	char redPrint = drumRed() ? 'R' : fillCharacter;
 	char bluePrint = drumBlue() ? 'B' : fillCharacter;
@@ -189,7 +189,7 @@ void DrumController_Data::printDebug(Stream& stream) const {
 		velocityPrint, velocityIDPrint,
 		minusPrint, plusPrint,
 		joyX(), joyY());
-	stream.println(buffer);
+	output.println(buffer);
 }
 
 }  // End "NintendoExtensionCtrl" namespace

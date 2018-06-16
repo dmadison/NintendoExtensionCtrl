@@ -63,7 +63,7 @@ namespace NintendoExtensionCtrl {
 
 		boolean buttonHome() const;
 
-		void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};
 }
 

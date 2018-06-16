@@ -68,7 +68,7 @@ namespace NintendoExtensionCtrl {
 		uint8_t velocityOrange() const;
 		uint8_t velocityPedal() const;
 
-		void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	private:
 		boolean validVelocityID(uint8_t idIn) const;
 	};

@@ -43,7 +43,7 @@ namespace NintendoExtensionCtrl {
 		float rollAngle() const;  // -180.0 to 180.0
 		float pitchAngle() const;
 
-		void printDebug(Stream& stream = NXC_SERIAL_DEFAULT) const;
+		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};
 }
 

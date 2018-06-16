@@ -24,25 +24,25 @@
 
 NESMiniController::NESMiniController(NXC_I2C_TYPE& i2cBus) : ::ClassicController(i2cBus) {}
 
-void NESMiniController::printDebug(Stream& stream) const {
+void NESMiniController::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 	
-	stream.print("NES ");
+	output.print("NES ");
 
-	stream.print(dpadLeft() ? '<' : fillCharacter);
-	stream.print(dpadUp() ? '^' : fillCharacter);
-	stream.print(dpadDown() ? 'v' : fillCharacter);
-	stream.print(dpadRight() ? '>' : fillCharacter);
-	stream.print(" | ");
+	output.print(dpadLeft() ? '<' : fillCharacter);
+	output.print(dpadUp() ? '^' : fillCharacter);
+	output.print(dpadDown() ? 'v' : fillCharacter);
+	output.print(dpadRight() ? '>' : fillCharacter);
+	output.print(" | ");
 
-	buttonSelect() ? (void) stream.print("SEL") : NintendoExtensionCtrl::printRepeat(fillCharacter, 3, stream);
-	stream.print(' ');
+	buttonSelect() ? (void)output.print("SEL") : NintendoExtensionCtrl::printRepeat(fillCharacter, 3, output);
+	output.print(' ');
 
-	buttonStart() ? (void) stream.print("STR") : NintendoExtensionCtrl::printRepeat(fillCharacter, 3, stream);
-	stream.print(" | ");
+	buttonStart() ? (void)output.print("STR") : NintendoExtensionCtrl::printRepeat(fillCharacter, 3, output);
+	output.print(" | ");
 
-	stream.print(buttonB() ? 'B' : fillCharacter);
-	stream.print(buttonA() ? 'A' : fillCharacter);
+	output.print(buttonB() ? 'B' : fillCharacter);
+	output.print(buttonA() ? 'A' : fillCharacter);
 
-	stream.println();
+	output.println();
 }

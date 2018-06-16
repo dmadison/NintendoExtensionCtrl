@@ -25,75 +25,75 @@
 namespace NintendoExtensionCtrl {
 
 uint8_t ClassicController_Data::leftJoyX() const {
-	return getControlData(0) & 0x3F;
+	return getControlData(Maps::LeftJoyX);
 }
 
 uint8_t ClassicController_Data::leftJoyY() const {
-	return getControlData(1) & 0x3F;
+	return getControlData(Maps::LeftJoyY);
 }
 
 uint8_t ClassicController_Data::rightJoyX() const {
-	return ((getControlData(0) >> 3) & 0x18) | ((getControlData(1) >> 5) &  0x06 ) | (getControlData(2) >> 7);
+	return getControlData(Maps::RightJoyX);
 }
 
 uint8_t ClassicController_Data::rightJoyY() const {
-	return getControlData(2) & 0x1F;
+	return getControlData(Maps::RightJoyY);
 }
 
 boolean ClassicController_Data::dpadUp() const {
-	return getControlBit(5, 0);
+	return getControlBit(Maps::DpadUp);
 }
 
 boolean ClassicController_Data::dpadDown() const {
-	return getControlBit(4, 6);
+	return getControlBit(Maps::DpadDown);
 }
 
 boolean ClassicController_Data::dpadLeft() const {
-	return getControlBit(5, 1);
+	return getControlBit(Maps::DpadLeft);
 }
 
 boolean ClassicController_Data::dpadRight() const {
-	return getControlBit(4, 7);
+	return getControlBit(Maps::DpadRight);
 }
 
 boolean ClassicController_Data::buttonA() const {
-	return getControlBit(5, 4);
+	return getControlBit(Maps::ButtonA);
 }
 
 boolean ClassicController_Data::buttonB() const {
-	return getControlBit(5, 6);
+	return getControlBit(Maps::ButtonB);
 }
 
 boolean ClassicController_Data::buttonX() const {
-	return getControlBit(5, 3);
+	return getControlBit(Maps::ButtonX);
 }
 
 boolean ClassicController_Data::buttonY() const {
-	return getControlBit(5, 5);
+	return getControlBit(Maps::ButtonY);
 }
 
 uint8_t ClassicController_Data::triggerL() const {
-	return ((getControlData(2) & 0x60) >> 2) | getControlData(3) >> 5;
+	return getControlData(Maps::TriggerL);
 }
 
 uint8_t ClassicController_Data::triggerR() const {
-	return getControlData(3) & 0x1F;
+	return getControlData(Maps::TriggerR);
 }
 
 boolean ClassicController_Data::buttonL() const {
-	return getControlBit(4, 5);
+	return getControlBit(Maps::ButtonL);
 }
 
 boolean ClassicController_Data::buttonR() const {
-	return getControlBit(4, 1);
+	return getControlBit(Maps::ButtonR);
 }
 
 boolean ClassicController_Data::buttonZL() const {
-	return getControlBit(5, 7);
+	return getControlBit(Maps::ButtonZL);
 }
 
 boolean ClassicController_Data::buttonZR() const {
-	return getControlBit(5, 2);
+	return getControlBit(Maps::ButtonZR);
 }
 
 boolean ClassicController_Data::buttonStart() const {
@@ -105,15 +105,15 @@ boolean ClassicController_Data::buttonSelect() const {
 }
 
 boolean ClassicController_Data::buttonPlus() const {
-	return getControlBit(4, 2);
+	return getControlBit(Maps::ButtonPlus);
 }
 
 boolean ClassicController_Data::buttonMinus() const {
-	return getControlBit(4, 4);
+	return getControlBit(Maps::ButtonMinus);
 }
 
 boolean ClassicController_Data::buttonHome() const {
-	return getControlBit(4, 3);
+	return getControlBit(Maps::ButtonHome);
 }
 
 void ClassicController_Data::printDebug(Stream& stream) const {

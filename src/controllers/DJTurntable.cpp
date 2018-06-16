@@ -43,31 +43,31 @@ boolean DJTurntableController_Data::buttonBlue() const {
 
 // Main Board
 uint8_t DJTurntableController_Data::effectDial() const {
-	return ((getControlData(2) & 0x60) >> 2) | ((getControlData(3) & 0xE0) >> 5);
+	return getControlData(Maps::EffectDial);
 }
 
 int8_t DJTurntableController_Data::crossfadeSlider() const {
-	return ((getControlData(2) & 0x1E) >> 1) - 8;  // Shifted to signed int
+	return getControlData(Maps::CrossfadeSlider) - 8;  // Shifted to signed int
 }
 
 boolean DJTurntableController_Data::buttonEuphoria() const {
-	return getControlBit(5, 4);
+	return getControlBit(Maps::ButtonEuphoria);
 }
 
 uint8_t DJTurntableController_Data::joyX() const {
-	return getControlData(0) & 0x3F;
+	return getControlData(Maps::JoyX);
 }
 
 uint8_t DJTurntableController_Data::joyY() const {
-	return getControlData(1) & 0x3F;
+	return getControlData(Maps::JoyY);
 }
 
 boolean DJTurntableController_Data::buttonPlus() const {
-	return getControlBit(4, 2);
+	return getControlBit(Maps::ButtonPlus);
 }
 
 boolean DJTurntableController_Data::buttonMinus() const {
-	return getControlBit(4, 4);
+	return getControlBit(Maps::ButtonMinus);
 }
 
 DJTurntableController_Data::TurntableConfig DJTurntableController_Data::getTurntableConfig() {
@@ -186,42 +186,42 @@ int8_t DJTurntableController_Data::TurntableExpansion::tableSignConversion(int8_
 
 // Left Turntable
 int8_t DJTurntableController_Data::TurntableLeft::turntable() const {
-	int8_t turnData = base.getControlData(3) & 0x1F;
-	turnData |= ((base.getControlData(4) & 0x01) << 7);  // Sign bit
+	int8_t turnData = base.getControlData(Maps::Left_Turntable);
+	turnData |= base.getControlData(Maps::Left_TurntableSign) << 7;  // Sign bit
 
 	return tableSignConversion(turnData);
 }
 
 boolean DJTurntableController_Data::TurntableLeft::buttonGreen() const {
-	return base.getControlBit(5, 3);
+	return base.getControlBit(Maps::Left_ButtonGreen);
 }
 
 boolean DJTurntableController_Data::TurntableLeft::buttonRed() const {
-	return base.getControlBit(4, 5);
+	return base.getControlBit(Maps::Left_ButtonRed);
 }
 
 boolean DJTurntableController_Data::TurntableLeft::buttonBlue() const {
-	return base.getControlBit(5, 7);
+	return base.getControlBit(Maps::Left_ButtonBlue);
 }
 
 // Right Turntable
 int8_t DJTurntableController_Data::TurntableRight::turntable() const {
-	int8_t turnData = ((base.getControlData(0) & 0xC0) >> 3) | ((base.getControlData(1) & 0xC0) >> 5) | ((base.getControlData(2) & 0x80) >> 7);
-	turnData |= ((base.getControlData(2) & 0x01) << 7);  // Sign bit
+	int8_t turnData = base.getControlData(Maps::Right_Turntable);
+	turnData |= base.getControlData(Maps::Right_TurntableSign) << 7;  // Sign bit
 
 	return tableSignConversion(turnData);
 }
 
 boolean DJTurntableController_Data::TurntableRight::buttonGreen() const {
-	return base.getControlBit(5, 5);
+	return base.getControlBit(Maps::Right_ButtonGreen);
 }
 
 boolean DJTurntableController_Data::TurntableRight::buttonRed() const {
-	return base.getControlBit(4, 1);
+	return base.getControlBit(Maps::Right_ButtonRed);
 }
 
 boolean DJTurntableController_Data::TurntableRight::buttonBlue() const {
-	return base.getControlBit(5, 2);
+	return base.getControlBit(Maps::Right_ButtonBlue);
 }
 
 // Effect Rollover

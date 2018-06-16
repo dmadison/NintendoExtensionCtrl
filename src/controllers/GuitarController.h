@@ -25,9 +25,31 @@
 
 #include "internal/ExtensionController.h"
 
+#include "ClassicController.h"  // For joystick and +/- control maps
+
 namespace NintendoExtensionCtrl {
-	class GuitarController_Data : private ControlDataMap {
+	class GuitarController_Data : protected ControlDataMap {
 	public:
+		struct Maps {
+			constexpr static ByteMap JoyX = ClassicController_Data::Maps::LeftJoyX;
+			constexpr static ByteMap JoyY = ClassicController_Data::Maps::LeftJoyY;
+
+			constexpr static BitMap  ButtonPlus = ClassicController_Data::Maps::ButtonPlus;
+			constexpr static BitMap  ButtonMinus = ClassicController_Data::Maps::ButtonMinus;
+
+			constexpr static BitMap  StrumUp = { 5, 0 };
+			constexpr static BitMap  StrumDown = { 4, 6 };
+
+			constexpr static BitMap  FretGreen = { 5, 4 };
+			constexpr static BitMap  FretRed = { 5, 6 };
+			constexpr static BitMap  FretYellow = { 5, 3 };
+			constexpr static BitMap  FretBlue = { 5, 5 };
+			constexpr static BitMap  FretOrange = { 5, 7 };
+
+			constexpr static ByteMap Whammy = ByteMap(3, 5, 0, 0);
+			constexpr static ByteMap Touchbar = ByteMap(2, 5, 0, 0);
+		};
+
 		using ControlDataMap::ControlDataMap;
 
 		uint8_t joyX() const;  // 6 bits, 0-63

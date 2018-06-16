@@ -25,9 +25,36 @@
 
 #include "internal/ExtensionController.h"
 
+#include "ClassicController.h"  // For joystick and +/- control maps
+
 namespace NintendoExtensionCtrl {
-	class DJTurntableController_Data : private ControlDataMap {
+	class DJTurntableController_Data : protected ControlDataMap {
 	public:
+		struct Maps {
+			constexpr static ByteMap JoyX = ClassicController_Data::Maps::LeftJoyX;
+			constexpr static ByteMap JoyY = ClassicController_Data::Maps::LeftJoyY;
+
+			constexpr static BitMap  ButtonPlus = ClassicController_Data::Maps::ButtonPlus;
+			constexpr static BitMap  ButtonMinus = ClassicController_Data::Maps::ButtonMinus;
+
+			constexpr static ByteMap Left_Turntable = ByteMap(3, 5, 0, 0);
+			constexpr static ByteMap Left_TurntableSign = ByteMap(4, 1, 0, 0);
+			constexpr static BitMap  Left_ButtonGreen = { 5, 3 };
+			constexpr static BitMap  Left_ButtonRed = { 4, 5 };
+			constexpr static BitMap  Left_ButtonBlue = { 5, 7 };
+
+			constexpr static ByteMap Right_Turntable[3] = { ByteMap(0, 2, 6, 3), ByteMap(1, 2, 6, 5), ByteMap(2, 1, 7, 7) };
+			constexpr static ByteMap Right_TurntableSign = ByteMap(2, 1, 0, 0);
+			constexpr static BitMap  Right_ButtonGreen = { 5, 5 };
+			constexpr static BitMap  Right_ButtonRed = { 4, 1 };
+			constexpr static BitMap  Right_ButtonBlue = { 5, 2 };
+
+			constexpr static ByteMap EffectDial[2] = { ByteMap(2, 2, 5, 2),  ByteMap(3, 3, 5, 5) };
+			constexpr static ByteMap CrossfadeSlider = ByteMap(2, 4, 1, 1);
+
+			constexpr static BitMap  ButtonEuphoria = { 5, 4 };
+		};
+
 		DJTurntableController_Data(ExtensionController & dataSource) : ControlDataMap(dataSource), left(*this), right(*this) {}
 
 		enum class TurntableConfig {
@@ -73,7 +100,13 @@ namespace NintendoExtensionCtrl {
 
 			const TurntableConfig side = TurntableConfig::BaseOnly;
 		protected:
-			int8_t tableSignConversion(int8_t turnData) const;
+			int8_t getTurntableSpeed(uint8_t turnData, boolean turnSign) const {
+				if (turnSign) {  // If sign bit is 1...
+					turnData |= 0xE0;  // Flip all sign-related bits to '1's
+				}
+				return (int8_t) turnData;
+			}
+
 			const DJTurntableController_Data & base;
 		};
 

@@ -25,51 +25,51 @@
 namespace NintendoExtensionCtrl {
 
 uint8_t DrumController_Data::joyX() const {
-	return getControlData(0) & 0x3F;
+	return getControlData(Maps::JoyX);
 }
 
 uint8_t DrumController_Data::joyY() const {
-	return getControlData(1) & 0x3F;
+	return getControlData(Maps::JoyY);
 }
 
 boolean DrumController_Data::drumRed() const {
-	return getControlBit(5, 6);
+	return getControlBit(Maps::DrumRed);
 }
 
 boolean DrumController_Data::drumBlue() const {
-	return getControlBit(5, 3);
+	return getControlBit(Maps::DrumBlue);
 }
 
 boolean DrumController_Data::drumGreen() const {
-	return getControlBit(5, 4);
+	return getControlBit(Maps::DrumGreen);
 }
 
 boolean DrumController_Data::cymbalYellow() const {
-	return getControlBit(5, 5);
+	return getControlBit(Maps::CymbalYellow);
 }
 
 boolean DrumController_Data::cymbalOrange() const {
-	return getControlBit(5, 7);
+	return getControlBit(Maps::CymbalOrange);
 }
 
 boolean DrumController_Data::bassPedal() const {
-	return getControlBit(5, 2);
+	return getControlBit(Maps::Pedal);
 }
 
 boolean DrumController_Data::buttonPlus() const {
-	return getControlBit(4, 2);
+	return getControlBit(Maps::ButtonPlus);
 }
 
 boolean DrumController_Data::buttonMinus() const {
-	return getControlBit(4, 4);
+	return getControlBit(Maps::ButtonMinus);
 }
 
 boolean DrumController_Data::velocityAvailable() const {
-	return getControlBit(2, 6);
+	return getControlBit(Maps::VelocityAvailable);
 }
 
 DrumController_Data::VelocityID DrumController_Data::velocityID() const {
-	uint8_t id = (getControlData(2) & 0x3E) >> 1;  // 5 bit identifier
+	uint8_t id = getControlData(Maps::VelocityID);  // 5 bit identifier
 
 	if (validVelocityID(id)) {
 		return (VelocityID) id;
@@ -96,7 +96,7 @@ boolean DrumController_Data::validVelocityID(uint8_t idIn) const {
 
 uint8_t DrumController_Data::velocity() const {
 	if (velocityAvailable()) {
-		uint8_t velocityRaw = (getControlData(3) & 0xE0) >> 5;
+		uint8_t velocityRaw = getControlData(Maps::Velocity);
 		velocityRaw = 7 - velocityRaw;  // Invert so high = fast attack
 		return velocityRaw;
 	}

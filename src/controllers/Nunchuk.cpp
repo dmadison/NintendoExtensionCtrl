@@ -25,31 +25,31 @@
 namespace NintendoExtensionCtrl {
 
 uint8_t Nunchuk_Data::joyX() const {
-	return getControlData(0);
+	return getControlData(Maps::JoyX);
 }
 
 uint8_t Nunchuk_Data::joyY() const {
-	return getControlData(1);
+	return getControlData(Maps::JoyY);
 }
 
 uint16_t Nunchuk_Data::accelX() const {
-	return getControlData(2) << 2 | ((getControlData(5) >> 2) & 0x03);
+	return (getControlData(Maps::AccelX_MSB) << 2) | getControlData(Maps::AccelX_LSB);
 }
 
 uint16_t Nunchuk_Data::accelY() const {
-	return getControlData(3) << 2 | ((getControlData(5) >> 4) & 0x03);
+	return (getControlData(Maps::AccelY_MSB) << 2) | getControlData(Maps::AccelY_LSB);
 }
 
 uint16_t Nunchuk_Data::accelZ() const {
-	return getControlData(4) << 2 | ((getControlData(5) >> 6) & 0x03);
+	return (getControlData(Maps::AccelZ_MSB) << 2) | getControlData(Maps::AccelZ_LSB);
 }
 
 boolean Nunchuk_Data::buttonC() const {
-	return getControlBit(5, 1);
+	return getControlBit(Maps::ButtonC);
 }
 
 boolean Nunchuk_Data::buttonZ() const {
-	return getControlBit(5, 0);
+	return getControlBit(Maps::ButtonZ);
 }
 
 float Nunchuk_Data::rollAngle() const {

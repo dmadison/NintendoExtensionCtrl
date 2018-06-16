@@ -26,8 +26,25 @@
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class Nunchuk_Data : private ControlDataMap {
+	class Nunchuk_Data : protected ControlDataMap {
 	public:
+		struct Maps {
+			constexpr static CtrlIndex JoyX = 0;
+			constexpr static CtrlIndex JoyY = 1;
+
+			constexpr static CtrlIndex AccelX_MSB = 2;
+			constexpr static ByteMap   AccelX_LSB = ByteMap(5, 2, 2, 2);
+
+			constexpr static CtrlIndex AccelY_MSB = 3;
+			constexpr static ByteMap   AccelY_LSB = ByteMap(5, 2, 4, 4);
+
+			constexpr static CtrlIndex AccelZ_MSB = 4;
+			constexpr static ByteMap   AccelZ_LSB = ByteMap(5, 2, 6, 6);
+
+			constexpr static BitMap  ButtonC = { 5, 1 };
+			constexpr static BitMap  ButtonZ = { 5, 0 };
+		};
+
 		using ControlDataMap::ControlDataMap;
 
 		uint8_t joyX() const;  // 8 bits, 0-255

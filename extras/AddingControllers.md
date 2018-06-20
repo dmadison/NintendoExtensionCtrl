@@ -64,7 +64,7 @@ The resulting bit from the control data is extracted and inverted, as extension 
 ```C++
 BitMap  ButtonA = { 5, 4 };
 ```
-Full definitions of these data types can be found in the [`NXC_DataMaps.h`](../src/internals/NXC_DataMaps.h) file.
+Full definitions of these data types can be found in the [`NXC_DataMaps.h`](../src/internal/NXC_DataMaps.h) file.
 
 ---
 

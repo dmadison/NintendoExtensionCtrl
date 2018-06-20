@@ -6,6 +6,8 @@ This is an Arduino library that makes it easy to read data from Nintendo extensi
 
 ## Getting Started
 
+![ClassicController Example in IDE](/extras/NXCtrl_ClassicExample.png)
+
 ### Make your connections
 
 Before anything else, you need to connect your controller to the Arduino. The easist way to do this is with a breakout board, which slides in to the extension controller plug and doesn't require dismantaling your controller. I recommend the [Nunchucky](https://www.adafruit.com/product/345) breakout, which is inexpensive and available at Adafruit.

@@ -35,5 +35,7 @@ Plug in your controller, upload the example to your board, and have fun!
 * NES Mini Controller
 * SNES Mini Controller
 
+Currently the library supports any extension controller using unencrypted communication and data reporting mode [0x37 (6 byte request)](http://wiibrew.org/wiki/Wiimote#0x37:_Core_Buttons_and_Accelerometer_with_10_IR_bytes_and_6_Extension_Bytes). If you'd like to add support for another controller, I've written [a short guide](extras/AddingControllers.md) that should be helpful. 
+
 ## License
 This library is licensed under the terms of the [GNU Lesser General Public License (LGPL)](https://www.gnu.org/licenses/lgpl.html), either version 3 of the License, or (at your option) any later version.

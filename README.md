@@ -8,7 +8,7 @@ This is an Arduino library that makes it easy to read data from Nintendo extensi
 
 ![ClassicController Example in IDE](/extras/NXCtrl_ClassicExample.png)
 
-### Make your connections
+### Make Your Connections
 
 Before anything else, you need to connect your controller to the Arduino. The easist way to do this is with a breakout board, which slides in to the extension controller plug and doesn't require dismantaling your controller. I recommend the [Nunchucky](https://www.adafruit.com/product/345) breakout, which is inexpensive and available at Adafruit.
 
@@ -16,7 +16,7 @@ Controllers require 3.3V power. If you don't have 3.3V power available on your b
 
 The "data" and "clock" lines on the breakout go to the SDA and SCL pins (respectively) on the microcontroller. For the Arduino Uno, these are pins A4 and A5. If you're not using an Uno, look [here](https://www.arduino.cc/en/reference/wire) to find the I²C pins for your Arduino board.
 
-### Run an example
+### Run an Example
 
 After [installing the library](https://www.arduino.cc/en/guide/libraries), load an example by going to `File -> Examples -> NintendoExtensionCtrl` in the Arduino IDE and selecting an example specific to your controller. I recommend the `DebugPrint` examples to start, as they give you a nice overview of what data is available for your controller.
 

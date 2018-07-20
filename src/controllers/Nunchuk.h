@@ -41,8 +41,8 @@ namespace NintendoExtensionCtrl {
 			constexpr static CtrlIndex AccelZ_MSB = 4;
 			constexpr static ByteMap   AccelZ_LSB = ByteMap(5, 2, 6, 6);
 
-			constexpr static BitMap  ButtonC = { 5, 1 };
-			constexpr static BitMap  ButtonZ = { 5, 0 };
+			constexpr static BitMap    ButtonC = { 5, 1 };
+			constexpr static BitMap    ButtonZ = { 5, 0 };
 		};
 
 		using ControlDataMap::ControlDataMap;

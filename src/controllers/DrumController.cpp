@@ -24,6 +24,25 @@
 
 namespace NintendoExtensionCtrl {
 
+constexpr ControlDataMap::ByteMap DrumController_Data::Maps::JoyX;
+constexpr ControlDataMap::ByteMap DrumController_Data::Maps::JoyY;
+
+constexpr ControlDataMap::BitMap  DrumController_Data::Maps::ButtonPlus;
+constexpr ControlDataMap::BitMap  DrumController_Data::Maps::ButtonMinus;
+
+constexpr ControlDataMap::BitMap  DrumController_Data::Maps::DrumRed;
+constexpr ControlDataMap::BitMap  DrumController_Data::Maps::DrumBlue;
+constexpr ControlDataMap::BitMap  DrumController_Data::Maps::DrumGreen;
+
+constexpr ControlDataMap::BitMap  DrumController_Data::Maps::CymbalYellow;
+constexpr ControlDataMap::BitMap  DrumController_Data::Maps::CymbalOrange;
+
+constexpr ControlDataMap::BitMap  DrumController_Data::Maps::Pedal;
+
+constexpr ControlDataMap::ByteMap DrumController_Data::Maps::Velocity;
+constexpr ControlDataMap::ByteMap DrumController_Data::Maps::VelocityID;
+constexpr ControlDataMap::BitMap  DrumController_Data::Maps::VelocityAvailable;
+
 uint8_t DrumController_Data::joyX() const {
 	return getControlData(Maps::JoyX);
 }

@@ -42,7 +42,10 @@ namespace NintendoExtensionCtrl {
 	const long I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
 	const uint8_t I2C_Addr = 0x52;  // Address for all extension controllers
 
+	const uint8_t ID_Size = 6;
+
 	// Generic I2C slave device control functions
+	// ------------------------------------------
 	inline boolean i2c_writePointer(NXC_I2C_TYPE &i2c, byte addr, byte ptr) {
 		i2c.beginTransmission(addr);
 		i2c.write(ptr);
@@ -69,55 +72,38 @@ namespace NintendoExtensionCtrl {
 		return i2c_requestMultiple(i2c, addr, requestSize, dataOut);
 	}
 
-	class ExtensionComms  {
-	public:
-		ExtensionComms(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef) {}
+	// Extension controller specific I2C functions
+	// -------------------------------------------
+	// Control Data
+	inline boolean initialize(NXC_I2C_TYPE &i2c) {
+		/* Initialization for unencrypted communication.
+		* *Should* work on all devices, genuine + 3rd party.
+		* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
+		*/
+		if (!i2c_writeRegister(i2c, I2C_Addr, 0xF0, 0x55)) { return false; }
+		delay(10);
+		if (!i2c_writeRegister(i2c, I2C_Addr, 0xFB, 0x00)) { return false; }
+		delay(20);
+		return true;
+	}
 
-		void startBus() {
-			i2c.begin();
+	inline boolean requestControlData(NXC_I2C_TYPE &i2c, size_t size, uint8_t * controlData) {
+		return i2c_readDataArray(i2c, I2C_Addr, 0x00, size, controlData);
+	}
+
+	// Identity
+	inline boolean requestIdentity(NXC_I2C_TYPE &i2c, uint8_t * idData) {
+		return i2c_readDataArray(i2c, I2C_Addr, 0xFA, ID_Size, idData);
+	}
+
+	inline ExtensionType identifyController(NXC_I2C_TYPE &i2c) {
+		uint8_t idData[ID_Size];
+
+		if (!requestIdentity(i2c, idData)) {
+			return ExtensionType::NoController;  // Bad response from device
 		}
-
-		// Control Data
-		boolean initialize() {
-			/* Initialization for unencrypted communication.
-			* *Should* work on all devices, genuine + 3rd party.
-			* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
-			*/
-			if (!i2c_writeRegister(i2c, I2C_Addr, 0xF0, 0x55)) { return false; }
-			delay(10);
-			if (!i2c_writeRegister(i2c, I2C_Addr, 0xFB, 0x00)) { return false; }
-			delay(20);
-			return true;
-		}
-
-		boolean requestControlData(size_t size, uint8_t * controlData) {
-			return i2c_readDataArray(i2c, I2C_Addr, 0x00, size, controlData);
-		}
-
-		// Identity
-		boolean requestIdentity(uint8_t * idData) const {
-			return i2c_readDataArray(i2c, I2C_Addr, IDPointer, IDSize, idData);
-		}
-
-		ExtensionType identifyController(const uint8_t * idData) const {
-			return NintendoExtensionCtrl::identifyController(idData);
-		}
-
-		ExtensionType identifyController() const {
-			uint8_t idData[IDSize];
-
-			if (!requestIdentity(idData)) {
-				return ExtensionType::NoController;  // Bad response from device
-			}
-			return identifyController(idData);
-		}
-
-		static const uint8_t IDPointer = 0xFA;
-		static const uint8_t IDSize = 6;
-
-	private:
-		NXC_I2C_TYPE & i2c;
-	};
+		return identifyController(idData);
+	}
 }
 
 #endif

@@ -22,17 +22,17 @@
 
 #include "ExtensionController.h"
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : comms(i2cBus) {}
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : i2c(i2cBus) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID)
-	: ID_Limit(conID), comms(i2cBus) {}
+	: i2c(i2cBus), ID_Limit(conID) {}
 
 void ExtensionController::begin() {
-	comms.startBus();
+	i2c.begin();  // Initialize the bus
 }
 
 boolean ExtensionController::connect() {
-	if (comms.initialize()) {
+	if (NintendoExtensionCtrl::initialize(i2c)) {
 		identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
@@ -51,7 +51,7 @@ boolean ExtensionController::reconnect() {
 }
 
 ExtensionType ExtensionController::identifyController() {
-	return connectedID = comms.identifyController();
+	return connectedID = NintendoExtensionCtrl::identifyController(i2c);  // Polls the controller for its identity
 }
 
 void ExtensionController::reset() {
@@ -77,7 +77,7 @@ ExtensionType ExtensionController::getConnectedID() const {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && comms.requestControlData(ControlDataSize, controlData)) {
+	if (controllerIDMatches() && NintendoExtensionCtrl::requestControlData(i2c, ControlDataSize, controlData)) {
 		return NintendoExtensionCtrl::verifyData(controlData, ControlDataSize);
 	}
 	
@@ -93,12 +93,12 @@ void ExtensionController::printDebug(Print& output) const {
 }
 
 void ExtensionController::printDebugID(Print& output) const {
-	uint8_t idData[comms.IDSize];
-	boolean success = comms.requestIdentity(idData);
+	uint8_t idData[NintendoExtensionCtrl::ID_Size];
+	boolean success = NintendoExtensionCtrl::requestIdentity(i2c, idData);
 
 	if (success) {
 		output.print("ID: ");
-		NintendoExtensionCtrl::printRaw(idData, comms.IDSize, HEX, output);
+		NintendoExtensionCtrl::printRaw(idData, NintendoExtensionCtrl::ID_Size, HEX, output);
 	}
 	else {
 		output.println("Bad ID Read");

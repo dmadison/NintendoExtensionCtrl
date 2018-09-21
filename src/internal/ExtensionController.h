@@ -52,6 +52,7 @@ public:
 	void printDebugRaw(uint8_t baseFormat, Print& output = NXC_SERIAL_DEFAULT) const;
 
 	static const uint8_t ControlDataSize = 6;  // Enough for standard request size
+	NXC_I2C_TYPE & i2c;  // Reference for the I2C (Wire) class
 
 protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID);
@@ -62,8 +63,6 @@ private:
 	const ExtensionType ID_Limit = ExtensionType::AnyController;
 	ExtensionType connectedID = ExtensionType::NoController;
 	uint8_t controlData[ControlDataSize];
-
-	NintendoExtensionCtrl::ExtensionComms comms;
 };
 
 #include "NXC_DataMaps.h"

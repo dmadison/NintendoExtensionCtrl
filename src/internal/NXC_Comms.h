@@ -39,53 +39,42 @@
 #define NXC_SERIAL_DEFAULT Serial
 
 namespace NintendoExtensionCtrl {
-	class I2C_SlaveCtrl {
-	public:
-		I2C_SlaveCtrl(NXC_I2C_TYPE& i2cRef, uint8_t addr) : I2C_Addr(addr), i2c(i2cRef) {}
+	const long I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
+	const uint8_t I2C_Addr = 0x52;  // Address for all extension controllers
 
-		void startBus() const {
-			i2c.begin();
-		}
+	// Generic I2C slave device control functions
+	inline boolean i2c_writePointer(NXC_I2C_TYPE &i2c, byte addr, byte ptr) {
+		i2c.beginTransmission(addr);
+		i2c.write(ptr);
+		return i2c.endTransmission() == 0;  // 0 = No Error
+	}
 
-		boolean writePointer(byte ptr) const {
-			i2c.beginTransmission(I2C_Addr);
-			i2c.write(ptr);
-			return i2c.endTransmission() == 0;  // 0 = No Error
-		}
+	inline boolean i2c_writeRegister(NXC_I2C_TYPE &i2c, byte addr, byte reg, byte value) {
+		i2c.beginTransmission(addr);
+		i2c.write(reg);
+		i2c.write(value);
+		return i2c.endTransmission() == 0;
+	}
 
-		boolean writeRegister(byte reg, byte value) const {
-			i2c.beginTransmission(I2C_Addr);
-			i2c.write(reg);
-			i2c.write(value);
-			return i2c.endTransmission() == 0;
-		}
+	inline boolean i2c_requestMultiple(NXC_I2C_TYPE &i2c, byte addr, uint8_t requestSize, uint8_t * dataOut) {
+		uint8_t nBytesRecv = i2c.readBytes(dataOut,
+			i2c.requestFrom(addr, requestSize));
 
-		boolean requestMultiple(uint8_t requestSize, uint8_t * dataOut) const {
-			uint8_t nBytesRecv = i2c.readBytes(dataOut,
-				i2c.requestFrom(I2C_Addr, requestSize));
+		return (nBytesRecv == requestSize);  // Success if all bytes received
+	}
 
-			return (nBytesRecv == requestSize);  // Success if all bytes received
-		}
-
-		boolean readDataArray(byte ptr, uint8_t requestSize, uint8_t * dataOut) const {
-			if (!writePointer(ptr)) { return false; }  // Set start for data read
-			delayMicroseconds(ConversionDelay);  // Wait for data conversion
-			return requestMultiple(requestSize, dataOut);
-		}
-
-	private:
-		const uint8_t I2C_Addr;  // Address for all commands
-		static const long ConversionDelay = 175;  // Microseconds, ~200 on AVR
-
-		NXC_I2C_TYPE & i2c;
-	};
+	inline boolean i2c_readDataArray(NXC_I2C_TYPE &i2c, byte addr, byte ptr, uint8_t requestSize, uint8_t * dataOut) {
+		if (!i2c_writePointer(i2c, addr, ptr)) { return false; }  // Set start for data read
+		delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
+		return i2c_requestMultiple(i2c, addr, requestSize, dataOut);
+	}
 
 	class ExtensionComms  {
 	public:
-		ExtensionComms(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef, I2C_Addr) {}
+		ExtensionComms(NXC_I2C_TYPE& i2cRef) : i2c(i2cRef) {}
 
 		void startBus() {
-			i2c.startBus();
+			i2c.begin();
 		}
 
 		// Control Data
@@ -94,20 +83,20 @@ namespace NintendoExtensionCtrl {
 			* *Should* work on all devices, genuine + 3rd party.
 			* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
 			*/
-			if (!i2c.writeRegister(0xF0, 0x55)) { return false; }
+			if (!i2c_writeRegister(i2c, I2C_Addr, 0xF0, 0x55)) { return false; }
 			delay(10);
-			if (!i2c.writeRegister(0xFB, 0x00)) { return false; }
+			if (!i2c_writeRegister(i2c, I2C_Addr, 0xFB, 0x00)) { return false; }
 			delay(20);
 			return true;
 		}
 
 		boolean requestControlData(size_t size, uint8_t * controlData) {
-			return i2c.readDataArray(0x00, size, controlData);
+			return i2c_readDataArray(i2c, I2C_Addr, 0x00, size, controlData);
 		}
 
 		// Identity
 		boolean requestIdentity(uint8_t * idData) const {
-			return i2c.readDataArray(IDPointer, IDSize, idData);
+			return i2c_readDataArray(i2c, I2C_Addr, IDPointer, IDSize, idData);
 		}
 
 		ExtensionType identifyController(const uint8_t * idData) const {
@@ -127,8 +116,7 @@ namespace NintendoExtensionCtrl {
 		static const uint8_t IDSize = 6;
 
 	private:
-		static const uint8_t I2C_Addr = 0x52;  // Address for all controllers
-		I2C_SlaveCtrl i2c;
+		NXC_I2C_TYPE & i2c;
 	};
 }
 

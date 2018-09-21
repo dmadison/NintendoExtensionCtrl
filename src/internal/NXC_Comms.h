@@ -87,6 +87,10 @@ namespace NintendoExtensionCtrl {
 		return true;
 	}
 
+	inline boolean requestData(NXC_I2C_TYPE &i2c, uint8_t ptr, size_t size, uint8_t * data) {
+		return i2c_readDataArray(i2c, I2C_Addr, ptr, size, data);
+	}
+
 	inline boolean requestControlData(NXC_I2C_TYPE &i2c, size_t size, uint8_t * controlData) {
 		return i2c_readDataArray(i2c, I2C_Addr, 0x00, size, controlData);
 	}

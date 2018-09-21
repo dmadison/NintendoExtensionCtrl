@@ -22,6 +22,8 @@
 
 #include "ExtensionController.h"
 
+using namespace NintendoExtensionCtrl;
+
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : i2c(i2cBus) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID)
@@ -32,7 +34,7 @@ void ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	if (NintendoExtensionCtrl::initialize(i2c)) {
+	if (initialize(i2c)) {
 		identifyController();
 		if (controllerIDMatches()) {
 			return update();  // Seed with initial values
@@ -77,8 +79,8 @@ ExtensionType ExtensionController::getConnectedID() const {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && NintendoExtensionCtrl::requestControlData(i2c, ControlDataSize, controlData)) {
-		return NintendoExtensionCtrl::verifyData(controlData, ControlDataSize);
+	if (controllerIDMatches() && requestControlData(i2c, ControlDataSize, controlData)) {
+		return verifyData(controlData, ControlDataSize);
 	}
 	
 	return false;  // Something went wrong :(
@@ -93,12 +95,12 @@ void ExtensionController::printDebug(Print& output) const {
 }
 
 void ExtensionController::printDebugID(Print& output) const {
-	uint8_t idData[NintendoExtensionCtrl::ID_Size];
-	boolean success = NintendoExtensionCtrl::requestIdentity(i2c, idData);
+	uint8_t idData[ID_Size];
+	boolean success = requestIdentity(i2c, idData);
 
 	if (success) {
 		output.print("ID: ");
-		NintendoExtensionCtrl::printRaw(idData, NintendoExtensionCtrl::ID_Size, HEX, output);
+		printRaw(idData, NintendoExtensionCtrl::ID_Size, HEX, output);
 	}
 	else {
 		output.println("Bad ID Read");
@@ -110,5 +112,5 @@ void ExtensionController::printDebugRaw(Print& output) const {
 }
 
 void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const {
-	NintendoExtensionCtrl::printRaw(controlData, ControlDataSize, baseFormat, output);
+	printRaw(controlData, ControlDataSize, baseFormat, output);
 }

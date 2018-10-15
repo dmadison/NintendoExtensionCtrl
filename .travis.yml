@@ -4,8 +4,8 @@ env:
     - IDE_VERSION=1.8.1
     - TEENSY_VERSION=144
   matrix:
-    - BOARD=arduino:avr:uno
-    - BOARD=teensy:avr:teensyLC:usb=serial,speed=48,opt=osstd,keys=en-us
+    - BOARD=arduino:avr:uno MULTI2C=false
+    - BOARD=teensy:avr:teensyLC:usb=serial,speed=48,opt=osstd,keys=en-us MULTI2C=true
 before_install:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16"
   - sleep 3
@@ -52,7 +52,7 @@ script:
   - buildExampleSketch Any IdentifyController
   - buildExampleSketch Any MultipleTypes
   - buildExampleSketch Any SpeedTest
-  - if [[ $BOARD == *"teensyLC"* ]]; then
+  - if [ "$MULTI2C" = "true" ]; then
       echo "Board has 2 or more I2C buses";
       buildExampleSketch Any MultipleBus;
     else

@@ -3,9 +3,13 @@ env:
   global:
     - IDE_VERSION=1.8.1
     - TEENSY_VERSION=144
-  matrix:
-    - BOARD=arduino:avr:uno MULTI2C=false
-    - BOARD=teensy:avr:teensyLC:usb=serial,speed=48,opt=osstd,keys=en-us MULTI2C=true
+matrix:
+  include:
+    - name: "Arduino Uno"
+      env: BOARD=arduino:avr:uno MULTI2C=false
+    - name: "Teensy LC"
+      env: BOARD=teensy:avr:teensyLC:usb=serial,speed=48,opt=osstd,keys=en-us MULTI2C=true
+
 before_install:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16"
   - sleep 3

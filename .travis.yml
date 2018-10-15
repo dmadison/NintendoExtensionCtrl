@@ -18,10 +18,11 @@ before_install:
       chmod +x ./TeensyduinoInstall.linux64;
       sudo ./TeensyduinoInstall.linux64 --dir=/usr/local/share/arduino;
     fi
+  - CYAN="\033[36m"; NOC="\033[0m";
   - buildSketchPath() {
       sktch=${1##*/examples};
       sktch=${sktch%/*.ino};
-      echo "Building sketch $sktch.ino";
+      echo -e "\n${CYAN}Building sketch $sktch.ino${NOC}";
       arduino --verify --board $BOARD "$1";
     }
   - buildExampleSketch() {

@@ -18,13 +18,23 @@ before_install:
       chmod +x ./TeensyduinoInstall.linux64;
       sudo ./TeensyduinoInstall.linux64 --dir=/usr/local/share/arduino;
     fi
-  - buildExampleSketch() {
-      echo "Building example $1/$2.ino";
-      arduino --verify --board $BOARD $PWD/examples/"$1"/"$2"/"$2".ino;
+  - buildSketchPath() {
+      sktch=${1##*/examples};
+      sktch=${sktch%/*.ino};
+      echo "Building sketch $sktch.ino";
+      arduino --verify --board $BOARD "$1";
     }
-  - buildControllerExamples() {
-      buildExampleSketch "$1" "$2_DebugPrint";
-      buildExampleSketch "$1" "$2_Demo";
+  - buildExampleSketch() {
+      buildSketchPath "$PWD/examples/$1/$2/$2.ino";
+    }
+  - buildExampleFolder() {
+      echo "Building example folder /$1/";
+      IFS=$'\n'; set -f;
+      for f in $(find $PWD/examples/"$1" -name '*.ino');
+      do
+        buildSketchPath $f;
+      done
+      unset IFS; set +f;
     }
 install:
   - ln -s $PWD /usr/local/share/arduino/libraries/NintendoExtensionCtrl
@@ -42,14 +52,13 @@ script:
     fi
   
   # Controller-Specific
-  - buildControllerExamples "Classic Controller" Classic
-  - buildControllerExamples DJ DJ
-  - buildExampleSketch DJ DJ_EffectDial
-  - buildControllerExamples Drums Drums
-  - buildControllerExamples Guitar Guitar
-  - buildControllerExamples "NES Mini" NES
-  - buildControllerExamples Nunchuk Nunchuk
-  - buildControllerExamples "SNES Mini" SNES
+  - buildExampleFolder "Classic Controller"
+  - buildExampleFolder DJ
+  - buildExampleFolder Drums
+  - buildExampleFolder Guitar
+  - buildExampleFolder "NES Mini"
+  - buildExampleFolder Nunchuk
+  - buildExampleFolder "SNES Mini"
 
 notifications:
   email:

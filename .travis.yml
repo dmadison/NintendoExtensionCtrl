@@ -33,7 +33,7 @@ before_install:
       for f in $(find $PWD/examples/"$1" -name '*.ino');
       do
         buildSketchPath $f;
-      done
+      done;
       unset IFS; set +f;
     }
 install:

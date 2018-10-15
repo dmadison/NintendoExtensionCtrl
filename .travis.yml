@@ -2,6 +2,7 @@ language: C
 env:
   global:
     - IDE_VERSION=1.8.1
+    - TEENSY_VERSION=144
   matrix:
     - BOARD=arduino:avr:uno
     - BOARD=teensy:avr:teensyLC:usb=serial,speed=48,opt=osstd,keys=en-us
@@ -14,7 +15,7 @@ before_install:
   - sudo mv arduino-$IDE_VERSION /usr/local/share/arduino
   - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
   - if [[ $BOARD == *"teensy"* ]]; then
-      wget https://www.pjrc.com/teensy/td_144/TeensyduinoInstall.linux64;
+      wget https://www.pjrc.com/teensy/td_$TEENSY_VERSION/TeensyduinoInstall.linux64;
       chmod +x ./TeensyduinoInstall.linux64;
       sudo ./TeensyduinoInstall.linux64 --dir=/usr/local/share/arduino;
     fi

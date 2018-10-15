@@ -10,15 +10,21 @@ before_install:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16"
   - sleep 3
   - export DISPLAY=:1.0
+
+  # Install Arduino IDE
   - wget http://downloads.arduino.cc/arduino-$IDE_VERSION-linux64.tar.xz
   - tar xf arduino-$IDE_VERSION-linux64.tar.xz
   - sudo mv arduino-$IDE_VERSION /usr/local/share/arduino
   - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
+
+  # Install Teensyduino
   - if [[ $BOARD == *"teensy"* ]]; then
       wget https://www.pjrc.com/teensy/td_$TEENSY_VERSION/TeensyduinoInstall.linux64;
       chmod +x ./TeensyduinoInstall.linux64;
       sudo ./TeensyduinoInstall.linux64 --dir=/usr/local/share/arduino;
     fi
+
+  # Sketch Compiling Functions
   - CYAN="\033[36m"; NOC="\033[0m";
   - buildSketchPath() {
       sktch=${1##*/examples};

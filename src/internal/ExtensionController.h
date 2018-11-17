@@ -44,8 +44,6 @@ public:
 	ExtensionType getConnectedID() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
 
-	void setEnforceID(boolean enforce);
-
 	void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugID(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(Print& output = NXC_SERIAL_DEFAULT) const;

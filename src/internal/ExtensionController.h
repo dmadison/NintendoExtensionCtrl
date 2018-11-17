@@ -50,9 +50,8 @@ public:
 	void printDebugRaw(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(uint8_t baseFormat, Print& output = NXC_SERIAL_DEFAULT) const;
 
-	static const uint8_t MinRequestSize = 6;  // Shortest reporting mode (0x37)
-	static const uint8_t MaxRequestSize = 8;  // Longest required reporting mode (0x32)
-	                                          //  for current controllers (NES Mini knockoff)
+	static const uint8_t MinRequestSize = 6;   // Smallest reporting mode (0x37)
+	static const uint8_t MaxRequestSize = 21;  // Largest reporting mode (0x3d)
 
 	NXC_I2C_TYPE & i2c;  // Reference for the I2C (Wire) class
 

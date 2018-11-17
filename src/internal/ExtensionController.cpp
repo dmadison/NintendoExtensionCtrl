@@ -24,7 +24,8 @@
 
 using namespace NintendoExtensionCtrl;
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) : i2c(i2cBus) {}
+ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) 
+	: ExtensionController(i2cBus, ExtensionType::AnyController) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID)
 	: i2c(i2cBus), ID_Limit(conID) {}

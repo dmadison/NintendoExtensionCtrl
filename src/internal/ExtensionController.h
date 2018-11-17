@@ -43,7 +43,7 @@ public:
 	ExtensionType getControllerType() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
 
-	void setRequestSize(size_t size);
+	void setRequestSize(size_t size = MinRequestSize);
 
 	void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugID(Print& output = NXC_SERIAL_DEFAULT) const;

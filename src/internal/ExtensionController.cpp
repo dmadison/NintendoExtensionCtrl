@@ -75,7 +75,7 @@ boolean ExtensionController::controllerIDMatches() const {
 	return false;  // Enforced types or no controller connected
 }
 
-ExtensionType ExtensionController::getConnectedID() const {
+ExtensionType ExtensionController::getControllerType() const {
 	return connectedID;
 }
 

@@ -41,7 +41,7 @@ public:
 
 	void reset();
 
-	ExtensionType getConnectedID() const;
+	ExtensionType getControllerType() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
 
 	void setRequestSize(size_t size);

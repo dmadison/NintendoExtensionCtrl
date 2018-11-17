@@ -35,17 +35,17 @@ void ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
+	boolean success = false;
+
 	if (initialize(i2c)) {
 		identifyController();
-		if (controllerIDMatches()) {
-			return update();  // Seed with initial values
-		}
+		success = update();  // Seed with initial values
 	}
 	else {
 		connectedID = ExtensionType::NoController;  // Bad init, nothing connected
 	}
 
-	return false;
+	return success;
 }
 
 boolean ExtensionController::reconnect() {

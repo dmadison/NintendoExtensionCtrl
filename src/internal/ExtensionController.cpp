@@ -58,9 +58,10 @@ ExtensionType ExtensionController::identifyController() {
 
 void ExtensionController::reset() {
 	connectedID = ExtensionType::NoController;
-	for (int i = 0; i < ControlDataSize; i++) {
+	for (size_t i = 0; i < MaxRequestSize; i++) {
 		controlData[i] = 0;
 	}
+	requestSize = MinRequestSize;
 }
 
 boolean ExtensionController::controllerIDMatches() const {
@@ -79,8 +80,8 @@ ExtensionType ExtensionController::getConnectedID() const {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && requestControlData(i2c, ControlDataSize, controlData)) {
-		return verifyData(controlData, ControlDataSize);
+	if (controllerIDMatches() && requestControlData(i2c, requestSize, controlData)) {
+		return verifyData(controlData, requestSize);
 	}
 	
 	return false;  // Something went wrong :(
@@ -88,6 +89,12 @@ boolean ExtensionController::update() {
 
 uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
 	return controlData[controlIndex];
+}
+
+void ExtensionController::setRequestSize(size_t r) {
+	if (r >= MinRequestSize && r <= MaxRequestSize) {
+		requestSize = (uint8_t) r;
+	}
 }
 
 void ExtensionController::printDebug(Print& output) const {
@@ -112,5 +119,5 @@ void ExtensionController::printDebugRaw(Print& output) const {
 }
 
 void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const {
-	printRaw(controlData, ControlDataSize, baseFormat, output);
+	printRaw(controlData, requestSize, baseFormat, output);
 }

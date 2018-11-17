@@ -44,12 +44,17 @@ public:
 	ExtensionType getConnectedID() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
 
+	void setRequestSize(size_t size);
+
 	void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugID(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(uint8_t baseFormat, Print& output = NXC_SERIAL_DEFAULT) const;
 
-	static const uint8_t ControlDataSize = 6;  // Enough for standard request size
+	static const uint8_t MinRequestSize = 6;  // Shortest reporting mode (0x37)
+	static const uint8_t MaxRequestSize = 8;  // Longest required reporting mode (0x32)
+	                                          //  for current controllers (NES Mini knockoff)
+
 	NXC_I2C_TYPE & i2c;  // Reference for the I2C (Wire) class
 
 protected:
@@ -60,7 +65,9 @@ private:
 
 	const ExtensionType ID_Limit = ExtensionType::AnyController;
 	ExtensionType connectedID = ExtensionType::NoController;
-	uint8_t controlData[ControlDataSize];
+
+	uint8_t requestSize = MinRequestSize;
+	uint8_t controlData[MaxRequestSize];
 };
 
 #include "NXC_DataMaps.h"

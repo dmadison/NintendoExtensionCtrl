@@ -52,8 +52,8 @@ boolean ExtensionController::reconnect() {
 	return connect();
 }
 
-ExtensionType ExtensionController::identifyController() {
-	return connectedID = NintendoExtensionCtrl::identifyController(i2c);  // Polls the controller for its identity
+void ExtensionController::identifyController() {
+	connectedID = NintendoExtensionCtrl::identifyController(i2c);  // Polls the controller for its identity
 }
 
 void ExtensionController::reset() {

@@ -37,7 +37,6 @@ public:
 	boolean reconnect();
 
 	boolean update();
-	ExtensionType identifyController();
 
 	void reset();
 
@@ -61,6 +60,7 @@ protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID);
 
 private:
+	void identifyController();
 	boolean controllerIDMatches() const;
 
 	const ExtensionType ID_Limit = ExtensionType::AnyController;

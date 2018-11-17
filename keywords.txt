@@ -44,7 +44,6 @@ connect	KEYWORD2
 reconnect	KEYWORD2
 
 update	KEYWORD2
-identifyController	KEYWORD2
 
 reset	KEYWORD2
 

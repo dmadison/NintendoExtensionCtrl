@@ -40,13 +40,13 @@ void setup() {
 			Serial.println("No controller detected");
 			break;
 		case(ExtensionType::UnknownController):
-			Serial.println("Unknown controller detected");
+			Serial.println("Unknown controller connected");
 			break;
 		case(ExtensionType::Nunchuk):
-			Serial.println("Nunchuk detected!");
+			Serial.println("Nunchuk connected!");
 			break;
 		case(ExtensionType::ClassicController):
-			Serial.println("Classic Controller detected!");
+			Serial.println("Classic Controller connected!");
 			break;
 		case(ExtensionType::GuitarController):
 			Serial.println("Guitar controller connected!");

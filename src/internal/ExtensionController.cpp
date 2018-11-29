@@ -35,6 +35,11 @@ void ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
+	reset();  // Clear current data
+	return reconnect();
+}
+
+boolean ExtensionController::reconnect() {
 	boolean success = false;
 
 	if (initialize(i2c)) {
@@ -46,10 +51,6 @@ boolean ExtensionController::connect() {
 	}
 
 	return success;
-}
-
-boolean ExtensionController::reconnect() {
-	return connect();
 }
 
 void ExtensionController::identifyController() {

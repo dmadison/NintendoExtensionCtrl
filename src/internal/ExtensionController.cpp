@@ -57,11 +57,9 @@ void ExtensionController::identifyController() {
 }
 
 void ExtensionController::reset() {
-	connectedID = ExtensionType::NoController;
-	for (size_t i = 0; i < MaxRequestSize; i++) {
-		controlData[i] = 0;
-	}
-	requestSize = MinRequestSize;
+	connectedID = ExtensionType::NoController;  // Nothing connected
+	memset(controlData, 0x00, MaxRequestSize);  // No control data
+	requestSize = MinRequestSize;  // Request size back to minimum
 }
 
 boolean ExtensionController::controllerIDMatches() const {

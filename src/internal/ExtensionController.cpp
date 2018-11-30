@@ -35,7 +35,7 @@ void ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	reset();  // Clear current data
+	disconnect();  // Clear current data
 	return reconnect();
 }
 
@@ -53,14 +53,18 @@ boolean ExtensionController::reconnect() {
 	return success;
 }
 
-void ExtensionController::identifyController() {
-	connectedID = NintendoExtensionCtrl::identifyController(i2c);  // Polls the controller for its identity
+void ExtensionController::disconnect() {
+	connectedID = ExtensionType::NoController;  // Nothing connected
+	memset(controlData, 0x00, MaxRequestSize);  // Clear control data
 }
 
 void ExtensionController::reset() {
-	connectedID = ExtensionType::NoController;  // Nothing connected
-	memset(controlData, 0x00, MaxRequestSize);  // No control data
+	disconnect();
 	requestSize = MinRequestSize;  // Request size back to minimum
+}
+
+void ExtensionController::identifyController() {
+	connectedID = NintendoExtensionCtrl::identifyController(i2c);  // Polls the controller for its identity
 }
 
 boolean ExtensionController::controllerIDMatches() const {

@@ -59,6 +59,7 @@ protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID);
 
 private:
+	void disconnect();
 	void identifyController();
 	boolean controllerIDMatches() const;
 

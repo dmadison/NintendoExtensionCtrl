@@ -87,11 +87,11 @@ namespace NintendoExtensionCtrl {
 		const ExtensionController & ControlData;
 	};
 
-	template <class ControllerMap, ExtensionType controllerID>
+	template <class ControllerMap>
 	class BuildControllerClass : public ExtensionController, public ControllerMap {
 	public:
 		BuildControllerClass(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
-			ExtensionController(i2cBus, controllerID),
+			ExtensionController(i2cBus, ControllerMap::id),
 			ControllerMap(*(static_cast<ExtensionController*>(this))) {}
 
 		using ControllerMap::printDebug;  // Use the controller-specific print

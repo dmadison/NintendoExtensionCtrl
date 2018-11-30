@@ -59,6 +59,7 @@ namespace NintendoExtensionCtrl {
 		};
 
 		using ControlDataMap::ControlDataMap;
+		static const ExtensionType id = ExtensionType::ClassicController;
 
 		uint8_t leftJoyX() const;  // 6 bits, 0-63
 		uint8_t leftJoyY() const;
@@ -98,7 +99,6 @@ namespace NintendoExtensionCtrl {
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::ClassicController_Data, ExtensionType::ClassicController>
-	ClassicController;
+	<NintendoExtensionCtrl::ClassicController_Data>	ClassicController;
 
 #endif

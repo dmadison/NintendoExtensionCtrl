@@ -46,6 +46,7 @@ namespace NintendoExtensionCtrl {
 		};
 
 		using ControlDataMap::ControlDataMap;
+		static const ExtensionType id = ExtensionType::Nunchuk;
 
 		uint8_t joyX() const;  // 8 bits, 0-255
 		uint8_t joyY() const;
@@ -65,7 +66,6 @@ namespace NintendoExtensionCtrl {
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::Nunchuk_Data, ExtensionType::Nunchuk>
-	Nunchuk;
+	<NintendoExtensionCtrl::Nunchuk_Data> Nunchuk;
 
 #endif

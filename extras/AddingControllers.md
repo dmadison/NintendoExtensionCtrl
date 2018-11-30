@@ -18,7 +18,7 @@ namespace NintendoExtensionCtrl {
 ```
 
 ## Step #2: Building Your Data Maps
-The next step is to add the data maps for your controller. These define where the data for each control input lies within in the data array. Currently (v0.5.2), all controllers use the Wiimote 0x37 data reporting mode, returning 6 bytes of control data starting at offset 0x00. If your controller requires sending more than 6 bytes of data to function, you'll need to modify the `ExtensionController` class to increase the size of the control data array.
+The next step is to add the data maps for your controller. These define where the data for each control input lies within in the data array. Currently (v0.6.0), all controllers use the Wiimote 0x37 data reporting mode by default, returning 6 bytes of control data starting at offset 0x00. If your controller requires more than 6 bytes of data to function, you will have to call `setRequestSize`on the `ExtensionController` object with the number of bytes to request.
 
 Each map represents the size and position for all of the data of a control surface (button, joystick, etc.). The library has three data types for this, each with a different purpose:
 

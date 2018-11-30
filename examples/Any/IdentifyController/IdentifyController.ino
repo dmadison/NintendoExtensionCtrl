@@ -33,20 +33,20 @@ void setup() {
 	controller.begin();
 	controller.connect();
 
-	ExtensionType conType = controller.getConnectedID();
+	ExtensionType conType = controller.getControllerType();
 
 	switch (conType) {
 		case(ExtensionType::NoController):
 			Serial.println("No controller detected");
 			break;
 		case(ExtensionType::UnknownController):
-			Serial.println("Unknown controller detected");
+			Serial.println("Unknown controller connected");
 			break;
 		case(ExtensionType::Nunchuk):
-			Serial.println("Nunchuk detected!");
+			Serial.println("Nunchuk connected!");
 			break;
 		case(ExtensionType::ClassicController):
-			Serial.println("Classic Controller detected!");
+			Serial.println("Classic Controller connected!");
 			break;
 		case(ExtensionType::GuitarController):
 			Serial.println("Guitar controller connected!");
@@ -57,6 +57,7 @@ void setup() {
 		case(ExtensionType::DJTurntableController):
 			Serial.println("DJ turntable connected!");
 			break;
+		default: break;
 	}
 	controller.printDebugID();
 }

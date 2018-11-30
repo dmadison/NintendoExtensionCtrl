@@ -18,7 +18,7 @@ namespace NintendoExtensionCtrl {
 ```
 
 ## Step #2: Building Your Data Maps
-The next step is to add the data maps for your controller. These define where the data for each control input lies within in the data array. Currently (v0.5.2), all controllers use the Wiimote 0x37 data reporting mode, returning 6 bytes of control data starting at offset 0x00. If your controller requires sending more than 6 bytes of data to function, you'll need to modify the `ExtensionController` class to increase the size of the control data array.
+The next step is to add the data maps for your controller. These define where the data for each control input lies within in the data array. Currently (v0.6.0), all controllers use the Wiimote 0x37 data reporting mode by default, returning 6 bytes of control data starting at offset 0x00. If your controller requires more than 6 bytes of data to function, you will have to call `setRequestSize`on the `ExtensionController` object with the number of bytes to request.
 
 Each map represents the size and position for all of the data of a control surface (button, joystick, etc.). The library has three data types for this, each with a different purpose:
 
@@ -147,6 +147,12 @@ Now that your controller definition is nearly done, it's time to add its identit
 
 Open up the [`NXC_Identity.h`](../src/internal/NXC_Identity.h) file and add your controller name to the `ExtensionType` enumeration. Then, modify the `identifyController` function so that it will return your controller's ID if the identity bytes match. You can run the [`IdentifyController`](../examples/Any/IdentifyController/IdentifyController.ino) example to fetch the string of ID bytes.
 
+Once that's done, head back to your controller's header file and add a public `id` variable to store the controller's identity. This will limit connections to this specific type and report problems if the type doesn't match.
+
+```
+static const ExtensionType id = ExtensionType::ClassicController;
+```
+
 You will also need to edit the switch statement in the `IdentifyControllers` example to add your controller to the 'switch' statement.
 
 ## Step #6: Create the Combined Class
@@ -154,8 +160,7 @@ The last step to get your controller working is to create a combined class that 
 
 ```C++
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::YourController_Data, ExtensionType::YourController>
-	YourController;
+	<NintendoExtensionCtrl::YourController_Data> YourController;
 ```
 
 Be sure to place this *outside* of the namespace, in the header file. See other controller definitions for reference.

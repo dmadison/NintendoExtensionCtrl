@@ -52,6 +52,7 @@ namespace NintendoExtensionCtrl {
 		};
 
 		using ControlDataMap::ControlDataMap;
+		static const ExtensionType id = ExtensionType::DrumController;
 
 		enum VelocityID : uint8_t {
 			None = 0x1F,
@@ -92,13 +93,13 @@ namespace NintendoExtensionCtrl {
 		uint8_t velocityPedal() const;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
+
 	private:
 		boolean validVelocityID(uint8_t idIn) const;
 	};
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DrumController_Data, ExtensionType::DrumController>
-	DrumController;
+	<NintendoExtensionCtrl::DrumController_Data> DrumController;
 
 #endif

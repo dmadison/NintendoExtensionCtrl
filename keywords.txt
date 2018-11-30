@@ -44,12 +44,13 @@ connect	KEYWORD2
 reconnect	KEYWORD2
 
 update	KEYWORD2
-identifyController	KEYWORD2
 
 reset	KEYWORD2
 
-getConnectedID	KEYWORD2
+getControllerType	KEYWORD2
 getControlData	KEYWORD2
+
+setRequestSize	KEYWORD2
 
 printDebug	KEYWORD2
 printDebugID	KEYWORD2

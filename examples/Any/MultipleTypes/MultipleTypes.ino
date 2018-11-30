@@ -45,7 +45,7 @@ void loop() {
 	boolean success = controller.update();  // Get new data from the controller
 
 	if (success == true) {  // We've got data!
-		ExtensionType conType = controller.getConnectedID();
+		ExtensionType conType = controller.getControllerType();
 
 		switch (conType) {
 			case(ExtensionType::Nunchuk):

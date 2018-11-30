@@ -51,6 +51,7 @@ namespace NintendoExtensionCtrl {
 		};
 
 		using ControlDataMap::ControlDataMap;
+		static const ExtensionType id = ExtensionType::GuitarController;
 
 		uint8_t joyX() const;  // 6 bits, 0-63
 		uint8_t joyY() const;
@@ -87,7 +88,6 @@ namespace NintendoExtensionCtrl {
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::GuitarController_Data, ExtensionType::GuitarController>
-	GuitarController;
+	<NintendoExtensionCtrl::GuitarController_Data> GuitarController;
 
 #endif

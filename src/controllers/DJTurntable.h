@@ -56,6 +56,7 @@ namespace NintendoExtensionCtrl {
 		};
 
 		DJTurntableController_Data(ExtensionController & dataSource) : ControlDataMap(dataSource), left(*this), right(*this) {}
+		static const ExtensionType id = ExtensionType::DJTurntableController;
 
 		enum class TurntableConfig {
 			BaseOnly,
@@ -148,7 +149,6 @@ namespace NintendoExtensionCtrl {
 }
 
 typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DJTurntableController_Data, ExtensionType::DJTurntableController>
-	DJTurntableController;
+	<NintendoExtensionCtrl::DJTurntableController_Data> DJTurntableController;
 
 #endif

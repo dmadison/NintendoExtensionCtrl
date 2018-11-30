@@ -37,32 +37,37 @@ public:
 	boolean reconnect();
 
 	boolean update();
-	ExtensionType identifyController();
 
 	void reset();
 
-	ExtensionType getConnectedID() const;
+	ExtensionType getControllerType() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
 
-	void setEnforceID(boolean enforce);
+	void setRequestSize(size_t size = MinRequestSize);
 
 	void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugID(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(uint8_t baseFormat, Print& output = NXC_SERIAL_DEFAULT) const;
 
-	static const uint8_t ControlDataSize = 6;  // Enough for standard request size
+	static const uint8_t MinRequestSize = 6;   // Smallest reporting mode (0x37)
+	static const uint8_t MaxRequestSize = 21;  // Largest reporting mode (0x3d)
+
 	NXC_I2C_TYPE & i2c;  // Reference for the I2C (Wire) class
 
 protected:
 	ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID);
 
 private:
+	void disconnect();
+	void identifyController();
 	boolean controllerIDMatches() const;
 
 	const ExtensionType ID_Limit = ExtensionType::AnyController;
 	ExtensionType connectedID = ExtensionType::NoController;
-	uint8_t controlData[ControlDataSize];
+
+	uint8_t requestSize = MinRequestSize;
+	uint8_t controlData[MaxRequestSize];
 };
 
 #include "NXC_DataMaps.h"

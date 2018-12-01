@@ -7,6 +7,10 @@ matrix:
   include:
     - name: "Arduino Uno"
       env: BOARD=arduino:avr:uno MULTI2C=false
+    - name: "Arduino Leonardo"
+      env: BOARD=arduino:avr:leonardo MULTI2C=false
+    - name: "Arduino Mega"
+      env: BOARD=arduino:avr:mega:cpu=atmega2560 MULTI2C=false
     - name: "Teensy LC"
       env: BOARD=teensy:avr:teensyLC:usb=serial,speed=48,opt=osstd,keys=en-us MULTI2C=true
 

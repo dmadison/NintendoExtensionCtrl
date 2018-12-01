@@ -22,9 +22,49 @@
 
 #include "NESMiniController.h"
 
-NESMiniController::NESMiniController(NXC_I2C_TYPE& i2cBus) : ::ClassicController(i2cBus) {}
+namespace NintendoExtensionCtrl {
 
-void NESMiniController::printDebug(Print& output) const {
+boolean NESMiniController_Data::dpadUp() const {
+	if (isKnockoff()) { return getControlBit(Maps::Knockoff_DpadUp); }
+	return ClassicController_Data::dpadUp();
+}
+
+boolean NESMiniController_Data::dpadDown() const {
+	if (isKnockoff()) { return getControlBit(Maps::Knockoff_DpadDown); }
+	return ClassicController_Data::dpadDown();
+}
+
+boolean NESMiniController_Data::dpadLeft() const {
+	if (isKnockoff()) { return getControlBit(Maps::Knockoff_DpadLeft); }
+	return ClassicController_Data::dpadLeft();
+}
+
+boolean NESMiniController_Data::dpadRight() const {
+	if (isKnockoff()) { return getControlBit(Maps::Knockoff_DpadRight); }
+	return ClassicController_Data::dpadRight();
+}
+
+boolean NESMiniController_Data::buttonA() const {
+	if (isKnockoff()) { return getControlBit(Maps::Knockoff_ButtonA); }
+	return ClassicController_Data::buttonA();
+}
+
+boolean NESMiniController_Data::buttonB() const {
+	if (isKnockoff()) { return getControlBit(Maps::Knockoff_ButtonB); }
+	return ClassicController_Data::buttonB();
+}
+
+boolean NESMiniController_Data::buttonStart() const {
+	if (isKnockoff()) { return getControlBit(Maps::Knockoff_ButtonStart); }
+	return ClassicController_Data::buttonStart();
+}
+
+boolean NESMiniController_Data::buttonSelect() const {
+	if (isKnockoff()) { return getControlBit(Maps::Knockoff_ButtonSelect); }
+	return ClassicController_Data::buttonSelect();
+}
+
+void NESMiniController_Data::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 	
 	output.print("NES ");
@@ -46,3 +86,32 @@ void NESMiniController::printDebug(Print& output) const {
 
 	output.println();
 }
+
+boolean NESMiniController_Data::isKnockoff() const {
+	// The NES knockoffs I've come across seem to display the same unchanging pattern
+	// for the first six control bytes:
+	//
+	//     0x81, 0x81, 0x81, 0x81, 0x00, 0x00
+	//
+	// This is mostly garbage data that doesn't line up with the Classic Controller
+	// at all. Using the library's debug output, here is what it translates to:
+	//
+	//    <^v> | -H+ | ABXY L : (1, 1) R : (21, 1) | LT : 4X RT : 1X Z : LR
+	//
+	// You'll notice a few things. ALL possible buttons are pressed. The left analog 
+	// stick is completely down and to the left, while the right analog stick is down
+	// and to the right. On the back, both trigger "fully depressed" buttons are
+	// down, and yet the analog trigger values are very low. In short, this is a
+	// difficult if not impossible state for a normal Classic Controller to be in.
+	// Because of that, we can reasonably assume that if the bytes match this then the
+	// connected controller is an NES Knockoff, and can be treated accordingly. 
+
+	return getControlData(0) == 0x81 &&  // RX 4:3, LX
+	       getControlData(1) == 0x81 &&  // RX 2:1, LY
+	       getControlData(2) == 0x81 &&  // RX 0, LT 4:3, RY
+	       getControlData(3) == 0x81 &&  // LT 2:0, RT
+	       getControlData(4) == 0x00 &&  // Button packet 1 (all pressed)
+	       getControlData(5) == 0x00;    // Button packet 2 (all pressed)
+}
+
+}  // End "NintendoExtensionCtrl" namespace

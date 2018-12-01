@@ -95,6 +95,7 @@ namespace NintendoExtensionCtrl {
 			ExtensionController(i2cBus, ControllerMap::id),
 			ControllerMap(*(static_cast<ExtensionController*>(this))) {}
 
+		using ExtensionController::getControlData;  // Using the direct 'get' function
 		using ControllerMap::printDebug;  // Use the controller-specific print
 
 		typedef ControllerMap Data;  // Make controller data class easily accessible

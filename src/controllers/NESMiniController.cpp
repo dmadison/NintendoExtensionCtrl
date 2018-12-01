@@ -25,43 +25,35 @@
 namespace NintendoExtensionCtrl {
 
 boolean NESMiniController_Data::dpadUp() const {
-	if (isKnockoff()) { return getControlBit(Maps::Knockoff_DpadUp); }
-	return ClassicController_Data::dpadUp();
+	return knockoffButton<&ClassicController_Data::dpadUp>(Maps::Knockoff_DpadUp);
 }
 
 boolean NESMiniController_Data::dpadDown() const {
-	if (isKnockoff()) { return getControlBit(Maps::Knockoff_DpadDown); }
-	return ClassicController_Data::dpadDown();
+	return knockoffButton<&ClassicController_Data::dpadDown>(Maps::Knockoff_DpadDown);
 }
 
 boolean NESMiniController_Data::dpadLeft() const {
-	if (isKnockoff()) { return getControlBit(Maps::Knockoff_DpadLeft); }
-	return ClassicController_Data::dpadLeft();
+	return knockoffButton<&ClassicController_Data::dpadLeft>(Maps::Knockoff_DpadLeft);
 }
 
 boolean NESMiniController_Data::dpadRight() const {
-	if (isKnockoff()) { return getControlBit(Maps::Knockoff_DpadRight); }
-	return ClassicController_Data::dpadRight();
+	return knockoffButton<&ClassicController_Data::dpadRight>(Maps::Knockoff_DpadRight);
 }
 
 boolean NESMiniController_Data::buttonA() const {
-	if (isKnockoff()) { return getControlBit(Maps::Knockoff_ButtonA); }
-	return ClassicController_Data::buttonA();
+	return knockoffButton<&ClassicController_Data::buttonA>(Maps::Knockoff_ButtonA);
 }
 
 boolean NESMiniController_Data::buttonB() const {
-	if (isKnockoff()) { return getControlBit(Maps::Knockoff_ButtonB); }
-	return ClassicController_Data::buttonB();
+	return knockoffButton<&ClassicController_Data::buttonB>(Maps::Knockoff_ButtonB);
 }
 
 boolean NESMiniController_Data::buttonStart() const {
-	if (isKnockoff()) { return getControlBit(Maps::Knockoff_ButtonStart); }
-	return ClassicController_Data::buttonStart();
+	return knockoffButton<&ClassicController_Data::buttonStart>(Maps::Knockoff_ButtonStart);
 }
 
 boolean NESMiniController_Data::buttonSelect() const {
-	if (isKnockoff()) { return getControlBit(Maps::Knockoff_ButtonSelect); }
-	return ClassicController_Data::buttonSelect();
+	return knockoffButton<&ClassicController_Data::buttonSelect>(Maps::Knockoff_ButtonSelect);
 }
 
 void NESMiniController_Data::printDebug(Print& output) const {

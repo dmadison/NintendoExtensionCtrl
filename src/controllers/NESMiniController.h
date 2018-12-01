@@ -27,6 +27,15 @@
 
 namespace NintendoExtensionCtrl {
 	class NESMiniController_Data : protected ClassicController_Data {
+	private:
+		typedef boolean(ClassicController_Data::*ClassicBoolean)(void) const;
+
+		template<ClassicBoolean func>
+		boolean knockoffButton(const ControlDataMap::BitMap map) const {
+			if (isKnockoff()) { return getControlBit(map); }
+			return (*this.*func)();
+		}
+
 	public:
 		// The NES Mini controller reports itself as a Classic Controller
 		// and functions identically. This class includes data maps for

@@ -55,6 +55,7 @@ namespace NintendoExtensionCtrl {
 
 		ControlDataMap(ExtensionController & dataSource) : ControlData(dataSource) {}
 
+	protected:
 		uint8_t getControlData(uint8_t index) const {
 			return ControlData.getControlData(index);
 		}

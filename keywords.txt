@@ -186,6 +186,7 @@ getNumTurntables	KEYWORD2
 
 ## NES Mini Controller
 # (Covered by the Classic Controller keywords)
+isKnockoff	KEYWORD2
 
 ## SNES Mini Controller
 # (Covered by the Classic Controller keywords)

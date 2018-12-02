@@ -25,11 +25,68 @@
 
 #include "ClassicController.h"
 
-class NESMiniController : public ClassicController {
-public:
-	NESMiniController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
-	
-	void printDebug(Print& output=NXC_SERIAL_DEFAULT) const;
-};
+namespace NintendoExtensionCtrl {
+	class NESMiniController_Data : protected ClassicController_Data {
+	private:
+		typedef boolean(ClassicController_Data::*ClassicBoolean)(void) const;
+
+		template<ClassicBoolean func>
+		boolean knockoffButton(const ControlDataMap::BitMap map) const {
+			if (isKnockoff()) { return getControlBit(map); }
+			return (*this.*func)();
+		}
+
+	public:
+		// The NES Mini controller reports itself as a Classic Controller
+		// and functions identically. This class includes data maps for
+		// the improperly reporting knockoff NES controllers
+		struct Maps {
+			// Genuine maps, for reference
+			constexpr static BitMap  DpadUp = ClassicController_Data::Maps::DpadUp;
+			constexpr static BitMap  DpadDown = ClassicController_Data::Maps::DpadDown;
+			constexpr static BitMap  DpadLeft = ClassicController_Data::Maps::DpadLeft;
+			constexpr static BitMap  DpadRight = ClassicController_Data::Maps::DpadRight;
+
+			constexpr static BitMap  ButtonA = ClassicController_Data::Maps::ButtonA;
+			constexpr static BitMap  ButtonB = ClassicController_Data::Maps::ButtonB;
+
+			constexpr static BitMap  ButtonStart = ClassicController_Data::Maps::ButtonPlus;
+			constexpr static BitMap  ButtonSelect = ClassicController_Data::Maps::ButtonMinus;
+
+			// Knockoff maps
+			constexpr static BitMap  Knockoff_DpadUp = { 7, 0 };
+			constexpr static BitMap  Knockoff_DpadDown = { 6, 6 };
+			constexpr static BitMap  Knockoff_DpadLeft = { 7, 1 };
+			constexpr static BitMap  Knockoff_DpadRight = { 6, 7 };
+
+			constexpr static BitMap  Knockoff_ButtonStart = { 6, 2 };
+			constexpr static BitMap  Knockoff_ButtonSelect = { 6, 4 };
+
+			constexpr static BitMap  Knockoff_ButtonA = { 7, 4 };
+			constexpr static BitMap  Knockoff_ButtonB = { 7, 6 };
+		};
+
+		using ClassicController_Data::ClassicController_Data;  // Reuse constructor
+		using ClassicController_Data::id;  // Share ID
+
+		boolean dpadUp() const;
+		boolean dpadDown() const;
+		boolean dpadLeft() const;
+		boolean dpadRight() const;
+
+		boolean buttonA() const;
+		boolean buttonB() const;
+
+		boolean buttonStart() const;
+		boolean buttonSelect() const;
+
+		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
+
+		boolean isKnockoff() const;
+	};
+}
+
+typedef NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::NESMiniController_Data>	NESMiniController;
 
 #endif

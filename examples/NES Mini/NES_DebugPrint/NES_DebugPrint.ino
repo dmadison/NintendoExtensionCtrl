@@ -37,6 +37,10 @@ void setup() {
 		Serial.println("Classic Controller not detected!");
 		delay(1000);
 	}
+
+	if (nes.isKnockoff()) {  // Uh oh, looks like your controller isn't genuine?
+		nes.setRequestSize(8);  // Requires 8 or more bytes for knockoff controllers
+	}
 }
 
 void loop() {

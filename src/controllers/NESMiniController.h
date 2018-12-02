@@ -40,7 +40,20 @@ namespace NintendoExtensionCtrl {
 		// The NES Mini controller reports itself as a Classic Controller
 		// and functions identically. This class includes data maps for
 		// the improperly reporting knockoff NES controllers
-		struct Maps : public ClassicController_Data::Maps {
+		struct Maps {
+			// Genuine maps, for reference
+			constexpr static BitMap  DpadUp = ClassicController_Data::Maps::DpadUp;
+			constexpr static BitMap  DpadDown = ClassicController_Data::Maps::DpadDown;
+			constexpr static BitMap  DpadLeft = ClassicController_Data::Maps::DpadLeft;
+			constexpr static BitMap  DpadRight = ClassicController_Data::Maps::DpadRight;
+
+			constexpr static BitMap  ButtonA = ClassicController_Data::Maps::ButtonA;
+			constexpr static BitMap  ButtonB = ClassicController_Data::Maps::ButtonB;
+
+			constexpr static BitMap  ButtonStart = ClassicController_Data::Maps::ButtonPlus;
+			constexpr static BitMap  ButtonSelect = ClassicController_Data::Maps::ButtonMinus;
+
+			// Knockoff maps
 			constexpr static BitMap  Knockoff_DpadUp = { 7, 0 };
 			constexpr static BitMap  Knockoff_DpadDown = { 6, 6 };
 			constexpr static BitMap  Knockoff_DpadLeft = { 7, 1 };

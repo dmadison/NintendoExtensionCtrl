@@ -28,10 +28,10 @@ ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus)
 	: ExtensionController(i2cBus, ExtensionType::AnyController) {}
 
 ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID)
-	: i2c(i2cBus), ID_Limit(conID) {}
+	: data(i2cBus), ID_Limit(conID) {}
 
 void ExtensionController::begin() {
-	i2c.begin();  // Initialize the bus
+	data.i2c.begin();  // Initialize the bus
 }
 
 boolean ExtensionController::connect() {
@@ -42,20 +42,20 @@ boolean ExtensionController::connect() {
 boolean ExtensionController::reconnect() {
 	boolean success = false;
 
-	if (initialize(i2c)) {
+	if (initialize(data.i2c)) {
 		identifyController();
 		success = update();  // Seed with initial values
 	}
 	else {
-		connectedID = ExtensionType::NoController;  // Bad init, nothing connected
+		data.connectedType = ExtensionType::NoController;  // Bad init, nothing connected
 	}
 
 	return success;
 }
 
 void ExtensionController::disconnect() {
-	connectedID = ExtensionType::NoController;  // Nothing connected
-	memset(controlData, 0x00, MaxRequestSize);  // Clear control data
+	data.connectedType = ExtensionType::NoController;  // Nothing connected
+	memset(&data.controlData, 0x00, ExtensionData::ControlDataSize);  // Clear control data
 }
 
 void ExtensionController::reset() {
@@ -64,14 +64,14 @@ void ExtensionController::reset() {
 }
 
 void ExtensionController::identifyController() {
-	connectedID = NintendoExtensionCtrl::identifyController(i2c);  // Polls the controller for its identity
+	data.connectedType = NintendoExtensionCtrl::identifyController(data.i2c);  // Polls the controller for its identity
 }
 
 boolean ExtensionController::controllerIDMatches() const {
-	if (connectedID == ID_Limit) {
+	if (data.connectedType == ID_Limit) {
 		return true;  // Match!
 	}
-	else if (ID_Limit == ExtensionType::AnyController && connectedID != ExtensionType::NoController) {
+	else if (ID_Limit == ExtensionType::AnyController && data.connectedType != ExtensionType::NoController) {
 		return true;  // No enforcing and some sort of controller connected
 	}
 
@@ -79,19 +79,19 @@ boolean ExtensionController::controllerIDMatches() const {
 }
 
 ExtensionType ExtensionController::getControllerType() const {
-	return connectedID;
+	return data.connectedType;
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && requestControlData(i2c, requestSize, controlData)) {
-		return verifyData(controlData, requestSize);
+	if (controllerIDMatches() && requestControlData(data.i2c, requestSize, data.controlData)) {
+		return verifyData(data.controlData, requestSize);
 	}
 	
 	return false;  // Something went wrong :(
 }
 
 uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
-	return controlData[controlIndex];
+	return data.controlData[controlIndex];
 }
 
 void ExtensionController::setRequestSize(size_t r) {
@@ -106,7 +106,7 @@ void ExtensionController::printDebug(Print& output) const {
 
 void ExtensionController::printDebugID(Print& output) const {
 	uint8_t idData[ID_Size];
-	boolean success = requestIdentity(i2c, idData);
+	boolean success = requestIdentity(data.i2c, idData);
 
 	if (success) {
 		output.print("ID: ");
@@ -125,5 +125,5 @@ void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const
 	output.print("Raw[");
 	output.print(requestSize);
 	output.print("]: ");
-	printRaw(controlData, requestSize, baseFormat, output);
+	printRaw(data.controlData, requestSize, baseFormat, output);
 }

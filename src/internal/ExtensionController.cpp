@@ -122,5 +122,8 @@ void ExtensionController::printDebugRaw(Print& output) const {
 }
 
 void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const {
+	output.print("Raw[");
+	output.print(requestSize);
+	output.print("]: ");
 	printRaw(controlData, requestSize, baseFormat, output);
 }

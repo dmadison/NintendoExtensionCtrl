@@ -78,7 +78,7 @@ namespace NintendoExtensionCtrl {
 			output.print(dataOut, baseFormat);
 
 			if (i != dataSize - 1) {  // Print separators
-				output.print(" | ");
+				output.print(" ");
 			}
 		}
 		output.println();

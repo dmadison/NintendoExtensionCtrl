@@ -34,6 +34,9 @@ void setup() {
 	Serial.begin(115200);
 	controller.begin();
 
+	// Uncomment to run at 400 kHz (default is 100 kHz)
+	// controller.i2c.setClock(400000);  // 400 kHz "Fast" I2C
+
 	while (!controller.connect()) {
 		Serial.println("No controller detected!");
 		delay(1000);

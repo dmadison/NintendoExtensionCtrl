@@ -28,96 +28,92 @@
 #include "NXC_Utils.h"
 #include "NXC_DataMaps.h"
 
-class ExtensionData {
-	friend class ExtensionPort;
-public:
-	ExtensionData(NXC_I2C_TYPE& i2cbus = NXC_I2C_DEFAULT) :
-		i2c(i2cbus) {}
-
-	uint8_t getControlData(uint8_t index) const {
-		return controlData[index];
-	}
-
-	ExtensionType getConnectedType() const {
-		return connectedType;
-	}
-
-	static const uint8_t ControlDataSize = 21;  // Largest reporting mode (0x3d)
-
-protected:
-	NXC_I2C_TYPE & i2c;  // Reference for the I2C (Wire) class
-	ExtensionType connectedType = ExtensionType::NoController;
-	uint8_t controlData[ControlDataSize];
-};
-
-class ExtensionPort {
-public:
-	ExtensionPort(ExtensionData& dataRef);
-
-	void begin();
-
-	boolean connect();
-	boolean reconnect();
-
-	boolean update();
-
-	void reset();
-
-	ExtensionType getControllerType() const;
-	uint8_t getControlData(uint8_t controlIndex) const;
-	ExtensionData & getExtensionData() const;
-
-	void setRequestSize(size_t size = MinRequestSize);
-
-	void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
-	void printDebugID(Print& output = NXC_SERIAL_DEFAULT) const;
-	void printDebugRaw(Print& output = NXC_SERIAL_DEFAULT) const;
-	void printDebugRaw(uint8_t baseFormat, Print& output = NXC_SERIAL_DEFAULT) const;
-
-	static const uint8_t MinRequestSize = 6;   // Smallest reporting mode (0x37)
-	static const uint8_t MaxRequestSize = ExtensionData::ControlDataSize;
-
-	NXC_I2C_TYPE & i2c;  // Easily accessible I2C reference
-	const ExtensionType id = ExtensionType::AnyController;
-
-protected:
-	ExtensionPort(ExtensionData& dataRef, ExtensionType conID);
-
-	typedef NintendoExtensionCtrl::CtrlIndex CtrlIndex;
-	typedef NintendoExtensionCtrl::ByteMap   ByteMap;
-	typedef NintendoExtensionCtrl::BitMap    BitMap;
-
-	uint8_t getControlData(const ByteMap map) const {
-		return (data.controlData[map.index] & map.mask) >> map.offset;
-	}
-
-	template<size_t size>
-	uint8_t getControlData(const ByteMap(&map)[size]) const {
-		uint8_t dataOut = 0x00;
-		for (size_t i = 0; i < size; i++) {
-			/* Repeated line from the single-ByteMap function above. Apparently the
-				constexpr stuff doesn't like being passed through nested functions. */
-			dataOut |= (data.controlData[map[i].index] & map[i].mask) >> map[i].offset;
-			//dataOut |= getControlData(map[i]);
-		}
-		return dataOut;
-	}
-
-	boolean getControlBit(const BitMap map) const {
-		return !(data.controlData[map.index] & (1 << map.position));  // Inverted logic, '0' is pressed
-	}
-
-private:
-	ExtensionData &data;  // I2C and control data storage
-
-	void disconnect();
-	void identifyController();
-	boolean controllerIDMatches() const;
-
-	uint8_t requestSize = MinRequestSize;
-};
-
 namespace NintendoExtensionCtrl {
+	class ExtensionData {
+		friend class ExtensionPort;
+	public:
+		ExtensionData(NXC_I2C_TYPE& i2cbus = NXC_I2C_DEFAULT) :
+			i2c(i2cbus) {}
+
+		uint8_t getControlData(uint8_t index) const {
+			return controlData[index];
+		}
+
+		ExtensionType getConnectedType() const {
+			return connectedType;
+		}
+
+		static const uint8_t ControlDataSize = 21;  // Largest reporting mode (0x3d)
+
+	protected:
+		NXC_I2C_TYPE & i2c;  // Reference for the I2C (Wire) class
+		ExtensionType connectedType = ExtensionType::NoController;
+		uint8_t controlData[ControlDataSize];
+	};
+
+	class ExtensionPort {
+	public:
+		ExtensionPort(ExtensionData& dataRef);
+
+		void begin();
+
+		boolean connect();
+		boolean reconnect();
+
+		boolean update();
+
+		void reset();
+
+		ExtensionType getControllerType() const;
+		uint8_t getControlData(uint8_t controlIndex) const;
+		ExtensionData & getExtensionData() const;
+
+		void setRequestSize(size_t size = MinRequestSize);
+
+		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
+		void printDebugID(Print& output = NXC_SERIAL_DEFAULT) const;
+		void printDebugRaw(Print& output = NXC_SERIAL_DEFAULT) const;
+		void printDebugRaw(uint8_t baseFormat, Print& output = NXC_SERIAL_DEFAULT) const;
+
+		static const uint8_t MinRequestSize = 6;   // Smallest reporting mode (0x37)
+		static const uint8_t MaxRequestSize = ExtensionData::ControlDataSize;
+
+		NXC_I2C_TYPE & i2c;  // Easily accessible I2C reference
+		const ExtensionType id = ExtensionType::AnyController;
+
+	protected:
+		ExtensionPort(ExtensionData& dataRef, ExtensionType conID);
+
+		uint8_t getControlData(const ByteMap map) const {
+			return (data.controlData[map.index] & map.mask) >> map.offset;
+		}
+
+		template<size_t size>
+		uint8_t getControlData(const ByteMap(&map)[size]) const {
+			uint8_t dataOut = 0x00;
+			for (size_t i = 0; i < size; i++) {
+				/* Repeated line from the single-ByteMap function above. Apparently the
+					constexpr stuff doesn't like being passed through nested functions. */
+				dataOut |= (data.controlData[map[i].index] & map[i].mask) >> map[i].offset;
+				//dataOut |= getControlData(map[i]);
+			}
+			return dataOut;
+		}
+
+		boolean getControlBit(const BitMap map) const {
+			return !(data.controlData[map.index] & (1 << map.position));  // Inverted logic, '0' is pressed
+		}
+
+	private:
+		ExtensionData &data;  // I2C and control data storage
+
+		void disconnect();
+		void identifyController();
+		boolean controllerIDMatches() const;
+
+		uint8_t requestSize = MinRequestSize;
+	};
+
 	template <class ControllerMap>
 	class BuildControllerClass : public ControllerMap {
 	public:
@@ -141,6 +137,6 @@ namespace NintendoExtensionCtrl {
 // Public-facing version of the extension 'port' class that combines the 
 // communication (ExtensionPort) with a data instance (ExtensionData), but omits
 // any controller-specific data maps.
-typedef NintendoExtensionCtrl::BuildControllerClass<ExtensionPort> ExtensionController;
+typedef NintendoExtensionCtrl::BuildControllerClass<NintendoExtensionCtrl::ExtensionPort> ExtensionController;
 
 #endif

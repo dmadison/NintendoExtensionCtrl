@@ -28,7 +28,7 @@ ExtensionController::ExtensionController(ExtensionData& dataRef)
 	: ExtensionController(dataRef, ExtensionType::AnyController) {}
 
 ExtensionController::ExtensionController(ExtensionData& dataRef, ExtensionType conID)
-	: i2c(dataRef.i2c), data(dataRef), ID_Limit(conID) {}
+	: i2c(dataRef.i2c), id(conID), data(dataRef)  {}
 
 void ExtensionController::begin() {
 	data.i2c.begin();  // Initialize the bus
@@ -68,10 +68,10 @@ void ExtensionController::identifyController() {
 }
 
 boolean ExtensionController::controllerIDMatches() const {
-	if (data.connectedType == ID_Limit) {
+	if (data.connectedType == id) {
 		return true;  // Match!
 	}
-	else if (ID_Limit == ExtensionType::AnyController && data.connectedType != ExtensionType::NoController) {
+	else if (id == ExtensionType::AnyController && data.connectedType != ExtensionType::NoController) {
 		return true;  // No enforcing and some sort of controller connected
 	}
 

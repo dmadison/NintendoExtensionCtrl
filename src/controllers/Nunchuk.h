@@ -48,6 +48,9 @@ namespace NintendoExtensionCtrl {
 		Nunchuk_Data(ExtensionData &dataRef) :
 			ExtensionPort(dataRef, ExtensionType::Nunchuk) {}
 
+		Nunchuk_Data(ExtensionController &controller) :
+			Nunchuk_Data(controller.getExtensionData()) {}
+
 		uint8_t joyX() const;  // 8 bits, 0-255
 		uint8_t joyY() const;
 

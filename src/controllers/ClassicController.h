@@ -61,6 +61,9 @@ namespace NintendoExtensionCtrl {
 		ClassicController_Data(ExtensionData &dataRef) :
 			ExtensionPort(dataRef, ExtensionType::ClassicController) {}
 
+		ClassicController_Data(ExtensionController &controller) :
+			ClassicController_Data(controller.getExtensionData()) {}
+
 		uint8_t leftJoyX() const;  // 6 bits, 0-63
 		uint8_t leftJoyY() const;
 

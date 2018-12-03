@@ -65,6 +65,7 @@ public:
 
 	ExtensionType getControllerType() const;
 	uint8_t getControlData(uint8_t controlIndex) const;
+	ExtensionData & getExtensionData() const;
 
 	void setRequestSize(size_t size = MinRequestSize);
 

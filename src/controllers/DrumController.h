@@ -54,6 +54,9 @@ namespace NintendoExtensionCtrl {
 		DrumController_Data(ExtensionData &dataRef) :
 			ExtensionPort(dataRef, ExtensionType::DrumController) {}
 
+		DrumController_Data(ExtensionController &controller) :
+			DrumController_Data(controller.getExtensionData()) {}
+
 		enum VelocityID : uint8_t {
 			None = 0x1F,
 			Red = 0x19,

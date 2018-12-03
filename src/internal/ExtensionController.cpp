@@ -94,6 +94,10 @@ uint8_t ExtensionPort::getControlData(uint8_t controlIndex) const {
 	return data.controlData[controlIndex];
 }
 
+ExtensionData & ExtensionPort::getExtensionData() const {
+	return data;
+}
+
 void ExtensionPort::setRequestSize(size_t r) {
 	if (r >= MinRequestSize && r <= MaxRequestSize) {
 		requestSize = (uint8_t) r;

@@ -28,7 +28,7 @@
 namespace NintendoExtensionCtrl {
 	class NESMiniController_Data : public ClassicController_Data {
 	private:
-		typedef boolean(ClassicController_Data::*ClassicBoolean)(void) const;
+		using ClassicBoolean = boolean(ClassicController_Data::*)(void) const;
 
 		template<ClassicBoolean func>
 		boolean knockoffButton(const BitMap map) const {
@@ -85,7 +85,7 @@ namespace NintendoExtensionCtrl {
 	};
 }
 
-typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::NESMiniController_Data>	NESMiniController;
+using NESMiniController = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::NESMiniController_Data>;
 
 #endif

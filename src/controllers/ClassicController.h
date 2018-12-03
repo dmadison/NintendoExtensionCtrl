@@ -101,7 +101,7 @@ namespace NintendoExtensionCtrl {
 	};
 }
 
-typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::ClassicController_Data>	ClassicController;
+using ClassicController = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::ClassicController_Data>;
 
 #endif

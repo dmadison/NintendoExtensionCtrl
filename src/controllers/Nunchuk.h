@@ -68,7 +68,7 @@ namespace NintendoExtensionCtrl {
 	};
 }
 
-typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::Nunchuk_Data> Nunchuk;
+using Nunchuk = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::Nunchuk_Data>;
 
 #endif

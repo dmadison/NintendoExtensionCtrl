@@ -151,7 +151,7 @@ namespace NintendoExtensionCtrl {
 	};
 }
 
-typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DJTurntableController_Data> DJTurntableController;
+using DJTurntableController = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::DJTurntableController_Data>;
 
 #endif

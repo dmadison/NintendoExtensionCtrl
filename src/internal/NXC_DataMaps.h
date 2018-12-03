@@ -25,7 +25,7 @@
 
 namespace NintendoExtensionCtrl {
 	// Map data alias for single byte data, using the full byte
-	typedef uint8_t CtrlIndex;
+	using CtrlIndex = uint8_t;
 
 	// Map data struct for single *byte* data, using a portion of a byte
 	struct ByteMap {

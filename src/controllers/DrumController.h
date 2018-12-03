@@ -102,7 +102,7 @@ namespace NintendoExtensionCtrl {
 	};
 }
 
-typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DrumController_Data> DrumController;
+using DrumController = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::DrumController_Data>;
 
 #endif

@@ -113,7 +113,7 @@ namespace NintendoExtensionCtrl {
 			ControllerMap(portData),
 			portData(i2cBus) {}
 
-		typedef ControllerMap Data;  // Make controller class easily accessible
+		using Data = ControllerMap;  // Make controller class easily accessible
 
 	protected:
 		// Included data instance. Contains:
@@ -129,6 +129,7 @@ namespace NintendoExtensionCtrl {
 // Public-facing version of the extension 'port' class that combines the 
 // communication (ExtensionPort) with a data instance (ExtensionData), but omits
 // any controller-specific data maps.
-typedef NintendoExtensionCtrl::BuildControllerClass<NintendoExtensionCtrl::ExtensionPort> ExtensionController;
+using ExtensionController = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::ExtensionPort>;
 
 #endif

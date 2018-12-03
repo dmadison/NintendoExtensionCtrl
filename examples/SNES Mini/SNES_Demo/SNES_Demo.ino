@@ -26,7 +26,7 @@
 
 #include <NintendoExtensionCtrl.h>
 
-NESMiniController snes;
+SNESMiniController snes;
 
 void setup() {
 	Serial.begin(115200);

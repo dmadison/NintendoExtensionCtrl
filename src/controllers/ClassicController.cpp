@@ -24,33 +24,33 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr ControlDataMap::ByteMap ClassicController_Data::Maps::LeftJoyX;
-constexpr ControlDataMap::ByteMap ClassicController_Data::Maps::LeftJoyY;
+constexpr ByteMap ClassicController_Data::Maps::LeftJoyX;
+constexpr ByteMap ClassicController_Data::Maps::LeftJoyY;
 
-constexpr ControlDataMap::ByteMap ClassicController_Data::Maps::RightJoyX[3];
-constexpr ControlDataMap::ByteMap ClassicController_Data::Maps::RightJoyY;
+constexpr ByteMap ClassicController_Data::Maps::RightJoyX[3];
+constexpr ByteMap ClassicController_Data::Maps::RightJoyY;
 
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::DpadUp;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::DpadDown;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::DpadLeft;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::DpadRight;
+constexpr BitMap  ClassicController_Data::Maps::DpadUp;
+constexpr BitMap  ClassicController_Data::Maps::DpadDown;
+constexpr BitMap  ClassicController_Data::Maps::DpadLeft;
+constexpr BitMap  ClassicController_Data::Maps::DpadRight;
 
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonA;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonB;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonX;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonY;
+constexpr BitMap  ClassicController_Data::Maps::ButtonA;
+constexpr BitMap  ClassicController_Data::Maps::ButtonB;
+constexpr BitMap  ClassicController_Data::Maps::ButtonX;
+constexpr BitMap  ClassicController_Data::Maps::ButtonY;
 
-constexpr ControlDataMap::ByteMap ClassicController_Data::Maps::TriggerL[2];
-constexpr ControlDataMap::ByteMap ClassicController_Data::Maps::TriggerR;
+constexpr ByteMap ClassicController_Data::Maps::TriggerL[2];
+constexpr ByteMap ClassicController_Data::Maps::TriggerR;
 
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonL;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonR;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonZL;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonZR;
+constexpr BitMap  ClassicController_Data::Maps::ButtonL;
+constexpr BitMap  ClassicController_Data::Maps::ButtonR;
+constexpr BitMap  ClassicController_Data::Maps::ButtonZL;
+constexpr BitMap  ClassicController_Data::Maps::ButtonZR;
 
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonPlus;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonMinus;
-constexpr ControlDataMap::BitMap  ClassicController_Data::Maps::ButtonHome;
+constexpr BitMap  ClassicController_Data::Maps::ButtonPlus;
+constexpr BitMap  ClassicController_Data::Maps::ButtonMinus;
+constexpr BitMap  ClassicController_Data::Maps::ButtonHome;
 
 uint8_t ClassicController_Data::leftJoyX() const {
 	return getControlData(Maps::LeftJoyX);

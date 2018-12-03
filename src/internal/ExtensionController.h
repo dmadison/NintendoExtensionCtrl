@@ -26,6 +26,7 @@
 #include "NXC_Identity.h"
 #include "NXC_Comms.h"
 #include "NXC_Utils.h"
+#include "NXC_DataMaps.h"
 
 class ExtensionData {
 	friend class ExtensionController;
@@ -80,6 +81,23 @@ public:
 protected:
 	ExtensionController(ExtensionData& dataRef, ExtensionType conID);
 
+	typedef NintendoExtensionCtrl::CtrlIndex CtrlIndex;
+	typedef NintendoExtensionCtrl::ByteMap   ByteMap;
+	typedef NintendoExtensionCtrl::BitMap    BitMap;
+
+	uint8_t getControlData(const ByteMap map) const {
+		return NintendoExtensionCtrl::getControlData(data.controlData, map);
+	}
+
+	template<size_t size>
+	uint8_t getControlData(const ByteMap(&map)[size]) const {
+		return NintendoExtensionCtrl::getControlData(data.controlData, map);
+	}
+
+	boolean getControlBit(const BitMap map) const {
+		return NintendoExtensionCtrl::getControlBit(data.controlData, map);
+	}
+
 private:
 	ExtensionData &data;  // I2C and control data storage
 	const ExtensionType ID_Limit = ExtensionType::AnyController;
@@ -91,6 +109,25 @@ private:
 	uint8_t requestSize = MinRequestSize;
 };
 
-#include "NXC_DataMaps.h"
+namespace NintendoExtensionCtrl {
+	template <class ControllerMap>
+	class BuildControllerClass : public ControllerMap {
+	public:
+		BuildControllerClass(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
+			ControllerMap(portData),
+			portData(i2cBus) {}
+
+		typedef ControllerMap Data;  // Make controller class easily accessible
+
+	protected:
+		// Included data instance. Contains:
+		//    * I2C library object reference
+		//    * Connected controller identity (type)
+		//    * Control data array
+		// This data can be shared between controller instances using a single
+		// logical endpoint to keep memory down.
+		ExtensionData portData;
+	};
+}
 
 #endif

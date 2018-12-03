@@ -28,7 +28,7 @@
 #include "ClassicController.h"  // For joystick and +/- control maps
 
 namespace NintendoExtensionCtrl {
-	class DrumController_Data : protected ControlDataMap {
+	class DrumController_Data : public ExtensionController {
 	public:
 		struct Maps {
 			constexpr static ByteMap JoyX = ClassicController_Data::Maps::LeftJoyX;
@@ -51,8 +51,8 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap  VelocityAvailable = { 2, 6 };
 		};
 
-		using ControlDataMap::ControlDataMap;
-		static const ExtensionType id = ExtensionType::DrumController;
+		DrumController_Data(ExtensionData &dataRef) :
+			ExtensionController(dataRef, ExtensionType::DrumController) {}
 
 		enum VelocityID : uint8_t {
 			None = 0x1F,

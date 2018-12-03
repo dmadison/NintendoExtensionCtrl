@@ -26,7 +26,7 @@
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class ClassicController_Data : protected ControlDataMap {
+	class ClassicController_Data : public ExtensionController {
 	public:
 		struct Maps {
 			constexpr static ByteMap LeftJoyX = ByteMap(0, 6, 0, 0);
@@ -58,8 +58,8 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap  ButtonHome = { 4, 3 };
 		};
 
-		using ControlDataMap::ControlDataMap;
-		static const ExtensionType id = ExtensionType::ClassicController;
+		ClassicController_Data(ExtensionData &dataRef) :
+			ExtensionController(dataRef, ExtensionType::ClassicController) {}
 
 		uint8_t leftJoyX() const;  // 6 bits, 0-63
 		uint8_t leftJoyY() const;

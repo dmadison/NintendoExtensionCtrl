@@ -26,12 +26,12 @@
 #include "ClassicController.h"
 
 namespace NintendoExtensionCtrl {
-	class NESMiniController_Data : protected ClassicController_Data {
+	class NESMiniController_Data : public ClassicController_Data {
 	private:
 		typedef boolean(ClassicController_Data::*ClassicBoolean)(void) const;
 
 		template<ClassicBoolean func>
-		boolean knockoffButton(const ControlDataMap::BitMap map) const {
+		boolean knockoffButton(const BitMap map) const {
 			if (isKnockoff()) { return getControlBit(map); }
 			return (*this.*func)();
 		}
@@ -67,7 +67,6 @@ namespace NintendoExtensionCtrl {
 		};
 
 		using ClassicController_Data::ClassicController_Data;  // Reuse constructor
-		using ClassicController_Data::id;  // Share ID
 
 		boolean dpadUp() const;
 		boolean dpadDown() const;

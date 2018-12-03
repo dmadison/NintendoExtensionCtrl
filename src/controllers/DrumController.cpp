@@ -24,24 +24,24 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr ControlDataMap::ByteMap DrumController_Data::Maps::JoyX;
-constexpr ControlDataMap::ByteMap DrumController_Data::Maps::JoyY;
+constexpr ByteMap DrumController_Data::Maps::JoyX;
+constexpr ByteMap DrumController_Data::Maps::JoyY;
 
-constexpr ControlDataMap::BitMap  DrumController_Data::Maps::ButtonPlus;
-constexpr ControlDataMap::BitMap  DrumController_Data::Maps::ButtonMinus;
+constexpr BitMap  DrumController_Data::Maps::ButtonPlus;
+constexpr BitMap  DrumController_Data::Maps::ButtonMinus;
 
-constexpr ControlDataMap::BitMap  DrumController_Data::Maps::DrumRed;
-constexpr ControlDataMap::BitMap  DrumController_Data::Maps::DrumBlue;
-constexpr ControlDataMap::BitMap  DrumController_Data::Maps::DrumGreen;
+constexpr BitMap  DrumController_Data::Maps::DrumRed;
+constexpr BitMap  DrumController_Data::Maps::DrumBlue;
+constexpr BitMap  DrumController_Data::Maps::DrumGreen;
 
-constexpr ControlDataMap::BitMap  DrumController_Data::Maps::CymbalYellow;
-constexpr ControlDataMap::BitMap  DrumController_Data::Maps::CymbalOrange;
+constexpr BitMap  DrumController_Data::Maps::CymbalYellow;
+constexpr BitMap  DrumController_Data::Maps::CymbalOrange;
 
-constexpr ControlDataMap::BitMap  DrumController_Data::Maps::Pedal;
+constexpr BitMap  DrumController_Data::Maps::Pedal;
 
-constexpr ControlDataMap::ByteMap DrumController_Data::Maps::Velocity;
-constexpr ControlDataMap::ByteMap DrumController_Data::Maps::VelocityID;
-constexpr ControlDataMap::BitMap  DrumController_Data::Maps::VelocityAvailable;
+constexpr ByteMap DrumController_Data::Maps::Velocity;
+constexpr ByteMap DrumController_Data::Maps::VelocityID;
+constexpr BitMap  DrumController_Data::Maps::VelocityAvailable;
 
 uint8_t DrumController_Data::joyX() const {
 	return getControlData(Maps::JoyX);

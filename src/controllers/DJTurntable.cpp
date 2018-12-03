@@ -24,28 +24,28 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr ControlDataMap::ByteMap DJTurntableController_Data::Maps::JoyX;
-constexpr ControlDataMap::ByteMap DJTurntableController_Data::Maps::JoyY;
+constexpr ByteMap DJTurntableController_Data::Maps::JoyX;
+constexpr ByteMap DJTurntableController_Data::Maps::JoyY;
 
-constexpr ControlDataMap::BitMap  DJTurntableController_Data::Maps::ButtonPlus;
-constexpr ControlDataMap::BitMap  DJTurntableController_Data::Maps::ButtonMinus;
+constexpr BitMap  DJTurntableController_Data::Maps::ButtonPlus;
+constexpr BitMap  DJTurntableController_Data::Maps::ButtonMinus;
 
-constexpr ControlDataMap::ByteMap DJTurntableController_Data::Maps::Left_Turntable;
-constexpr ControlDataMap::ByteMap DJTurntableController_Data::Maps::Left_TurntableSign;
-constexpr ControlDataMap::BitMap  DJTurntableController_Data::Maps::Left_ButtonGreen;
-constexpr ControlDataMap::BitMap  DJTurntableController_Data::Maps::Left_ButtonRed;
-constexpr ControlDataMap::BitMap  DJTurntableController_Data::Maps::Left_ButtonBlue;
+constexpr ByteMap DJTurntableController_Data::Maps::Left_Turntable;
+constexpr ByteMap DJTurntableController_Data::Maps::Left_TurntableSign;
+constexpr BitMap  DJTurntableController_Data::Maps::Left_ButtonGreen;
+constexpr BitMap  DJTurntableController_Data::Maps::Left_ButtonRed;
+constexpr BitMap  DJTurntableController_Data::Maps::Left_ButtonBlue;
 
-constexpr ControlDataMap::ByteMap DJTurntableController_Data::Maps::Right_Turntable[3];
-constexpr ControlDataMap::ByteMap DJTurntableController_Data::Maps::Right_TurntableSign;
-constexpr ControlDataMap::BitMap  DJTurntableController_Data::Maps::Right_ButtonGreen;
-constexpr ControlDataMap::BitMap  DJTurntableController_Data::Maps::Right_ButtonRed;
-constexpr ControlDataMap::BitMap  DJTurntableController_Data::Maps::Right_ButtonBlue;
+constexpr ByteMap DJTurntableController_Data::Maps::Right_Turntable[3];
+constexpr ByteMap DJTurntableController_Data::Maps::Right_TurntableSign;
+constexpr BitMap  DJTurntableController_Data::Maps::Right_ButtonGreen;
+constexpr BitMap  DJTurntableController_Data::Maps::Right_ButtonRed;
+constexpr BitMap  DJTurntableController_Data::Maps::Right_ButtonBlue;
 
-constexpr ControlDataMap::ByteMap DJTurntableController_Data::Maps::EffectDial[2];
-constexpr ControlDataMap::ByteMap DJTurntableController_Data::Maps::CrossfadeSlider;
+constexpr ByteMap DJTurntableController_Data::Maps::EffectDial[2];
+constexpr ByteMap DJTurntableController_Data::Maps::CrossfadeSlider;
 
-constexpr ControlDataMap::BitMap  DJTurntableController_Data::Maps::ButtonEuphoria;
+constexpr BitMap  DJTurntableController_Data::Maps::ButtonEuphoria;
 
 // Combined Turntable
 int8_t DJTurntableController_Data::turntable() const {

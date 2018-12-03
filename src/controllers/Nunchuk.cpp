@@ -24,20 +24,20 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr ControlDataMap::CtrlIndex Nunchuk_Data::Maps::JoyX;
-constexpr ControlDataMap::CtrlIndex Nunchuk_Data::Maps::JoyY;
+constexpr CtrlIndex Nunchuk_Data::Maps::JoyX;
+constexpr CtrlIndex Nunchuk_Data::Maps::JoyY;
 
-constexpr ControlDataMap::CtrlIndex Nunchuk_Data::Maps::AccelX_MSB;
-constexpr ControlDataMap::ByteMap   Nunchuk_Data::Maps::AccelX_LSB;
+constexpr CtrlIndex Nunchuk_Data::Maps::AccelX_MSB;
+constexpr ByteMap   Nunchuk_Data::Maps::AccelX_LSB;
 
-constexpr ControlDataMap::CtrlIndex Nunchuk_Data::Maps::AccelY_MSB;
-constexpr ControlDataMap::ByteMap   Nunchuk_Data::Maps::AccelY_LSB;
+constexpr CtrlIndex Nunchuk_Data::Maps::AccelY_MSB;
+constexpr ByteMap   Nunchuk_Data::Maps::AccelY_LSB;
 
-constexpr ControlDataMap::CtrlIndex Nunchuk_Data::Maps::AccelZ_MSB;
-constexpr ControlDataMap::ByteMap   Nunchuk_Data::Maps::AccelZ_LSB;
+constexpr CtrlIndex Nunchuk_Data::Maps::AccelZ_MSB;
+constexpr ByteMap   Nunchuk_Data::Maps::AccelZ_LSB;
 
-constexpr ControlDataMap::BitMap    Nunchuk_Data::Maps::ButtonC;
-constexpr ControlDataMap::BitMap    Nunchuk_Data::Maps::ButtonZ;
+constexpr BitMap    Nunchuk_Data::Maps::ButtonC;
+constexpr BitMap    Nunchuk_Data::Maps::ButtonZ;
 
 uint8_t Nunchuk_Data::joyX() const {
 	return getControlData(Maps::JoyX);

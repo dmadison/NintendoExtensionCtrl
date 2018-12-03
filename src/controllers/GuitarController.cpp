@@ -24,23 +24,23 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr ControlDataMap::ByteMap GuitarController_Data::Maps::JoyX;
-constexpr ControlDataMap::ByteMap GuitarController_Data::Maps::JoyY;
+constexpr ByteMap GuitarController_Data::Maps::JoyX;
+constexpr ByteMap GuitarController_Data::Maps::JoyY;
 
-constexpr ControlDataMap::BitMap  GuitarController_Data::Maps::ButtonPlus;
-constexpr ControlDataMap::BitMap  GuitarController_Data::Maps::ButtonMinus;
+constexpr BitMap  GuitarController_Data::Maps::ButtonPlus;
+constexpr BitMap  GuitarController_Data::Maps::ButtonMinus;
 
-constexpr ControlDataMap::BitMap  GuitarController_Data::Maps::StrumUp;
-constexpr ControlDataMap::BitMap  GuitarController_Data::Maps::StrumDown;
+constexpr BitMap  GuitarController_Data::Maps::StrumUp;
+constexpr BitMap  GuitarController_Data::Maps::StrumDown;
 
-constexpr ControlDataMap::BitMap  GuitarController_Data::Maps::FretGreen;
-constexpr ControlDataMap::BitMap  GuitarController_Data::Maps::FretRed;
-constexpr ControlDataMap::BitMap  GuitarController_Data::Maps::FretYellow;
-constexpr ControlDataMap::BitMap  GuitarController_Data::Maps::FretBlue;
-constexpr ControlDataMap::BitMap  GuitarController_Data::Maps::FretOrange;
+constexpr BitMap  GuitarController_Data::Maps::FretGreen;
+constexpr BitMap  GuitarController_Data::Maps::FretRed;
+constexpr BitMap  GuitarController_Data::Maps::FretYellow;
+constexpr BitMap  GuitarController_Data::Maps::FretBlue;
+constexpr BitMap  GuitarController_Data::Maps::FretOrange;
 
-constexpr ControlDataMap::ByteMap GuitarController_Data::Maps::Whammy;
-constexpr ControlDataMap::ByteMap GuitarController_Data::Maps::Touchbar;
+constexpr ByteMap GuitarController_Data::Maps::Whammy;
+constexpr ByteMap GuitarController_Data::Maps::Touchbar;
 
 uint8_t GuitarController_Data::joyX() const {
 	return getControlData(Maps::JoyX);

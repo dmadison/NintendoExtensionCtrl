@@ -50,34 +50,6 @@ namespace NintendoExtensionCtrl {
 		const uint8_t index;     // Index in the control data array
 		const uint8_t position;  // Position of the bit, from right
 	};
-
-	inline uint8_t getControlData(const uint8_t * data, uint8_t index) {
-		return data[index];
-	}
-
-	inline uint8_t getControlData(const uint8_t * data, ByteMap map) {
-		return (data[map.index] & map.mask) >> map.offset;
-	}
-
-	template<size_t size>
-	inline uint8_t getControlData(const uint8_t * data, const ByteMap(&map)[size]) {
-		uint8_t dataOut = 0x00;
-		for (size_t i = 0; i < size; i++) {
-			/* Repeated line from the single-ByteMap function above. Apparently the
-				constexpr stuff doesn't like being passed through nested functions. */
-			dataOut |= (data[map[i].index] & map[i].mask) >> map[i].offset;
-			//dataOut |= getControlData(map[i]);
-		}
-		return dataOut;
-	}
-
-	inline boolean getControlBit(const uint8_t * data, uint8_t index, uint8_t pos) {
-		return !(data[index] & (1 << pos));  // Inverted logic, '0' is pressed
-	}
-
-	inline boolean getControlBit(const uint8_t * data, BitMap map) {
-		return getControlBit(data, map.index, map.position);
-	}
 }
 
 #endif

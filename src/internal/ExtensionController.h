@@ -87,16 +87,23 @@ protected:
 	typedef NintendoExtensionCtrl::BitMap    BitMap;
 
 	uint8_t getControlData(const ByteMap map) const {
-		return NintendoExtensionCtrl::getControlData(data.controlData, map);
+		return (data.controlData[map.index] & map.mask) >> map.offset;
 	}
 
 	template<size_t size>
 	uint8_t getControlData(const ByteMap(&map)[size]) const {
-		return NintendoExtensionCtrl::getControlData(data.controlData, map);
+		uint8_t dataOut = 0x00;
+		for (size_t i = 0; i < size; i++) {
+			/* Repeated line from the single-ByteMap function above. Apparently the
+				constexpr stuff doesn't like being passed through nested functions. */
+			dataOut |= (data.controlData[map[i].index] & map[i].mask) >> map[i].offset;
+			//dataOut |= getControlData(map[i]);
+		}
+		return dataOut;
 	}
 
 	boolean getControlBit(const BitMap map) const {
-		return NintendoExtensionCtrl::getControlBit(data.controlData, map);
+		return !(data.controlData[map.index] & (1 << map.position));  // Inverted logic, '0' is pressed
 	}
 
 private:

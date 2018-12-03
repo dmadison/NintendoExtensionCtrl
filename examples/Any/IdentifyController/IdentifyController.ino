@@ -26,7 +26,7 @@
 
 #include <NintendoExtensionCtrl.h>
 
-ExtensionPort controller;
+ExtensionController controller;
 
 void setup() {
 	Serial.begin(115200);

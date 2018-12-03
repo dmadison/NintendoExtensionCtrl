@@ -137,4 +137,9 @@ namespace NintendoExtensionCtrl {
 	};
 }
 
+// Public-facing version of the extension 'port' class that combines the 
+// communication (ExtensionPort) with a data instance (ExtensionData), but omits
+// any controller-specific data maps.
+typedef NintendoExtensionCtrl::BuildControllerClass<ExtensionPort> ExtensionController;
+
 #endif

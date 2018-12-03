@@ -35,14 +35,6 @@ namespace NintendoExtensionCtrl {
 		ExtensionData(NXC_I2C_TYPE& i2cbus = NXC_I2C_DEFAULT) :
 			i2c(i2cbus) {}
 
-		uint8_t getControlData(uint8_t index) const {
-			return controlData[index];
-		}
-
-		ExtensionType getConnectedType() const {
-			return connectedType;
-		}
-
 		static const uint8_t ControlDataSize = 21;  // Largest reporting mode (0x3d)
 
 	protected:

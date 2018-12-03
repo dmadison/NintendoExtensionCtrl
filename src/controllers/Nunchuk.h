@@ -26,7 +26,7 @@
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class Nunchuk_Data : public ExtensionController {
+	class Nunchuk_Data : public ExtensionPort {
 	public:
 		struct Maps {
 			constexpr static CtrlIndex JoyX = 0;
@@ -46,7 +46,7 @@ namespace NintendoExtensionCtrl {
 		};
 		
 		Nunchuk_Data(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::Nunchuk) {}
+			ExtensionPort(dataRef, ExtensionType::Nunchuk) {}
 
 		uint8_t joyX() const;  // 8 bits, 0-255
 		uint8_t joyY() const;

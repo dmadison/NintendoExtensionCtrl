@@ -26,7 +26,7 @@
 
 #include <NintendoExtensionCtrl.h>
 
-ExtensionController controller;  // Generic controller, 6 bytes
+ExtensionPort controller;  // Generic controller, 6 bytes
 
 const long TestDuration = 1000;  // Length of each test, in milliseconds
 

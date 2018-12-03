@@ -28,7 +28,7 @@
 #include "ClassicController.h"  // For joystick and +/- control maps
 
 namespace NintendoExtensionCtrl {
-	class DJTurntableController_Data : public ExtensionController {
+	class DJTurntableController_Data : public ExtensionPort {
 	public:
 		struct Maps {
 			constexpr static ByteMap JoyX = ClassicController_Data::Maps::LeftJoyX;
@@ -56,7 +56,7 @@ namespace NintendoExtensionCtrl {
 		};
 
 		DJTurntableController_Data(ExtensionData& dataRef) : 
-			ExtensionController(dataRef, ExtensionType::DJTurntableController), left(*this), right(*this) {}
+			ExtensionPort(dataRef, ExtensionType::DJTurntableController), left(*this), right(*this) {}
 
 		enum class TurntableConfig {
 			BaseOnly,

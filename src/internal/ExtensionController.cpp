@@ -24,22 +24,22 @@
 
 using namespace NintendoExtensionCtrl;
 
-ExtensionController::ExtensionController(ExtensionData& dataRef)
-	: ExtensionController(dataRef, ExtensionType::AnyController) {}
+ExtensionPort::ExtensionPort(ExtensionData& dataRef)
+	: ExtensionPort(dataRef, ExtensionType::AnyController) {}
 
-ExtensionController::ExtensionController(ExtensionData& dataRef, ExtensionType conID)
+ExtensionPort::ExtensionPort(ExtensionData& dataRef, ExtensionType conID)
 	: i2c(dataRef.i2c), id(conID), data(dataRef)  {}
 
-void ExtensionController::begin() {
+void ExtensionPort::begin() {
 	data.i2c.begin();  // Initialize the bus
 }
 
-boolean ExtensionController::connect() {
+boolean ExtensionPort::connect() {
 	disconnect();  // Clear current data
 	return reconnect();
 }
 
-boolean ExtensionController::reconnect() {
+boolean ExtensionPort::reconnect() {
 	boolean success = false;
 
 	if (initialize(data.i2c)) {
@@ -53,21 +53,21 @@ boolean ExtensionController::reconnect() {
 	return success;
 }
 
-void ExtensionController::disconnect() {
+void ExtensionPort::disconnect() {
 	data.connectedType = ExtensionType::NoController;  // Nothing connected
 	memset(&data.controlData, 0x00, ExtensionData::ControlDataSize);  // Clear control data
 }
 
-void ExtensionController::reset() {
+void ExtensionPort::reset() {
 	disconnect();
 	requestSize = MinRequestSize;  // Request size back to minimum
 }
 
-void ExtensionController::identifyController() {
+void ExtensionPort::identifyController() {
 	data.connectedType = NintendoExtensionCtrl::identifyController(data.i2c);  // Polls the controller for its identity
 }
 
-boolean ExtensionController::controllerIDMatches() const {
+boolean ExtensionPort::controllerIDMatches() const {
 	if (data.connectedType == id) {
 		return true;  // Match!
 	}
@@ -78,11 +78,11 @@ boolean ExtensionController::controllerIDMatches() const {
 	return false;  // Enforced types or no controller connected
 }
 
-ExtensionType ExtensionController::getControllerType() const {
+ExtensionType ExtensionPort::getControllerType() const {
 	return data.connectedType;
 }
 
-boolean ExtensionController::update() {
+boolean ExtensionPort::update() {
 	if (controllerIDMatches() && requestControlData(data.i2c, requestSize, data.controlData)) {
 		return verifyData(data.controlData, requestSize);
 	}
@@ -90,21 +90,21 @@ boolean ExtensionController::update() {
 	return false;  // Something went wrong :(
 }
 
-uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
+uint8_t ExtensionPort::getControlData(uint8_t controlIndex) const {
 	return data.controlData[controlIndex];
 }
 
-void ExtensionController::setRequestSize(size_t r) {
+void ExtensionPort::setRequestSize(size_t r) {
 	if (r >= MinRequestSize && r <= MaxRequestSize) {
 		requestSize = (uint8_t) r;
 	}
 }
 
-void ExtensionController::printDebug(Print& output) const {
+void ExtensionPort::printDebug(Print& output) const {
 	printDebugRaw(output);
 }
 
-void ExtensionController::printDebugID(Print& output) const {
+void ExtensionPort::printDebugID(Print& output) const {
 	uint8_t idData[ID_Size];
 	boolean success = requestIdentity(data.i2c, idData);
 
@@ -117,11 +117,11 @@ void ExtensionController::printDebugID(Print& output) const {
 	}
 }
 
-void ExtensionController::printDebugRaw(Print& output) const {
+void ExtensionPort::printDebugRaw(Print& output) const {
 	printDebugRaw(HEX, output);
 }
 
-void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const {
+void ExtensionPort::printDebugRaw(uint8_t baseFormat, Print& output) const {
 	output.print("Raw[");
 	output.print(requestSize);
 	output.print("]: ");

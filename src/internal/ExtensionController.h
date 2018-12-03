@@ -29,7 +29,7 @@
 #include "NXC_DataMaps.h"
 
 class ExtensionData {
-	friend class ExtensionController;
+	friend class ExtensionPort;
 public:
 	ExtensionData(NXC_I2C_TYPE& i2cbus = NXC_I2C_DEFAULT) :
 		i2c(i2cbus) {}
@@ -50,9 +50,9 @@ protected:
 	uint8_t controlData[ControlDataSize];
 };
 
-class ExtensionController {
+class ExtensionPort {
 public:
-	ExtensionController(ExtensionData& dataRef);
+	ExtensionPort(ExtensionData& dataRef);
 
 	void begin();
 
@@ -80,7 +80,7 @@ public:
 	const ExtensionType id = ExtensionType::AnyController;
 
 protected:
-	ExtensionController(ExtensionData& dataRef, ExtensionType conID);
+	ExtensionPort(ExtensionData& dataRef, ExtensionType conID);
 
 	typedef NintendoExtensionCtrl::CtrlIndex CtrlIndex;
 	typedef NintendoExtensionCtrl::ByteMap   ByteMap;

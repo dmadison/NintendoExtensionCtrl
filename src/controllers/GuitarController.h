@@ -28,7 +28,7 @@
 #include "ClassicController.h"  // For joystick and +/- control maps
 
 namespace NintendoExtensionCtrl {
-	class GuitarController_Data : public ExtensionController {
+	class GuitarController_Data : public ExtensionPort {
 	public:
 		struct Maps {
 			constexpr static ByteMap JoyX = ClassicController_Data::Maps::LeftJoyX;
@@ -51,7 +51,7 @@ namespace NintendoExtensionCtrl {
 		};
 
 		GuitarController_Data(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::GuitarController) {}
+			ExtensionPort(dataRef, ExtensionType::GuitarController) {}
 
 		uint8_t joyX() const;  // 6 bits, 0-63
 		uint8_t joyY() const;

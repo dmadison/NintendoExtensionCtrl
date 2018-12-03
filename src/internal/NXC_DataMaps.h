@@ -92,13 +92,17 @@ namespace NintendoExtensionCtrl {
 	class BuildControllerClass : public ExtensionController, public ControllerMap {
 	public:
 		BuildControllerClass(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
-			ExtensionController(i2cBus, ControllerMap::id),
+			data(i2cBus),
+			ExtensionController(data, ControllerMap::id),
 			ControllerMap(*(static_cast<ExtensionController*>(this))) {}
 
 		using ExtensionController::getControlData;  // Using the direct 'get' function
 		using ControllerMap::printDebug;  // Use the controller-specific print
 
 		typedef ControllerMap Data;  // Make controller data class easily accessible
+
+	protected:
+		ExtensionData data;
 	};
 }
 

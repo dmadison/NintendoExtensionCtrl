@@ -24,11 +24,11 @@
 
 using namespace NintendoExtensionCtrl;
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) 
-	: ExtensionController(i2cBus, ExtensionType::AnyController) {}
+ExtensionController::ExtensionController(ExtensionData& dataRef)
+	: ExtensionController(dataRef, ExtensionType::AnyController) {}
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID)
-	: data(i2cBus), ID_Limit(conID) {}
+ExtensionController::ExtensionController(ExtensionData& dataRef, ExtensionType conID)
+	: i2c(dataRef.i2c), data(dataRef), ID_Limit(conID) {}
 
 void ExtensionController::begin() {
 	data.i2c.begin();  // Initialize the bus

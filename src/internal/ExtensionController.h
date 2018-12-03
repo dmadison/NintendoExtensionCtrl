@@ -50,11 +50,8 @@ protected:
 };
 
 class ExtensionController {
-private:
-	ExtensionData data;
-
 public:
-	ExtensionController(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT);
+	ExtensionController(ExtensionData& dataRef);
 
 	void begin();
 
@@ -81,9 +78,10 @@ public:
 	NXC_I2C_TYPE & i2c = data.i2c;  // Easily accessible I2C reference
 
 protected:
-	ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID);
+	ExtensionController(ExtensionData& dataRef, ExtensionType conID);
 
 private:
+	ExtensionData &data;  // I2C and control data storage
 	const ExtensionType ID_Limit = ExtensionType::AnyController;
 
 	void disconnect();

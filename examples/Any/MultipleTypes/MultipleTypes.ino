@@ -26,7 +26,8 @@
 
 #include <NintendoExtensionCtrl.h>
 
-ExtensionController controller;  // Port for communicating with extension controllers
+ExtensionData data;
+ExtensionController controller(data);  // Port for communicating with extension controllers
 
 Nunchuk::Data nchuk(controller);  // Read Nunchuk formatted data from the port
 ClassicController::Data classic(controller);  // Read Classic Controller formatted data from the port

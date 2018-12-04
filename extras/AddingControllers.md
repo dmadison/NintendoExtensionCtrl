@@ -4,21 +4,29 @@ If you want to use an extension controller that is not currently supported by th
 ## Step #1: Creating The Class Framework
 The first step in adding support for your controller is building it a class. The header (.h) and implementation (.cpp) files live within the `controllers` folder in the source directory. You'll need to create both of these files with the name of your controller.
 
-Controller classes live inside the library namespace and inherit from the `ControlDataMap` class, which links back to the extension controller communication class and defines how control data is manipulated. This includes combining multi-byte data and extracting bits that correspond to button presses. To use this you'll need to include the "ExtensionController.h" header, which is in the `internal` source directory.
+Controller classes live inside the library namespace and inherit from the `ExtensionPort` class, which contains methods for communicating with the controllers and manipulating the control surface data. This includes combining multi-byte data and extracting bits that correspond to button presses. To use this you'll need to include the "ExtensionController.h" header, which is in the `internal` source directory.
 
-The class name itself is the "Data-Only" version of the class, which only manipulates the control data and doesn't include any communication methods - thus it has a `_Data` suffix. Here is what the start of the `ClassicController_Data` class looks like:
+The class name for your controller is going to be the "Shared" version of the class, which uses a reference to port and control data that exists elsewhere - thus it has a `_Shared` suffix. Here is what the start of the `ClassicController_Shared` class looks like:
 
 ```C++
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class ClassicController_Data : protected ControlDataMap {
+	class ClassicController_Shared : public ExtensionPort {
 	public:
-		using ControlDataMap::ControlDataMap;
+		ClassicController_Shared(ExtensionData &dataRef) :
+			ExtensionPort(dataRef, ExtensionType::ClassicController) {}
+
+		ClassicController_Shared(ExtensionController &controller) :
+			ClassicController_Shared(controller.getExtensionData()) {}
 ```
 
+Note how the constructors use a reference to an `ExtensionData` class *external* to the controller class itself. You can also see that the controller's identity is passed to the `ExtensionPort` class to limit what types of controllers can connect (more on that in a bit).
+
 ## Step #2: Building Your Data Maps
-The next step is to add the data maps for your controller. These define where the data for each control input lies within in the data array. Currently (v0.6.0), all controllers use the Wiimote 0x37 data reporting mode by default, returning 6 bytes of control data starting at offset 0x00. If your controller requires more than 6 bytes of data to function, you will have to call `setRequestSize`on the `ExtensionController` object with the number of bytes to request.
+The next step is to add the data maps for your controller. These define where the data for each control input lies within in the data array.
+
+All controllers use the Wiimote 0x37 data reporting mode by default, returning 6 bytes of control data starting at offset 0x00. If your controller requires more than 6 bytes of data to function, you will have to call `setRequestSize` with the number of bytes to request. This may be done in the constructor.
 
 Each map represents the size and position for all of the data of a control surface (button, joystick, etc.). The library has three data types for this, each with a different purpose:
 
@@ -64,7 +72,7 @@ The resulting bit from the control data is extracted and inverted, as extension 
 ```C++
 BitMap  ButtonA = { 5, 4 };
 ```
-Full definitions of these data types can be found in the [`NXC_DataMaps.h`](../src/internal/NXC_DataMaps.h) file.
+Full definitions of these data types can be found in the [`NXC_DataMaps.h`](../src/internal/NXC_DataMaps.h) file. Methods for using them are defined in the `ExtensionPort` class definition ([`ExtensionController.h`](../src/internal/ExtensionController.h)).
 
 ---
 
@@ -106,27 +114,27 @@ boolean buttonB() const;
 Since you've already spent the time creating the data maps, the function definitions should be straight-forward. Either call `getControlBit()` passing a `BitMap`, or call `getControlData()` passing your `CtrlIndex` or `ByteMap` value(s). Here are the function definitions for the above controls:
 
 ```C++
-uint8_t ClassicController_Data::leftJoyX() const {
+uint8_t ClassicController_Shared::leftJoyX() const {
 	return getControlData(Maps::LeftJoyX);
 }
 
-uint8_t ClassicController_Data::leftJoyY() const {
+uint8_t ClassicController_Shared::leftJoyY() const {
 	return getControlData(Maps::LeftJoyY);
 }
 
-uint8_t ClassicController_Data::rightJoyX() const {
+uint8_t ClassicController_Shared::rightJoyX() const {
 	return getControlData(Maps::RightJoyX);
 }
 
-uint8_t ClassicController_Data::rightJoyY() const {
+uint8_t ClassicController_Shared::rightJoyY() const {
 	return getControlData(Maps::RightJoyY);
 }
 
-boolean ClassicController_Data::buttonA() const {
+boolean ClassicController_Shared::buttonA() const {
 	return getControlBit(Maps::ButtonA);
 }
 
-boolean ClassicController_Data::buttonB() const {
+boolean ClassicController_Shared::buttonB() const {
 	return getControlBit(Maps::ButtonB);
 }
 ```
@@ -140,27 +148,28 @@ Here's how the Classic Controller debug line looks:
 ```
 <^v> | +H- | ABXY L:(32, 32) R:(16, 16) | LT:31X RT:31X Z:LR
 ```
-This includes all of the possible control data: the directional pad, +/- and home buttons, ABXY buttons, left and right joysticks, left and right triggers, and ZL/ZR buttons. You can check [the code](../src/controllers/ClassicController.cpp#L119) to see how it was put together.
+This includes all of the possible control data: the directional pad, +/- and home buttons, ABXY buttons, left and right joysticks, left and right triggers, and ZL/ZR buttons. You can check [the code](../src/controllers/ClassicController.cpp) to see how it was put together.
 
 ## Step #5: Add Your Controller's Identity
 Now that your controller definition is nearly done, it's time to add its identity to the list of available controllers!
 
 Open up the [`NXC_Identity.h`](../src/internal/NXC_Identity.h) file and add your controller name to the `ExtensionType` enumeration. Then, modify the `identifyController` function so that it will return your controller's ID if the identity bytes match. You can run the [`IdentifyController`](../examples/Any/IdentifyController/IdentifyController.ino) example to fetch the string of ID bytes.
 
-Once that's done, head back to your controller's header file and add a public `id` variable to store the controller's identity. This will limit connections to this specific type and report problems if the type doesn't match.
+Once that's done, head back to your controller's header file and add that identity value to the constructor. This will limit connections to this specific type and report problems if the type doesn't match.
 
 ```
-static const ExtensionType id = ExtensionType::ClassicController;
+ClassicController_Shared(ExtensionData &dataRef) :
+	ExtensionPort(dataRef, ExtensionType::ClassicController) {}
 ```
 
 You will also need to edit the switch statement in the `IdentifyControllers` example to add your controller to the 'switch' statement.
 
 ## Step #6: Create the Combined Class
-The last step to get your controller working is to create a combined class that inherits from the extension controller communication class and your newly created data class. This will be accessible by the user, and is how the controller's class will be interfaced with. Thankfully I've already built something to make this easy. Just copy this line, replacing all instances of `YourController` with your controller's name:
+The last step to get your controller working is to create a combined class that inherits from your `_Shared` class and bundles it with a set of extension port data to use. This creates an easy to use class for most users who are looking to get data from just one controller. Just copy this line, replacing all instances of `YourController` with your controller's name:
 
 ```C++
-typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::YourController_Data> YourController;
+using YourController = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::YourController_Shared>;
 ```
 
 Be sure to place this *outside* of the namespace, in the header file. See other controller definitions for reference.

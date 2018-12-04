@@ -26,7 +26,7 @@
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class Nunchuk_Data : public ExtensionPort {
+	class Nunchuk_Shared : public ExtensionPort {
 	public:
 		struct Maps {
 			constexpr static CtrlIndex JoyX = 0;
@@ -45,11 +45,11 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap    ButtonZ = { 5, 0 };
 		};
 		
-		Nunchuk_Data(ExtensionData &dataRef) :
+		Nunchuk_Shared(ExtensionData &dataRef) :
 			ExtensionPort(dataRef, ExtensionType::Nunchuk) {}
 
-		Nunchuk_Data(ExtensionController &controller) :
-			Nunchuk_Data(controller.getExtensionData()) {}
+		Nunchuk_Shared(ExtensionController &controller) :
+			Nunchuk_Shared(controller.getExtensionData()) {}
 
 		uint8_t joyX() const;  // 8 bits, 0-255
 		uint8_t joyY() const;
@@ -69,6 +69,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using Nunchuk = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::Nunchuk_Data>;
+	<NintendoExtensionCtrl::Nunchuk_Shared>;
 
 #endif

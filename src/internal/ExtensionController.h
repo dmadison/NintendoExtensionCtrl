@@ -115,7 +115,7 @@ namespace NintendoExtensionCtrl {
 			ControllerMap(portData),
 			portData(i2cBus) {}
 
-		using Data = ControllerMap;  // Make controller class easily accessible
+		using Shared = ControllerMap;  // Make controller class easily accessible
 
 	protected:
 		// Included data instance. Contains:

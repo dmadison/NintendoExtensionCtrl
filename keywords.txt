@@ -11,7 +11,7 @@ NintendoExtensionCtrl	KEYWORD1
 
 # Controller Base Classes
 ExtensionController	KEYWORD1
-Data	KEYWORD1
+Shared	KEYWORD1
 
 # Wii Controllers
 Nunchuk	KEYWORD1

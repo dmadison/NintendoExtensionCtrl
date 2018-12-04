@@ -26,9 +26,9 @@
 #include "ClassicController.h"
 
 namespace NintendoExtensionCtrl {
-	class NESMiniController_Data : public ClassicController_Data {
+	class NESMiniController_Shared : public ClassicController_Shared {
 	private:
-		using ClassicBoolean = boolean(ClassicController_Data::*)(void) const;
+		using ClassicBoolean = boolean(ClassicController_Shared::*)(void) const;
 
 		template<ClassicBoolean func>
 		boolean knockoffButton(const BitMap map) const {
@@ -42,16 +42,16 @@ namespace NintendoExtensionCtrl {
 		// the improperly reporting knockoff NES controllers
 		struct Maps {
 			// Genuine maps, for reference
-			constexpr static BitMap  DpadUp = ClassicController_Data::Maps::DpadUp;
-			constexpr static BitMap  DpadDown = ClassicController_Data::Maps::DpadDown;
-			constexpr static BitMap  DpadLeft = ClassicController_Data::Maps::DpadLeft;
-			constexpr static BitMap  DpadRight = ClassicController_Data::Maps::DpadRight;
+			constexpr static BitMap  DpadUp = ClassicController_Shared::Maps::DpadUp;
+			constexpr static BitMap  DpadDown = ClassicController_Shared::Maps::DpadDown;
+			constexpr static BitMap  DpadLeft = ClassicController_Shared::Maps::DpadLeft;
+			constexpr static BitMap  DpadRight = ClassicController_Shared::Maps::DpadRight;
 
-			constexpr static BitMap  ButtonA = ClassicController_Data::Maps::ButtonA;
-			constexpr static BitMap  ButtonB = ClassicController_Data::Maps::ButtonB;
+			constexpr static BitMap  ButtonA = ClassicController_Shared::Maps::ButtonA;
+			constexpr static BitMap  ButtonB = ClassicController_Shared::Maps::ButtonB;
 
-			constexpr static BitMap  ButtonStart = ClassicController_Data::Maps::ButtonPlus;
-			constexpr static BitMap  ButtonSelect = ClassicController_Data::Maps::ButtonMinus;
+			constexpr static BitMap  ButtonStart = ClassicController_Shared::Maps::ButtonPlus;
+			constexpr static BitMap  ButtonSelect = ClassicController_Shared::Maps::ButtonMinus;
 
 			// Knockoff maps
 			constexpr static BitMap  Knockoff_DpadUp = { 7, 0 };
@@ -66,7 +66,7 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap  Knockoff_ButtonB = { 7, 6 };
 		};
 
-		using ClassicController_Data::ClassicController_Data;  // Reuse constructor
+		using ClassicController_Shared::ClassicController_Shared;  // Reuse constructor
 
 		boolean dpadUp() const;
 		boolean dpadDown() const;
@@ -86,6 +86,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using NESMiniController = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::NESMiniController_Data>;
+	<NintendoExtensionCtrl::NESMiniController_Shared>;
 
 #endif

@@ -24,127 +24,127 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr ByteMap ClassicController_Data::Maps::LeftJoyX;
-constexpr ByteMap ClassicController_Data::Maps::LeftJoyY;
+constexpr ByteMap ClassicController_Shared::Maps::LeftJoyX;
+constexpr ByteMap ClassicController_Shared::Maps::LeftJoyY;
 
-constexpr ByteMap ClassicController_Data::Maps::RightJoyX[3];
-constexpr ByteMap ClassicController_Data::Maps::RightJoyY;
+constexpr ByteMap ClassicController_Shared::Maps::RightJoyX[3];
+constexpr ByteMap ClassicController_Shared::Maps::RightJoyY;
 
-constexpr BitMap  ClassicController_Data::Maps::DpadUp;
-constexpr BitMap  ClassicController_Data::Maps::DpadDown;
-constexpr BitMap  ClassicController_Data::Maps::DpadLeft;
-constexpr BitMap  ClassicController_Data::Maps::DpadRight;
+constexpr BitMap  ClassicController_Shared::Maps::DpadUp;
+constexpr BitMap  ClassicController_Shared::Maps::DpadDown;
+constexpr BitMap  ClassicController_Shared::Maps::DpadLeft;
+constexpr BitMap  ClassicController_Shared::Maps::DpadRight;
 
-constexpr BitMap  ClassicController_Data::Maps::ButtonA;
-constexpr BitMap  ClassicController_Data::Maps::ButtonB;
-constexpr BitMap  ClassicController_Data::Maps::ButtonX;
-constexpr BitMap  ClassicController_Data::Maps::ButtonY;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonA;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonB;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonX;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonY;
 
-constexpr ByteMap ClassicController_Data::Maps::TriggerL[2];
-constexpr ByteMap ClassicController_Data::Maps::TriggerR;
+constexpr ByteMap ClassicController_Shared::Maps::TriggerL[2];
+constexpr ByteMap ClassicController_Shared::Maps::TriggerR;
 
-constexpr BitMap  ClassicController_Data::Maps::ButtonL;
-constexpr BitMap  ClassicController_Data::Maps::ButtonR;
-constexpr BitMap  ClassicController_Data::Maps::ButtonZL;
-constexpr BitMap  ClassicController_Data::Maps::ButtonZR;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonL;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonR;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonZL;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonZR;
 
-constexpr BitMap  ClassicController_Data::Maps::ButtonPlus;
-constexpr BitMap  ClassicController_Data::Maps::ButtonMinus;
-constexpr BitMap  ClassicController_Data::Maps::ButtonHome;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonPlus;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonMinus;
+constexpr BitMap  ClassicController_Shared::Maps::ButtonHome;
 
-uint8_t ClassicController_Data::leftJoyX() const {
+uint8_t ClassicController_Shared::leftJoyX() const {
 	return getControlData(Maps::LeftJoyX);
 }
 
-uint8_t ClassicController_Data::leftJoyY() const {
+uint8_t ClassicController_Shared::leftJoyY() const {
 	return getControlData(Maps::LeftJoyY);
 }
 
-uint8_t ClassicController_Data::rightJoyX() const {
+uint8_t ClassicController_Shared::rightJoyX() const {
 	return getControlData(Maps::RightJoyX);
 }
 
-uint8_t ClassicController_Data::rightJoyY() const {
+uint8_t ClassicController_Shared::rightJoyY() const {
 	return getControlData(Maps::RightJoyY);
 }
 
-boolean ClassicController_Data::dpadUp() const {
+boolean ClassicController_Shared::dpadUp() const {
 	return getControlBit(Maps::DpadUp);
 }
 
-boolean ClassicController_Data::dpadDown() const {
+boolean ClassicController_Shared::dpadDown() const {
 	return getControlBit(Maps::DpadDown);
 }
 
-boolean ClassicController_Data::dpadLeft() const {
+boolean ClassicController_Shared::dpadLeft() const {
 	return getControlBit(Maps::DpadLeft);
 }
 
-boolean ClassicController_Data::dpadRight() const {
+boolean ClassicController_Shared::dpadRight() const {
 	return getControlBit(Maps::DpadRight);
 }
 
-boolean ClassicController_Data::buttonA() const {
+boolean ClassicController_Shared::buttonA() const {
 	return getControlBit(Maps::ButtonA);
 }
 
-boolean ClassicController_Data::buttonB() const {
+boolean ClassicController_Shared::buttonB() const {
 	return getControlBit(Maps::ButtonB);
 }
 
-boolean ClassicController_Data::buttonX() const {
+boolean ClassicController_Shared::buttonX() const {
 	return getControlBit(Maps::ButtonX);
 }
 
-boolean ClassicController_Data::buttonY() const {
+boolean ClassicController_Shared::buttonY() const {
 	return getControlBit(Maps::ButtonY);
 }
 
-uint8_t ClassicController_Data::triggerL() const {
+uint8_t ClassicController_Shared::triggerL() const {
 	return getControlData(Maps::TriggerL);
 }
 
-uint8_t ClassicController_Data::triggerR() const {
+uint8_t ClassicController_Shared::triggerR() const {
 	return getControlData(Maps::TriggerR);
 }
 
-boolean ClassicController_Data::buttonL() const {
+boolean ClassicController_Shared::buttonL() const {
 	return getControlBit(Maps::ButtonL);
 }
 
-boolean ClassicController_Data::buttonR() const {
+boolean ClassicController_Shared::buttonR() const {
 	return getControlBit(Maps::ButtonR);
 }
 
-boolean ClassicController_Data::buttonZL() const {
+boolean ClassicController_Shared::buttonZL() const {
 	return getControlBit(Maps::ButtonZL);
 }
 
-boolean ClassicController_Data::buttonZR() const {
+boolean ClassicController_Shared::buttonZR() const {
 	return getControlBit(Maps::ButtonZR);
 }
 
-boolean ClassicController_Data::buttonStart() const {
+boolean ClassicController_Shared::buttonStart() const {
 	return buttonPlus();
 }
 
-boolean ClassicController_Data::buttonSelect() const {
+boolean ClassicController_Shared::buttonSelect() const {
 	return buttonMinus();
 }
 
-boolean ClassicController_Data::buttonPlus() const {
+boolean ClassicController_Shared::buttonPlus() const {
 	return getControlBit(Maps::ButtonPlus);
 }
 
-boolean ClassicController_Data::buttonMinus() const {
+boolean ClassicController_Shared::buttonMinus() const {
 	return getControlBit(Maps::ButtonMinus);
 }
 
-boolean ClassicController_Data::buttonHome() const {
+boolean ClassicController_Shared::buttonHome() const {
 	return getControlBit(Maps::ButtonHome);
 }
 
-void ClassicController_Data::printDebug(Print& output) const {
+void ClassicController_Shared::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 
 	char buffer[62];

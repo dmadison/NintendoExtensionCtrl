@@ -24,59 +24,59 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr CtrlIndex Nunchuk_Data::Maps::JoyX;
-constexpr CtrlIndex Nunchuk_Data::Maps::JoyY;
+constexpr CtrlIndex Nunchuk_Shared::Maps::JoyX;
+constexpr CtrlIndex Nunchuk_Shared::Maps::JoyY;
 
-constexpr CtrlIndex Nunchuk_Data::Maps::AccelX_MSB;
-constexpr ByteMap   Nunchuk_Data::Maps::AccelX_LSB;
+constexpr CtrlIndex Nunchuk_Shared::Maps::AccelX_MSB;
+constexpr ByteMap   Nunchuk_Shared::Maps::AccelX_LSB;
 
-constexpr CtrlIndex Nunchuk_Data::Maps::AccelY_MSB;
-constexpr ByteMap   Nunchuk_Data::Maps::AccelY_LSB;
+constexpr CtrlIndex Nunchuk_Shared::Maps::AccelY_MSB;
+constexpr ByteMap   Nunchuk_Shared::Maps::AccelY_LSB;
 
-constexpr CtrlIndex Nunchuk_Data::Maps::AccelZ_MSB;
-constexpr ByteMap   Nunchuk_Data::Maps::AccelZ_LSB;
+constexpr CtrlIndex Nunchuk_Shared::Maps::AccelZ_MSB;
+constexpr ByteMap   Nunchuk_Shared::Maps::AccelZ_LSB;
 
-constexpr BitMap    Nunchuk_Data::Maps::ButtonC;
-constexpr BitMap    Nunchuk_Data::Maps::ButtonZ;
+constexpr BitMap    Nunchuk_Shared::Maps::ButtonC;
+constexpr BitMap    Nunchuk_Shared::Maps::ButtonZ;
 
-uint8_t Nunchuk_Data::joyX() const {
+uint8_t Nunchuk_Shared::joyX() const {
 	return getControlData(Maps::JoyX);
 }
 
-uint8_t Nunchuk_Data::joyY() const {
+uint8_t Nunchuk_Shared::joyY() const {
 	return getControlData(Maps::JoyY);
 }
 
-uint16_t Nunchuk_Data::accelX() const {
+uint16_t Nunchuk_Shared::accelX() const {
 	return (getControlData(Maps::AccelX_MSB) << 2) | getControlData(Maps::AccelX_LSB);
 }
 
-uint16_t Nunchuk_Data::accelY() const {
+uint16_t Nunchuk_Shared::accelY() const {
 	return (getControlData(Maps::AccelY_MSB) << 2) | getControlData(Maps::AccelY_LSB);
 }
 
-uint16_t Nunchuk_Data::accelZ() const {
+uint16_t Nunchuk_Shared::accelZ() const {
 	return (getControlData(Maps::AccelZ_MSB) << 2) | getControlData(Maps::AccelZ_LSB);
 }
 
-boolean Nunchuk_Data::buttonC() const {
+boolean Nunchuk_Shared::buttonC() const {
 	return getControlBit(Maps::ButtonC);
 }
 
-boolean Nunchuk_Data::buttonZ() const {
+boolean Nunchuk_Shared::buttonZ() const {
 	return getControlBit(Maps::ButtonZ);
 }
 
-float Nunchuk_Data::rollAngle() const {
+float Nunchuk_Shared::rollAngle() const {
 	return atan2((float)accelX() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
-float Nunchuk_Data::pitchAngle() const {
+float Nunchuk_Shared::pitchAngle() const {
 	// Inverted so pulling back is a positive pitch
 	return -atan2((float)accelY() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
-void Nunchuk_Data::printDebug(Print& output) const {
+void Nunchuk_Shared::printDebug(Print& output) const {
 	char buffer[60];
 
 	char cPrint = buttonC() ? 'C' : '-';

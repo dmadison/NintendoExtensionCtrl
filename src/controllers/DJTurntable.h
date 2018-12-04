@@ -28,14 +28,14 @@
 #include "ClassicController.h"  // For joystick and +/- control maps
 
 namespace NintendoExtensionCtrl {
-	class DJTurntableController_Data : public ExtensionPort {
+	class DJTurntableController_Shared : public ExtensionPort {
 	public:
 		struct Maps {
-			constexpr static ByteMap JoyX = ClassicController_Data::Maps::LeftJoyX;
-			constexpr static ByteMap JoyY = ClassicController_Data::Maps::LeftJoyY;
+			constexpr static ByteMap JoyX = ClassicController_Shared::Maps::LeftJoyX;
+			constexpr static ByteMap JoyY = ClassicController_Shared::Maps::LeftJoyY;
 
-			constexpr static BitMap  ButtonPlus = ClassicController_Data::Maps::ButtonPlus;
-			constexpr static BitMap  ButtonMinus = ClassicController_Data::Maps::ButtonMinus;
+			constexpr static BitMap  ButtonPlus = ClassicController_Shared::Maps::ButtonPlus;
+			constexpr static BitMap  ButtonMinus = ClassicController_Shared::Maps::ButtonMinus;
 
 			constexpr static ByteMap Left_Turntable = ByteMap(3, 5, 0, 0);
 			constexpr static ByteMap Left_TurntableSign = ByteMap(4, 1, 0, 0);
@@ -55,11 +55,11 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap  ButtonEuphoria = { 5, 4 };
 		};
 
-		DJTurntableController_Data(ExtensionData& dataRef) : 
+		DJTurntableController_Shared(ExtensionData& dataRef) : 
 			ExtensionPort(dataRef, ExtensionType::DJTurntableController), left(*this), right(*this) {}
 
-		DJTurntableController_Data(ExtensionController &controller) :
-			DJTurntableController_Data(controller.getExtensionData()) {}
+		DJTurntableController_Shared(ExtensionController &controller) :
+			DJTurntableController_Shared(controller.getExtensionData()) {}
 
 		enum class TurntableConfig {
 			BaseOnly,
@@ -92,7 +92,7 @@ namespace NintendoExtensionCtrl {
 
 		class TurntableExpansion {
 		public:
-			TurntableExpansion(TurntableConfig conf, DJTurntableController_Data &baseObj)
+			TurntableExpansion(TurntableConfig conf, DJTurntableController_Shared &baseObj)
 				: side(conf), base(baseObj) {}
 			boolean connected() const;
 
@@ -111,12 +111,12 @@ namespace NintendoExtensionCtrl {
 				return (int8_t) turnData;
 			}
 
-			const DJTurntableController_Data & base;
+			const DJTurntableController_Shared & base;
 		};
 
 		class TurntableLeft : public TurntableExpansion {
 		public:
-			TurntableLeft(DJTurntableController_Data &baseObj)
+			TurntableLeft(DJTurntableController_Shared &baseObj)
 				: TurntableExpansion(TurntableConfig::Left, baseObj) {}
 			int8_t turntable() const;
 
@@ -127,7 +127,7 @@ namespace NintendoExtensionCtrl {
 
 		class TurntableRight : public TurntableExpansion {
 		public:
-			TurntableRight(DJTurntableController_Data &baseObj)
+			TurntableRight(DJTurntableController_Shared &baseObj)
 				: TurntableExpansion(TurntableConfig::Right, baseObj) {}
 			int8_t turntable() const;
 
@@ -138,10 +138,10 @@ namespace NintendoExtensionCtrl {
 
 		class EffectRollover : private NintendoExtensionCtrl::RolloverChange {
 		public:
-			EffectRollover(DJTurntableController_Data & controller) : RolloverChange(0, 31), dj(controller) {}
+			EffectRollover(DJTurntableController_Shared & controller) : RolloverChange(0, 31), dj(controller) {}
 			int8_t getChange();
 		private:
-			const DJTurntableController_Data & dj;
+			const DJTurntableController_Shared & dj;
 		};
 
 	private:
@@ -152,6 +152,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using DJTurntableController = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DJTurntableController_Data>;
+	<NintendoExtensionCtrl::DJTurntableController_Shared>;
 
 #endif

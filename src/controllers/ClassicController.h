@@ -26,7 +26,7 @@
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class ClassicController_Data : public ExtensionPort {
+	class ClassicController_Shared : public ExtensionPort {
 	public:
 		struct Maps {
 			constexpr static ByteMap LeftJoyX = ByteMap(0, 6, 0, 0);
@@ -58,11 +58,11 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap  ButtonHome = { 4, 3 };
 		};
 
-		ClassicController_Data(ExtensionData &dataRef) :
+		ClassicController_Shared(ExtensionData &dataRef) :
 			ExtensionPort(dataRef, ExtensionType::ClassicController) {}
 
-		ClassicController_Data(ExtensionController &controller) :
-			ClassicController_Data(controller.getExtensionData()) {}
+		ClassicController_Shared(ExtensionController &controller) :
+			ClassicController_Shared(controller.getExtensionData()) {}
 
 		uint8_t leftJoyX() const;  // 6 bits, 0-63
 		uint8_t leftJoyY() const;
@@ -102,6 +102,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using ClassicController = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::ClassicController_Data>;
+	<NintendoExtensionCtrl::ClassicController_Shared>;
 
 #endif

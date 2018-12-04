@@ -28,14 +28,14 @@
 #include "ClassicController.h"  // For joystick and +/- control maps
 
 namespace NintendoExtensionCtrl {
-	class DrumController_Data : public ExtensionPort {
+	class DrumController_Shared : public ExtensionPort {
 	public:
 		struct Maps {
-			constexpr static ByteMap JoyX = ClassicController_Data::Maps::LeftJoyX;
-			constexpr static ByteMap JoyY = ClassicController_Data::Maps::LeftJoyY;
+			constexpr static ByteMap JoyX = ClassicController_Shared::Maps::LeftJoyX;
+			constexpr static ByteMap JoyY = ClassicController_Shared::Maps::LeftJoyY;
 
-			constexpr static BitMap  ButtonPlus = ClassicController_Data::Maps::ButtonPlus;
-			constexpr static BitMap  ButtonMinus = ClassicController_Data::Maps::ButtonMinus;
+			constexpr static BitMap  ButtonPlus = ClassicController_Shared::Maps::ButtonPlus;
+			constexpr static BitMap  ButtonMinus = ClassicController_Shared::Maps::ButtonMinus;
 
 			constexpr static BitMap  DrumRed = { 5, 6 };
 			constexpr static BitMap  DrumBlue = { 5, 3 };
@@ -51,11 +51,11 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap  VelocityAvailable = { 2, 6 };
 		};
 
-		DrumController_Data(ExtensionData &dataRef) :
+		DrumController_Shared(ExtensionData &dataRef) :
 			ExtensionPort(dataRef, ExtensionType::DrumController) {}
 
-		DrumController_Data(ExtensionController &controller) :
-			DrumController_Data(controller.getExtensionData()) {}
+		DrumController_Shared(ExtensionController &controller) :
+			DrumController_Shared(controller.getExtensionData()) {}
 
 		enum VelocityID : uint8_t {
 			None = 0x1F,
@@ -103,6 +103,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using DrumController = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DrumController_Data>;
+	<NintendoExtensionCtrl::DrumController_Shared>;
 
 #endif

@@ -24,39 +24,39 @@
 
 namespace NintendoExtensionCtrl {
 
-boolean NESMiniController_Data::dpadUp() const {
-	return knockoffButton<&ClassicController_Data::dpadUp>(Maps::Knockoff_DpadUp);
+boolean NESMiniController_Shared::dpadUp() const {
+	return knockoffButton<&ClassicController_Shared::dpadUp>(Maps::Knockoff_DpadUp);
 }
 
-boolean NESMiniController_Data::dpadDown() const {
-	return knockoffButton<&ClassicController_Data::dpadDown>(Maps::Knockoff_DpadDown);
+boolean NESMiniController_Shared::dpadDown() const {
+	return knockoffButton<&ClassicController_Shared::dpadDown>(Maps::Knockoff_DpadDown);
 }
 
-boolean NESMiniController_Data::dpadLeft() const {
-	return knockoffButton<&ClassicController_Data::dpadLeft>(Maps::Knockoff_DpadLeft);
+boolean NESMiniController_Shared::dpadLeft() const {
+	return knockoffButton<&ClassicController_Shared::dpadLeft>(Maps::Knockoff_DpadLeft);
 }
 
-boolean NESMiniController_Data::dpadRight() const {
-	return knockoffButton<&ClassicController_Data::dpadRight>(Maps::Knockoff_DpadRight);
+boolean NESMiniController_Shared::dpadRight() const {
+	return knockoffButton<&ClassicController_Shared::dpadRight>(Maps::Knockoff_DpadRight);
 }
 
-boolean NESMiniController_Data::buttonA() const {
-	return knockoffButton<&ClassicController_Data::buttonA>(Maps::Knockoff_ButtonA);
+boolean NESMiniController_Shared::buttonA() const {
+	return knockoffButton<&ClassicController_Shared::buttonA>(Maps::Knockoff_ButtonA);
 }
 
-boolean NESMiniController_Data::buttonB() const {
-	return knockoffButton<&ClassicController_Data::buttonB>(Maps::Knockoff_ButtonB);
+boolean NESMiniController_Shared::buttonB() const {
+	return knockoffButton<&ClassicController_Shared::buttonB>(Maps::Knockoff_ButtonB);
 }
 
-boolean NESMiniController_Data::buttonStart() const {
-	return knockoffButton<&ClassicController_Data::buttonStart>(Maps::Knockoff_ButtonStart);
+boolean NESMiniController_Shared::buttonStart() const {
+	return knockoffButton<&ClassicController_Shared::buttonStart>(Maps::Knockoff_ButtonStart);
 }
 
-boolean NESMiniController_Data::buttonSelect() const {
-	return knockoffButton<&ClassicController_Data::buttonSelect>(Maps::Knockoff_ButtonSelect);
+boolean NESMiniController_Shared::buttonSelect() const {
+	return knockoffButton<&ClassicController_Shared::buttonSelect>(Maps::Knockoff_ButtonSelect);
 }
 
-void NESMiniController_Data::printDebug(Print& output) const {
+void NESMiniController_Shared::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 	
 	output.print("NES ");
@@ -79,7 +79,7 @@ void NESMiniController_Data::printDebug(Print& output) const {
 	output.println();
 }
 
-boolean NESMiniController_Data::isKnockoff() const {
+boolean NESMiniController_Shared::isKnockoff() const {
 	// The NES knockoffs I've come across seem to display the same unchanging pattern
 	// for the first six control bytes:
 	//

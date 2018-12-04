@@ -96,6 +96,8 @@ namespace NintendoExtensionCtrl {
 			return !(data.controlData[map.index] & (1 << map.position));  // Inverted logic, '0' is pressed
 		}
 
+		void setControlData(uint8_t index, uint8_t val);
+
 	private:
 		ExtensionData &data;  // I2C and control data storage
 

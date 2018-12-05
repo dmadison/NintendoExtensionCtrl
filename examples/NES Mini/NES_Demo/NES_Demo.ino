@@ -46,6 +46,7 @@ void loop() {
 	Serial.println("----- NES Mini Controller Demo -----");  // Making things easier to read
 	
 	boolean success = nes.update();  // Get new data from the controller
+	nes.fixKnockoffData();  // If knockoff, fix the data!
 
 	if (!success) {  // Ruh roh
 		Serial.println("Controller disconnected!");

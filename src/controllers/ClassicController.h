@@ -98,14 +98,24 @@ namespace NintendoExtensionCtrl {
 		boolean buttonHome() const;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
+
+	// NES Knockoff Support
+	public:
+		boolean isNESKnockoff() const;
+		boolean fixNESKnockoffData();
+
+	protected:
+		void manipulateKnockoffData();
 	};
 
 	class NESMiniController_Shared : public ClassicController_Shared {
 	public:
 		using ClassicController_Shared::ClassicController_Shared;
 
+		boolean isKnockoff() const { return isNESKnockoff(); }
+		boolean fixKnockoffData() { return fixNESKnockoffData(); }
+
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
-		boolean isKnockoff() const;
 	};
 
 	class SNESMiniController_Shared : public ClassicController_Shared {

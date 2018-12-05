@@ -181,9 +181,19 @@ void ClassicController_Shared::printDebug(Print& output) const {
 	output.println(buffer);
 }
 
-// ######### Mini Controller Classes #########
+// ######### Mini Controller Support #########
 
-boolean NESMiniController_Shared::isKnockoff() const {
+boolean ClassicController_Shared::fixNESKnockoffData() {
+	// Public-facing function to check and "correct" data if using a knockoff
+	// Returns 'true' if data was modified
+	if(isNESKnockoff()) { 
+		manipulateKnockoffData();
+		return true;
+	}
+	return false;
+}
+
+boolean ClassicController_Shared::isNESKnockoff() const {
 	// The NES knockoffs I've come across seem to display the same unchanging pattern
 	// for the first six control bytes:
 	//
@@ -208,6 +218,35 @@ boolean NESMiniController_Shared::isKnockoff() const {
 	       getControlData(3) == 0x81 &&  // LT 2:0, RT
 	       getControlData(4) == 0x00 &&  // Button packet 1 (all pressed)
 	       getControlData(5) == 0x00;    // Button packet 2 (all pressed)
+}
+
+void ClassicController_Shared::manipulateKnockoffData() {
+	// The data returned by knockoff NES controllers for the missing control surfaces
+	// (joysticks, triggers, etc.) is "corrupted", meaning that it doesn't align with
+	// what you would expect a Classic Controller at rest to display.
+	//
+	// A friend of mine kindly tested his genuine NES controller, and here are the first
+	// six bytes it reports by default:
+	//
+	//     0x5F 0xDF 0x8F 0x00 0xFF 0xFF
+	//
+	// Using the library's debug output, here is what it translates to:
+	//
+	//      ____ | ___ | ____ L : (31, 31) R : (15, 15) | LT : 0_ RT : 0_ Z : __
+	//
+	// The left joystick is centered at 31/31, the right joystick is centered at 15/15,
+	// the analog trigger values are 0, and all buttons are released.
+	//
+	// For the NES Mini knockoffs, only the two data packets containing the button booleans
+	// matter. Bytes 0, 1, 2, and 3 (joysticks and triggers) are replaced entirely. Bytes
+	// 4 and 5 are overridden by the values in 6 and 7.
+
+	setControlData(0, 0x5F);
+	setControlData(1, 0xDF);
+	setControlData(2, 0x8F);
+	setControlData(3, 0x00);
+	setControlData(4, getControlData(6));
+	setControlData(5, getControlData(7));
 }
 
 void NESMiniController_Shared::printDebug(Print& output) const {

@@ -22,91 +22,99 @@
 
 #include "ExtensionController.h"
 
-using namespace NintendoExtensionCtrl;
+namespace NintendoExtensionCtrl {
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus) 
-	: ExtensionController(i2cBus, ExtensionType::AnyController) {}
+ExtensionPort::ExtensionPort(ExtensionData& dataRef)
+	: ExtensionPort(dataRef, ExtensionType::AnyController) {}
 
-ExtensionController::ExtensionController(NXC_I2C_TYPE& i2cBus, ExtensionType conID)
-	: i2c(i2cBus), ID_Limit(conID) {}
+ExtensionPort::ExtensionPort(ExtensionData& dataRef, ExtensionType conID)
+	: i2c(dataRef.i2c), id(conID), data(dataRef)  {}
 
-void ExtensionController::begin() {
-	i2c.begin();  // Initialize the bus
+void ExtensionPort::begin() {
+	data.i2c.begin();  // Initialize the bus
 }
 
-boolean ExtensionController::connect() {
+boolean ExtensionPort::connect() {
 	disconnect();  // Clear current data
 	return reconnect();
 }
 
-boolean ExtensionController::reconnect() {
+boolean ExtensionPort::reconnect() {
 	boolean success = false;
 
-	if (initialize(i2c)) {
+	if (initialize(data.i2c)) {
 		identifyController();
 		success = update();  // Seed with initial values
 	}
 	else {
-		connectedID = ExtensionType::NoController;  // Bad init, nothing connected
+		data.connectedType = ExtensionType::NoController;  // Bad init, nothing connected
 	}
 
 	return success;
 }
 
-void ExtensionController::disconnect() {
-	connectedID = ExtensionType::NoController;  // Nothing connected
-	memset(controlData, 0x00, MaxRequestSize);  // Clear control data
+void ExtensionPort::disconnect() {
+	data.connectedType = ExtensionType::NoController;  // Nothing connected
+	memset(&data.controlData, 0x00, ExtensionData::ControlDataSize);  // Clear control data
 }
 
-void ExtensionController::reset() {
+void ExtensionPort::reset() {
 	disconnect();
 	requestSize = MinRequestSize;  // Request size back to minimum
 }
 
-void ExtensionController::identifyController() {
-	connectedID = NintendoExtensionCtrl::identifyController(i2c);  // Polls the controller for its identity
+void ExtensionPort::identifyController() {
+	data.connectedType = NintendoExtensionCtrl::identifyController(data.i2c);  // Polls the controller for its identity
 }
 
-boolean ExtensionController::controllerIDMatches() const {
-	if (connectedID == ID_Limit) {
+boolean ExtensionPort::controllerIDMatches() const {
+	if (data.connectedType == id) {
 		return true;  // Match!
 	}
-	else if (ID_Limit == ExtensionType::AnyController && connectedID != ExtensionType::NoController) {
+	else if (id == ExtensionType::AnyController && data.connectedType != ExtensionType::NoController) {
 		return true;  // No enforcing and some sort of controller connected
 	}
 
 	return false;  // Enforced types or no controller connected
 }
 
-ExtensionType ExtensionController::getControllerType() const {
-	return connectedID;
+ExtensionType ExtensionPort::getControllerType() const {
+	return data.connectedType;
 }
 
-boolean ExtensionController::update() {
-	if (controllerIDMatches() && requestControlData(i2c, requestSize, controlData)) {
-		return verifyData(controlData, requestSize);
+boolean ExtensionPort::update() {
+	if (controllerIDMatches() && requestControlData(data.i2c, requestSize, data.controlData)) {
+		return verifyData(data.controlData, requestSize);
 	}
 	
 	return false;  // Something went wrong :(
 }
 
-uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
-	return controlData[controlIndex];
+uint8_t ExtensionPort::getControlData(uint8_t controlIndex) const {
+	return data.controlData[controlIndex];
 }
 
-void ExtensionController::setRequestSize(size_t r) {
+void ExtensionPort::setControlData(uint8_t index, uint8_t val) {
+	data.controlData[index] = val;
+}
+
+ExtensionData & ExtensionPort::getExtensionData() const {
+	return data;
+}
+
+void ExtensionPort::setRequestSize(size_t r) {
 	if (r >= MinRequestSize && r <= MaxRequestSize) {
 		requestSize = (uint8_t) r;
 	}
 }
 
-void ExtensionController::printDebug(Print& output) const {
+void ExtensionPort::printDebug(Print& output) const {
 	printDebugRaw(output);
 }
 
-void ExtensionController::printDebugID(Print& output) const {
+void ExtensionPort::printDebugID(Print& output) const {
 	uint8_t idData[ID_Size];
-	boolean success = requestIdentity(i2c, idData);
+	boolean success = requestIdentity(data.i2c, idData);
 
 	if (success) {
 		output.print("ID: ");
@@ -117,13 +125,15 @@ void ExtensionController::printDebugID(Print& output) const {
 	}
 }
 
-void ExtensionController::printDebugRaw(Print& output) const {
+void ExtensionPort::printDebugRaw(Print& output) const {
 	printDebugRaw(HEX, output);
 }
 
-void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const {
+void ExtensionPort::printDebugRaw(uint8_t baseFormat, Print& output) const {
 	output.print("Raw[");
 	output.print(requestSize);
 	output.print("]: ");
-	printRaw(controlData, requestSize, baseFormat, output);
+	printRaw(data.controlData, requestSize, baseFormat, output);
 }
+
+}  // End "NintendoExtensionCtrl" namespace

@@ -28,14 +28,14 @@
 #include "ClassicController.h"  // For joystick and +/- control maps
 
 namespace NintendoExtensionCtrl {
-	class GuitarController_Data : protected ControlDataMap {
+	class GuitarController_Shared : public ExtensionPort {
 	public:
 		struct Maps {
-			constexpr static ByteMap JoyX = ClassicController_Data::Maps::LeftJoyX;
-			constexpr static ByteMap JoyY = ClassicController_Data::Maps::LeftJoyY;
+			constexpr static ByteMap JoyX = ClassicController_Shared::Maps::LeftJoyX;
+			constexpr static ByteMap JoyY = ClassicController_Shared::Maps::LeftJoyY;
 
-			constexpr static BitMap  ButtonPlus = ClassicController_Data::Maps::ButtonPlus;
-			constexpr static BitMap  ButtonMinus = ClassicController_Data::Maps::ButtonMinus;
+			constexpr static BitMap  ButtonPlus = ClassicController_Shared::Maps::ButtonPlus;
+			constexpr static BitMap  ButtonMinus = ClassicController_Shared::Maps::ButtonMinus;
 
 			constexpr static BitMap  StrumUp = { 5, 0 };
 			constexpr static BitMap  StrumDown = { 4, 6 };
@@ -50,8 +50,11 @@ namespace NintendoExtensionCtrl {
 			constexpr static ByteMap Touchbar = ByteMap(2, 5, 0, 0);
 		};
 
-		using ControlDataMap::ControlDataMap;
-		static const ExtensionType id = ExtensionType::GuitarController;
+		GuitarController_Shared(ExtensionData &dataRef) :
+			ExtensionPort(dataRef, ExtensionType::GuitarController) {}
+
+		GuitarController_Shared(ExtensionController &controller) :
+			GuitarController_Shared(controller.getExtensionData()) {}
 
 		uint8_t joyX() const;  // 6 bits, 0-63
 		uint8_t joyY() const;
@@ -87,7 +90,7 @@ namespace NintendoExtensionCtrl {
 	};
 }
 
-typedef NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::GuitarController_Data> GuitarController;
+using GuitarController = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::GuitarController_Shared>;
 
 #endif

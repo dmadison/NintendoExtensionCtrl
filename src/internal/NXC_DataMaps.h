@@ -24,81 +24,31 @@
 #define NXC_DataMaps_h
 
 namespace NintendoExtensionCtrl {
-	class ControlDataMap {
-	public:
-		// Map data alias for single byte data, using the full byte
-		typedef uint8_t CtrlIndex;
+	// Map data alias for single byte data, using the full byte
+	using CtrlIndex = uint8_t;
 
-		// Map data struct for single *byte* data, using a portion of a byte
-		struct ByteMap {
-			constexpr ByteMap(
-				uint8_t index,     // Index in the control data array
-				uint8_t size,      // Size of the data block, in bits
-				uint8_t position,  // Start position of the data block, in bits from right
-				uint8_t offset)    // Amount to shift the final data to the right
-				: index(index), mask(BuildMask(size <= 8 ? size : 8, position)), offset(offset) {}
+	// Map data struct for single *byte* data, using a portion of a byte
+	struct ByteMap {
+		constexpr ByteMap(
+			uint8_t index,     // Index in the control data array
+			uint8_t size,      // Size of the data block, in bits
+			uint8_t position,  // Start position of the data block, in bits from right
+			uint8_t offset)    // Amount to shift the final data to the right
+			: index(index), mask(BuildMask(size <= 8 ? size : 8, position)), offset(offset) {}
 
-			const uint8_t index;
-			const uint8_t mask;  // Data mask for bitwise operations, formed from size and start position
-			const uint8_t offset;
+		const uint8_t index;
+		const uint8_t mask;  // Data mask for bitwise operations, formed from size and start position
+		const uint8_t offset;
 
-			constexpr static uint8_t BuildMask(uint8_t size, uint8_t startPos) {
-				return (0xFF >> (8 - size)) << startPos;  // Bitmask, to size and position of the data
-			}
-		};
-
-		// Map data struct for single *bit* data (with inversion)
-		struct BitMap {
-			const uint8_t index;     // Index in the control data array
-			const uint8_t position;  // Position of the bit, from right
-		};
-
-		ControlDataMap(ExtensionController & dataSource) : ControlData(dataSource) {}
-
-	protected:
-		uint8_t getControlData(uint8_t index) const {
-			return ControlData.getControlData(index);
+		constexpr static uint8_t BuildMask(uint8_t size, uint8_t startPos) {
+			return (0xFF >> (8 - size)) << startPos;  // Bitmask, to size and position of the data
 		}
-
-		uint8_t getControlData(ByteMap map) const {
-			return (getControlData(map.index) & map.mask) >> map.offset;
-		}
-
-		template<size_t size>
-		uint8_t getControlData(const ByteMap(&map)[size]) const {
-			uint8_t dataOut = 0x00;
-			for (size_t i = 0; i < size; i++) {
-				/* Repeated line from the single-ByteMap function above. Apparently the
-				   constexpr stuff doesn't like being passed through nested functions. */
-				dataOut |= (getControlData(map[i].index) & map[i].mask) >> map[i].offset;
-				//dataOut |= getControlData(map[i]);
-			}
-			return dataOut;
-		}
-
-		boolean getControlBit(uint8_t index, uint8_t pos) const {
-			return !(getControlData(index) & (1 << pos));  // Inverted logic, '0' is pressed
-		}
-
-		boolean getControlBit(BitMap map) const {
-			return getControlBit(map.index, map.position);
-		}
-
-	private:
-		const ExtensionController & ControlData;
 	};
 
-	template <class ControllerMap>
-	class BuildControllerClass : public ExtensionController, public ControllerMap {
-	public:
-		BuildControllerClass(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
-			ExtensionController(i2cBus, ControllerMap::id),
-			ControllerMap(*(static_cast<ExtensionController*>(this))) {}
-
-		using ExtensionController::getControlData;  // Using the direct 'get' function
-		using ControllerMap::printDebug;  // Use the controller-specific print
-
-		typedef ControllerMap Data;  // Make controller data class easily accessible
+	// Map data struct for single *bit* data (with inversion)
+	struct BitMap {
+		const uint8_t index;     // Index in the control data array
+		const uint8_t position;  // Position of the bit, from right
 	};
 }
 

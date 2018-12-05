@@ -34,8 +34,6 @@
 #include "controllers/DJTurntable.h"
 
 // Mini Controllers
-#include "controllers/NESMiniController.h"
-#include "controllers/SNESMiniController.h"
+/* (included with ClassicController.h) */
 
 #endif
-

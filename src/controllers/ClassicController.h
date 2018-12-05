@@ -99,9 +99,30 @@ namespace NintendoExtensionCtrl {
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};
+
+	class NESMiniController_Shared : public ClassicController_Shared {
+	public:
+		using ClassicController_Shared::ClassicController_Shared;
+
+		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
+		boolean isKnockoff() const;
+	};
+
+	class SNESMiniController_Shared : public ClassicController_Shared {
+	public:
+		using ClassicController_Shared::ClassicController_Shared;
+
+		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
+	};
 }
 
 using ClassicController = NintendoExtensionCtrl::BuildControllerClass
 	<NintendoExtensionCtrl::ClassicController_Shared>;
+
+using NESMiniController = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::NESMiniController_Shared>;
+
+using SNESMiniController = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::SNESMiniController_Shared>;
 
 #endif

@@ -45,6 +45,7 @@ void setup() {
 
 void loop() {
 	boolean success = nes.update();  // Get new data from the controller
+	nes.fixKnockoffData();  // If knockoff, fix the data!
 
 	if (success == true) {  // We've got data!
 		nes.printDebug();  // Print all of the values!

@@ -22,7 +22,7 @@
 
 #include "ExtensionController.h"
 
-namespace NintendoExtensionCtrl {
+using namespace NintendoExtensionCtrl;
 
 ExtensionPort::ExtensionPort(ExtensionData& dataRef)
 	: ExtensionPort(dataRef, ExtensionType::AnyController) {}
@@ -135,5 +135,3 @@ void ExtensionPort::printDebugRaw(uint8_t baseFormat, Print& output) const {
 	output.print("]: ");
 	printRaw(data.controlData, requestSize, baseFormat, output);
 }
-
-}  // End "NintendoExtensionCtrl" namespace

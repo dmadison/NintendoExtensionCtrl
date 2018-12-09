@@ -98,7 +98,7 @@ void ExtensionPort::setControlData(uint8_t index, uint8_t val) {
 	data.controlData[index] = val;
 }
 
-ExtensionData & ExtensionPort::getExtensionData() const {
+ExtensionPort::ExtensionData & ExtensionPort::getExtensionData() const {
 	return data;
 }
 

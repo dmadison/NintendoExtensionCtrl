@@ -28,22 +28,22 @@
 #include "NXC_Utils.h"
 #include "NXC_DataMaps.h"
 
-class ExtensionData {
-	friend class ExtensionPort;
-public:
-	ExtensionData(NXC_I2C_TYPE& i2cbus = NXC_I2C_DEFAULT) :
-		i2c(i2cbus) {}
-
-	static const uint8_t ControlDataSize = 21;  // Largest reporting mode (0x3d)
-
-protected:
-	NXC_I2C_TYPE & i2c;  // Reference for the I2C (Wire) class
-	ExtensionType connectedType = ExtensionType::NoController;
-	uint8_t controlData[ControlDataSize];
-};
-
 class ExtensionPort {
 public:
+	class ExtensionData {
+		friend class ExtensionPort;
+	public:
+		ExtensionData(NXC_I2C_TYPE& i2cbus = NXC_I2C_DEFAULT) :
+			i2c(i2cbus) {}
+
+		static const uint8_t ControlDataSize = 21;  // Largest reporting mode (0x3d)
+
+	protected:
+		NXC_I2C_TYPE & i2c;  // Reference for the I2C (Wire) class
+		ExtensionType connectedType = ExtensionType::NoController;
+		uint8_t controlData[ControlDataSize];
+	};
+
 	ExtensionPort(ExtensionData& dataRef);
 
 	void begin();
@@ -128,7 +128,7 @@ namespace NintendoExtensionCtrl {
 		//    * Control data array
 		// This data can be shared between controller instances using a single
 		// logical endpoint to keep memory down.
-		ExtensionData portData;
+		ExtensionPort::ExtensionData portData;
 	};
 }
 

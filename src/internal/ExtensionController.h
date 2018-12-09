@@ -30,9 +30,9 @@
 
 class ExtensionPort {
 public:
-	class ExtensionData {
+	struct ExtensionData {
 		friend class ExtensionPort;
-	public:
+
 		ExtensionData(NXC_I2C_TYPE& i2cbus = NXC_I2C_DEFAULT) :
 			i2c(i2cbus) {}
 

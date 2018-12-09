@@ -28,10 +28,10 @@
 #include "NXC_Utils.h"
 #include "NXC_DataMaps.h"
 
-class ExtensionPort {
+class ExtensionController {
 public:
 	struct ExtensionData {
-		friend class ExtensionPort;
+		friend class ExtensionController;
 
 		ExtensionData(NXC_I2C_TYPE& i2cbus = NXC_I2C_DEFAULT) :
 			i2c(i2cbus) {}
@@ -44,7 +44,7 @@ public:
 		uint8_t controlData[ControlDataSize];
 	};
 
-	ExtensionPort(ExtensionData& dataRef);
+	ExtensionController(ExtensionData& dataRef);
 
 	void begin();
 
@@ -73,7 +73,7 @@ public:
 	const ExtensionType id = ExtensionType::AnyController;
 
 protected:
-	ExtensionPort(ExtensionData& dataRef, ExtensionType conID);
+	ExtensionController(ExtensionData& dataRef, ExtensionType conID);
 
 	typedef NintendoExtensionCtrl::CtrlIndex CtrlIndex;
 	typedef NintendoExtensionCtrl::ByteMap   ByteMap;
@@ -128,13 +128,13 @@ namespace NintendoExtensionCtrl {
 		//    * Control data array
 		// This data can be shared between controller instances using a single
 		// logical endpoint to keep memory down.
-		ExtensionPort::ExtensionData portData;
+		ExtensionController::ExtensionData portData;
 	};
 }
 
 // Public-facing version of the extension 'port' class that combines the 
-// communication (ExtensionPort) with a data instance (ExtensionData), but omits
+// communication (ExtensionController) with a data instance (ExtensionData), but omits
 // any controller-specific data maps.
-using ExtensionController = NintendoExtensionCtrl::BuildControllerClass<ExtensionPort>;
+using ExtensionPort = NintendoExtensionCtrl::BuildControllerClass<ExtensionController>;
 
 #endif

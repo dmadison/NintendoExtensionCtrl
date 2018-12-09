@@ -26,26 +26,26 @@
 
 #include <NintendoExtensionCtrl.h>
 
-ExtensionController controller;  // Port for communicating with extension controllers
+ExtensionPort port;  // Port for communicating with extension controllers
 
-Nunchuk::Shared nchuk(controller);  // Read Nunchuk formatted data from the port
-ClassicController::Shared classic(controller);  // Read Classic Controller formatted data from the port
+Nunchuk::Shared nchuk(port);  // Read Nunchuk formatted data from the port
+ClassicController::Shared classic(port);  // Read Classic Controller formatted data from the port
 
 void setup() {
 	Serial.begin(115200);
-	controller.begin();
+	port.begin();
 
-	while (!controller.connect()) {
+	while (!port.connect()) {
 		Serial.println("No controller found!");
 		delay(1000);
 	}
 }
 
 void loop() {
-	boolean success = controller.update();  // Get new data from the controller
+	boolean success = port.update();  // Get new data from the controller
 
 	if (success == true) {  // We've got data!
-		ExtensionType conType = controller.getControllerType();
+		ExtensionType conType = port.getControllerType();
 
 		switch (conType) {
 			case(ExtensionType::Nunchuk):

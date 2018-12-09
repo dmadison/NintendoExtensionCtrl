@@ -22,24 +22,24 @@
 
 #include "ExtensionController.h"
 
-namespace NintendoExtensionCtrl {
+using namespace NintendoExtensionCtrl;
 
-ExtensionPort::ExtensionPort(ExtensionData& dataRef)
-	: ExtensionPort(dataRef, ExtensionType::AnyController) {}
+ExtensionController::ExtensionController(ExtensionData& dataRef)
+	: ExtensionController(dataRef, ExtensionType::AnyController) {}
 
-ExtensionPort::ExtensionPort(ExtensionData& dataRef, ExtensionType conID)
+ExtensionController::ExtensionController(ExtensionData& dataRef, ExtensionType conID)
 	: i2c(dataRef.i2c), id(conID), data(dataRef)  {}
 
-void ExtensionPort::begin() {
+void ExtensionController::begin() {
 	data.i2c.begin();  // Initialize the bus
 }
 
-boolean ExtensionPort::connect() {
+boolean ExtensionController::connect() {
 	disconnect();  // Clear current data
 	return reconnect();
 }
 
-boolean ExtensionPort::reconnect() {
+boolean ExtensionController::reconnect() {
 	boolean success = false;
 
 	if (initialize(data.i2c)) {
@@ -53,21 +53,21 @@ boolean ExtensionPort::reconnect() {
 	return success;
 }
 
-void ExtensionPort::disconnect() {
+void ExtensionController::disconnect() {
 	data.connectedType = ExtensionType::NoController;  // Nothing connected
 	memset(&data.controlData, 0x00, ExtensionData::ControlDataSize);  // Clear control data
 }
 
-void ExtensionPort::reset() {
+void ExtensionController::reset() {
 	disconnect();
 	requestSize = MinRequestSize;  // Request size back to minimum
 }
 
-void ExtensionPort::identifyController() {
+void ExtensionController::identifyController() {
 	data.connectedType = NintendoExtensionCtrl::identifyController(data.i2c);  // Polls the controller for its identity
 }
 
-boolean ExtensionPort::controllerIDMatches() const {
+boolean ExtensionController::controllerIDMatches() const {
 	if (data.connectedType == id) {
 		return true;  // Match!
 	}
@@ -78,11 +78,11 @@ boolean ExtensionPort::controllerIDMatches() const {
 	return false;  // Enforced types or no controller connected
 }
 
-ExtensionType ExtensionPort::getControllerType() const {
+ExtensionType ExtensionController::getControllerType() const {
 	return data.connectedType;
 }
 
-boolean ExtensionPort::update() {
+boolean ExtensionController::update() {
 	if (controllerIDMatches() && requestControlData(data.i2c, requestSize, data.controlData)) {
 		return verifyData(data.controlData, requestSize);
 	}
@@ -90,29 +90,29 @@ boolean ExtensionPort::update() {
 	return false;  // Something went wrong :(
 }
 
-uint8_t ExtensionPort::getControlData(uint8_t controlIndex) const {
+uint8_t ExtensionController::getControlData(uint8_t controlIndex) const {
 	return data.controlData[controlIndex];
 }
 
-void ExtensionPort::setControlData(uint8_t index, uint8_t val) {
+void ExtensionController::setControlData(uint8_t index, uint8_t val) {
 	data.controlData[index] = val;
 }
 
-ExtensionData & ExtensionPort::getExtensionData() const {
+ExtensionController::ExtensionData & ExtensionController::getExtensionData() const {
 	return data;
 }
 
-void ExtensionPort::setRequestSize(size_t r) {
+void ExtensionController::setRequestSize(size_t r) {
 	if (r >= MinRequestSize && r <= MaxRequestSize) {
 		requestSize = (uint8_t) r;
 	}
 }
 
-void ExtensionPort::printDebug(Print& output) const {
+void ExtensionController::printDebug(Print& output) const {
 	printDebugRaw(output);
 }
 
-void ExtensionPort::printDebugID(Print& output) const {
+void ExtensionController::printDebugID(Print& output) const {
 	uint8_t idData[ID_Size];
 	boolean success = requestIdentity(data.i2c, idData);
 
@@ -125,15 +125,13 @@ void ExtensionPort::printDebugID(Print& output) const {
 	}
 }
 
-void ExtensionPort::printDebugRaw(Print& output) const {
+void ExtensionController::printDebugRaw(Print& output) const {
 	printDebugRaw(HEX, output);
 }
 
-void ExtensionPort::printDebugRaw(uint8_t baseFormat, Print& output) const {
+void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const {
 	output.print("Raw[");
 	output.print(requestSize);
 	output.print("]: ");
 	printRaw(data.controlData, requestSize, baseFormat, output);
 }
-
-}  // End "NintendoExtensionCtrl" namespace

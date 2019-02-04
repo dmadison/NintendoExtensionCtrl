@@ -69,7 +69,7 @@ public:
 	static const uint8_t MinRequestSize = 6;   // Smallest reporting mode (0x37)
 	static const uint8_t MaxRequestSize = ExtensionData::ControlDataSize;
 
-	NXC_I2C_TYPE & i2c;  // Easily accessible I2C reference
+	NXC_I2C_TYPE & i2c() const;  // Easily accessible I2C reference
 	const ExtensionType id = ExtensionType::AnyController;
 
 protected:

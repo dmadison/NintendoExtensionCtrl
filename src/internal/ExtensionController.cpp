@@ -28,7 +28,7 @@ ExtensionController::ExtensionController(ExtensionData& dataRef)
 	: ExtensionController(dataRef, ExtensionType::AnyController) {}
 
 ExtensionController::ExtensionController(ExtensionData& dataRef, ExtensionType conID)
-	: i2c(dataRef.i2c), id(conID), data(dataRef)  {}
+	: id(conID), data(dataRef)  {}
 
 void ExtensionController::begin() {
 	data.i2c.begin();  // Initialize the bus
@@ -106,6 +106,10 @@ void ExtensionController::setRequestSize(size_t r) {
 	if (r >= MinRequestSize && r <= MaxRequestSize) {
 		requestSize = (uint8_t) r;
 	}
+}
+
+NXC_I2C_TYPE & ExtensionController::i2c() const {
+	return data.i2c;
 }
 
 void ExtensionController::printDebug(Print& output) const {

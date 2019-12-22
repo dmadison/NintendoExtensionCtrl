@@ -102,7 +102,7 @@ namespace NintendoExtensionCtrl {
 	// 3rd Party NES Controller Support
 	public:
 		boolean isNESThirdParty() const;
-		boolean fixNESThirdPartyData();
+		boolean fixNESThirdPartyData(boolean force = false);
 
 	protected:
 		void manipulateThirdPartyData();
@@ -113,7 +113,7 @@ namespace NintendoExtensionCtrl {
 		using ClassicController_Shared::ClassicController_Shared;
 
 		boolean isThirdParty() const { return isNESThirdParty(); }
-		boolean fixThirdPartyData() { return fixNESThirdPartyData(); }
+		boolean fixThirdPartyData(boolean force = false) { return fixNESThirdPartyData(force); }
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};

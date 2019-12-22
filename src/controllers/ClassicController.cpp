@@ -183,10 +183,10 @@ void ClassicController_Shared::printDebug(Print& output) const {
 
 // ######### Mini Controller Support #########
 
-boolean ClassicController_Shared::fixNESThirdPartyData() {
+boolean ClassicController_Shared::fixNESThirdPartyData(boolean force) {
 	// Public-facing function to check and "correct" data if using a third party controller
 	// Returns 'true' if data was modified
-	if(isNESThirdParty() && getRequestSize() >= 8) {  // 8 is the minimum for valid data
+	if((isNESThirdParty() && getRequestSize() >= 8) || force == true) {  // 8 bytes is the minimum for valid data
 		manipulateThirdPartyData();
 		return true;
 	}

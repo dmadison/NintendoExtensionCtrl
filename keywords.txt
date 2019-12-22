@@ -49,6 +49,7 @@ reset	KEYWORD2
 
 getControllerType	KEYWORD2
 getControlData	KEYWORD2
+getRequestSize	KEYWORD2
 
 setRequestSize	KEYWORD2
 

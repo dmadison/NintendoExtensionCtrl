@@ -211,13 +211,34 @@ boolean ClassicController_Shared::isNESThirdParty() const {
 	// difficult if not impossible state for a normal Classic Controller to be in.
 	// Because of that, we can reasonably assume that if the bytes match this then the
 	// connected controller is a third party NES controller, and can be treated accordingly. 
+	//
+	// -------
+	//
+	// Issue #46 states that the 8BitDo Retro Receiver, another 3rd party controller,
+	// has a different set of data for the first six bytes:
+	//
+	//     0x84, 0x86, 0x86, 0x86, 0x00, 0x00
+	//
+	// This has been added in as a second conditional check.
+	//
+	// If any other 3rd party NES controllers have a different signature than these two,
+	// I'm going to modify this signature check to only check the last two bytes (4 & 5) as 0.
 
-	return getControlData(0) == 0x81 &&  // RX 4:3, LX
-	       getControlData(1) == 0x81 &&  // RX 2:1, LY
-	       getControlData(2) == 0x81 &&  // RX 0, LT 4:3, RY
-	       getControlData(3) == 0x81 &&  // LT 2:0, RT
-	       getControlData(4) == 0x00 &&  // Button packet 1 (all pressed)
-	       getControlData(5) == 0x00;    // Button packet 2 (all pressed)
+	       // 3rd Party Data Signature, Typical
+	return (getControlData(0) == 0x81 &&  // RX 4:3, LX
+	        getControlData(1) == 0x81 &&  // RX 2:1, LY
+	        getControlData(2) == 0x81 &&  // RX 0, LT 4:3, RY
+	        getControlData(3) == 0x81 &&  // LT 2:0, RT
+	        getControlData(4) == 0x00 &&  // Button packet 1 (all pressed)
+	        getControlData(5) == 0x00)    // Button packet 2 (all pressed)
+	||
+	       // 8BitDo Retro Receiver Signature
+	       (getControlData(0) == 0x84 &&  // RX 4:3, LX
+	        getControlData(1) == 0x86 &&  // RX 2:1, LY
+	        getControlData(2) == 0x86 &&  // RX 0, LT 4:3, RY
+	        getControlData(3) == 0x86 &&  // LT 2:0, RT
+	        getControlData(4) == 0x00 &&  // Button packet 1 (all pressed)
+	        getControlData(5) == 0x00);   // Button packet 2 (all pressed)
 }
 
 void ClassicController_Shared::manipulateThirdPartyData() {

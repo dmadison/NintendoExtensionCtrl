@@ -186,10 +186,10 @@ getNumTurntables	KEYWORD2
 
 ## NES Mini Controller
 # (Covered by the Classic Controller keywords)
-isNESKnockoff	KEYWORD2
-fixNESKnockoffData	KEYWORD2
-isKnockoff	KEYWORD2
-fixKnockoffData	KEYWORD2
+isNESThirdParty	KEYWORD2
+fixNESThirdPartyData	KEYWORD2
+isThirdParty	KEYWORD2
+fixThirdPartyData	KEYWORD2
 
 ## SNES Mini Controller
 # (Covered by the Classic Controller keywords)

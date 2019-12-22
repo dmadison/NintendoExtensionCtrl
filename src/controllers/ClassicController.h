@@ -99,21 +99,21 @@ namespace NintendoExtensionCtrl {
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 
-	// NES Knockoff Support
+	// 3rd Party NES Controller Support
 	public:
-		boolean isNESKnockoff() const;
-		boolean fixNESKnockoffData();
+		boolean isNESThirdParty() const;
+		boolean fixNESThirdPartyData();
 
 	protected:
-		void manipulateKnockoffData();
+		void manipulateThirdPartyData();
 	};
 
 	class NESMiniController_Shared : public ClassicController_Shared {
 	public:
 		using ClassicController_Shared::ClassicController_Shared;
 
-		boolean isKnockoff() const { return isNESKnockoff(); }
-		boolean fixKnockoffData() { return fixNESKnockoffData(); }
+		boolean isThirdParty() const { return isNESThirdParty(); }
+		boolean fixThirdPartyData() { return fixNESThirdPartyData(); }
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};

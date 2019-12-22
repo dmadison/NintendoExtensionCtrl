@@ -183,19 +183,19 @@ void ClassicController_Shared::printDebug(Print& output) const {
 
 // ######### Mini Controller Support #########
 
-boolean ClassicController_Shared::fixNESKnockoffData() {
-	// Public-facing function to check and "correct" data if using a knockoff
+boolean ClassicController_Shared::fixNESThirdPartyData() {
+	// Public-facing function to check and "correct" data if using a third party controller
 	// Returns 'true' if data was modified
-	if(isNESKnockoff()) { 
-		manipulateKnockoffData();
+	if(isNESThirdParty()) { 
+		manipulateThirdPartyData();
 		return true;
 	}
 	return false;
 }
 
-boolean ClassicController_Shared::isNESKnockoff() const {
-	// The NES knockoffs I've come across seem to display the same unchanging pattern
-	// for the first six control bytes:
+boolean ClassicController_Shared::isNESThirdParty() const {
+	// The third party NES controllers I've come across seem to display the same
+	// unchanging pattern for the first six control bytes:
 	//
 	//     0x81, 0x81, 0x81, 0x81, 0x00, 0x00
 	//
@@ -210,7 +210,7 @@ boolean ClassicController_Shared::isNESKnockoff() const {
 	// down, and yet the analog trigger values are very low. In short, this is a
 	// difficult if not impossible state for a normal Classic Controller to be in.
 	// Because of that, we can reasonably assume that if the bytes match this then the
-	// connected controller is an NES Knockoff, and can be treated accordingly. 
+	// connected controller is a third party NES controller, and can be treated accordingly. 
 
 	return getControlData(0) == 0x81 &&  // RX 4:3, LX
 	       getControlData(1) == 0x81 &&  // RX 2:1, LY
@@ -220,8 +220,8 @@ boolean ClassicController_Shared::isNESKnockoff() const {
 	       getControlData(5) == 0x00;    // Button packet 2 (all pressed)
 }
 
-void ClassicController_Shared::manipulateKnockoffData() {
-	// The data returned by knockoff NES controllers for the missing control surfaces
+void ClassicController_Shared::manipulateThirdPartyData() {
+	// The data returned by third party NES controllers for the missing control surfaces
 	// (joysticks, triggers, etc.) is "corrupted", meaning that it doesn't align with
 	// what you would expect a Classic Controller at rest to display.
 	//
@@ -237,9 +237,9 @@ void ClassicController_Shared::manipulateKnockoffData() {
 	// The left joystick is centered at 31/31, the right joystick is centered at 15/15,
 	// the analog trigger values are 0, and all buttons are released.
 	//
-	// For the NES Mini knockoffs, only the two data packets containing the button booleans
-	// matter. Bytes 0, 1, 2, and 3 (joysticks and triggers) are replaced entirely. Bytes
-	// 4 and 5 are overridden by the values in 6 and 7.
+	// For the third party NES Mini controllers, only the two data packets containing the button
+	// booleans matter. Bytes 0, 1, 2, and 3 (joysticks and triggers) are replaced entirely.
+	// Bytes 4 and 5 are overridden by the values in 6 and 7.
 
 	setControlData(0, 0x5F);
 	setControlData(1, 0xDF);

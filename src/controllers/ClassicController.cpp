@@ -217,7 +217,11 @@ boolean ClassicController_Shared::isNESThirdParty() const {
 	// Issue #46 states that the 8BitDo Retro Receiver, another 3rd party controller,
 	// has a different set of data for the first six bytes:
 	//
-	//     0x84, 0x86, 0x86, 0x86, 0x00, 0x00
+	//    0x84, 0x86, 0x86, 0x86, 0x00, 0x00
+	//
+	// Which, again using the library's debug output, evaluates to:
+	//
+	//    <^v> | -H+ | ABXY L:( 4,  6) R:(21,  6) | LT: 4X RT: 6X Z:LR
 	//
 	// This has been added in as a second conditional check.
 	//

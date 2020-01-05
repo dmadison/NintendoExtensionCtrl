@@ -202,7 +202,7 @@ boolean ClassicController_Shared::isNESThirdParty() const {
 	// This is mostly garbage data that doesn't line up with the Classic Controller
 	// at all. Using the library's debug output, here is what it translates to:
 	//
-	//    <^v> | -H+ | ABXY L : (1, 1) R : (21, 1) | LT : 4X RT : 1X Z : LR
+	//    <^v> | -H+ | ABXY L:( 1,  1) R:(21,  1) | LT: 4X RT: 1X Z:LR
 	//
 	// You'll notice a few things. ALL possible buttons are pressed. The left analog 
 	// stick is completely down and to the left, while the right analog stick is down

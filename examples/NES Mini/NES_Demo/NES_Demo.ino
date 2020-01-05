@@ -37,8 +37,8 @@ void setup() {
 		delay(1000);
 	}
 
-	if (nes.isKnockoff()) {  // Uh oh, looks like your controller isn't genuine?
-		nes.setRequestSize(8);  // Requires 8 or more bytes for knockoff controllers
+	if (nes.isThirdParty()) {  // Uh oh, looks like your controller isn't genuine?
+		nes.setRequestSize(8);  // Requires 8 or more bytes for third party controllers
 	}
 }
 
@@ -46,13 +46,15 @@ void loop() {
 	Serial.println("----- NES Mini Controller Demo -----");  // Making things easier to read
 	
 	boolean success = nes.update();  // Get new data from the controller
-	nes.fixKnockoffData();  // If knockoff, fix the data!
 
 	if (!success) {  // Ruh roh
 		Serial.println("Controller disconnected!");
 		delay(1000);
 	}
 	else {
+		// If a third party controller is detected, fix the data!
+		nes.fixThirdPartyData();
+
 		// Read the DPAD (Up/Down/Left/Right)
 		boolean padUp = nes.dpadUp();
 

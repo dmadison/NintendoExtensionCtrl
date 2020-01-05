@@ -102,6 +102,10 @@ ExtensionController::ExtensionData & ExtensionController::getExtensionData() con
 	return data;
 }
 
+size_t ExtensionController::getRequestSize() const {
+	return requestSize;
+}
+
 void ExtensionController::setRequestSize(size_t r) {
 	if (r >= MinRequestSize && r <= MaxRequestSize) {
 		requestSize = (uint8_t) r;

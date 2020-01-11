@@ -69,8 +69,8 @@ uint8_t DJTurntableController_Shared::effectDial() const {
 	return getControlData(Maps::EffectDial);
 }
 
-int8_t DJTurntableController_Shared::crossfadeSlider() const {
-	return getControlData(Maps::CrossfadeSlider) - 8;  // Shifted to signed int
+uint8_t DJTurntableController_Shared::crossfadeSlider() const {
+	return getControlData(Maps::CrossfadeSlider);
 }
 
 boolean DJTurntableController_Shared::buttonEuphoria() const {
@@ -154,7 +154,7 @@ void DJTurntableController_Shared::printDebug(Print& output) {
 	char euphoriaPrint = buttonEuphoria() ? 'E' : fillCharacter;
 
 	sprintf(buffer,
-		" Joy:(%2u, %2u) | %c | %c%c | FX: %2u | Fade: %2d",
+		" Joy:(%2u, %2u) | %c | %c%c | FX: %2u | Fade: %2u",
 		joyX(), joyY(),
 		euphoriaPrint,
 		minusPrint, plusPrint,

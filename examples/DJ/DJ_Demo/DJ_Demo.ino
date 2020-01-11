@@ -48,7 +48,7 @@ void loop() {
 		delay(1000);
 	}
 	else {
-		// Read the turntable, basic (-30-29. Clockwise = positive, faster = larger)
+		// Read the turntable, basic (-30-29. Clockwise = positive, faster = larger). ~900 ticks per revolution.
 		int turntable = dj.turntable();
 
 		Serial.print("The turntable is ");
@@ -108,19 +108,19 @@ void loop() {
 		Serial.print("The effect dial is at ");
 		Serial.println(fx);
 
-		// Read the crossfade slider (-8-7, negative to the left)
+		// Read the crossfade slider (0-15, left to right)
 		int cross = dj.crossfadeSlider();
 
 		Serial.print("The crossfade slider is ");
 
-		if (cross <= -2) {
+		if (cross <= 6) {
 			Serial.println("left");
 		}
-		else if (cross >= 1) {
+		else if (cross >= 9) {
 			Serial.println("right");
 		}
 		else {
-			Serial.println("center");
+			Serial.println("centered");
 		}
 
 		// Read the joystick axis (0-63 XY)

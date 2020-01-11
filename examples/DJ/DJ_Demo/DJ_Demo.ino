@@ -120,7 +120,7 @@ void loop() {
 			Serial.println("right");
 		}
 		else {
-			Serial.println("center");
+			Serial.println("centered");
 		}
 
 		// Read the joystick axis (0-63 XY)

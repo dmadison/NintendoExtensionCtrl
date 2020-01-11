@@ -48,7 +48,7 @@ void loop() {
 		delay(1000);
 	}
 	else {
-		// Read the turntable, basic (-30-29. Clockwise = positive, faster = larger)
+		// Read the turntable, basic (-30-29. Clockwise = positive, faster = larger). ~900 ticks per revolution.
 		int turntable = dj.turntable();
 
 		Serial.print("The turntable is ");

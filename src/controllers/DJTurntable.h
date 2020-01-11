@@ -68,7 +68,7 @@ namespace NintendoExtensionCtrl {
 			Both,
 		};
 
-		int8_t turntable() const;  // 6 bits, -30-29. Clockwise = positive, faster = larger.
+		int8_t turntable() const;  // 6 bits, -30-29. Clockwise = positive, faster = larger. ~900 ticks per revolution.
 
 		boolean buttonGreen() const;
 		boolean buttonRed() const;

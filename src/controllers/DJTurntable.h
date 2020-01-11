@@ -75,7 +75,7 @@ namespace NintendoExtensionCtrl {
 		boolean buttonBlue() const;
 
 		uint8_t effectDial() const;  // 5 bits, 0-31. One rotation per rollover.
-		int8_t crossfadeSlider() const;  // 4 bits, -8-7. Negative to the left.
+		uint8_t crossfadeSlider() const;  // 4 bits, 0-15. Left to right.
 
 		boolean buttonEuphoria() const;
 

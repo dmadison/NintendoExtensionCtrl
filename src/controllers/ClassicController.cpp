@@ -226,7 +226,10 @@ boolean ClassicController_Shared::isNESThirdParty() const {
 	// This has been added in as a second conditional check.
 	//
 	// If any other 3rd party NES controllers have a different signature than these two,
-	// I'm going to modify this signature check to only check the last two bytes (4 & 5) as 0.
+	// I'm going to modify this signature check to only check the last two bytes (4 & 5) as 0. - dmadison
+    // ---
+    // That might not be possible, as *some* controllers (for some godforsaken reason),
+    // put "trigger" data in those bytes, causing the isNESThirdParty check to fail. - nullstalgia
 
 	       // 3rd Party Data Signature, Typical
 	return (getControlData(0) == 0x81 &&  // RX 4:3, LX
@@ -242,7 +245,14 @@ boolean ClassicController_Shared::isNESThirdParty() const {
 	        getControlData(2) == 0x86 &&  // RX 0, LT 4:3, RY
 	        getControlData(3) == 0x86 &&  // LT 2:0, RT
 	        getControlData(4) == 0x00 &&  // Button packet 1 (all pressed)
-	        getControlData(5) == 0x00);   // Button packet 2 (all pressed)
+	        getControlData(5) == 0x00)   // Button packet 2 (all pressed)
+    ||
+           // 2.4ghz "SNES Classic" Controller Signature
+           (getControlData(0) == 0x83 &&  // RX 4:3, LX
+	        getControlData(1) == 0x85 &&  // RX 2:1, LY
+	        getControlData(2) == 0x85 &&  // RX 0, LT 4:3, RY
+	        getControlData(3) == 0x85);   // Button packet 2 (all pressed)
+
 }
 
 void ClassicController_Shared::manipulateThirdPartyData() {

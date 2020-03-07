@@ -49,6 +49,11 @@ namespace NintendoExtensionCtrl {
 				return ExtensionType::ClassicController;
 			}
 
+            // 3rd Party 2.4ghz SNES Controller Con. ID: 0x0301
+			else if (idData[4] == 0x03 && idData[5] == 0x01) {
+                return ExtensionType::ClassicController;
+            } 
+            
 			// Guitar Hero Controllers: 0x##00, 0xA420, 0x0103
 			else if (idData[1] == 0x00
 				&& idData[4] == 0x01 && idData[5] == 0x03) {

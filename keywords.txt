@@ -19,6 +19,7 @@ ClassicController	KEYWORD1
 GuitarController	KEYWORD1
 DrumController	KEYWORD1
 DJTurntableController	KEYWORD1
+uDrawTablet	 KEYWORD1
 
 # Mini Controllers
 NESMiniController	KEYWORD1
@@ -94,11 +95,11 @@ buttonY	KEYWORD2
 triggerL	KEYWORD2
 triggerR	KEYWORD2
 
-buttonL	KEYWORD2
-buttonR	KEYWORD2
-
 buttonLT	KEYWORD2
 buttonRT	KEYWORD2
+
+buttonL	 KEYWORD2
+buttonR	 KEYWORD2
 
 buttonZL	KEYWORD2
 buttonZR	KEYWORD2
@@ -198,6 +199,17 @@ fixThirdPartyData	KEYWORD2
 ## SNES Mini Controller
 # (Covered by the Classic Controller keywords)
 
+## uDrawTablet
+penX	KEYWORD2
+penY	KEYWORD2
+penPressure	KEYWORD2
+
+penDetected	KEYWORD2
+
+buttonTip	KEYWORD2
+button1	 KEYWORD2
+button2	 KEYWORD2
+
 #######################################
 # Instances (KEYWORD2)
 #######################################
@@ -217,6 +229,7 @@ UnknownController	LITERAL1
 # GuitarController	LITERAL1
 # DrumController	LITERAL1
 # DJTurntableController	LITERAL1
+# uDrawTablet	LITERAL1
 
 # Drum Velocity IDs (Scoped to class)
 None	LITERAL1

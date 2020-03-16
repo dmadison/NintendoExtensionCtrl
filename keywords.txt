@@ -97,9 +97,6 @@ triggerR	KEYWORD2
 buttonL	KEYWORD2
 buttonR	KEYWORD2
 
-buttonLT	KEYWORD2
-buttonRT	KEYWORD2
-
 buttonZL	KEYWORD2
 buttonZR	KEYWORD2
 

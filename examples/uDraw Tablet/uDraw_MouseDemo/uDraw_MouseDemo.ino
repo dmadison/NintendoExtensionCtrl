@@ -43,7 +43,7 @@ void setup() {
 	//while (!Serial) {
 	//    ; // wait for serial port to connect. Needed for native USB
 	//}
-    
+
 	while (!tablet.connect()) {
 		Serial.println("uDraw Tablet not detected!");
 		delay(1000);
@@ -65,47 +65,57 @@ void loop() {
 		int x = tablet.penX();
 		int y = tablet.penY();
 
+		// Variables for seeing how fast the pen moves
 		int deltaX;
 		int deltaY;
 
-		if(leftClick != previousLeftClick){
-			if(leftClick == true){
+		// Making the mouse buttons work on state changes, so they don't
+		// send CLICK or RELEASE over and over
+		if (leftClick != previousLeftClick) {
+			if (leftClick == true) {
 				Mouse.press(MOUSE_LEFT);
 			} else {
 				Mouse.release(MOUSE_LEFT);
 			}
 		}
-
-		if(rightClick != previousRightClick){
-			if(rightClick == true){
+		
+		if (rightClick != previousRightClick) {
+			if (rightClick == true) {
 				Mouse.press(MOUSE_RIGHT);
 			} else {
 				Mouse.release(MOUSE_RIGHT);
 			}
 		}
-
+		
 		previousLeftClick = leftClick;
 		previousRightClick = rightClick;
 		
+		// State change for the pen detection
+		// Stops the mouse from bouncing around if
+		// you bring the pen in from edge to edge.
 		bool detected = tablet.penDetected();
-		if(detected != previousDetected){
-			if(detected){
+		if (detected != previousDetected) {
+			if (detected) {
 				previousX = x;
 				previousY = y;
 			}
 		}
-		if(detected){
+		
+		// Allow the mouse to move only if the pen is near
+		if (detected) {
 			deltaX = x - previousX;
-			if(deltaX < -127){
+			// Clamping the delta, as the input of Mouse.move()
+			// is a signed char (-128 to 128)
+			if (deltaX < -127) {
 				deltaX = -127;
-			} else if (deltaX > 127){
+			} else if (deltaX > 127) {
 				deltaX = 127;
 			}
 			
 			deltaY = previousY - y;
-			if(deltaY < -127){
+			if (deltaY < -127) {
 				deltaY = -127;
-			} else if (deltaY > 127){
+			} else if (deltaY > 127) {
 				deltaY = 127;
 			}
 			

@@ -58,11 +58,7 @@ void loop() {
 
 		uint16_t pressurePercent;
 		
-		if(tablet.buttonTip() == true){
-			pressure += 255;
-		}
-		
-		pressurePercent = map(pressure, 0, 255*2, 0, 100);
+		pressurePercent = map(pressure, 0, 512, 0, 100);
 		
 		Serial.print("The current pressure is ");
 		Serial.print(pressurePercent);

@@ -95,9 +95,6 @@ buttonY	KEYWORD2
 triggerL	KEYWORD2
 triggerR	KEYWORD2
 
-buttonLT	KEYWORD2
-buttonRT	KEYWORD2
-
 buttonL	 KEYWORD2
 buttonR	 KEYWORD2
 
@@ -206,9 +203,8 @@ penPressure	KEYWORD2
 
 penDetected	KEYWORD2
 
-buttonTip	KEYWORD2
-button1	 KEYWORD2
-button2	 KEYWORD2
+buttonLower	 KEYWORD2
+buttonUpper	 KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)

@@ -29,11 +29,11 @@ constexpr CtrlIndex uDrawTablet_Shared::Maps::PenY_LSB;
 constexpr ByteMap   uDrawTablet_Shared::Maps::PenX_MSB;
 constexpr ByteMap   uDrawTablet_Shared::Maps::PenY_MSB;
 
-constexpr CtrlIndex uDrawTablet_Shared::Maps::Pressure;
+constexpr CtrlIndex uDrawTablet_Shared::Maps::Pressure_LSB;
+constexpr BitMap    uDrawTablet_Shared::Maps::Pressure_MSB;
 
-constexpr BitMap    uDrawTablet_Shared::Maps::ButtonTip;
-constexpr BitMap    uDrawTablet_Shared::Maps::Button1;
-constexpr BitMap    uDrawTablet_Shared::Maps::Button2;
+constexpr BitMap    uDrawTablet_Shared::Maps::buttonLower;
+constexpr BitMap    uDrawTablet_Shared::Maps::buttonUpper;
 
 uint16_t uDrawTablet_Shared::penX() const {
 	return (getControlData(Maps::PenX_MSB) << 8) | getControlData(Maps::PenX_LSB);
@@ -43,20 +43,16 @@ uint16_t uDrawTablet_Shared::penY() const {
 	return (getControlData(Maps::PenY_MSB) << 8) | getControlData(Maps::PenY_LSB);
 }
 
-uint8_t uDrawTablet_Shared::penPressure() const {
-	return getControlData(Maps::Pressure);
+uint16_t uDrawTablet_Shared::penPressure() const {
+    return (!getControlBit(Maps::Pressure_MSB) << 8) | getControlData(Maps::Pressure_LSB);
 }
 
-boolean uDrawTablet_Shared::buttonTip() const {
-	return !getControlBit(Maps::ButtonTip);
+boolean uDrawTablet_Shared::buttonLower() const {
+	return getControlBit(Maps::buttonLower);
 }
 
-boolean uDrawTablet_Shared::button1() const {
-	return getControlBit(Maps::Button1);
-}
-
-boolean uDrawTablet_Shared::button2() const {
-	return getControlBit(Maps::Button2);
+boolean uDrawTablet_Shared::buttonUpper() const {
+	return getControlBit(Maps::buttonUpper);
 }
 
 boolean uDrawTablet_Shared::penDetected() const {
@@ -65,20 +61,23 @@ boolean uDrawTablet_Shared::penDetected() const {
 		return true;
 	}
 	return false;
+	// This could also be done with a BitMap theoretically,
+	// but to avoid a literal and metaphoric edge case, I
+	// chose to check the actual data to be 100%
+	// sure.
 }
 
 void uDrawTablet_Shared::printDebug(Print& output) const {
 	char buffer[70];
 	
 	char penPrint = penDetected() ? 'Y' : 'N';
-	char tipPrint = buttonTip() ? 'T' : '-';
-	char b1Print = button1() ? '1' : '-';
-	char b2Print = button2() ? '2' : '-';
+	char b1Print = buttonLower() ? 'U' : '-';
+	char b2Print = buttonUpper() ? 'L' : '-';
 
 	output.print("uDrawTablet - ");
 	sprintf(buffer,
-		"Pen:(%4u, %4u) | Pressure:%4u | Pen Detect: %c | Buttons: %c%c%c",
-		penX(), penY(), penPressure(), penPrint, tipPrint, b1Print, b2Print);
+		"Pen:(%4u, %4u) | Pressure:%3u | Pen Detect:%c | Buttons:%c%c",
+            penX(), penY(), penPressure(), penPrint, b1Print, b2Print);
 
 	output.println(buffer);
 }

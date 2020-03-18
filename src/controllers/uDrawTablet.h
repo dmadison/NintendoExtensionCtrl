@@ -34,11 +34,11 @@ namespace NintendoExtensionCtrl {
 			constexpr static ByteMap   PenX_MSB = ByteMap(2, 4, 0, 0);
 			constexpr static ByteMap   PenY_MSB = ByteMap(2, 4, 4, 4);
 
-			constexpr static CtrlIndex Pressure = 3;
+			constexpr static CtrlIndex Pressure_LSB = 3;
 
-			constexpr static BitMap    ButtonTip = { 5, 2 };
-			constexpr static BitMap    Button1 = { 5, 1 };
-			constexpr static BitMap    Button2 = { 5, 0 };
+			constexpr static BitMap    Pressure_MSB = { 5, 2 };
+			constexpr static BitMap    buttonLower = { 5, 1 };
+			constexpr static BitMap    buttonUpper = { 5, 0 };
 		};
 		
 		uDrawTablet_Shared(ExtensionData &dataRef) :
@@ -47,18 +47,17 @@ namespace NintendoExtensionCtrl {
 		uDrawTablet_Shared(ExtensionPort &port) :
 			uDrawTablet_Shared(port.getExtensionData()) {}
 
-		// 8 bits, 0-255
-		// Resets back to 0 if buttonTip is set HIGH or LOW.
-		// So you can gauge how far into a soft/hard press it's in.
-		uint8_t  penPressure() const;
+		// 9 bits, 0-512
+		uint16_t  penPressure() const;
 
 		// 12 bits, 0-4095
+        // Usable range is from 0 to around 2000.
+        // Most likely varies from tablet to tablet
 		uint16_t penX() const;
 		uint16_t penY() const;
 
-		boolean  buttonTip() const;
-		boolean  button1() const;
-		boolean  button2() const;
+		boolean  buttonLower() const;
+		boolean  buttonUpper() const;
 		
 		boolean  penDetected() const;
 

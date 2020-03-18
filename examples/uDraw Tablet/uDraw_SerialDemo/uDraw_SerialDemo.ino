@@ -69,13 +69,13 @@ void loop() {
 		Serial.println("%.");
 
 		// Read a button (Tip, 1, 2)
-		boolean button1 = tablet.button1();
+		boolean buttonLower = tablet.buttonLower();
 
-		Serial.print("The bottom button is ");
-		if (button1 == true) {
+		Serial.print("The lower button is ");
+		if (buttonLower == true) {
 			Serial.println("pressed");
 		}
-		else if (button1 == false) {
+		else if (buttonLower == false) {
 			Serial.println("released");
 		}
 		

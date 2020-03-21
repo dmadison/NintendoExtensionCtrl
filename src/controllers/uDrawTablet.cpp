@@ -56,15 +56,7 @@ boolean uDrawTablet_Shared::buttonUpper() const {
 }
 
 boolean uDrawTablet_Shared::penDetected() const {
-	//return !(4095*2) == (penX()+penY());
-	if(penX() != 4095 || penY() != 4095){
-		return true;
-	}
-	return false;
-	// This could also be done with a BitMap theoretically,
-	// but to avoid a literal and metaphoric edge case, I
-	// chose to check the actual data to be 100%
-	// sure.
+	return penX() != 4095 || penY() != 4095;
 }
 
 void uDrawTablet_Shared::printDebug(Print& output) const {

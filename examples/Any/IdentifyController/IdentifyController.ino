@@ -57,6 +57,9 @@ void setup() {
 		case(ExtensionType::DJTurntableController):
 			Serial.println("DJ turntable connected!");
 			break;
+		case(ExtensionType::uDrawTablet):
+			Serial.println("uDraw Tablet connected!");
+			break;
 		default: break;
 	}
 	controller.printDebugID();

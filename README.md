@@ -31,6 +31,7 @@ Plug in your controller, upload the example to your board, and have fun!
 * Guitar Hero Guitar
 * Guitar Hero World Tour Drums
 * DJ Hero Turntable
+* uDraw Tablet
 
 ### Mini Console
 * NES Mini Controller

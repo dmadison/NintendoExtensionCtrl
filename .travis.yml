@@ -75,6 +75,7 @@ script:
   - buildExampleFolder "NES Mini"
   - buildExampleFolder Nunchuk
   - buildExampleFolder "SNES Mini"
+  - buildExampleFolder "uDraw Tablet"
 
 notifications:
   email:

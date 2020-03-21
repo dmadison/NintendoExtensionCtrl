@@ -50,15 +50,10 @@ void loop() {
 	}
 	else {
 		// Read the Pressure (0-511)
-		uint16_t pressure = tablet.penPressure();
+		int pressure = tablet.penPressure();
 
-		uint16_t pressurePercent;
-		
-		pressurePercent = map(pressure, 0, 512, 0, 100);
-		
 		Serial.print("The current pressure is ");
-		Serial.print(pressurePercent);
-		Serial.println("%.");
+		Serial.println(pressure);
 
 		// Read a button (Lower, Upper)
 		boolean buttonLower = tablet.buttonLower();

@@ -49,6 +49,17 @@ void loop() {
 		tablet.reconnect();
 	}
 	else {
+		// Is the pen near the drawing surface?
+		boolean detected = tablet.penDetected();
+
+		Serial.print("The pen is ");
+		if (detected == true) {
+			Serial.println("detected!");
+		}
+		else if (detected == false) {
+			Serial.println("too far away!");
+		}
+
 		// Read the Pressure (0-511)
 		int pressure = tablet.penPressure();
 
@@ -64,17 +75,6 @@ void loop() {
 		}
 		else if (buttonLower == false) {
 			Serial.println("released");
-		}
-		
-		// Is the pen near the drawing surface?
-		boolean detected = tablet.penDetected();
-		
-		Serial.print("The pen is ");
-		if (detected == true) {
-			Serial.println("detected!");
-		}
-		else if (detected == false) {
-			Serial.println("too far away!");
 		}
 
 		// Print all the values!

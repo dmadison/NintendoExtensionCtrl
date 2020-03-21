@@ -56,7 +56,7 @@ boolean uDrawTablet_Shared::buttonUpper() const {
 }
 
 boolean uDrawTablet_Shared::penDetected() const {
-	return penX() < 4095 || penY() < 4095;
+	return penX() < 4095 && penY() < 4095;
 }
 
 void uDrawTablet_Shared::printDebug(Print& output) const {

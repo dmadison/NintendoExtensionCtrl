@@ -52,12 +52,22 @@ void loop() {
 		// Is the pen near the drawing surface?
 		boolean detected = tablet.penDetected();
 
-		Serial.print("The pen is ");
 		if (detected == true) {
-			Serial.println("detected!");
+			Serial.print("The pen is detected! It's currently at ");
+
+			// Read the X/Y coordinates (0-4095)
+			int xCoordinate = tablet.penX();
+			Serial.print("X: ");
+			Serial.print(xCoordinate);
+
+			int yCoordinate = tablet.penY();
+			Serial.print(" Y: ");
+			Serial.print(yCoordinate);
+
+			Serial.println();
 		}
 		else if (detected == false) {
-			Serial.println("too far away!");
+			Serial.println("The pen is too far away!");
 		}
 
 		// Read the Pressure (0-511)

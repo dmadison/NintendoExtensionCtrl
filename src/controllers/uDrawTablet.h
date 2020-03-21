@@ -47,13 +47,9 @@ namespace NintendoExtensionCtrl {
 		uDrawTablet_Shared(ExtensionPort &port) :
 			uDrawTablet_Shared(port.getExtensionData()) {}
 
-		// 9 bits, 0-512
-		uint16_t  penPressure() const;
+		uint16_t  penPressure() const;  // 9 bits, 0-511
 
-		// 12 bits, 0-4095
-        // Usable range is from 0 to around 2000.
-        // Most likely varies from tablet to tablet
-		uint16_t penX() const;
+		uint16_t penX() const;  // 12 bits, 0-4095
 		uint16_t penY() const;
 
 		boolean  buttonLower() const;

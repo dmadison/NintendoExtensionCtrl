@@ -20,7 +20,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 *  Example:      uDraw_Demo
-*  Description:  Connect to uDraw Tablet and demonstrate all of
+*  Description:  Connect to a uDraw Tablet and demonstrate all of
 *                the avaiable control data functions.
 */
 
@@ -49,11 +49,7 @@ void loop() {
 		tablet.reconnect();
 	}
 	else {
-		// Read the Pressure (0-255)
-		// Has 2 stages for double the pressure range;
-		// Pushing on the tip will go from 0-255 until buttonTip() goes True
-		// At that point, pressure goes back to 0, and will go back up to 255
-		// at the hardest you can push it.
+		// Read the Pressure (0-511)
 		uint16_t pressure = tablet.penPressure();
 
 		uint16_t pressurePercent;
@@ -64,7 +60,7 @@ void loop() {
 		Serial.print(pressurePercent);
 		Serial.println("%.");
 
-		// Read a button (Tip, 1, 2)
+		// Read a button (Lower, Upper)
 		boolean buttonLower = tablet.buttonLower();
 
 		Serial.print("The lower button is ");

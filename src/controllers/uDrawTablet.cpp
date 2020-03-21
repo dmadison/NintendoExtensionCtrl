@@ -63,13 +63,13 @@ void uDrawTablet_Shared::printDebug(Print& output) const {
 	char buffer[70];
 	
 	char penPrint = penDetected() ? 'Y' : 'N';
-	char b1Print = buttonLower() ? 'U' : '-';
-	char b2Print = buttonUpper() ? 'L' : '-';
+	char lowerPrint = buttonLower() ? 'U' : '-';
+	char upperPrint = buttonUpper() ? 'L' : '-';
 
 	output.print("uDrawTablet - ");
 	sprintf(buffer,
 		"Pen:(%4u, %4u) | Pressure:%3u | Pen Detect:%c | Buttons:%c%c",
-            penX(), penY(), penPressure(), penPrint, b1Print, b2Print);
+			penX(), penY(), penPressure(), penPrint, lowerPrint, upperPrint);
 
 	output.println(buffer);
 }

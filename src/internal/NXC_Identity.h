@@ -71,11 +71,6 @@ namespace NintendoExtensionCtrl {
 			else if (idData[4] == 0x01 && idData[5] == 0x12) {
 				return ExtensionType::uDrawTablet;
 			}
-			// Drawsome Tablet Con. ID: 0x0013
-			//else if (idData[4] == 0x00 && idData[5] == 0x13) {
-				//return ExtensionType::DrawsomeTablet;
-			//}
-			// Unsure if interchangable.
 		}
 
 		return ExtensionType::UnknownController;  // No matches

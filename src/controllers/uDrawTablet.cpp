@@ -63,8 +63,8 @@ void uDrawTablet_Shared::printDebug(Print& output) const {
 	char buffer[70];
 	
 	char penPrint = penDetected() ? 'Y' : 'N';
-	char lowerPrint = buttonLower() ? 'U' : '-';
-	char upperPrint = buttonUpper() ? 'L' : '-';
+	char lowerPrint = buttonLower() ? 'L' : '-';
+	char upperPrint = buttonUpper() ? 'U' : '-';
 
 	output.print("uDrawTablet - ");
 	sprintf(buffer,

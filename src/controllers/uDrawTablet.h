@@ -47,10 +47,10 @@ namespace NintendoExtensionCtrl {
 		uDrawTablet_Shared(ExtensionPort &port) :
 			uDrawTablet_Shared(port.getExtensionData()) {}
 
-		uint16_t  penPressure() const;  // 9 bits, 0-511
-
 		uint16_t penX() const;  // 12 bits, 0-4095
 		uint16_t penY() const;
+
+		uint16_t penPressure() const;  // 9 bits, 0-511
 
 		boolean  buttonLower() const;
 		boolean  buttonUpper() const;

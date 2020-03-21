@@ -19,7 +19,7 @@
 *  You should have received a copy of the GNU Lesser General Public License
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
-*  Example:      uDraw_SerialDemo
+*  Example:      uDraw_Demo
 *  Description:  Connect to uDraw Tablet and demonstrate all of
 *                the avaiable control data functions.
 */

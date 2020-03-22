@@ -57,7 +57,7 @@ void DrawsomeTablet_Shared::printDebug(Print& output) const {
 
 	output.print("DrawsomeTablet - ");
 	sprintf(buffer,
-		"Pen:(%6u, %6u) | Pressure:%3u | Pen Detect:%c",
+		"Pen:(%6u, %6u) | Pressure:%4u | Pen Detect:%c",
 			penX(), penY(), penPressure(), penPrint);
 
 	output.println(buffer);

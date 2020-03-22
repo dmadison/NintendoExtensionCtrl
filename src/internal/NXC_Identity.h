@@ -34,7 +34,8 @@ enum class ExtensionType {
 	GuitarController,
 	DrumController,
 	DJTurntableController,
-	uDrawTablet
+	uDrawTablet,
+	DrawsomeTablet
 };
 
 namespace NintendoExtensionCtrl {
@@ -70,6 +71,10 @@ namespace NintendoExtensionCtrl {
 			// uDraw Tablet Con. ID: 0x0112
 			else if (idData[4] == 0x01 && idData[5] == 0x12) {
 				return ExtensionType::uDrawTablet;
+			}
+			// Drawsome Tablet Con. ID: 0x0013
+			else if (idData[4] == 0x00 && idData[5] == 0x13) {
+				return ExtensionType::DrawsomeTablet;
 			}
 		}
 

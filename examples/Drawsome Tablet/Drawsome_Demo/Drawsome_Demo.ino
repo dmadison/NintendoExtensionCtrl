@@ -55,12 +55,12 @@ void loop() {
 		if (detected == true) {
 			Serial.print("The pen is detected! It's currently at ");
 
-			// Read the X/Y coordinates (0-4095)
-			int xCoordinate = tablet.penX();
+			// Read the X/Y coordinates (0-65535)
+			uint16_t xCoordinate = tablet.penX();
 			Serial.print("X: ");
 			Serial.print(xCoordinate);
 
-			int yCoordinate = tablet.penY();
+			uint16_t yCoordinate = tablet.penY();
 			Serial.print(" Y: ");
 			Serial.print(yCoordinate);
 
@@ -70,8 +70,8 @@ void loop() {
 			Serial.println("The pen is too far away!");
 		}
 
-		// Read the Pressure (0-511)
-		int pressure = tablet.penPressure();
+		// Read the Pressure (0-4095)
+		uint16_t pressure = tablet.penPressure();
 
 		Serial.print("The current pressure is ");
 		Serial.println(pressure);

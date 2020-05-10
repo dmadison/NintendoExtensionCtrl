@@ -47,6 +47,7 @@ void loop() {
 	}
 	else {  // Data is bad :(
 		Serial.println("Tablet Disconnected!");
+		delay(1000);
 		tablet.connect();
 	}
 }

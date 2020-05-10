@@ -35,19 +35,14 @@ void ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	boolean success = false;
-
-	disconnect();  // clear current data
+	disconnect();  // clear control data and id
 
 	if (initialize()) {
 		data.connectedType = identifyController();  // poll controller for its identity
-		success = update();  // Seed with initial values
-	}
-	else {
-		data.connectedType = ExtensionType::NoController;  // Bad init, nothing connected
+		return controllerIDMatches(); // 'connected' if the ID string matches
 	}
 
-	return success;
+	return false;  // bad init
 }
 
 void ExtensionController::disconnect() {

@@ -61,6 +61,8 @@ printDebugRaw	KEYWORD2
 # I2C Comms
 initialize	KEYWORD2
 
+writeRegister	KEYWORD2
+
 requestData	KEYWORD2
 requestControlData	KEYWORD2
 requestIdentity	KEYWORD2

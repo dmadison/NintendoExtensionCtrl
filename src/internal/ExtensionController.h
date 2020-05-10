@@ -119,7 +119,6 @@ private:
 	ExtensionData &data;  // I2C and control data storage
 
 	void disconnect();
-	void identifyController();
 	boolean controllerIDMatches() const;
 
 	uint8_t requestSize = MinRequestSize;

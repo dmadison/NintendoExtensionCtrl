@@ -43,7 +43,7 @@ boolean ExtensionController::reconnect() {
 	boolean success = false;
 
 	if (initialize(data.i2c)) {
-		identifyController();
+		data.connectedType = identifyController(data.i2c);  // poll controller for its identity
 		success = update();  // Seed with initial values
 	}
 	else {
@@ -61,10 +61,6 @@ void ExtensionController::disconnect() {
 void ExtensionController::reset() {
 	disconnect();
 	requestSize = MinRequestSize;  // Request size back to minimum
-}
-
-void ExtensionController::identifyController() {
-	data.connectedType = identifyController(data.i2c);  // Polls the controller for its identity
 }
 
 boolean ExtensionController::controllerIDMatches() const {

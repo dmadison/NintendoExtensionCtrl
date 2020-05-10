@@ -42,8 +42,8 @@ boolean ExtensionController::connect() {
 boolean ExtensionController::reconnect() {
 	boolean success = false;
 
-	if (initialize(data.i2c)) {
-		data.connectedType = identifyController(data.i2c);  // poll controller for its identity
+	if (initialize()) {
+		data.connectedType = identifyController();  // poll controller for its identity
 		success = update();  // Seed with initial values
 	}
 	else {
@@ -79,7 +79,7 @@ ExtensionType ExtensionController::getControllerType() const {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && requestControlData(data.i2c, requestSize, data.controlData)) {
+	if (controllerIDMatches() && requestControlData(requestSize, data.controlData)) {
 		return verifyData(data.controlData, requestSize);
 	}
 	
@@ -118,7 +118,7 @@ void ExtensionController::printDebug(Print& output) const {
 
 void ExtensionController::printDebugID(Print& output) const {
 	uint8_t idData[ID_Size];
-	boolean success = requestIdentity(data.i2c, idData);
+	boolean success = requestIdentity(idData);
 
 	if (success) {
 		output.print("ID: ");

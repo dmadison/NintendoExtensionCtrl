@@ -79,14 +79,22 @@ public:
 	static const uint8_t ID_Size = 6;  // Number of bytes for ID signature
 
 	static boolean initialize(NXC_I2C_TYPE& i2c);
+	inline boolean initialize() const { return initialize(data.i2c); }
 
 	static boolean writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte value);
+	inline boolean writeRegister(byte reg, byte value) const { return writeRegister(data.i2c, reg, value); }
 
 	static boolean requestData(NXC_I2C_TYPE& i2c, uint8_t ptr, size_t size, uint8_t* data);
+	inline boolean requestData(uint8_t ptr, size_t size, uint8_t* dataOut) const { return requestData(data.i2c, ptr, size, dataOut); }
+
 	static boolean requestControlData(NXC_I2C_TYPE& i2c, size_t size, uint8_t* controlData);
+	inline boolean requestControlData(size_t size, uint8_t* controlData) const { return requestControlData(data.i2c, size, controlData); }
+
 	static boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t* idData);
+	inline boolean requestIdentity(uint8_t* idData) const { return requestIdentity(data.i2c, idData); }
 
 	static ExtensionType identifyController(NXC_I2C_TYPE& i2c);
+	inline ExtensionType identifyController() const { return identifyController(data.i2c); }
 
 protected:
 	ExtensionController(ExtensionData& dataRef, ExtensionType conID);

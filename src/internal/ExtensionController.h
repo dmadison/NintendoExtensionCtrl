@@ -67,11 +67,25 @@ public:
 	void printDebugRaw(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(uint8_t baseFormat, Print& output = NXC_SERIAL_DEFAULT) const;
 
+	const ExtensionType id = ExtensionType::AnyController;
+
+public:
 	static const uint8_t MinRequestSize = 6;   // Smallest reporting mode (0x37)
 	static const uint8_t MaxRequestSize = ExtensionData::ControlDataSize;
 
-	NXC_I2C_TYPE & i2c() const;  // Easily accessible I2C reference
-	const ExtensionType id = ExtensionType::AnyController;
+	NXC_I2C_TYPE& i2c() const;  // Easily accessible I2C reference
+
+protected:
+	static const uint8_t I2C_Addr = 0x52;  // Address for all extension controllers
+	static const uint8_t ID_Size = 6;  // Number of bytes for ID signature
+
+	static boolean initialize(NXC_I2C_TYPE& i2c);
+
+	static boolean requestData(NXC_I2C_TYPE& i2c, uint8_t ptr, size_t size, uint8_t* data);
+	static boolean requestControlData(NXC_I2C_TYPE& i2c, size_t size, uint8_t* controlData);
+	static boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t* idData);
+
+	static ExtensionType identifyController(NXC_I2C_TYPE& i2c);
 
 protected:
 	ExtensionController(ExtensionData& dataRef, ExtensionType conID);

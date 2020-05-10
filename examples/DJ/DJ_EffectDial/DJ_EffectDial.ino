@@ -78,7 +78,7 @@ void loop() {
 	}
 	else {  // Data is bad :(
 		Serial.println("Controller Disconnected!");
-		dj.reconnect();
+		dj.connect();
 	}
 }
 

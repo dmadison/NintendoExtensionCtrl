@@ -49,8 +49,6 @@ public:
 	void begin();
 
 	boolean connect();
-	boolean reconnect();
-
 	boolean update();
 
 	void reset();

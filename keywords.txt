@@ -42,8 +42,6 @@ EffectRollover	KEYWORD1
 begin	KEYWORD2
 
 connect	KEYWORD2
-reconnect	KEYWORD2
-
 update	KEYWORD2
 
 reset	KEYWORD2

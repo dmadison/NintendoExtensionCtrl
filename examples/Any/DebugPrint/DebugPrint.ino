@@ -46,6 +46,6 @@ void loop() {
 	}
 	else {  // Data is bad :(
 		Serial.println("Controller Disconnected!");
-		controller.reconnect();
+		controller.connect();
 	}
 }

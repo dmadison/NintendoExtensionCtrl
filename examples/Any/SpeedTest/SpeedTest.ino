@@ -58,7 +58,7 @@ void loop() {
 	if (!validData) {
 		Serial.println("ERROR! Invalid data received!");
 
-		while (!controller.reconnect()) {
+		while (!controller.connect()) {
 			Serial.println("Attempting to reconnect...");
 			delay(1000);
 		}

@@ -35,12 +35,9 @@ void ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	disconnect();  // Clear current data
-	return reconnect();
-}
-
-boolean ExtensionController::reconnect() {
 	boolean success = false;
+
+	disconnect();  // clear current data
 
 	if (initialize()) {
 		data.connectedType = identifyController();  // poll controller for its identity

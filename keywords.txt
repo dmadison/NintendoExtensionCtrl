@@ -58,6 +58,15 @@ printDebug	KEYWORD2
 printDebugID	KEYWORD2
 printDebugRaw	KEYWORD2
 
+# I2C Comms
+initialize	KEYWORD2
+
+requestData	KEYWORD2
+requestControlData	KEYWORD2
+requestIdentity	KEYWORD2
+
+identifyController	KEYWORD2
+
 # Helper Classes
 getChange	KEYWORD2
 

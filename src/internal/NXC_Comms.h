@@ -43,20 +43,20 @@ namespace NintendoExtensionCtrl {
 
 	// Generic I2C slave device control functions
 	// ------------------------------------------
-	inline boolean i2c_writePointer(NXC_I2C_TYPE &i2c, byte addr, byte ptr) {
+	inline boolean i2c_writePointer(NXC_I2C_TYPE &i2c, byte addr, byte ptr, boolean delay = true) {
 		i2c.beginTransmission(addr);
 		i2c.write(ptr);
 		if (i2c.endTransmission() != 0) return false;  // 0 = No Error
-		delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
+		if(delay) delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
 		return true;
 	}
 
-	inline boolean i2c_writeRegister(NXC_I2C_TYPE &i2c, byte addr, byte reg, byte value) {
+	inline boolean i2c_writeRegister(NXC_I2C_TYPE &i2c, byte addr, byte reg, byte value, boolean delay = true) {
 		i2c.beginTransmission(addr);
 		i2c.write(reg);
 		i2c.write(value);
 		if (i2c.endTransmission() != 0) return false;  // 0 = No Error
-		delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
+		if (delay) delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
 		return true;
 	}
 

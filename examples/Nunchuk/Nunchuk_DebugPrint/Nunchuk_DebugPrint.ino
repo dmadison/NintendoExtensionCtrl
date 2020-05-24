@@ -46,6 +46,7 @@ void loop() {
 	}
 	else {  // Data is bad :(
 		Serial.println("Controller Disconnected!");
-		nchuk.reconnect();
+		delay(1000);
+		nchuk.connect();
 	}
 }

@@ -40,9 +40,6 @@
 
 namespace NintendoExtensionCtrl {
 	const long I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
-	const uint8_t I2C_Addr = 0x52;  // Address for all extension controllers
-
-	const uint8_t ID_Size = 6;
 
 	// Generic I2C slave device control functions
 	// ------------------------------------------
@@ -70,43 +67,6 @@ namespace NintendoExtensionCtrl {
 		if (!i2c_writePointer(i2c, addr, ptr)) { return false; }  // Set start for data read
 		delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
 		return i2c_requestMultiple(i2c, addr, requestSize, dataOut);
-	}
-
-	// Extension controller specific I2C functions
-	// -------------------------------------------
-	// Control Data
-	inline boolean initialize(NXC_I2C_TYPE &i2c) {
-		/* Initialization for unencrypted communication.
-		* *Should* work on all devices, genuine + 3rd party.
-		* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
-		*/
-		if (!i2c_writeRegister(i2c, I2C_Addr, 0xF0, 0x55)) { return false; }
-		delay(10);
-		if (!i2c_writeRegister(i2c, I2C_Addr, 0xFB, 0x00)) { return false; }
-		delay(20);
-		return true;
-	}
-
-	inline boolean requestData(NXC_I2C_TYPE &i2c, uint8_t ptr, size_t size, uint8_t * data) {
-		return i2c_readDataArray(i2c, I2C_Addr, ptr, size, data);
-	}
-
-	inline boolean requestControlData(NXC_I2C_TYPE &i2c, size_t size, uint8_t * controlData) {
-		return i2c_readDataArray(i2c, I2C_Addr, 0x00, size, controlData);
-	}
-
-	// Identity
-	inline boolean requestIdentity(NXC_I2C_TYPE &i2c, uint8_t * idData) {
-		return i2c_readDataArray(i2c, I2C_Addr, 0xFA, ID_Size, idData);
-	}
-
-	inline ExtensionType identifyController(NXC_I2C_TYPE &i2c) {
-		uint8_t idData[ID_Size];
-
-		if (!requestIdentity(i2c, idData)) {
-			return ExtensionType::NoController;  // Bad response from device
-		}
-		return identifyController(idData);
 	}
 }
 

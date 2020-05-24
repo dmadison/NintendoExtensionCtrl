@@ -35,22 +35,20 @@ void ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
-	disconnect();  // Clear current data
-	return reconnect();
-}
+	boolean success = false;  // assume no connection
 
-boolean ExtensionController::reconnect() {
-	boolean success = false;
+	disconnect();  // clear control data and id
 
-	if (initialize(data.i2c)) {
-		identifyController();
-		success = update();  // Seed with initial values
-	}
-	else {
-		data.connectedType = ExtensionType::NoController;  // Bad init, nothing connected
+	if (initialize()) {
+		identifyController();  // poll controller for its identity
+		success = controllerTypeMatches() && specificInit();  // 'connected' if the ID string matches and init success
 	}
 
 	return success;
+}
+
+boolean ExtensionController::specificInit() {
+	return true;  // default 'success' (no controller-specific init) for generic controllers
 }
 
 void ExtensionController::disconnect() {
@@ -63,11 +61,7 @@ void ExtensionController::reset() {
 	requestSize = MinRequestSize;  // Request size back to minimum
 }
 
-void ExtensionController::identifyController() {
-	data.connectedType = NintendoExtensionCtrl::identifyController(data.i2c);  // Polls the controller for its identity
-}
-
-boolean ExtensionController::controllerIDMatches() const {
+boolean ExtensionController::controllerTypeMatches() const {
 	if (data.connectedType == id) {
 		return true;  // Match!
 	}
@@ -83,7 +77,7 @@ ExtensionType ExtensionController::getControllerType() const {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && requestControlData(data.i2c, requestSize, data.controlData)) {
+	if (controllerTypeMatches() && requestControlData(requestSize, data.controlData)) {
 		return verifyData(data.controlData, requestSize);
 	}
 	
@@ -122,11 +116,11 @@ void ExtensionController::printDebug(Print& output) const {
 
 void ExtensionController::printDebugID(Print& output) const {
 	uint8_t idData[ID_Size];
-	boolean success = requestIdentity(data.i2c, idData);
+	boolean success = requestIdentity(idData);
 
 	if (success) {
 		output.print("ID: ");
-		printRaw(idData, NintendoExtensionCtrl::ID_Size, HEX, output);
+		printRaw(idData, ID_Size, HEX, output);
 	}
 	else {
 		output.println("Bad ID Read");
@@ -142,4 +136,42 @@ void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const
 	output.print(requestSize);
 	output.print("]: ");
 	printRaw(data.controlData, requestSize, baseFormat, output);
+}
+
+
+boolean ExtensionController::initialize(NXC_I2C_TYPE& i2c) {
+	/* Initialization for unencrypted communication.
+	* *Should* work on all devices, genuine + 3rd party.
+	* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
+	*/
+	if (!i2c_writeRegister(i2c, I2C_Addr, 0xF0, 0x55)) { return false; }
+	delay(10);
+	if (!i2c_writeRegister(i2c, I2C_Addr, 0xFB, 0x00)) { return false; }
+	delay(20);
+	return true;
+}
+
+boolean ExtensionController::writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte value) {
+	return i2c_writeRegister(i2c, I2C_Addr, reg, value);
+}
+
+boolean ExtensionController::requestData(NXC_I2C_TYPE& i2c, uint8_t ptr, size_t size, uint8_t* data) {
+	return i2c_readDataArray(i2c, I2C_Addr, ptr, size, data);
+}
+
+boolean ExtensionController::requestControlData(NXC_I2C_TYPE& i2c, size_t size, uint8_t* controlData) {
+	return i2c_readDataArray(i2c, I2C_Addr, 0x00, size, controlData);
+}
+
+boolean ExtensionController::requestIdentity(NXC_I2C_TYPE& i2c, uint8_t* idData) {
+	return i2c_readDataArray(i2c, I2C_Addr, 0xFA, ID_Size, idData);
+}
+
+ExtensionType ExtensionController::identifyController(NXC_I2C_TYPE& i2c) {
+	uint8_t idData[ID_Size];
+
+	if (!requestIdentity(i2c, idData)) {
+		return ExtensionType::NoController;  // Bad response from device
+	}
+	return decodeIdentity(idData);
 }

@@ -47,6 +47,7 @@ void loop() {
 	}
 	else {  // Data is bad :(
 		Serial.println("Controller Disconnected!");
-		drums.reconnect();
+		delay(1000);
+		drums.connect();
 	}
 }

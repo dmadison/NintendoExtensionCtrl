@@ -49,6 +49,8 @@ public:
 	void begin();
 
 	boolean connect();
+	virtual boolean specialInit();
+
 	boolean update();
 
 	void reset();

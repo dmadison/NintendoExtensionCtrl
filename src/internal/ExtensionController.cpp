@@ -35,14 +35,20 @@ void ExtensionController::begin() {
 }
 
 boolean ExtensionController::connect() {
+	boolean success = false;  // assume no connection
+
 	disconnect();  // clear control data and id
 
 	if (initialize()) {
 		data.connectedType = identifyController();  // poll controller for its identity
-		return controllerIDMatches(); // 'connected' if the ID string matches
+		success = controllerIDMatches() && specialInit();  // 'connected' if the ID string matches and init success
 	}
 
-	return false;  // bad init
+	return success;
+}
+
+boolean ExtensionController::specialInit() {
+	return true;  // default 'success' (no special init) for generic controllers
 }
 
 void ExtensionController::disconnect() {

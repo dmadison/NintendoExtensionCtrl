@@ -42,21 +42,34 @@ EffectRollover	KEYWORD1
 begin	KEYWORD2
 
 connect	KEYWORD2
-reconnect	KEYWORD2
+specificInit	KEYWORD2
 
 update	KEYWORD2
 
 reset	KEYWORD2
 
 getControllerType	KEYWORD2
-getControlData	KEYWORD2
-getRequestSize	KEYWORD2
+controllerTypeMatches	KEYWORD2
 
+getControlData	KEYWORD2
+
+getRequestSize	KEYWORD2
 setRequestSize	KEYWORD2
 
 printDebug	KEYWORD2
 printDebugID	KEYWORD2
 printDebugRaw	KEYWORD2
+
+# I2C Comms
+initialize	KEYWORD2
+
+writeRegister	KEYWORD2
+
+requestData	KEYWORD2
+requestControlData	KEYWORD2
+requestIdentity	KEYWORD2
+
+identifyController	KEYWORD2
 
 # Helper Classes
 getChange	KEYWORD2

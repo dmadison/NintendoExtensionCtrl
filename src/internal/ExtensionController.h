@@ -49,17 +49,19 @@ public:
 	void begin();
 
 	boolean connect();
-	boolean reconnect();
+	virtual boolean specificInit();
 
 	boolean update();
 
 	void reset();
 
 	ExtensionType getControllerType() const;
+	boolean controllerTypeMatches() const;
+
 	uint8_t getControlData(uint8_t controlIndex) const;
 	ExtensionData & getExtensionData() const;
-	size_t getRequestSize() const;
 
+	size_t getRequestSize() const;
 	void setRequestSize(size_t size = MinRequestSize);
 
 	void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
@@ -67,11 +69,37 @@ public:
 	void printDebugRaw(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(uint8_t baseFormat, Print& output = NXC_SERIAL_DEFAULT) const;
 
+	const ExtensionType id = ExtensionType::AnyController;
+
 	static const uint8_t MinRequestSize = 6;   // Smallest reporting mode (0x37)
 	static const uint8_t MaxRequestSize = ExtensionData::ControlDataSize;
 
-	NXC_I2C_TYPE & i2c() const;  // Easily accessible I2C reference
-	const ExtensionType id = ExtensionType::AnyController;
+public:
+	NXC_I2C_TYPE& i2c() const;  // Easily accessible I2C reference
+
+	static const uint8_t I2C_Addr = 0x52;  // Address for all extension controllers
+	static const uint8_t ID_Size = 6;  // Number of bytes for ID signature
+
+	static boolean initialize(NXC_I2C_TYPE& i2c);
+
+	static boolean writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte value);
+
+	static boolean requestData(NXC_I2C_TYPE& i2c, uint8_t ptr, size_t size, uint8_t* data);
+	static boolean requestControlData(NXC_I2C_TYPE& i2c, size_t size, uint8_t* controlData);
+	static boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t* idData);
+
+	static ExtensionType identifyController(NXC_I2C_TYPE& i2c);
+
+protected:
+	inline boolean initialize() const { return initialize(data.i2c); }
+
+	inline boolean writeRegister(byte reg, byte value) const { return writeRegister(data.i2c, reg, value); }
+
+	inline boolean requestData(uint8_t ptr, size_t size, uint8_t* dataOut) const { return requestData(data.i2c, ptr, size, dataOut); }
+	inline boolean requestControlData(size_t size, uint8_t* controlData) const { return requestControlData(data.i2c, size, controlData); }
+	inline boolean requestIdentity(uint8_t* idData) const { return requestIdentity(data.i2c, idData); }
+
+	inline ExtensionType identifyController() const { return data.connectedType = identifyController(data.i2c); }
 
 protected:
 	ExtensionController(ExtensionData& dataRef, ExtensionType conID);
@@ -106,8 +134,6 @@ private:
 	ExtensionData &data;  // I2C and control data storage
 
 	void disconnect();
-	void identifyController();
-	boolean controllerIDMatches() const;
 
 	uint8_t requestSize = MinRequestSize;
 };

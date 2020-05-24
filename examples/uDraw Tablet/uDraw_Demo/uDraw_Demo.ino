@@ -46,7 +46,7 @@ void loop() {
 	if (!success) {  // Ruh roh
 		Serial.println("Controller disconnected!");
 		delay(1000);
-		tablet.reconnect();
+		tablet.connect();
 	}
 	else {
 		// Is the pen near the drawing surface?

@@ -52,6 +52,7 @@ void loop() {
 	}
 	else {  // Data is bad :(
 		Serial.println("Controller Disconnected!");
-		nes.reconnect();
+		delay(1000);
+		nes.connect();
 	}
 }

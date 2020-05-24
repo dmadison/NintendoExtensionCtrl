@@ -47,6 +47,7 @@ void loop() {
 	}
 	else {  // Data is bad :(
 		Serial.println("Controller Disconnected!");
-		guitar.reconnect();
+		delay(1000);
+		guitar.connect();
 	}
 }

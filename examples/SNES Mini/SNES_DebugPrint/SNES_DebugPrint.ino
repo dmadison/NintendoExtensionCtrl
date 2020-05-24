@@ -47,6 +47,7 @@ void loop() {
 	}
 	else {  // Data is bad :(
 		Serial.println("Controller Disconnected!");
-		snes.reconnect();
+		delay(1000);
+		snes.connect();
 	}
 }

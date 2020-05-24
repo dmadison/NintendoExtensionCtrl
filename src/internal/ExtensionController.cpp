@@ -40,7 +40,7 @@ boolean ExtensionController::connect() {
 	disconnect();  // clear control data and id
 
 	if (initialize()) {
-		data.connectedType = identifyController();  // poll controller for its identity
+		identifyController();  // poll controller for its identity
 		success = controllerIDMatches() && specialInit();  // 'connected' if the ID string matches and init success
 	}
 

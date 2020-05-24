@@ -97,7 +97,7 @@ protected:
 	inline boolean requestControlData(size_t size, uint8_t* controlData) const { return requestControlData(data.i2c, size, controlData); }
 	inline boolean requestIdentity(uint8_t* idData) const { return requestIdentity(data.i2c, idData); }
 
-	inline ExtensionType identifyController() const { return identifyController(data.i2c); }
+	inline ExtensionType identifyController() const { return data.connectedType = identifyController(data.i2c); }
 
 protected:
 	ExtensionController(ExtensionData& dataRef, ExtensionType conID);

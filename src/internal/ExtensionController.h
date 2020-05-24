@@ -56,10 +56,12 @@ public:
 	void reset();
 
 	ExtensionType getControllerType() const;
+	boolean controllerIDMatches() const;
+
 	uint8_t getControlData(uint8_t controlIndex) const;
 	ExtensionData & getExtensionData() const;
-	size_t getRequestSize() const;
 
+	size_t getRequestSize() const;
 	void setRequestSize(size_t size = MinRequestSize);
 
 	void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
@@ -132,7 +134,6 @@ private:
 	ExtensionData &data;  // I2C and control data storage
 
 	void disconnect();
-	boolean controllerIDMatches() const;
 
 	uint8_t requestSize = MinRequestSize;
 };

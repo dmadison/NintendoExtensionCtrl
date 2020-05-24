@@ -47,9 +47,11 @@ update	KEYWORD2
 reset	KEYWORD2
 
 getControllerType	KEYWORD2
-getControlData	KEYWORD2
-getRequestSize	KEYWORD2
+controllerIDMatches	KEYWORD2
 
+getControlData	KEYWORD2
+
+getRequestSize	KEYWORD2
 setRequestSize	KEYWORD2
 
 printDebug	KEYWORD2

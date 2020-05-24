@@ -38,7 +38,7 @@ enum class ExtensionType {
 };
 
 namespace NintendoExtensionCtrl {
-	inline ExtensionType identifyController(const uint8_t * idData) {
+	inline ExtensionType decodeIdentity(const uint8_t * idData) {
 		if (idData[2] == 0xA4 && idData[3] == 0x20) {  // All valid IDs
 			// Nunchuk ID: 0x0000
 			if (idData[4] == 0x00 && idData[5] == 0x00) {

@@ -173,5 +173,5 @@ ExtensionType ExtensionController::identifyController(NXC_I2C_TYPE& i2c) {
 	if (!requestIdentity(i2c, idData)) {
 		return ExtensionType::NoController;  // Bad response from device
 	}
-	return NintendoExtensionCtrl::identifyController(idData);
+	return decodeIdentity(idData);
 }

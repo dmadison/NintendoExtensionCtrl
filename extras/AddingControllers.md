@@ -153,7 +153,7 @@ This includes all of the possible control data: the directional pad, +/- and hom
 ## Step #5: Add Your Controller's Identity
 Now that your controller definition is nearly done, it's time to add its identity to the list of available controllers!
 
-Open up the [`NXC_Identity.h`](../src/internal/NXC_Identity.h) file and add your controller name to the `ExtensionType` enumeration. Then, modify the `identifyController` function so that it will return your controller's ID if the identity bytes match. You can run the [`IdentifyController`](../examples/Any/IdentifyController/IdentifyController.ino) example to fetch the string of ID bytes.
+Open up the [`NXC_Identity.h`](../src/internal/NXC_Identity.h) file and add your controller name to the `ExtensionType` enumeration. Then, modify the `decodeIdentity` function so that it will return your controller's ID if the identity bytes match. You can run the [`IdentifyController`](../examples/Any/IdentifyController/IdentifyController.ino) example to fetch the string of ID bytes.
 
 Once that's done, head back to your controller's header file and add that identity value to the constructor. This will limit connections to this specific type and report problems if the type doesn't match.
 

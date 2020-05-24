@@ -41,14 +41,14 @@ boolean ExtensionController::connect() {
 
 	if (initialize()) {
 		identifyController();  // poll controller for its identity
-		success = controllerTypeMatches() && specialInit();  // 'connected' if the ID string matches and init success
+		success = controllerTypeMatches() && specificInit();  // 'connected' if the ID string matches and init success
 	}
 
 	return success;
 }
 
-boolean ExtensionController::specialInit() {
-	return true;  // default 'success' (no special init) for generic controllers
+boolean ExtensionController::specificInit() {
+	return true;  // default 'success' (no controller-specific init) for generic controllers
 }
 
 void ExtensionController::disconnect() {

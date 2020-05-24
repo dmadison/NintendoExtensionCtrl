@@ -49,7 +49,7 @@ public:
 	void begin();
 
 	boolean connect();
-	virtual boolean specialInit();
+	virtual boolean specificInit();
 
 	boolean update();
 

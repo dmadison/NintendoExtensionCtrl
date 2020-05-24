@@ -56,7 +56,7 @@ public:
 	void reset();
 
 	ExtensionType getControllerType() const;
-	boolean controllerIDMatches() const;
+	boolean controllerTypeMatches() const;
 
 	uint8_t getControlData(uint8_t controlIndex) const;
 	ExtensionData & getExtensionData() const;

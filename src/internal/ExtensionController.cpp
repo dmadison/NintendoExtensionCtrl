@@ -41,7 +41,7 @@ boolean ExtensionController::connect() {
 
 	if (initialize()) {
 		identifyController();  // poll controller for its identity
-		success = controllerIDMatches() && specialInit();  // 'connected' if the ID string matches and init success
+		success = controllerTypeMatches() && specialInit();  // 'connected' if the ID string matches and init success
 	}
 
 	return success;
@@ -61,7 +61,7 @@ void ExtensionController::reset() {
 	requestSize = MinRequestSize;  // Request size back to minimum
 }
 
-boolean ExtensionController::controllerIDMatches() const {
+boolean ExtensionController::controllerTypeMatches() const {
 	if (data.connectedType == id) {
 		return true;  // Match!
 	}
@@ -77,7 +77,7 @@ ExtensionType ExtensionController::getControllerType() const {
 }
 
 boolean ExtensionController::update() {
-	if (controllerIDMatches() && requestControlData(requestSize, data.controlData)) {
+	if (controllerTypeMatches() && requestControlData(requestSize, data.controlData)) {
 		return verifyData(data.controlData, requestSize);
 	}
 	

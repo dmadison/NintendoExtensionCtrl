@@ -39,7 +39,7 @@
 #define NXC_SERIAL_DEFAULT Serial
 
 namespace NintendoExtensionCtrl {
-	const long I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
+	const unsigned long I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
 
 	// Generic I2C slave device control functions
 	// ------------------------------------------

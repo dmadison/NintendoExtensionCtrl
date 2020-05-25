@@ -24,15 +24,15 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr CtrlIndex   DrawsomeTablet_Shared::Maps::PenX_LSB;
-constexpr CtrlIndex   DrawsomeTablet_Shared::Maps::PenX_MSB;
-constexpr CtrlIndex   DrawsomeTablet_Shared::Maps::PenY_LSB;
-constexpr CtrlIndex   DrawsomeTablet_Shared::Maps::PenY_MSB;
+constexpr IndexMap  DrawsomeTablet_Shared::Maps::PenX_LSB;
+constexpr IndexMap  DrawsomeTablet_Shared::Maps::PenX_MSB;
+constexpr IndexMap  DrawsomeTablet_Shared::Maps::PenY_LSB;
+constexpr IndexMap  DrawsomeTablet_Shared::Maps::PenY_MSB;
 
-constexpr CtrlIndex   DrawsomeTablet_Shared::Maps::Pressure_LSB;
-constexpr ByteMap     DrawsomeTablet_Shared::Maps::Pressure_MSB;
+constexpr IndexMap  DrawsomeTablet_Shared::Maps::Pressure_LSB;
+constexpr ByteMap   DrawsomeTablet_Shared::Maps::Pressure_MSB;
 
-constexpr BitMap      DrawsomeTablet_Shared::Maps::Pen_Detected;
+constexpr BitMap    DrawsomeTablet_Shared::Maps::Pen_Detected;
 
 boolean DrawsomeTablet_Shared::specificInit() {
 	/* Two necessary register writes during initialization before the tablet

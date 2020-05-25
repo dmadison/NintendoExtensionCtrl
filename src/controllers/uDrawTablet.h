@@ -29,16 +29,16 @@ namespace NintendoExtensionCtrl {
 	class uDrawTablet_Shared : public ExtensionController {
 	public:
 		struct Maps {
-			constexpr static CtrlIndex PenX_LSB = 0;
-			constexpr static CtrlIndex PenY_LSB = 1;
-			constexpr static ByteMap   PenX_MSB = ByteMap(2, 4, 0, 0);
-			constexpr static ByteMap   PenY_MSB = ByteMap(2, 4, 4, 4);
+			constexpr static IndexMap PenX_LSB = 0;
+			constexpr static IndexMap PenY_LSB = 1;
+			constexpr static ByteMap  PenX_MSB = ByteMap(2, 4, 0, 0);
+			constexpr static ByteMap  PenY_MSB = ByteMap(2, 4, 4, 4);
 
-			constexpr static CtrlIndex Pressure_LSB = 3;
+			constexpr static IndexMap Pressure_LSB = 3;
 
-			constexpr static BitMap    Pressure_MSB = { 5, 2 };
-			constexpr static BitMap    buttonLower = { 5, 1 };
-			constexpr static BitMap    buttonUpper = { 5, 0 };
+			constexpr static BitMap   Pressure_MSB = { 5, 2 };
+			constexpr static BitMap   buttonLower = { 5, 1 };
+			constexpr static BitMap   buttonUpper = { 5, 0 };
 		};
 		
 		uDrawTablet_Shared(ExtensionData &dataRef) :

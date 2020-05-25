@@ -24,6 +24,7 @@
 
 namespace NintendoExtensionCtrl {
 
+// Standard Maps
 constexpr ByteMap ClassicController_Shared::Maps::LeftJoyX;
 constexpr ByteMap ClassicController_Shared::Maps::LeftJoyY;
 
@@ -52,76 +53,138 @@ constexpr BitMap  ClassicController_Shared::Maps::ButtonPlus;
 constexpr BitMap  ClassicController_Shared::Maps::ButtonMinus;
 constexpr BitMap  ClassicController_Shared::Maps::ButtonHome;
 
+
+// High Resolution Maps
+constexpr IndexMap ClassicController_Shared::MapsHR::LeftJoyX;
+constexpr IndexMap ClassicController_Shared::MapsHR::LeftJoyY;
+
+constexpr IndexMap ClassicController_Shared::MapsHR::RightJoyX;
+constexpr IndexMap ClassicController_Shared::MapsHR::RightJoyY;
+
+constexpr BitMap   ClassicController_Shared::MapsHR::DpadUp;
+constexpr BitMap   ClassicController_Shared::MapsHR::DpadDown;
+constexpr BitMap   ClassicController_Shared::MapsHR::DpadLeft;
+constexpr BitMap   ClassicController_Shared::MapsHR::DpadRight;
+
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonA;
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonB;
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonX;
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonY;
+
+constexpr IndexMap ClassicController_Shared::MapsHR::TriggerL;
+constexpr IndexMap ClassicController_Shared::MapsHR::TriggerR;
+
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonL;
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonR;
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonZL;
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonZR;
+
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonPlus;
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonMinus;
+constexpr BitMap   ClassicController_Shared::MapsHR::ButtonHome;
+
+
+/* Making use of the preprocessor here to repeat these conditionals for every
+ * data retrieving function in the class. I'd rather trust the preprocessor
+ * here than pass the constexpr objects through a nested function and hope
+ * the compiler properly optimizes it. Plus I don't have to trust myself
+ * to copy the mapping name twice.
+ *
+ * If the controller is not in "high resolution" mode (according to the class
+ * data), return the controlData or controlBit function for the specified map
+ * in the "standard" maps (Maps::). If the controller *is* in "high resolution"
+ * mode, return the controlData or controlBit function for the specified map
+ * of the same name in the "high resolution" maps (MapsHR::).
+ */
+#define HRDATA(map) !highRes ? getControlData(Maps::map) : getControlData(MapsHR::map)
+#define HRBIT(map)  !highRes ? getControlBit(Maps::map) : getControlBit(MapsHR::map)
+
+
+boolean ClassicController_Shared::setHighRes(boolean hr) {
+	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
+	boolean success = writeRegister(0xFE, regVal);  // write to controller
+	if (success == true) {
+		highRes = hr;  // save 'high res' setting
+		if (highRes == true && getRequestSize() < 8) setRequestSize(8);  // 8 bytes needed for hr mode
+		else if (highRes == false) setRequestSize(MinRequestSize);  // if not in HR, set back to min
+	}
+	return success;
+}
+
+boolean ClassicController_Shared::getHighRes() const {
+	return highRes;
+}
+
 uint8_t ClassicController_Shared::leftJoyX() const {
-	return getControlData(Maps::LeftJoyX);
+	return HRDATA(LeftJoyX);
 }
 
 uint8_t ClassicController_Shared::leftJoyY() const {
-	return getControlData(Maps::LeftJoyY);
+	return HRDATA(LeftJoyY);
 }
 
 uint8_t ClassicController_Shared::rightJoyX() const {
-	return getControlData(Maps::RightJoyX);
+	return HRDATA(RightJoyX);
 }
 
 uint8_t ClassicController_Shared::rightJoyY() const {
-	return getControlData(Maps::RightJoyY);
+	return HRDATA(RightJoyY);
 }
 
 boolean ClassicController_Shared::dpadUp() const {
-	return getControlBit(Maps::DpadUp);
+	return HRBIT(DpadUp);
 }
 
 boolean ClassicController_Shared::dpadDown() const {
-	return getControlBit(Maps::DpadDown);
+	return HRBIT(DpadDown);
 }
 
 boolean ClassicController_Shared::dpadLeft() const {
-	return getControlBit(Maps::DpadLeft);
+	return HRBIT(DpadLeft);
 }
 
 boolean ClassicController_Shared::dpadRight() const {
-	return getControlBit(Maps::DpadRight);
+	return HRBIT(DpadRight);
 }
 
 boolean ClassicController_Shared::buttonA() const {
-	return getControlBit(Maps::ButtonA);
+	return HRBIT(ButtonA);
 }
 
 boolean ClassicController_Shared::buttonB() const {
-	return getControlBit(Maps::ButtonB);
+	return HRBIT(ButtonB);
 }
 
 boolean ClassicController_Shared::buttonX() const {
-	return getControlBit(Maps::ButtonX);
+	return HRBIT(ButtonX);
 }
 
 boolean ClassicController_Shared::buttonY() const {
-	return getControlBit(Maps::ButtonY);
+	return HRBIT(ButtonY);
 }
 
 uint8_t ClassicController_Shared::triggerL() const {
-	return getControlData(Maps::TriggerL);
+	return HRDATA(TriggerL);
 }
 
 uint8_t ClassicController_Shared::triggerR() const {
-	return getControlData(Maps::TriggerR);
+	return HRDATA(TriggerR);
 }
 
 boolean ClassicController_Shared::buttonL() const {
-	return getControlBit(Maps::ButtonL);
+	return HRBIT(ButtonL);
 }
 
 boolean ClassicController_Shared::buttonR() const {
-	return getControlBit(Maps::ButtonR);
+	return HRBIT(ButtonR);
 }
 
 boolean ClassicController_Shared::buttonZL() const {
-	return getControlBit(Maps::ButtonZL);
+	return HRBIT(ButtonZL);
 }
 
 boolean ClassicController_Shared::buttonZR() const {
-	return getControlBit(Maps::ButtonZR);
+	return HRBIT(ButtonZR);
 }
 
 boolean ClassicController_Shared::buttonStart() const {
@@ -133,21 +196,21 @@ boolean ClassicController_Shared::buttonSelect() const {
 }
 
 boolean ClassicController_Shared::buttonPlus() const {
-	return getControlBit(Maps::ButtonPlus);
+	return HRBIT(ButtonPlus);
 }
 
 boolean ClassicController_Shared::buttonMinus() const {
-	return getControlBit(Maps::ButtonMinus);
+	return HRBIT(ButtonMinus);
 }
 
 boolean ClassicController_Shared::buttonHome() const {
-	return getControlBit(Maps::ButtonHome);
+	return HRBIT(ButtonHome);
 }
 
 void ClassicController_Shared::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 
-	char buffer[62];
+	char buffer[68];
 
 	char dpadLPrint = dpadLeft() ? '<' : fillCharacter;
 	char dpadUPrint = dpadUp() ? '^' : fillCharacter;
@@ -170,15 +233,20 @@ void ClassicController_Shared::printDebug(Print& output) const {
 	char zrButtonPrint = buttonZR() ? 'R' : fillCharacter;
 
 	output.print("Classic ");
+
 	sprintf(buffer,
-		"%c%c%c%c | %c%c%c | %c%c%c%c L:(%2u, %2u) R:(%2u, %2u) | LT:%2u%c RT:%2u%c Z:%c%c",
+		"%c%c%c%c | %c%c%c | %c%c%c%c L:(%3u, %3u) R:(%3u, %3u) | LT:%3u%c RT:%3u%c Z:%c%c",
 		dpadLPrint, dpadUPrint, dpadDPrint, dpadRPrint,
 		minusPrint, homePrint, plusPrint,
 		aButtonPrint, bButtonPrint, xButtonPrint, yButtonPrint,
 		leftJoyX(), leftJoyY(), rightJoyX(), rightJoyY(),
 		triggerL(), ltButtonPrint, triggerR(), rtButtonPrint,
 		zlButtonPrint, zrButtonPrint);
-	output.println(buffer);
+	
+	output.print(buffer);
+	if (getHighRes()) output.print(" (High Res)");
+
+	output.println();
 }
 
 // ######### Mini Controller Support #########

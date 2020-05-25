@@ -26,52 +26,55 @@
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
+	struct ClassicDataMap_Std {
+		/* Classic Controller "Standard" Mode
+		 *     7   6   5   4   3   2   1   0
+		 * 0   RX<4:3> LX <5:0>
+		 * 1   RX<2:1> LY <5:0>
+		 * 2   RX<0>   LT<4:3> RY<4:0>
+		 * 3   LT<2:0> RT<4:0>
+		 * 4   BDR BDD BLT B-  BH  B+  BRT 1
+		 * 5   BZL BB  BY  BA  BX  BZR BDL BDU
+		 */
+		constexpr static ByteMap LeftJoyX = ByteMap(0, 6, 0, 0);
+		constexpr static ByteMap LeftJoyY = ByteMap(1, 6, 0, 0);
+
+		constexpr static ByteMap RightJoyX[3] = { ByteMap(0, 2, 6, 3), ByteMap(1, 2, 6, 5), ByteMap(2, 1, 7, 7) };
+		constexpr static ByteMap RightJoyY = ByteMap(2, 5, 0, 0);
+
+		constexpr static BitMap  DpadUp = { 5, 0 };
+		constexpr static BitMap  DpadDown = { 4, 6 };
+		constexpr static BitMap  DpadLeft = { 5, 1 };
+		constexpr static BitMap  DpadRight = { 4, 7 };
+
+		constexpr static BitMap  ButtonA = { 5, 4 };
+		constexpr static BitMap  ButtonB = { 5, 6 };
+		constexpr static BitMap  ButtonX = { 5, 3 };
+		constexpr static BitMap  ButtonY = { 5, 5 };
+
+		constexpr static ByteMap TriggerL[2] = { ByteMap(2, 2, 5, 2), ByteMap(3, 3, 5, 5) };
+		constexpr static ByteMap TriggerR = ByteMap(3, 5, 0, 0);
+
+		constexpr static BitMap  ButtonL = { 4, 5 };
+		constexpr static BitMap  ButtonR = { 4, 1 };
+		constexpr static BitMap  ButtonZL = { 5, 7 };
+		constexpr static BitMap  ButtonZR = { 5, 2 };
+
+		constexpr static BitMap  ButtonPlus = { 4, 2 };
+		constexpr static BitMap  ButtonMinus = { 4, 4 };
+		constexpr static BitMap  ButtonHome = { 4, 3 };
+	};
+
+
 	class ClassicController_Shared : public ExtensionController {
 	public:
-		struct Maps {
-			/* Classic Controller "Standard" Mode
-			 *     7   6   5   4   3   2   1   0
-			 * 0   RX<4:3> LX <5:0>
-			 * 1   RX<2:1> LY <5:0>
-			 * 2   RX<0>   LT<4:3> RY<4:0>
-			 * 3   LT<2:0> RT<4:0>
-			 * 4   BDR BDD BLT B-  BH  B+  BRT 1
-			 * 5   BZL BB  BY  BA  BX  BZR BDL BDU
-			 */
-			constexpr static ByteMap LeftJoyX = ByteMap(0, 6, 0, 0);
-			constexpr static ByteMap LeftJoyY = ByteMap(1, 6, 0, 0);
-
-			constexpr static ByteMap RightJoyX[3] = { ByteMap(0, 2, 6, 3), ByteMap(1, 2, 6, 5), ByteMap(2, 1, 7, 7) };
-			constexpr static ByteMap RightJoyY = ByteMap(2, 5, 0, 0);
-
-			constexpr static BitMap  DpadUp = { 5, 0 };
-			constexpr static BitMap  DpadDown = { 4, 6 };
-			constexpr static BitMap  DpadLeft = { 5, 1 };
-			constexpr static BitMap  DpadRight = { 4, 7 };
-
-			constexpr static BitMap  ButtonA = { 5, 4 };
-			constexpr static BitMap  ButtonB = { 5, 6 };
-			constexpr static BitMap  ButtonX = { 5, 3 };
-			constexpr static BitMap  ButtonY = { 5, 5 };
-
-			constexpr static ByteMap TriggerL[2] = { ByteMap(2, 2, 5, 2), ByteMap(3, 3, 5, 5) };
-			constexpr static ByteMap TriggerR = ByteMap(3, 5, 0, 0);
-
-			constexpr static BitMap  ButtonL = { 4, 5 };
-			constexpr static BitMap  ButtonR = { 4, 1 };
-			constexpr static BitMap  ButtonZL = { 5, 7 };
-			constexpr static BitMap  ButtonZR = { 5, 2 };
-
-			constexpr static BitMap  ButtonPlus = { 4, 2 };
-			constexpr static BitMap  ButtonMinus = { 4, 4 };
-			constexpr static BitMap  ButtonHome = { 4, 3 };
-		};
-
 		ClassicController_Shared(ExtensionData &dataRef) :
 			ExtensionController(dataRef, ExtensionType::ClassicController) {}
 
 		ClassicController_Shared(ExtensionPort &port) :
 			ClassicController_Shared(port.getExtensionData()) {}
+
+		using Maps = ClassicDataMap_Std;
 
 		uint8_t leftJoyX() const;  // 6 bits, 0-63
 		uint8_t leftJoyY() const;

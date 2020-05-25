@@ -41,13 +41,15 @@ enum class ExtensionType {
 namespace NintendoExtensionCtrl {
 	inline ExtensionType decodeIdentity(const uint8_t * idData) {
 		if (idData[2] == 0xA4 && idData[3] == 0x20) {  // All valid IDs
+
 			// Nunchuk ID: 0x0000
 			if (idData[4] == 0x00 && idData[5] == 0x00) {
 				return ExtensionType::Nunchuk;
 			}
 
-			// Classic Con. ID: 0x0101
-			else if (idData[4] == 0x01 && idData[5] == 0x01) {
+			// Classic Con. ID: 0x0101 (Std) or 0x0301 (HighRes)
+			else if ((idData[4] == 0x01 && idData[5] == 0x01)
+				|| (idData[4] == 0x03 && idData[5] == 0x01)) {
 				return ExtensionType::ClassicController;
 			}
 
@@ -68,6 +70,7 @@ namespace NintendoExtensionCtrl {
 					return ExtensionType::DJTurntableController;
 				}
 			}
+
 			// uDraw Tablet Con. ID: 0x0112
 			else if (idData[4] == 0x01 && idData[5] == 0x12) {
 				return ExtensionType::uDrawTablet;

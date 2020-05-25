@@ -36,7 +36,7 @@ constexpr BitMap      DrawsomeTablet_Shared::Maps::Pen_Detected;
 
 boolean DrawsomeTablet_Shared::specificInit() {
 	/* Two necessary register writes during initialization before the tablet
-	 * before the tablet will start sending data. See this for reference:
+	 * will start sending data. See this for reference:
 	 * https://www.raphnet.net/divers/wii_graphics_tablets/index_en.php
 	 */
 	return writeRegister(0xFB, 0x01) && writeRegister(0xF0, 0x55);

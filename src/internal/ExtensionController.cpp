@@ -141,12 +141,12 @@ void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const
 
 boolean ExtensionController::initialize(NXC_I2C_TYPE& i2c) {
 	/* Initialization for unencrypted communication.
-	* *Should* work on all devices, genuine + 3rd party.
-	* See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
-	*/
-	if (!i2c_writeRegister(i2c, I2C_Addr, 0xF0, 0x55)) { return false; }
+	 * This *should* work on all devices, genuine + 3rd party.
+	 * See http://wiibrew.org/wiki/Wiimote/Extension_Controllers
+	 */
+	if (!i2c_writeRegister(i2c, I2C_Addr, 0xF0, 0x55, false)) return false;
 	delay(10);
-	if (!i2c_writeRegister(i2c, I2C_Addr, 0xFB, 0x00)) { return false; }
+	if (!i2c_writeRegister(i2c, I2C_Addr, 0xFB, 0x00, false)) return false;
 	delay(20);
 	return true;
 }

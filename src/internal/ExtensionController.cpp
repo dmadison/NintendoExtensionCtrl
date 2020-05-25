@@ -58,7 +58,7 @@ void ExtensionController::disconnect() {
 
 void ExtensionController::reset() {
 	disconnect();
-	requestSize = MinRequestSize;  // Request size back to minimum
+	data.requestSize = MinRequestSize;  // Request size back to minimum
 }
 
 boolean ExtensionController::controllerTypeMatches() const {
@@ -77,8 +77,8 @@ ExtensionType ExtensionController::getControllerType() const {
 }
 
 boolean ExtensionController::update() {
-	if (controllerTypeMatches() && requestControlData(requestSize, data.controlData)) {
-		return verifyData(data.controlData, requestSize);
+	if (controllerTypeMatches() && requestControlData(data.requestSize, data.controlData)) {
+		return verifyData(data.controlData, data.requestSize);
 	}
 	
 	return false;  // Something went wrong :(
@@ -97,12 +97,12 @@ ExtensionController::ExtensionData & ExtensionController::getExtensionData() con
 }
 
 size_t ExtensionController::getRequestSize() const {
-	return requestSize;
+	return data.requestSize;
 }
 
 void ExtensionController::setRequestSize(size_t r) {
 	if (r >= MinRequestSize && r <= MaxRequestSize) {
-		requestSize = (uint8_t) r;
+		data.requestSize = (uint8_t) r;
 	}
 }
 
@@ -133,9 +133,9 @@ void ExtensionController::printDebugRaw(Print& output) const {
 
 void ExtensionController::printDebugRaw(uint8_t baseFormat, Print& output) const {
 	output.print("Raw[");
-	output.print(requestSize);
+	output.print(data.requestSize);
 	output.print("]: ");
-	printRaw(data.controlData, requestSize, baseFormat, output);
+	printRaw(data.controlData, data.requestSize, baseFormat, output);
 }
 
 

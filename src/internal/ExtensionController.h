@@ -41,6 +41,7 @@ public:
 	protected:
 		NXC_I2C_TYPE & i2c;  // Reference for the I2C (Wire) class
 		ExtensionType connectedType = ExtensionType::NoController;
+		uint8_t requestSize = MinRequestSize;
 		uint8_t controlData[ControlDataSize];
 	};
 
@@ -134,8 +135,6 @@ private:
 	ExtensionData &data;  // I2C and control data storage
 
 	void disconnect();
-
-	uint8_t requestSize = MinRequestSize;
 };
 
 namespace NintendoExtensionCtrl {

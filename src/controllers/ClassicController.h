@@ -29,6 +29,15 @@ namespace NintendoExtensionCtrl {
 	class ClassicController_Shared : public ExtensionController {
 	public:
 		struct Maps {
+			/* Classic Controller "Standard" Mode
+			 *     7   6   5   4   3   2   1   0
+			 * 0   RX<4:3> LX <5:0>
+			 * 1   RX<2:1> LY <5:0>
+			 * 2   RX<0>   LT<4:3> RY<4:0>
+			 * 3   LT<2:0> RT<4:0>
+			 * 4   BDR BDD BLT B-  BH  B+  BRT 1
+			 * 5   BZL BB  BY  BA  BX  BZR BDL BDU
+			 */
 			constexpr static ByteMap LeftJoyX = ByteMap(0, 6, 0, 0);
 			constexpr static ByteMap LeftJoyY = ByteMap(1, 6, 0, 0);
 

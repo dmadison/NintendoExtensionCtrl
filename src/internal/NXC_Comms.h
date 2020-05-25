@@ -39,21 +39,25 @@
 #define NXC_SERIAL_DEFAULT Serial
 
 namespace NintendoExtensionCtrl {
-	const long I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
+	const unsigned long I2C_ConversionDelay = 175;  // Microseconds, ~200 on AVR
 
 	// Generic I2C slave device control functions
 	// ------------------------------------------
-	inline boolean i2c_writePointer(NXC_I2C_TYPE &i2c, byte addr, byte ptr) {
+	inline boolean i2c_writePointer(NXC_I2C_TYPE &i2c, byte addr, byte ptr, boolean delay = true) {
 		i2c.beginTransmission(addr);
 		i2c.write(ptr);
-		return i2c.endTransmission() == 0;  // 0 = No Error
+		if (i2c.endTransmission() != 0) return false;  // 0 = No Error
+		if(delay) delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
+		return true;
 	}
 
-	inline boolean i2c_writeRegister(NXC_I2C_TYPE &i2c, byte addr, byte reg, byte value) {
+	inline boolean i2c_writeRegister(NXC_I2C_TYPE &i2c, byte addr, byte reg, byte value, boolean delay = true) {
 		i2c.beginTransmission(addr);
 		i2c.write(reg);
 		i2c.write(value);
-		return i2c.endTransmission() == 0;
+		if (i2c.endTransmission() != 0) return false;  // 0 = No Error
+		if (delay) delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
+		return true;
 	}
 
 	inline boolean i2c_requestMultiple(NXC_I2C_TYPE &i2c, byte addr, uint8_t requestSize, uint8_t * dataOut) {
@@ -64,8 +68,7 @@ namespace NintendoExtensionCtrl {
 	}
 
 	inline boolean i2c_readDataArray(NXC_I2C_TYPE &i2c, byte addr, byte ptr, uint8_t requestSize, uint8_t * dataOut) {
-		if (!i2c_writePointer(i2c, addr, ptr)) { return false; }  // Set start for data read
-		delayMicroseconds(I2C_ConversionDelay);  // Wait for data conversion
+		if (!i2c_writePointer(i2c, addr, ptr)) return false;  // Set start for data read
 		return i2c_requestMultiple(i2c, addr, requestSize, dataOut);
 	}
 }

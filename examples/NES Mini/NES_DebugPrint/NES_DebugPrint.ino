@@ -37,26 +37,17 @@ void setup() {
 		Serial.println("Classic Controller not detected!");
 		delay(1000);
 	}
-
-	if (nes.update() && nes.isThirdParty()) {  // Uh oh, looks like your controller isn't genuine?
-		nes.setRequestSize(8);  // Requires 8 or more bytes for third party controllers
-	}
 }
 
 void loop() {
 	boolean success = nes.update();  // Get new data from the controller
 
 	if (success == true) {  // We've got data!
-		nes.fixThirdPartyData();  // If third party controller, fix the data!
 		nes.printDebug();  // Print all of the values!
 	}
 	else {  // Data is bad :(
 		Serial.println("Controller Disconnected!");
 		delay(1000);
 		nes.connect();
-
-		if (nes.update() && nes.isThirdParty()) {  // Uh oh, looks like your controller isn't genuine?
-			nes.setRequestSize(8);  // Requires 8 or more bytes for third party controllers
-		}
 	}
 }

@@ -152,29 +152,30 @@ namespace NintendoExtensionCtrl {
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 
-	// 3rd Party NES Controller Support
-	public:
-		boolean isNESThirdParty() const;
-		boolean fixNESThirdPartyData(boolean force = false);
-
 	protected:
-		void manipulateThirdPartyData();
 		boolean highRes = false;  // 'high resolution' mode setting
 	};
 
-	class NESMiniController_Shared : public ClassicController_Shared {
+
+	/* Nintendo Mini Console Controllers */
+
+	class MiniControllerBase : public ClassicController_Shared {
 	public:
 		using ClassicController_Shared::ClassicController_Shared;
 
-		boolean isThirdParty() const { return isNESThirdParty(); }
-		boolean fixThirdPartyData(boolean force = false) { return fixNESThirdPartyData(force); }
+		boolean specificInit();
+	};
+
+	class NESMiniController_Shared : public MiniControllerBase {
+	public:
+		using MiniControllerBase::MiniControllerBase;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};
 
-	class SNESMiniController_Shared : public ClassicController_Shared {
+	class SNESMiniController_Shared : public MiniControllerBase {
 	public:
-		using ClassicController_Shared::ClassicController_Shared;
+		using MiniControllerBase::MiniControllerBase;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};

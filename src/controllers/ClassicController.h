@@ -66,15 +66,16 @@ namespace NintendoExtensionCtrl {
 	};
 
 
-	class ClassicController_Shared : public ExtensionController {
+	template<class DataMaps>
+	class ClassicControllerCore : public ExtensionController {
 	public:
-		ClassicController_Shared(ExtensionData &dataRef) :
+		ClassicControllerCore(ExtensionData &dataRef) :
 			ExtensionController(dataRef, ExtensionType::ClassicController) {}
 
-		ClassicController_Shared(ExtensionPort &port) :
-			ClassicController_Shared(port.getExtensionData()) {}
+		ClassicControllerCore(ExtensionPort &port) :
+			ClassicControllerCore(port.getExtensionData()) {}
 
-		using Maps = ClassicDataMap_Std;
+		using Maps = DataMaps;  // save from template
 
 		uint8_t leftJoyX() const;  // 6 bits, 0-63
 		uint8_t leftJoyY() const;
@@ -119,6 +120,9 @@ namespace NintendoExtensionCtrl {
 	protected:
 		void manipulateThirdPartyData();
 	};
+
+	using ClassicController_Shared = ClassicControllerCore<ClassicDataMap_Std>;  // Classic Controller w/ Standard Mapping
+
 
 	class NESMiniController_Shared : public ClassicController_Shared {
 	public:

@@ -52,99 +52,123 @@ constexpr BitMap  ClassicDataMap_Std::ButtonPlus;
 constexpr BitMap  ClassicDataMap_Std::ButtonMinus;
 constexpr BitMap  ClassicDataMap_Std::ButtonHome;
 
-uint8_t ClassicController_Shared::leftJoyX() const {
+template<class DataMaps>
+uint8_t ClassicControllerCore<DataMaps>::leftJoyX() const {
 	return getControlData(Maps::LeftJoyX);
 }
 
-uint8_t ClassicController_Shared::leftJoyY() const {
+template<class DataMaps>
+uint8_t ClassicControllerCore<DataMaps>::leftJoyY() const {
 	return getControlData(Maps::LeftJoyY);
 }
 
-uint8_t ClassicController_Shared::rightJoyX() const {
+template<class DataMaps>
+uint8_t ClassicControllerCore<DataMaps>::rightJoyX() const {
 	return getControlData(Maps::RightJoyX);
 }
 
-uint8_t ClassicController_Shared::rightJoyY() const {
+template<class DataMaps>
+uint8_t ClassicControllerCore<DataMaps>::rightJoyY() const {
 	return getControlData(Maps::RightJoyY);
 }
 
-boolean ClassicController_Shared::dpadUp() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::dpadUp() const {
 	return getControlBit(Maps::DpadUp);
 }
 
-boolean ClassicController_Shared::dpadDown() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::dpadDown() const {
 	return getControlBit(Maps::DpadDown);
 }
 
-boolean ClassicController_Shared::dpadLeft() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::dpadLeft() const {
 	return getControlBit(Maps::DpadLeft);
 }
 
-boolean ClassicController_Shared::dpadRight() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::dpadRight() const {
 	return getControlBit(Maps::DpadRight);
 }
 
-boolean ClassicController_Shared::buttonA() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonA() const {
 	return getControlBit(Maps::ButtonA);
 }
 
-boolean ClassicController_Shared::buttonB() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonB() const {
 	return getControlBit(Maps::ButtonB);
 }
 
-boolean ClassicController_Shared::buttonX() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonX() const {
 	return getControlBit(Maps::ButtonX);
 }
 
-boolean ClassicController_Shared::buttonY() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonY() const {
 	return getControlBit(Maps::ButtonY);
 }
 
-uint8_t ClassicController_Shared::triggerL() const {
+template<class DataMaps>
+uint8_t ClassicControllerCore<DataMaps>::triggerL() const {
 	return getControlData(Maps::TriggerL);
 }
 
-uint8_t ClassicController_Shared::triggerR() const {
+template<class DataMaps>
+uint8_t ClassicControllerCore<DataMaps>::triggerR() const {
 	return getControlData(Maps::TriggerR);
 }
 
-boolean ClassicController_Shared::buttonL() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonL() const {
 	return getControlBit(Maps::ButtonL);
 }
 
-boolean ClassicController_Shared::buttonR() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonR() const {
 	return getControlBit(Maps::ButtonR);
 }
 
-boolean ClassicController_Shared::buttonZL() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonZL() const {
 	return getControlBit(Maps::ButtonZL);
 }
 
-boolean ClassicController_Shared::buttonZR() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonZR() const {
 	return getControlBit(Maps::ButtonZR);
 }
 
-boolean ClassicController_Shared::buttonStart() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonStart() const {
 	return buttonPlus();
 }
 
-boolean ClassicController_Shared::buttonSelect() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonSelect() const {
 	return buttonMinus();
 }
 
-boolean ClassicController_Shared::buttonPlus() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonPlus() const {
 	return getControlBit(Maps::ButtonPlus);
 }
 
-boolean ClassicController_Shared::buttonMinus() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonMinus() const {
 	return getControlBit(Maps::ButtonMinus);
 }
 
-boolean ClassicController_Shared::buttonHome() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::buttonHome() const {
 	return getControlBit(Maps::ButtonHome);
 }
 
-void ClassicController_Shared::printDebug(Print& output) const {
+template<class DataMaps>
+void ClassicControllerCore<DataMaps>::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 
 	char buffer[62];
@@ -181,9 +205,11 @@ void ClassicController_Shared::printDebug(Print& output) const {
 	output.println(buffer);
 }
 
+
 // ######### Mini Controller Support #########
 
-boolean ClassicController_Shared::fixNESThirdPartyData(boolean force) {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::fixNESThirdPartyData(boolean force) {
 	// Public-facing function to check and "correct" data if using a third party controller
 	// Returns 'true' if data was modified
 	if((isNESThirdParty() && getRequestSize() >= 8) || force == true) {  // 8 bytes is the minimum for valid data
@@ -193,7 +219,8 @@ boolean ClassicController_Shared::fixNESThirdPartyData(boolean force) {
 	return false;
 }
 
-boolean ClassicController_Shared::isNESThirdParty() const {
+template<class DataMaps>
+boolean ClassicControllerCore<DataMaps>::isNESThirdParty() const {
 	// The third party NES controllers I've come across seem to display the same
 	// unchanging pattern for the first six control bytes:
 	//
@@ -245,7 +272,8 @@ boolean ClassicController_Shared::isNESThirdParty() const {
 	        getControlData(5) == 0x00);   // Button packet 2 (all pressed)
 }
 
-void ClassicController_Shared::manipulateThirdPartyData() {
+template<class DataMaps>
+void ClassicControllerCore<DataMaps>::manipulateThirdPartyData() {
 	// The data returned by third party NES controllers for the missing control surfaces
 	// (joysticks, triggers, etc.) is "corrupted", meaning that it doesn't align with
 	// what you would expect a Classic Controller at rest to display.
@@ -325,5 +353,7 @@ void SNESMiniController_Shared::printDebug(Print& output) const {
 
 	output.println();
 }
+
+template class ClassicControllerCore<ClassicDataMap_Std>;  // Standard Mappings
 
 }  // End "NintendoExtensionCtrl" namespace

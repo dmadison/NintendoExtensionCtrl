@@ -24,6 +24,7 @@
 
 namespace NintendoExtensionCtrl {
 
+// Classic Controller, Standard Data Map Storage
 constexpr ByteMap ClassicDataMap_Std::LeftJoyX;
 constexpr ByteMap ClassicDataMap_Std::LeftJoyY;
 
@@ -51,6 +52,37 @@ constexpr BitMap  ClassicDataMap_Std::ButtonZR;
 constexpr BitMap  ClassicDataMap_Std::ButtonPlus;
 constexpr BitMap  ClassicDataMap_Std::ButtonMinus;
 constexpr BitMap  ClassicDataMap_Std::ButtonHome;
+
+
+// Classic Controller, "High Resolution" Data Map Storage
+constexpr IndexMap ClassicDataMap_HighRes::LeftJoyX;
+constexpr IndexMap ClassicDataMap_HighRes::LeftJoyY;
+
+constexpr IndexMap ClassicDataMap_HighRes::RightJoyX;
+constexpr IndexMap ClassicDataMap_HighRes::RightJoyY;
+
+constexpr BitMap   ClassicDataMap_HighRes::DpadUp;
+constexpr BitMap   ClassicDataMap_HighRes::DpadDown;
+constexpr BitMap   ClassicDataMap_HighRes::DpadLeft;
+constexpr BitMap   ClassicDataMap_HighRes::DpadRight;
+
+constexpr BitMap   ClassicDataMap_HighRes::ButtonA;
+constexpr BitMap   ClassicDataMap_HighRes::ButtonB;
+constexpr BitMap   ClassicDataMap_HighRes::ButtonX;
+constexpr BitMap   ClassicDataMap_HighRes::ButtonY;
+
+constexpr IndexMap ClassicDataMap_HighRes::TriggerL;
+constexpr IndexMap ClassicDataMap_HighRes::TriggerR;
+
+constexpr BitMap   ClassicDataMap_HighRes::ButtonL;
+constexpr BitMap   ClassicDataMap_HighRes::ButtonR;
+constexpr BitMap   ClassicDataMap_HighRes::ButtonZL;
+constexpr BitMap   ClassicDataMap_HighRes::ButtonZR;
+
+constexpr BitMap   ClassicDataMap_HighRes::ButtonPlus;
+constexpr BitMap   ClassicDataMap_HighRes::ButtonMinus;
+constexpr BitMap   ClassicDataMap_HighRes::ButtonHome;
+
 
 template<class DataMaps>
 uint8_t ClassicControllerCore<DataMaps>::leftJoyX() const {
@@ -208,6 +240,12 @@ void ClassicControllerCore<DataMaps>::printDebug(Print& output) const {
 
 // ######### Mini Controller Support #########
 
+boolean ClassicControllerHR_Shared::specificInit() {
+	boolean success = writeRegister(0xFE, 0x03);  // set "high res" mode
+	if (success && getRequestSize() < 8) setRequestSize(8);  // 8 or more bytes of control data needed for this mode
+	return success;
+}
+
 template<class DataMaps>
 boolean ClassicControllerCore<DataMaps>::fixNESThirdPartyData(boolean force) {
 	// Public-facing function to check and "correct" data if using a third party controller
@@ -355,5 +393,6 @@ void SNESMiniController_Shared::printDebug(Print& output) const {
 }
 
 template class ClassicControllerCore<ClassicDataMap_Std>;  // Standard Mappings
+template class ClassicControllerCore<ClassicDataMap_HighRes>;  // "High Resolution" Mappings
 
 }  // End "NintendoExtensionCtrl" namespace

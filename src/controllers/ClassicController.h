@@ -65,6 +65,47 @@ namespace NintendoExtensionCtrl {
 		constexpr static BitMap  ButtonHome = { 4, 3 };
 	};
 
+	struct ClassicDataMap_HighRes {
+		/* Classic Controller "High Resolution" Mode
+		 *     7   6   5   4   3   2   1   0
+		 * 0   LX<7:0>
+		 * 1   RX<7:0>
+		 * 2   LY<7:0>
+		 * 3   RY<7:0>
+		 * 4   LT<7:0>
+		 * 5   RT<7:0>
+		 * 6   BDR BDD BLT B-  BH  B+  BRT 1
+		 * 7   BZL BB  BY  BA  BX  BZR BDL BDU
+		 */
+		constexpr static IndexMap LeftJoyX = 0;
+		constexpr static IndexMap LeftJoyY = 2;
+
+		constexpr static IndexMap RightJoyX = 1;
+		constexpr static IndexMap RightJoyY = 3;
+
+		constexpr static BitMap   DpadUp = { 7, 0 };
+		constexpr static BitMap   DpadDown = { 6, 6 };
+		constexpr static BitMap   DpadLeft = { 7, 1 };
+		constexpr static BitMap   DpadRight = { 6, 7 };
+
+		constexpr static BitMap   ButtonA = { 7, 4 };
+		constexpr static BitMap   ButtonB = { 7, 6 };
+		constexpr static BitMap   ButtonX = { 7, 3 };
+		constexpr static BitMap   ButtonY = { 7, 5 };
+
+		constexpr static IndexMap TriggerL = 4;
+		constexpr static IndexMap TriggerR = 5;
+
+		constexpr static BitMap   ButtonL = { 6, 5 };
+		constexpr static BitMap   ButtonR = { 6, 1 };
+		constexpr static BitMap   ButtonZL = { 7, 7 };
+		constexpr static BitMap   ButtonZR = { 7, 2 };
+
+		constexpr static BitMap   ButtonPlus = { 6, 2 };
+		constexpr static BitMap   ButtonMinus = { 6, 4 };
+		constexpr static BitMap   ButtonHome = { 6, 3 };
+	};
+
 
 	template<class DataMaps>
 	class ClassicControllerCore : public ExtensionController {
@@ -124,6 +165,13 @@ namespace NintendoExtensionCtrl {
 	using ClassicController_Shared = ClassicControllerCore<ClassicDataMap_Std>;  // Classic Controller w/ Standard Mapping
 
 
+	class ClassicControllerHR_Shared : public ClassicControllerCore<ClassicDataMap_HighRes> {
+		using ClassicControllerCore<ClassicDataMap_HighRes>::ClassicControllerCore;
+
+		boolean specificInit();
+	};
+
+
 	class NESMiniController_Shared : public ClassicController_Shared {
 	public:
 		using ClassicController_Shared::ClassicController_Shared;
@@ -144,6 +192,9 @@ namespace NintendoExtensionCtrl {
 
 using ClassicController = NintendoExtensionCtrl::BuildControllerClass
 	<NintendoExtensionCtrl::ClassicController_Shared>;
+
+using ClassicControllerHR = NintendoExtensionCtrl::BuildControllerClass
+	<NintendoExtensionCtrl::ClassicControllerHR_Shared>;
 
 using NESMiniController = NintendoExtensionCtrl::BuildControllerClass
 	<NintendoExtensionCtrl::NESMiniController_Shared>;

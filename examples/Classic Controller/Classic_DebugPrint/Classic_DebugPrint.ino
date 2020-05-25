@@ -37,6 +37,8 @@ void setup() {
 		Serial.println("Classic Controller not detected!");
 		delay(1000);
 	}
+
+	//classic.setHighRes(true);  // uncomment to run in high resolution mode
 }
 
 void loop() {

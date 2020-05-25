@@ -36,6 +36,8 @@ void setup() {
 		Serial.println("Classic Controller not detected!");
 		delay(1000);
 	}
+
+	//classic.setHighRes(true);  // uncomment to run in high resolution mode
 }
 
 void loop() {
@@ -59,7 +61,7 @@ void loop() {
 			Serial.println("released");
 		}
 
-		// Read a button (on/off, ABXY, Minus, Home, Plus, L, R, ZL, ZR)
+		// Read a button (ABXY, Minus, Home, Plus, L, R, ZL, ZR)
 		boolean aButton = classic.buttonA();
 
 		Serial.print("The A button is ");
@@ -70,13 +72,17 @@ void loop() {
 			Serial.println("released");
 		}
 
-		// Read a joystick axis (0-63 Left XY, 0-31 Right XY)
+		// Read a joystick axis (left XY, right XY)
+		//   Standard Mode: 0-63 Left, 0-31 Right
+		//   High Resolution Mode: 0-255 Left/Right
 		int joyLX = classic.leftJoyX();
 
 		Serial.print("The left joystick's X axis is at ");
 		Serial.println(joyLX);
 
-		// Read a trigger (0-31, L/R)
+		// Read a trigger (L/R)
+		//   Standard Mode: 0-31
+		//   High Resolution Mode: 0-255
 		int triggerL = classic.triggerL();
 
 		Serial.print("The left trigger is at ");

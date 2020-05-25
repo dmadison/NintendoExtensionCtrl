@@ -28,10 +28,15 @@ Plug in your controller, upload the example to your board, and have fun!
 ### Wii
 * Nunchuk
 * Classic Controller
+
+### Wii Instruments
 * Guitar Hero Guitar
 * Guitar Hero World Tour Drums
 * DJ Hero Turntable
+
+### Wii Drawing Tablets
 * uDraw Tablet
+* Drawsome Tablet
 
 ### Mini Console
 * NES Mini Controller

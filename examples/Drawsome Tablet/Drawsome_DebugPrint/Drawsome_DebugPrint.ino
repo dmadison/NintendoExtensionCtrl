@@ -1,6 +1,6 @@
 /*
 *  Project     Nintendo Extension Controller Library
-*  @author     David Madison
+*  @author     nullstalgia
 *  @link       github.com/dmadison/NintendoExtensionCtrl
 *  @license    LGPLv3 - Copyright (c) 2018 David Madison
 *
@@ -18,24 +18,36 @@
 *
 *  You should have received a copy of the GNU Lesser General Public License
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+*  Example:      Drawsome_DebugPrint
+*  Description:  Connect to a Drawsome Tablet and continuously print
+*                its control data, nicely formatted for debugging, over
+*                the serial bus.
 */
 
-#ifndef NintendoExtensionCtrl_h
-#define NintendoExtensionCtrl_h
+#include <NintendoExtensionCtrl.h>
 
-// Controller Base
-#include "internal/ExtensionController.h"
+DrawsomeTablet tablet;
 
-// Wii Controllers
-#include "controllers/Nunchuk.h"
-#include "controllers/ClassicController.h"
-#include "controllers/GuitarController.h"
-#include "controllers/DrumController.h"
-#include "controllers/DJTurntable.h"
-#include "controllers/uDrawTablet.h"
-#include "controllers/DrawsomeTablet.h"
+void setup() {
+	Serial.begin(115200);
+	tablet.begin();
 
-// Mini Controllers
-/* (included with ClassicController.h) */
+	while (!tablet.connect()) {
+		Serial.println("Drawsome Tablet not detected!");
+		delay(1000);
+	}
+}
 
-#endif
+void loop() {
+	boolean success = tablet.update();  // Get new data from the tablet
+
+	if (success == true) {  // We've got data!
+		tablet.printDebug();  // Print all of the values!
+	}
+	else {  // Data is bad :(
+		Serial.println("Tablet Disconnected!");
+		delay(1000);
+		tablet.connect();
+	}
+}

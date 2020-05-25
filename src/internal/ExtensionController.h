@@ -104,7 +104,7 @@ protected:
 protected:
 	ExtensionController(ExtensionData& dataRef, ExtensionType conID);
 
-	typedef NintendoExtensionCtrl::IndexMap IndexMap;
+	typedef NintendoExtensionCtrl::IndexMap  IndexMap;
 	typedef NintendoExtensionCtrl::ByteMap   ByteMap;
 	typedef NintendoExtensionCtrl::BitMap    BitMap;
 

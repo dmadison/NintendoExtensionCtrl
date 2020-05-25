@@ -47,9 +47,15 @@ namespace NintendoExtensionCtrl {
 				return ExtensionType::Nunchuk;
 			}
 
-			// Classic Con. ID: 0x0101 (Std) or 0x0301 (HighRes)
-			else if ((idData[4] == 0x01 && idData[5] == 0x01)
-				|| (idData[4] == 0x03 && idData[5] == 0x01)) {
+			/* Classic Con. ID: 0x0[01] 0x00 0xA4 0x20 0x## 0x01
+			 *   Where ## =
+			 *     0x00 - Double initialized. (shouldn't happen in normal use)
+			 *     0x01 - Standard data mode
+			 *     0x02 - ??? Reports data, but not in a known format
+			 *     0x03 - "High resolution" mode, used by mini consoles
+			 */
+			else if (idData[0] <= 0x01 && idData[1] == 0x00
+				  && idData[4] <= 0x03 && idData[5] == 0x01) {
 				return ExtensionType::ClassicController;
 			}
 

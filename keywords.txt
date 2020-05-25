@@ -20,6 +20,7 @@ GuitarController	KEYWORD1
 DrumController	KEYWORD1
 DJTurntableController	KEYWORD1
 uDrawTablet	 KEYWORD1
+DrawsomeTablet	KEYWORD1
 
 # Mini Controllers
 NESMiniController	KEYWORD1
@@ -219,6 +220,10 @@ penDetected	KEYWORD2
 buttonLower	 KEYWORD2
 buttonUpper	 KEYWORD2
 
+## Drawsome Tablet
+# (Covered by the uDrawTablet keywords)
+
+
 #######################################
 # Instances (KEYWORD2)
 #######################################
@@ -239,6 +244,7 @@ UnknownController	LITERAL1
 # DrumController	LITERAL1
 # DJTurntableController	LITERAL1
 # uDrawTablet	LITERAL1
+# DrawsomeTablet	LITERAL1
 
 # Drum Velocity IDs (Scoped to class)
 None	LITERAL1

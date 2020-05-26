@@ -30,12 +30,12 @@ All controllers use the Wiimote 0x37 data reporting mode by default, returning 6
 
 Each map represents the size and position for all of the data of a control surface (button, joystick, etc.). The library has three data types for this, each with a different purpose:
 
-### CtrlIndex
+### IndexMap
 
 The simplest data format. This takes one value that represents the index in the array for your control data. Passing this to `getControlData` will return the full byte of data.
 
 ```C++
-CtrlIndex JoyX = 1;  // Array[1] is the data for JoyX
+IndexMap JoyX = 1;  // Array[1] is the data for JoyX
 ```
 
 ### ByteMap
@@ -111,7 +111,7 @@ boolean buttonA() const;
 boolean buttonB() const;
 ```
 
-Since you've already spent the time creating the data maps, the function definitions should be straight-forward. Either call `getControlBit()` passing a `BitMap`, or call `getControlData()` passing your `CtrlIndex` or `ByteMap` value(s). Here are the function definitions for the above controls:
+Since you've already spent the time creating the data maps, the function definitions should be straight-forward. Either call `getControlBit()` passing a `BitMap`, or call `getControlData()` passing your `IndexMap` or `ByteMap` value(s). Here are the function definitions for the above controls:
 
 ```C++
 uint8_t ClassicController_Shared::leftJoyX() const {

@@ -24,20 +24,20 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr CtrlIndex Nunchuk_Shared::Maps::JoyX;
-constexpr CtrlIndex Nunchuk_Shared::Maps::JoyY;
+constexpr IndexMap Nunchuk_Shared::Maps::JoyX;
+constexpr IndexMap Nunchuk_Shared::Maps::JoyY;
 
-constexpr CtrlIndex Nunchuk_Shared::Maps::AccelX_MSB;
-constexpr ByteMap   Nunchuk_Shared::Maps::AccelX_LSB;
+constexpr IndexMap Nunchuk_Shared::Maps::AccelX_MSB;
+constexpr ByteMap  Nunchuk_Shared::Maps::AccelX_LSB;
 
-constexpr CtrlIndex Nunchuk_Shared::Maps::AccelY_MSB;
-constexpr ByteMap   Nunchuk_Shared::Maps::AccelY_LSB;
+constexpr IndexMap Nunchuk_Shared::Maps::AccelY_MSB;
+constexpr ByteMap  Nunchuk_Shared::Maps::AccelY_LSB;
 
-constexpr CtrlIndex Nunchuk_Shared::Maps::AccelZ_MSB;
-constexpr ByteMap   Nunchuk_Shared::Maps::AccelZ_LSB;
+constexpr IndexMap Nunchuk_Shared::Maps::AccelZ_MSB;
+constexpr ByteMap  Nunchuk_Shared::Maps::AccelZ_LSB;
 
-constexpr BitMap    Nunchuk_Shared::Maps::ButtonC;
-constexpr BitMap    Nunchuk_Shared::Maps::ButtonZ;
+constexpr BitMap   Nunchuk_Shared::Maps::ButtonC;
+constexpr BitMap   Nunchuk_Shared::Maps::ButtonZ;
 
 uint8_t Nunchuk_Shared::joyX() const {
 	return getControlData(Maps::JoyX);

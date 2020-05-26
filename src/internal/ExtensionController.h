@@ -41,6 +41,7 @@ public:
 	protected:
 		NXC_I2C_TYPE & i2c;  // Reference for the I2C (Wire) class
 		ExtensionType connectedType = ExtensionType::NoController;
+		uint8_t requestSize = MinRequestSize;
 		uint8_t controlData[ControlDataSize];
 	};
 
@@ -104,7 +105,7 @@ protected:
 protected:
 	ExtensionController(ExtensionData& dataRef, ExtensionType conID);
 
-	typedef NintendoExtensionCtrl::CtrlIndex CtrlIndex;
+	typedef NintendoExtensionCtrl::IndexMap  IndexMap;
 	typedef NintendoExtensionCtrl::ByteMap   ByteMap;
 	typedef NintendoExtensionCtrl::BitMap    BitMap;
 
@@ -131,11 +132,7 @@ protected:
 	void setControlData(uint8_t index, uint8_t val);
 
 private:
-	ExtensionData &data;  // I2C and control data storage
-
-	void disconnect();
-
-	uint8_t requestSize = MinRequestSize;
+	ExtensionData &data;  // I2C and shared connection data
 };
 
 namespace NintendoExtensionCtrl {

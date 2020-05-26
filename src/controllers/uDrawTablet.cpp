@@ -24,16 +24,16 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr CtrlIndex uDrawTablet_Shared::Maps::PenX_LSB;
-constexpr CtrlIndex uDrawTablet_Shared::Maps::PenY_LSB;
-constexpr ByteMap   uDrawTablet_Shared::Maps::PenX_MSB;
-constexpr ByteMap   uDrawTablet_Shared::Maps::PenY_MSB;
+constexpr IndexMap uDrawTablet_Shared::Maps::PenX_LSB;
+constexpr IndexMap uDrawTablet_Shared::Maps::PenY_LSB;
+constexpr ByteMap  uDrawTablet_Shared::Maps::PenX_MSB;
+constexpr ByteMap  uDrawTablet_Shared::Maps::PenY_MSB;
 
-constexpr CtrlIndex uDrawTablet_Shared::Maps::Pressure_LSB;
-constexpr BitMap    uDrawTablet_Shared::Maps::Pressure_MSB;
+constexpr IndexMap uDrawTablet_Shared::Maps::Pressure_LSB;
+constexpr BitMap   uDrawTablet_Shared::Maps::Pressure_MSB;
 
-constexpr BitMap    uDrawTablet_Shared::Maps::buttonLower;
-constexpr BitMap    uDrawTablet_Shared::Maps::buttonUpper;
+constexpr BitMap   uDrawTablet_Shared::Maps::buttonLower;
+constexpr BitMap   uDrawTablet_Shared::Maps::buttonUpper;
 
 uint16_t uDrawTablet_Shared::penX() const {
 	return (getControlData(Maps::PenX_MSB) << 8) | getControlData(Maps::PenX_LSB);

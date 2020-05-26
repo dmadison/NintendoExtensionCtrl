@@ -37,7 +37,7 @@ void setup() {
 		delay(1000);
 	}
 
-	if (nes.isThirdParty()) {  // Uh oh, looks like your controller isn't genuine?
+	if (nes.update() && nes.isThirdParty()) {  // Uh oh, looks like your controller isn't genuine?
 		nes.setRequestSize(8);  // Requires 8 or more bytes for third party controllers
 	}
 }

@@ -60,6 +60,9 @@ void setup() {
 		case(ExtensionType::uDrawTablet):
 			Serial.println("uDraw Tablet connected!");
 			break;
+		case(ExtensionType::DrawsomeTablet):
+			Serial.println("Drawsome Tablet connected!");
+			break;
 		default: break;
 	}
 	controller.printDebugID();

@@ -37,8 +37,7 @@ void ExtensionController::begin() {
 boolean ExtensionController::connect() {
 	boolean success = false;  // assume no connection
 
-	disconnect();  // clear control data and id
-	data.requestSize = MinRequestSize;  // request size back to minimum
+	reset();  // clear saved connection data
 
 	if (initialize()) {
 		identifyController();  // poll controller for its identity
@@ -52,13 +51,9 @@ boolean ExtensionController::specificInit() {
 	return true;  // default 'success' (no controller-specific init) for generic controllers
 }
 
-void ExtensionController::disconnect() {
+void ExtensionController::reset() {
 	data.connectedType = ExtensionType::NoController;  // Nothing connected
 	memset(&data.controlData, 0x00, ExtensionData::ControlDataSize);  // Clear control data
-}
-
-void ExtensionController::reset() {
-	disconnect();
 	data.requestSize = MinRequestSize;  // Request size back to minimum
 }
 

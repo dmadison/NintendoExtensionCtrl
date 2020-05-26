@@ -26,97 +26,52 @@
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	struct ClassicDataMap_Std {
-		/* Classic Controller "Standard" Mode
-		 *     7   6   5   4   3   2   1   0
-		 * 0   RX<4:3> LX <5:0>
-		 * 1   RX<2:1> LY <5:0>
-		 * 2   RX<0>   LT<4:3> RY<4:0>
-		 * 3   LT<2:0> RT<4:0>
-		 * 4   BDR BDD BLT B-  BH  B+  BRT 1
-		 * 5   BZL BB  BY  BA  BX  BZR BDL BDU
-		 */
-		constexpr static ByteMap LeftJoyX = ByteMap(0, 6, 0, 0);
-		constexpr static ByteMap LeftJoyY = ByteMap(1, 6, 0, 0);
-
-		constexpr static ByteMap RightJoyX[3] = { ByteMap(0, 2, 6, 3), ByteMap(1, 2, 6, 5), ByteMap(2, 1, 7, 7) };
-		constexpr static ByteMap RightJoyY = ByteMap(2, 5, 0, 0);
-
-		constexpr static BitMap  DpadUp = { 5, 0 };
-		constexpr static BitMap  DpadDown = { 4, 6 };
-		constexpr static BitMap  DpadLeft = { 5, 1 };
-		constexpr static BitMap  DpadRight = { 4, 7 };
-
-		constexpr static BitMap  ButtonA = { 5, 4 };
-		constexpr static BitMap  ButtonB = { 5, 6 };
-		constexpr static BitMap  ButtonX = { 5, 3 };
-		constexpr static BitMap  ButtonY = { 5, 5 };
-
-		constexpr static ByteMap TriggerL[2] = { ByteMap(2, 2, 5, 2), ByteMap(3, 3, 5, 5) };
-		constexpr static ByteMap TriggerR = ByteMap(3, 5, 0, 0);
-
-		constexpr static BitMap  ButtonL = { 4, 5 };
-		constexpr static BitMap  ButtonR = { 4, 1 };
-		constexpr static BitMap  ButtonZL = { 5, 7 };
-		constexpr static BitMap  ButtonZR = { 5, 2 };
-
-		constexpr static BitMap  ButtonPlus = { 4, 2 };
-		constexpr static BitMap  ButtonMinus = { 4, 4 };
-		constexpr static BitMap  ButtonHome = { 4, 3 };
-	};
-
-	struct ClassicDataMap_HighRes {
-		/* Classic Controller "High Resolution" Mode
-		 *     7   6   5   4   3   2   1   0
-		 * 0   LX<7:0>
-		 * 1   RX<7:0>
-		 * 2   LY<7:0>
-		 * 3   RY<7:0>
-		 * 4   LT<7:0>
-		 * 5   RT<7:0>
-		 * 6   BDR BDD BLT B-  BH  B+  BRT 1
-		 * 7   BZL BB  BY  BA  BX  BZR BDL BDU
-		 */
-		constexpr static IndexMap LeftJoyX = 0;
-		constexpr static IndexMap LeftJoyY = 2;
-
-		constexpr static IndexMap RightJoyX = 1;
-		constexpr static IndexMap RightJoyY = 3;
-
-		constexpr static BitMap   DpadUp = { 7, 0 };
-		constexpr static BitMap   DpadDown = { 6, 6 };
-		constexpr static BitMap   DpadLeft = { 7, 1 };
-		constexpr static BitMap   DpadRight = { 6, 7 };
-
-		constexpr static BitMap   ButtonA = { 7, 4 };
-		constexpr static BitMap   ButtonB = { 7, 6 };
-		constexpr static BitMap   ButtonX = { 7, 3 };
-		constexpr static BitMap   ButtonY = { 7, 5 };
-
-		constexpr static IndexMap TriggerL = 4;
-		constexpr static IndexMap TriggerR = 5;
-
-		constexpr static BitMap   ButtonL = { 6, 5 };
-		constexpr static BitMap   ButtonR = { 6, 1 };
-		constexpr static BitMap   ButtonZL = { 7, 7 };
-		constexpr static BitMap   ButtonZR = { 7, 2 };
-
-		constexpr static BitMap   ButtonPlus = { 6, 2 };
-		constexpr static BitMap   ButtonMinus = { 6, 4 };
-		constexpr static BitMap   ButtonHome = { 6, 3 };
-	};
-
-
-	template<class DataMaps>
-	class ClassicControllerCore : public ExtensionController {
+	class ClassicController_Shared : public ExtensionController {
 	public:
-		ClassicControllerCore(ExtensionData &dataRef) :
+		struct Maps {
+			/* Classic Controller "Standard" Mode
+			 *     7   6   5   4   3   2   1   0
+			 * 0   RX<4:3> LX <5:0>
+			 * 1   RX<2:1> LY <5:0>
+			 * 2   RX<0>   LT<4:3> RY<4:0>
+			 * 3   LT<2:0> RT<4:0>
+			 * 4   BDR BDD BLT B-  BH  B+  BRT 1
+			 * 5   BZL BB  BY  BA  BX  BZR BDL BDU
+			 */
+			constexpr static ByteMap LeftJoyX = ByteMap(0, 6, 0, 0);
+			constexpr static ByteMap LeftJoyY = ByteMap(1, 6, 0, 0);
+
+			constexpr static ByteMap RightJoyX[3] = { ByteMap(0, 2, 6, 3), ByteMap(1, 2, 6, 5), ByteMap(2, 1, 7, 7) };
+			constexpr static ByteMap RightJoyY = ByteMap(2, 5, 0, 0);
+
+			constexpr static BitMap  DpadUp = { 5, 0 };
+			constexpr static BitMap  DpadDown = { 4, 6 };
+			constexpr static BitMap  DpadLeft = { 5, 1 };
+			constexpr static BitMap  DpadRight = { 4, 7 };
+
+			constexpr static BitMap  ButtonA = { 5, 4 };
+			constexpr static BitMap  ButtonB = { 5, 6 };
+			constexpr static BitMap  ButtonX = { 5, 3 };
+			constexpr static BitMap  ButtonY = { 5, 5 };
+
+			constexpr static ByteMap TriggerL[2] = { ByteMap(2, 2, 5, 2), ByteMap(3, 3, 5, 5) };
+			constexpr static ByteMap TriggerR = ByteMap(3, 5, 0, 0);
+
+			constexpr static BitMap  ButtonL = { 4, 5 };
+			constexpr static BitMap  ButtonR = { 4, 1 };
+			constexpr static BitMap  ButtonZL = { 5, 7 };
+			constexpr static BitMap  ButtonZR = { 5, 2 };
+
+			constexpr static BitMap  ButtonPlus = { 4, 2 };
+			constexpr static BitMap  ButtonMinus = { 4, 4 };
+			constexpr static BitMap  ButtonHome = { 4, 3 };
+		};
+
+		ClassicController_Shared(ExtensionData &dataRef) :
 			ExtensionController(dataRef, ExtensionType::ClassicController) {}
 
-		ClassicControllerCore(ExtensionPort &port) :
-			ClassicControllerCore(port.getExtensionData()) {}
-
-		using Maps = DataMaps;  // save from template
+		ClassicController_Shared(ExtensionPort &port) :
+			ClassicController_Shared(port.getExtensionData()) {}
 
 		uint8_t leftJoyX() const;  // 6 bits, 0-63
 		uint8_t leftJoyY() const;
@@ -162,16 +117,6 @@ namespace NintendoExtensionCtrl {
 		void manipulateThirdPartyData();
 	};
 
-	using ClassicController_Shared = ClassicControllerCore<ClassicDataMap_Std>;  // Classic Controller w/ Standard Mapping
-
-
-	class ClassicControllerHR_Shared : public ClassicControllerCore<ClassicDataMap_HighRes> {
-		using ClassicControllerCore<ClassicDataMap_HighRes>::ClassicControllerCore;
-
-		boolean specificInit();
-	};
-
-
 	class NESMiniController_Shared : public ClassicController_Shared {
 	public:
 		using ClassicController_Shared::ClassicController_Shared;
@@ -192,9 +137,6 @@ namespace NintendoExtensionCtrl {
 
 using ClassicController = NintendoExtensionCtrl::BuildControllerClass
 	<NintendoExtensionCtrl::ClassicController_Shared>;
-
-using ClassicControllerHR = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::ClassicControllerHR_Shared>;
 
 using NESMiniController = NintendoExtensionCtrl::BuildControllerClass
 	<NintendoExtensionCtrl::NESMiniController_Shared>;

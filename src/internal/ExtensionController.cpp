@@ -38,6 +38,7 @@ boolean ExtensionController::connect() {
 	boolean success = false;  // assume no connection
 
 	disconnect();  // clear control data and id
+	data.requestSize = MinRequestSize;  // request size back to minimum
 
 	if (initialize()) {
 		identifyController();  // poll controller for its identity

@@ -37,11 +37,17 @@ void ExtensionController::begin() {
 boolean ExtensionController::connect() {
 	boolean success = false;  // assume no connection
 
-	reset();  // clear saved connection data
-
 	if (initialize()) {
 		identifyController();  // poll controller for its identity
-		success = controllerTypeMatches() && specificInit();  // 'connected' if the ID string matches and init success
+
+		if (controllerTypeMatches()) {  // if the right controller is connected...
+			memset(&data.controlData, 0x00, ExtensionData::ControlDataSize);  // clear control data
+			data.requestSize = MinRequestSize;  // request size back to minimum
+			success = specificInit();  // connect success dependent on controller-specific init
+		}
+	}
+	else {
+		data.connectedType = ExtensionType::NoController;
 	}
 
 	return success;

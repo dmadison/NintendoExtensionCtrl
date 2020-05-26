@@ -29,6 +29,15 @@ namespace NintendoExtensionCtrl {
 	class ClassicController_Shared : public ExtensionController {
 	public:
 		struct Maps {
+			/* Classic Controller "Standard" Mode
+			 *     7   6   5   4   3   2   1   0
+			 * 0   RX<4:3> LX <5:0>
+			 * 1   RX<2:1> LY <5:0>
+			 * 2   RX<0>   LT<4:3> RY<4:0>
+			 * 3   LT<2:0> RT<4:0>
+			 * 4   BDR BDD BLT B-  BH  B+  BRT 1
+			 * 5   BZL BB  BY  BA  BX  BZR BDL BDU
+			 */
 			constexpr static ByteMap LeftJoyX = ByteMap(0, 6, 0, 0);
 			constexpr static ByteMap LeftJoyY = ByteMap(1, 6, 0, 0);
 
@@ -58,11 +67,55 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap  ButtonHome = { 4, 3 };
 		};
 
+		struct MapsHR {
+			/* Classic Controller "High Resolution" Mode
+			 *     7   6   5   4   3   2   1   0
+			 * 0   LX<7:0>
+			 * 1   RX<7:0>
+			 * 2   LY<7:0>
+			 * 3   RY<7:0>
+			 * 4   LT<7:0>
+			 * 5   RT<7:0>
+			 * 6   BDR BDD BLT B-  BH  B+  BRT 1
+			 * 7   BZL BB  BY  BA  BX  BZR BDL BDU
+			 */
+			constexpr static IndexMap LeftJoyX = 0;
+			constexpr static IndexMap LeftJoyY = 2;
+
+			constexpr static IndexMap RightJoyX = 1;
+			constexpr static IndexMap RightJoyY = 3;
+
+			constexpr static BitMap   DpadUp = { 7, 0 };
+			constexpr static BitMap   DpadDown = { 6, 6 };
+			constexpr static BitMap   DpadLeft = { 7, 1 };
+			constexpr static BitMap   DpadRight = { 6, 7 };
+
+			constexpr static BitMap   ButtonA = { 7, 4 };
+			constexpr static BitMap   ButtonB = { 7, 6 };
+			constexpr static BitMap   ButtonX = { 7, 3 };
+			constexpr static BitMap   ButtonY = { 7, 5 };
+
+			constexpr static IndexMap TriggerL = 4;
+			constexpr static IndexMap TriggerR = 5;
+
+			constexpr static BitMap   ButtonL = { 6, 5 };
+			constexpr static BitMap   ButtonR = { 6, 1 };
+			constexpr static BitMap   ButtonZL = { 7, 7 };
+			constexpr static BitMap   ButtonZR = { 7, 2 };
+
+			constexpr static BitMap   ButtonPlus = { 6, 2 };
+			constexpr static BitMap   ButtonMinus = { 6, 4 };
+			constexpr static BitMap   ButtonHome = { 6, 3 };
+		};
+
 		ClassicController_Shared(ExtensionData &dataRef) :
 			ExtensionController(dataRef, ExtensionType::ClassicController) {}
 
 		ClassicController_Shared(ExtensionPort &port) :
 			ClassicController_Shared(port.getExtensionData()) {}
+
+		boolean setHighRes(boolean hr = true);
+		boolean getHighRes() const;
 
 		uint8_t leftJoyX() const;  // 6 bits, 0-63
 		uint8_t leftJoyY() const;
@@ -99,28 +152,30 @@ namespace NintendoExtensionCtrl {
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 
-	// 3rd Party NES Controller Support
-	public:
-		boolean isNESThirdParty() const;
-		boolean fixNESThirdPartyData(boolean force = false);
-
 	protected:
-		void manipulateThirdPartyData();
+		boolean highRes = false;  // 'high resolution' mode setting
 	};
 
-	class NESMiniController_Shared : public ClassicController_Shared {
+
+	/* Nintendo Mini Console Controllers */
+
+	class MiniControllerBase : public ClassicController_Shared {
 	public:
 		using ClassicController_Shared::ClassicController_Shared;
 
-		boolean isThirdParty() const { return isNESThirdParty(); }
-		boolean fixThirdPartyData(boolean force = false) { return fixNESThirdPartyData(force); }
+		boolean specificInit();
+	};
+
+	class NESMiniController_Shared : public MiniControllerBase {
+	public:
+		using MiniControllerBase::MiniControllerBase;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};
 
-	class SNESMiniController_Shared : public ClassicController_Shared {
+	class SNESMiniController_Shared : public MiniControllerBase {
 	public:
-		using ClassicController_Shared::ClassicController_Shared;
+		using MiniControllerBase::MiniControllerBase;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};

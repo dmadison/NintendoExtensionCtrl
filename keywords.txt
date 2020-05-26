@@ -90,6 +90,9 @@ rollAngle	KEYWORD2
 pitchAngle	KEYWORD2
 
 ## Classic Controller
+setHighRes	KEYWORD2
+getHighRes	KEYWORD2
+
 leftJoyX	KEYWORD2
 leftJoyY	KEYWORD2
 
@@ -202,10 +205,6 @@ getNumTurntables	KEYWORD2
 
 ## NES Mini Controller
 # (Covered by the Classic Controller keywords)
-isNESThirdParty	KEYWORD2
-fixNESThirdPartyData	KEYWORD2
-isThirdParty	KEYWORD2
-fixThirdPartyData	KEYWORD2
 
 ## SNES Mini Controller
 # (Covered by the Classic Controller keywords)

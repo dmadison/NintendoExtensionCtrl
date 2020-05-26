@@ -36,10 +36,6 @@ void setup() {
 		Serial.println("NES Classic Controller not detected!");
 		delay(1000);
 	}
-
-	if (nes.update() && nes.isThirdParty()) {  // Uh oh, looks like your controller isn't genuine?
-		nes.setRequestSize(8);  // Requires 8 or more bytes for third party controllers
-	}
 }
 
 void loop() {
@@ -52,9 +48,6 @@ void loop() {
 		delay(1000);
 	}
 	else {
-		// If a third party controller is detected, fix the data!
-		nes.fixThirdPartyData();
-
 		// Read the DPAD (Up/Down/Left/Right)
 		boolean padUp = nes.dpadUp();
 

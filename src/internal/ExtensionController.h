@@ -84,6 +84,7 @@ public:
 	static boolean initialize(NXC_I2C_TYPE& i2c);
 
 	static boolean writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte value);
+	static boolean readRegister(NXC_I2C_TYPE& i2c, byte reg, uint8_t* dataOut);
 
 	static boolean requestData(NXC_I2C_TYPE& i2c, uint8_t ptr, size_t size, uint8_t* dataOut);
 	static boolean requestControlData(NXC_I2C_TYPE& i2c, size_t size, uint8_t* controlData);
@@ -95,6 +96,7 @@ protected:
 	inline boolean initialize() const { return initialize(data.i2c); }
 
 	inline boolean writeRegister(byte reg, byte value) const { return writeRegister(data.i2c, reg, value); }
+	inline boolean readRegister(byte reg, uint8_t* dataOut) const { return readRegister(data.i2c, reg, dataOut); }
 
 	inline boolean requestData(uint8_t ptr, size_t size, uint8_t* dataOut) const { return requestData(data.i2c, ptr, size, dataOut); }
 	inline boolean requestControlData(size_t size, uint8_t* controlData) const { return requestControlData(data.i2c, size, controlData); }

@@ -71,6 +71,10 @@ namespace NintendoExtensionCtrl {
 		if (!i2c_writePointer(i2c, addr, ptr)) return false;  // Set start for data read
 		return i2c_requestMultiple(i2c, addr, requestSize, dataOut);
 	}
+
+	inline boolean i2c_readRegister(NXC_I2C_TYPE& i2c, byte addr, byte reg, uint8_t* dataOut) {
+		return i2c_readDataArray(i2c, addr, reg, 1, dataOut);  // read one register
+	}
 }
 
 #endif

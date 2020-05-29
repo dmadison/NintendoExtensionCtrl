@@ -75,12 +75,13 @@ public:
 	static const uint8_t MinRequestSize = 6;   // Smallest reporting mode (0x37)
 	static const uint8_t MaxRequestSize = ExtensionData::ControlDataSize;
 
-public:
 	NXC_I2C_TYPE& i2c() const;  // Easily accessible I2C reference
 
 	static const uint8_t I2C_Addr = 0x52;  // Address for all extension controllers
 	static const uint8_t ID_Size = 6;  // Number of bytes for ID signature
 
+public:
+	/* I2C Communication Functions, Static & Shared */
 	static boolean initialize(NXC_I2C_TYPE& i2c);
 
 	static boolean writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte value);
@@ -93,7 +94,7 @@ public:
 
 	static ExtensionType identifyController(NXC_I2C_TYPE& i2c);
 
-protected:
+	/* I2C Communication Functions, Inline Member */
 	inline boolean initialize() const { return initialize(data.i2c); }
 
 	inline boolean writeRegister(byte reg, byte value) const { return writeRegister(data.i2c, reg, value); }

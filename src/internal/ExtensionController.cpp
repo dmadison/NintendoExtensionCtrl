@@ -161,6 +161,12 @@ boolean ExtensionController::readRegister(NXC_I2C_TYPE& i2c, byte reg, uint8_t* 
 	return i2c_readRegister(i2c, I2C_Addr, reg, dataOut);
 }
 
+uint8_t ExtensionController::readRegister(NXC_I2C_TYPE& i2c, byte reg) {
+	uint8_t regOut = 0x00;
+	i2c_readRegister(i2c, I2C_Addr, reg, &regOut);
+	return regOut;  // return the value read whether it's valid or not
+}
+
 boolean ExtensionController::requestData(NXC_I2C_TYPE& i2c, uint8_t ptr, size_t size, uint8_t* dataOut) {
 	return i2c_readDataArray(i2c, I2C_Addr, ptr, size, dataOut);
 }

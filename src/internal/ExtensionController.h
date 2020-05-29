@@ -85,7 +85,7 @@ public:
 
 	static boolean writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte value);
 
-	static boolean requestData(NXC_I2C_TYPE& i2c, uint8_t ptr, size_t size, uint8_t* data);
+	static boolean requestData(NXC_I2C_TYPE& i2c, uint8_t ptr, size_t size, uint8_t* dataOut);
 	static boolean requestControlData(NXC_I2C_TYPE& i2c, size_t size, uint8_t* controlData);
 	static boolean requestIdentity(NXC_I2C_TYPE& i2c, uint8_t* idData);
 

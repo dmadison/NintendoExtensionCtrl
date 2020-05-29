@@ -157,8 +157,8 @@ boolean ExtensionController::writeRegister(NXC_I2C_TYPE& i2c, byte reg, byte val
 	return i2c_writeRegister(i2c, I2C_Addr, reg, value);
 }
 
-boolean ExtensionController::requestData(NXC_I2C_TYPE& i2c, uint8_t ptr, size_t size, uint8_t* data) {
-	return i2c_readDataArray(i2c, I2C_Addr, ptr, size, data);
+boolean ExtensionController::requestData(NXC_I2C_TYPE& i2c, uint8_t ptr, size_t size, uint8_t* dataOut) {
+	return i2c_readDataArray(i2c, I2C_Addr, ptr, size, dataOut);
 }
 
 boolean ExtensionController::requestControlData(NXC_I2C_TYPE& i2c, size_t size, uint8_t* controlData) {

@@ -101,24 +101,14 @@ constexpr BitMap   ClassicController_Shared::MapsHR::ButtonHome;
 
 
 boolean ClassicController_Shared::setHighRes(boolean hr) {
-	const uint8_t Register = 0xFE;  // address of the register we're altering
-	const uint8_t Setting_Std = 0x01;  // the register's value for 'standard' mode
-	const uint8_t Setting_HR  = 0x03;  // the register's value for 'high res' mode
-
-	const uint8_t RegVal = hr ? Setting_HR : Setting_Std;
-
-	if (writeRegister(Register, RegVal)) {  // write to controller
-		uint8_t r = readRegister(Register);  // read back the saved value
-
-		if (r == RegVal) highRes = hr;  // success! saved value matches the sent one
-		else highRes = !hr;  // fail, sent value was not retained. Must be the other one.
-
+	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
+	boolean success = writeRegister(0xFE, regVal);  // write to controller
+	if (success == true) {
+		highRes = hr;  // save 'high res' setting
 		if (highRes == true && getRequestSize() < 8) setRequestSize(8);  // 8 bytes needed for hr mode
 		else if (highRes == false) setRequestSize(MinRequestSize);  // if not in HR, set back to min
 	}
-
-	// success if the value we're using is the one we tried to set
-	return hr == getHighRes();
+	return success;
 }
 
 boolean ClassicController_Shared::getHighRes() const {

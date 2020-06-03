@@ -117,10 +117,10 @@ namespace NintendoExtensionCtrl {
 		boolean setHighRes(boolean hr = true);
 		boolean getHighRes() const;
 
-		uint8_t leftJoyX() const;  // 6 bits, 0-63
+		uint8_t leftJoyX() const;  // 8 bits, 6 shifted in std mode
 		uint8_t leftJoyY() const;
 
-		uint8_t rightJoyX() const;  // 5 bits, 0-31
+		uint8_t rightJoyX() const;  // 8 bits, 5 shifted in std mode
 		uint8_t rightJoyY() const;
 
 		boolean dpadUp() const;
@@ -133,7 +133,7 @@ namespace NintendoExtensionCtrl {
 		boolean buttonX() const;
 		boolean buttonY() const;
 
-		uint8_t triggerL() const;  // 5 bits, 0-31
+		uint8_t triggerL() const;  // 8 bits, 5 shifted in std mode
 		uint8_t triggerR() const;
 
 		boolean buttonL() const;

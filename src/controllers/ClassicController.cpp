@@ -91,12 +91,13 @@ constexpr BitMap   ClassicController_Shared::MapsHR::ButtonHome;
  * to copy the mapping name twice.
  *
  * If the controller is not in "high resolution" mode (according to the class
- * data), return the controlData or controlBit function for the specified map
- * in the "standard" maps (Maps::). If the controller *is* in "high resolution"
- * mode, return the controlData or controlBit function for the specified map
- * of the same name in the "high resolution" maps (MapsHR::).
+ * data), fetch the controlData or controlBit function for the specified map
+ * in the "standard" maps (Maps::) and bit shift to the left in order to fit
+ * the full width of the "high res" data range. If the controller *is* in
+ * "high resolution" mode, fetch the controlData or controlBit function for
+ * the specified mapof the same name in the "high resolution" maps (MapsHR::).
  */
-#define HRDATA(map) !highRes ? getControlData(Maps::map) : getControlData(MapsHR::map)
+#define HRDATA(map, shift) !highRes ? (getControlData(Maps::map) << shift) & 0xFF : getControlData(MapsHR::map)
 #define HRBIT(map)  !highRes ? getControlBit(Maps::map) : getControlBit(MapsHR::map)
 
 
@@ -116,19 +117,19 @@ boolean ClassicController_Shared::getHighRes() const {
 }
 
 uint8_t ClassicController_Shared::leftJoyX() const {
-	return HRDATA(LeftJoyX);
+	return HRDATA(LeftJoyX, 2);  // 6 bits for standard range, so shift left (8-6)
 }
 
 uint8_t ClassicController_Shared::leftJoyY() const {
-	return HRDATA(LeftJoyY);
+	return HRDATA(LeftJoyY, 2);
 }
 
 uint8_t ClassicController_Shared::rightJoyX() const {
-	return HRDATA(RightJoyX);
+	return HRDATA(RightJoyX, 3);  // 5 bits for standard range, so shift left (8-5)
 }
 
 uint8_t ClassicController_Shared::rightJoyY() const {
-	return HRDATA(RightJoyY);
+	return HRDATA(RightJoyY, 3);
 }
 
 boolean ClassicController_Shared::dpadUp() const {
@@ -164,11 +165,11 @@ boolean ClassicController_Shared::buttonY() const {
 }
 
 uint8_t ClassicController_Shared::triggerL() const {
-	return HRDATA(TriggerL);
+	return HRDATA(TriggerL, 3);  // 5 bits for standard range, so shift left (8-5)
 }
 
 uint8_t ClassicController_Shared::triggerR() const {
-	return HRDATA(TriggerR);
+	return HRDATA(TriggerR, 3);
 }
 
 boolean ClassicController_Shared::buttonL() const {

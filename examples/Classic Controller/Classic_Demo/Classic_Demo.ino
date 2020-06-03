@@ -70,17 +70,13 @@ void loop() {
 			Serial.println("released");
 		}
 
-		// Read a joystick axis (left XY, right XY)
-		//   Standard Mode: 0-63 Left, 0-31 Right
-		//   High Resolution Mode: 0-255 Left/Right
+		// Read a joystick axis (0-255, left XY, right XY)
 		int joyLX = classic.leftJoyX();
 
 		Serial.print("The left joystick's X axis is at ");
 		Serial.println(joyLX);
 
-		// Read a trigger (L/R)
-		//   Standard Mode: 0-31
-		//   High Resolution Mode: 0-255
+		// Read a trigger (0-255, L/R)
 		int triggerL = classic.triggerL();
 
 		Serial.print("The left trigger is at ");

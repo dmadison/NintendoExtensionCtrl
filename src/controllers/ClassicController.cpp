@@ -105,17 +105,17 @@ boolean ClassicController_Shared::specificInit() {
 	/* On init, try to set the controller to work in "high resolution" mode so
 	 * we get a full byte of data for each analog input.
 	 *
-	 * The 'writeHighRes' function also checks the current mode of the controller
+	 * The 'setDataMode' function also checks the current mode of the controller
 	 * after the HR setting is set, so the data maps should match the data
 	 * reporting type. This way the class flexes to support controllers that
 	 * only work in standard mode, only work in high res mode, or can support
 	 * both.
 	 */
 	delayMicroseconds(I2C_ConversionDelay);  // wait after ID read before writing register
-	return writeHighRes(true);  // 'success' if no comms errors
+	return setDataMode(true);  // try to set 'high res' mode. 'success' if no comms errors
 }
 
-boolean ClassicController_Shared::checkHighRes(boolean *hr) const {
+boolean ClassicController_Shared::checkDataMode(boolean *hr) const {
 	/* Programmator Emptor: vvv This is where all of the headaches stem from vvv */
 
 	/* Okay, so here's the deal. The Wii Classic Controller reports its data
@@ -182,12 +182,12 @@ boolean ClassicController_Shared::checkHighRes(boolean *hr) const {
 	return true;  // successfully read state
 }
 
-boolean ClassicController_Shared::writeHighRes(boolean hr) {
+boolean ClassicController_Shared::setDataMode(boolean hr) {
 	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
 	if (!writeRegister(0xFE, regVal)) return false;  // write to controller
 
 	boolean currentMode = false;  // check controller's HR setting 
-	if (!checkHighRes(&currentMode)) return false;  // error: could not read mode
+	if (!checkDataMode(&currentMode)) return false;  // error: could not read mode
 	highRes = currentMode;  // save current mode to class
 
 	if (getHighRes() == true && getRequestSize() < 8) {
@@ -202,7 +202,7 @@ boolean ClassicController_Shared::writeHighRes(boolean hr) {
 
 boolean ClassicController_Shared::setHighRes(boolean hr) {
 	// 'success' if the mode is changed to the one we're trying to set
-	return writeHighRes(hr) && (getHighRes() == hr);
+	return setDataMode(hr) && (getHighRes() == hr);
 }
 
 boolean ClassicController_Shared::getHighRes() const {

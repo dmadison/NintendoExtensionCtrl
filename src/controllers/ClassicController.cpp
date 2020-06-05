@@ -105,16 +105,14 @@ boolean ClassicController_Shared::specificInit() {
 	/* On init, try to set the controller to work in "high resolution" mode so
 	 * we get a full byte of data for each analog input.
 	 *
-	 * The 'setHighRes' function also checks the current mode of the controller
+	 * The 'writeHighRes' function also checks the current mode of the controller
 	 * after the HR setting is set, so the data maps should match the data
 	 * reporting type. This way the class flexes to support controllers that
 	 * only work in standard mode, only work in high res mode, or can support
 	 * both.
 	 */
 	delayMicroseconds(I2C_ConversionDelay);  // wait after ID read before writing register
-	setHighRes(true);  // attempt to set, otherwise will read mode from controller
-
-	return true;  // unconditional connection
+	return writeHighRes(true);  // 'success' if no comms errors
 }
 
 boolean ClassicController_Shared::checkHighRes(boolean *hr) const {
@@ -184,7 +182,7 @@ boolean ClassicController_Shared::checkHighRes(boolean *hr) const {
 	return true;  // successfully read state
 }
 
-boolean ClassicController_Shared::setHighRes(boolean hr) {
+boolean ClassicController_Shared::writeHighRes(boolean hr) {
 	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
 	if (!writeRegister(0xFE, regVal)) return false;  // write to controller
 
@@ -199,7 +197,12 @@ boolean ClassicController_Shared::setHighRes(boolean hr) {
 		setRequestSize(MinRequestSize);  // if not in HR and *trying* not to be, set back to min
 	}
 
-	return hr == highRes;  // 'success' if the value we're setting is the one we read
+	return true;  // 'success' if no communication errors, regardless of setting
+}
+
+boolean ClassicController_Shared::setHighRes(boolean hr) {
+	// 'success' if the mode is changed to the one we're trying to set
+	return writeHighRes(hr) && (getHighRes() == hr);
 }
 
 boolean ClassicController_Shared::getHighRes() const {

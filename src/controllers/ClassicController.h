@@ -157,6 +157,7 @@ namespace NintendoExtensionCtrl {
 	protected:
 		boolean highRes = false;  // 'high resolution' mode setting
 		boolean checkHighRes(boolean *hr) const;
+		boolean writeHighRes(boolean hr);
 	};
 
 

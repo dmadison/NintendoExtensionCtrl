@@ -117,7 +117,7 @@ boolean ClassicController_Shared::specificInit() {
 	return true;  // unconditional connection
 }
 
-boolean ClassicController_Shared::checkHighRes() const {
+boolean ClassicController_Shared::checkHighRes(boolean *hr) const {
 	/* Programmator Emptor: vvv This is where all of the headaches stem from vvv */
 
 	/* Okay, so here's the deal. The Wii Classic Controller reports its data
@@ -179,14 +179,17 @@ boolean ClassicController_Shared::checkHighRes() const {
 		delayMicroseconds(I2C_ConversionDelay);  // if we're doing another loop, wait between reads again
 	} while (true);
 
-	return !(checkData[6] == 0x00 && checkData[7] == 0x00);  // if both are '0', high res is false
+	*hr = !(checkData[6] == 0x00 && checkData[7] == 0x00);  // if both are '0', high res is false
+	return true;  // successfully read state
 }
 
 boolean ClassicController_Shared::setHighRes(boolean hr) {
 	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
 	if (!writeRegister(0xFE, regVal)) return false;  // write to controller
 
-	highRes = checkHighRes();  // check controller's HR setting and save to class
+	boolean currentMode = false;  // check controller's HR setting 
+	if (!checkHighRes(&currentMode)) return false;  // error: could not read mode
+	highRes = currentMode;  // save current mode to class
 
 	if (getHighRes() == true && getRequestSize() < 8) {
 		setRequestSize(8);  // 8 bytes needed for hr mode

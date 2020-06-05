@@ -334,7 +334,7 @@ void ClassicController_Shared::printDebug(Print& output) const {
 		zlButtonPrint, zrButtonPrint);
 	
 	output.print(buffer);
-	if (getHighRes()) output.print(" (High Res)");
+	if (getHighRes()) output.print(" | (HR)");
 
 	output.println();
 }

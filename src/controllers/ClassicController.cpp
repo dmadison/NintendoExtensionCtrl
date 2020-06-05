@@ -101,6 +101,22 @@ constexpr BitMap   ClassicController_Shared::MapsHR::ButtonHome;
 #define HRBIT(map)  !highRes ? getControlBit(Maps::map) : getControlBit(MapsHR::map)
 
 
+boolean ClassicController_Shared::specificInit() {
+	/* On init, try to set the controller to work in "high resolution" mode so
+	 * we get a full byte of data for each analog input.
+	 *
+	 * The 'setHighRes' function also checks the current mode of the controller
+	 * after the HR setting is set, so the data maps should match the data
+	 * reporting type. This way the class flexes to support controllers that
+	 * only work in standard mode, only work in high res mode, or can support
+	 * both.
+	 */
+	delayMicroseconds(I2C_ConversionDelay);  // wait after ID read before writing register
+	setHighRes(true);  // attempt to set, otherwise will read mode from controller
+
+	return true;  // unconditional connection
+}
+
 boolean ClassicController_Shared::checkHighRes() const {
 	/* Programmator Emptor: vvv This is where all of the headaches stem from vvv */
 

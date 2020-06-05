@@ -114,6 +114,8 @@ namespace NintendoExtensionCtrl {
 		ClassicController_Shared(ExtensionPort &port) :
 			ClassicController_Shared(port.getExtensionData()) {}
 
+		boolean specificInit();
+
 		boolean setHighRes(boolean hr = true);
 		boolean getHighRes() const;
 

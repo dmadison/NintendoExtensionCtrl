@@ -101,15 +101,85 @@ constexpr BitMap   ClassicController_Shared::MapsHR::ButtonHome;
 #define HRBIT(map)  !highRes ? getControlBit(Maps::map) : getControlBit(MapsHR::map)
 
 
+boolean ClassicController_Shared::checkHighRes() const {
+	/* Programmator Emptor: vvv This is where all of the headaches stem from vvv */
+
+	/* Okay, so here's the deal. The Wii Classic Controller reports its data
+	 * as six bytes with bit-packing for the analog values. When the NES and
+	 * SNES mini consoles were released it turned out that Nintendo had
+	 * included a "high resolution" mode for the Classic Controller. Writing
+	 * '0x03' to the register '0xFE' will make the controller output 8 bytes,
+	 * with each analog control surface using a full byte for its output.
+	 *
+	 * So here's the rub:
+	 *   * Bad knockoff Classic Controllers only support "normal" mode
+	 *   * Bad knockoff NES Controllers only support "high resolution" mode
+	 *   * Genuine controllers support both
+	 *
+	 * Some knockoffs will behave properly and switch between the modes as
+	 * requested, but many will only report their data in one mode and ignore
+	 * the host if it asks otherwise. This results in control data that is 
+	 * misinterpreted and users that are unhappy. So not only do we have to
+	 * switch between modes, but we need to come up with a robust method
+	 * to figure out *what mode we're in*.
+	 *
+	 * Here's my idea: in "standard" mode, the controller outputs 6 bytes of
+	 * control data, leaving bytes 7-8 blank (0x00). If we read these two bytes
+	 * and they have data in them, the controller must be in high resolution
+	 * mode! In theory, at least.
+	 *
+	 * This is complicated by the fact that the data from the I2C bus has no
+	 * error checking and is open drain, so if the pull-ups are too weak or
+	 * there is noise on the bus some of these bits may flip 'high' and then
+	 * the check is no good.
+	 *
+	 * To mitigate this, the same data set is requested twice and compared
+	 * against itself. If there is a data mismatch, the requests are repeated
+	 * until the two arrays agree. Not perfect, but better than nothing.
+	 *
+	 * Note that this read starts at 0x00. I tried starting at where the data
+	 * *actually starts* (bytes 7 and 8, i.e. ptr 0x06), but the knockoff
+	 * controllers apparently don't understand how to act as a proper
+	 * register-based I2C device and just return junk. So instead we're starting
+	 * at the beginning of the data block.
+	 *
+	 * On the plus side, requesting more data here does make the error-checking
+	 * more robust! Although at the expensive of a longer delay.
+	 */
+	static const uint8_t CheckPtr = 0x00;  // start of the control data block
+	static const uint8_t CheckSize = 8;    // 8 bytes to cover both std and high res
+	uint8_t checkData[CheckSize] = { 0x00 }, verifyData[CheckSize] = { 0x00 };
+	do {
+		if (!requestData(CheckPtr, CheckSize, checkData)) return false;
+		delayMicroseconds(I2C_ConversionDelay);  // need a brief delay between reads
+		if (!requestData(CheckPtr, CheckSize, verifyData)) return false;
+
+		boolean equal = true;
+		for (uint8_t i = 0; i < CheckSize; i++) {
+			equal &= (checkData[i] == verifyData[i]);
+		}
+
+		if (equal) break;  // if data matches, continue
+		delayMicroseconds(I2C_ConversionDelay);  // if we're doing another loop, wait between reads again
+	} while (true);
+
+	return !(checkData[6] == 0x00 && checkData[7] == 0x00);  // if both are '0', high res is false
+}
+
 boolean ClassicController_Shared::setHighRes(boolean hr) {
 	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
-	boolean success = writeRegister(0xFE, regVal);  // write to controller
-	if (success == true) {
-		highRes = hr;  // save 'high res' setting
-		if (highRes == true && getRequestSize() < 8) setRequestSize(8);  // 8 bytes needed for hr mode
-		else if (highRes == false) setRequestSize(MinRequestSize);  // if not in HR, set back to min
+	if (!writeRegister(0xFE, regVal)) return false;  // write to controller
+
+	highRes = checkHighRes();  // check controller's HR setting and save to class
+
+	if (getHighRes() == true && getRequestSize() < 8) {
+		setRequestSize(8);  // 8 bytes needed for hr mode
 	}
-	return success;
+	else if (getHighRes() == false && hr == false) {
+		setRequestSize(MinRequestSize);  // if not in HR and *trying* not to be, set back to min
+	}
+
+	return hr == highRes;  // 'success' if the value we're setting is the one we read
 }
 
 boolean ClassicController_Shared::getHighRes() const {

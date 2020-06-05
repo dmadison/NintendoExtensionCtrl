@@ -342,13 +342,6 @@ void ClassicController_Shared::printDebug(Print& output) const {
 
 // ######### Mini Controller Support #########
 
-boolean MiniControllerBase::specificInit() {
-	// all mini controllers use high res format, and some of the cheaper third
-	// party ones will not work without it. So we're going to set this on
-	// connection for all of them
-	return setHighRes(true);
-}
-
 void NESMiniController_Shared::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 

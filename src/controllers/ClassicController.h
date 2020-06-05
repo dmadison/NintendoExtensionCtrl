@@ -162,23 +162,16 @@ namespace NintendoExtensionCtrl {
 
 	/* Nintendo Mini Console Controllers */
 
-	class MiniControllerBase : public ClassicController_Shared {
+	class NESMiniController_Shared : public ClassicController_Shared {
 	public:
 		using ClassicController_Shared::ClassicController_Shared;
-
-		boolean specificInit();
-	};
-
-	class NESMiniController_Shared : public MiniControllerBase {
-	public:
-		using MiniControllerBase::MiniControllerBase;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};
 
-	class SNESMiniController_Shared : public MiniControllerBase {
+	class SNESMiniController_Shared : public ClassicController_Shared {
 	public:
-		using MiniControllerBase::MiniControllerBase;
+		using ClassicController_Shared::ClassicController_Shared;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};

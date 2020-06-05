@@ -103,13 +103,15 @@ constexpr BitMap   ClassicController_Shared::MapsHR::ButtonHome;
 
 boolean ClassicController_Shared::specificInit() {
 	/* On init, try to set the controller to work in "high resolution" mode so
-	 * we get a full byte of data for each analog input.
+	 * we get a full byte of data for each analog input. Then read the current
+	 * "data mode" from the controller so that the control surface functions
+	 * use the correct mappings. This way, the class flexes to support
+	 * all controllers regardless of their available data mode.
 	 *
-	 * The 'setDataMode' function also checks the current mode of the controller
-	 * after the HR setting is set, so the data maps should match the data
-	 * reporting type. This way the class flexes to support controllers that
-	 * only work in standard mode, only work in high res mode, or can support
-	 * both.
+	 * This function will only return false if there is a *communciation error*
+	 * on the I2C bus, meaning that the controller did not respond to a write
+	 * or did not provide the right amount of data for a request. It will *not*
+	 * return false if the "high resolution" mode is not successfully set.
 	 */
 	delayMicroseconds(I2C_ConversionDelay);  // wait after ID read before writing register
 	return setDataMode(true);  // try to set 'high res' mode. 'success' if no comms errors

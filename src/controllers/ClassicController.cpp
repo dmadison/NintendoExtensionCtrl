@@ -158,12 +158,10 @@ boolean ClassicController_Shared::checkHighRes(boolean *hr) const {
 	 * controllers apparently don't understand how to act as a proper
 	 * register-based I2C device and just return junk. So instead we're starting
 	 * at the beginning of the data block.
-	 *
-	 * On the plus side, requesting more data here does make the error-checking
-	 * more robust! Although at the expensive of a longer delay.
 	 */
-	static const uint8_t CheckPtr = 0x00;  // start of the control data block
-	static const uint8_t CheckSize = 8;    // 8 bytes to cover both std and high res
+	static const uint8_t CheckPtr   = 0x00;  // start of the control data block
+	static const uint8_t CheckSize  = 8;     // 8 bytes to cover both std and high res
+	static const uint8_t DataOffset = 0x06;  // start of the data we're interested in (7 / 8)
 	uint8_t checkData[CheckSize] = { 0x00 }, verifyData[CheckSize] = { 0x00 };
 	do {
 		if (!requestData(CheckPtr, CheckSize, checkData)) return false;
@@ -171,7 +169,7 @@ boolean ClassicController_Shared::checkHighRes(boolean *hr) const {
 		if (!requestData(CheckPtr, CheckSize, verifyData)) return false;
 
 		boolean equal = true;
-		for (uint8_t i = 0; i < CheckSize; i++) {
+		for (uint8_t i = 0; i < CheckSize - DataOffset; i++) {
 			if (checkData[i] != verifyData[i]) {
 				equal = false;  // one byte does not match! quit
 				break;
@@ -182,7 +180,7 @@ boolean ClassicController_Shared::checkHighRes(boolean *hr) const {
 		delayMicroseconds(I2C_ConversionDelay);  // if we're doing another loop, wait between reads again
 	} while (true);
 
-	*hr = !(checkData[6] == 0x00 && checkData[7] == 0x00);  // if both are '0', high res is false
+	*hr = !(checkData[DataOffset] == 0x00 && checkData[DataOffset+1] == 0x00);  // if both are '0', high res is false
 	return true;  // successfully read state
 }
 

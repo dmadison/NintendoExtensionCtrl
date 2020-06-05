@@ -172,7 +172,10 @@ boolean ClassicController_Shared::checkHighRes(boolean *hr) const {
 
 		boolean equal = true;
 		for (uint8_t i = 0; i < CheckSize; i++) {
-			equal &= (checkData[i] == verifyData[i]);
+			if (checkData[i] != verifyData[i]) {
+				equal = false;  // one byte does not match! quit
+				break;
+			}
 		}
 
 		if (equal) break;  // if data matches, continue

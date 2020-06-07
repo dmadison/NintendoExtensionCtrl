@@ -116,7 +116,7 @@ namespace NintendoExtensionCtrl {
 
 		boolean specificInit();
 
-		boolean setHighRes(boolean hr = true);
+		boolean setHighRes(boolean hr = true, boolean verify = true);
 		boolean getHighRes() const;
 
 		uint8_t leftJoyX() const;  // 8 bits, 6 shifted in std mode
@@ -158,7 +158,7 @@ namespace NintendoExtensionCtrl {
 		boolean highRes = false;  // 'high resolution' mode setting
 
 		boolean checkDataMode(boolean *hr) const;
-		boolean setDataMode(boolean hr);
+		boolean setDataMode(boolean hr, boolean verify = true);
 	};
 
 

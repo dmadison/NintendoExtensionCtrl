@@ -184,13 +184,18 @@ boolean ClassicController_Shared::checkDataMode(boolean *hr) const {
 	return true;  // successfully read state
 }
 
-boolean ClassicController_Shared::setDataMode(boolean hr) {
+boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
 	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
 	if (!writeRegister(0xFE, regVal)) return false;  // write to controller
 
-	boolean currentMode = false;  // check controller's HR setting 
-	if (!checkDataMode(&currentMode)) return false;  // error: could not read mode
-	highRes = currentMode;  // save current mode to class
+	if (verify == true) {
+		boolean currentMode = false;  // check controller's HR setting 
+		if (!checkDataMode(&currentMode)) return false;  // error: could not read mode
+		highRes = currentMode;  // save current mode to class
+	}
+	else {
+		highRes = hr;  // save mode (no verification)
+	}
 
 	if (getHighRes() == true && getRequestSize() < 8) {
 		setRequestSize(8);  // 8 bytes needed for hr mode
@@ -202,9 +207,9 @@ boolean ClassicController_Shared::setDataMode(boolean hr) {
 	return true;  // 'success' if no communication errors, regardless of setting
 }
 
-boolean ClassicController_Shared::setHighRes(boolean hr) {
+boolean ClassicController_Shared::setHighRes(boolean hr, boolean verify) {
 	// 'success' if the mode is changed to the one we're trying to set
-	return setDataMode(hr) && (getHighRes() == hr);
+	return setDataMode(hr, verify) && (getHighRes() == hr);
 }
 
 boolean ClassicController_Shared::getHighRes() const {

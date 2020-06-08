@@ -91,24 +91,125 @@ constexpr BitMap   ClassicController_Shared::MapsHR::ButtonHome;
  * to copy the mapping name twice.
  *
  * If the controller is not in "high resolution" mode (according to the class
- * data), return the controlData or controlBit function for the specified map
- * in the "standard" maps (Maps::). If the controller *is* in "high resolution"
- * mode, return the controlData or controlBit function for the specified map
- * of the same name in the "high resolution" maps (MapsHR::).
+ * data), fetch the controlData or controlBit function for the specified map
+ * in the "standard" maps (Maps::) and bit shift to the left in order to fit
+ * the full width of the "high res" data range. If the controller *is* in
+ * "high resolution" mode, fetch the controlData or controlBit function for
+ * the specified mapof the same name in the "high resolution" maps (MapsHR::).
  */
-#define HRDATA(map) !highRes ? getControlData(Maps::map) : getControlData(MapsHR::map)
+#define HRDATA(map, shift) !highRes ? (getControlData(Maps::map) << shift) & 0xFF : getControlData(MapsHR::map)
 #define HRBIT(map)  !highRes ? getControlBit(Maps::map) : getControlBit(MapsHR::map)
 
 
-boolean ClassicController_Shared::setHighRes(boolean hr) {
+boolean ClassicController_Shared::specificInit() {
+	/* On init, try to set the controller to work in "high resolution" mode so
+	 * we get a full byte of data for each analog input. Then read the current
+	 * "data mode" from the controller so that the control surface functions
+	 * use the correct mappings. This way, the class flexes to support
+	 * all controllers regardless of their available data mode.
+	 *
+	 * This function will only return false if there is a *communciation error*
+	 * on the I2C bus, meaning that the controller did not respond to a write
+	 * or did not provide the right amount of data for a request. It will *not*
+	 * return false if the "high resolution" mode is not successfully set.
+	 */
+	delayMicroseconds(I2C_ConversionDelay);  // wait after ID read before writing register
+	return setDataMode(true);  // try to set 'high res' mode. 'success' if no comms errors
+}
+
+boolean ClassicController_Shared::checkDataMode(boolean *hr) const {
+	/* Programmator Emptor: vvv This is where all of the headaches stem from vvv */
+
+	/* Okay, so here's the deal. The Wii Classic Controller reports its data
+	 * as six bytes with bit-packing for the analog values. When the NES and
+	 * SNES mini consoles were released it turned out that Nintendo had
+	 * included a "high resolution" mode for the Classic Controller. Writing
+	 * '0x03' to the register '0xFE' will make the controller output 8 bytes,
+	 * with each analog control surface using a full byte for its output.
+	 *
+	 * So here's the rub:
+	 *   * Bad knockoff Classic Controllers only support "normal" mode
+	 *   * Bad knockoff NES Controllers only support "high resolution" mode
+	 *   * Genuine controllers support both
+	 *
+	 * Some knockoffs will behave properly and switch between the modes as
+	 * requested, but many will only report their data in one mode and ignore
+	 * the host if it asks otherwise. This results in control data that is 
+	 * misinterpreted and users that are unhappy. So not only do we have to
+	 * switch between modes, but we need to come up with a robust method
+	 * to figure out *what mode we're in*.
+	 *
+	 * Here's my idea: in "standard" mode, the controller outputs 6 bytes of
+	 * control data, leaving bytes 7-8 blank (0x00). If we read these two bytes
+	 * and they have data in them, the controller must be in high resolution
+	 * mode! In theory, at least.
+	 *
+	 * This is complicated by the fact that the data from the I2C bus has no
+	 * error checking and is open drain, so if the pull-ups are too weak or
+	 * there is noise on the bus some of these bits may flip 'high' and then
+	 * the check is no good.
+	 *
+	 * To mitigate this, the same data set is requested twice and compared
+	 * against itself. If there is a data mismatch, the requests are repeated
+	 * until the two arrays agree. Not perfect, but better than nothing.
+	 *
+	 * Note that this read starts at 0x00. I tried starting at where the data
+	 * *actually starts* (bytes 7 and 8, i.e. ptr 0x06), but the knockoff
+	 * controllers apparently don't understand how to act as a proper
+	 * register-based I2C device and just return junk. So instead we're starting
+	 * at the beginning of the data block.
+	 */
+	static const uint8_t CheckPtr   = 0x00;  // start of the control data block
+	static const uint8_t CheckSize  = 8;     // 8 bytes to cover both std and high res
+	static const uint8_t DataOffset = 0x06;  // start of the data we're interested in (7 / 8)
+	uint8_t checkData[CheckSize] = { 0x00 }, verifyData[CheckSize] = { 0x00 };
+	do {
+		if (!requestData(CheckPtr, CheckSize, checkData)) return false;
+		delayMicroseconds(I2C_ConversionDelay);  // need a brief delay between reads
+		if (!requestData(CheckPtr, CheckSize, verifyData)) return false;
+
+		boolean equal = true;
+		for (uint8_t i = 0; i < CheckSize - DataOffset; i++) {
+			if (checkData[i] != verifyData[i]) {
+				equal = false;  // one byte does not match! quit
+				break;
+			}
+		}
+
+		if (equal) break;  // if data matches, continue
+		delayMicroseconds(I2C_ConversionDelay);  // if we're doing another loop, wait between reads again
+	} while (true);
+
+	*hr = !(checkData[DataOffset] == 0x00 && checkData[DataOffset+1] == 0x00);  // if both are '0', high res is false
+	return true;  // successfully read state
+}
+
+boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
 	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
-	boolean success = writeRegister(0xFE, regVal);  // write to controller
-	if (success == true) {
-		highRes = hr;  // save 'high res' setting
-		if (highRes == true && getRequestSize() < 8) setRequestSize(8);  // 8 bytes needed for hr mode
-		else if (highRes == false) setRequestSize(MinRequestSize);  // if not in HR, set back to min
+	if (!writeRegister(0xFE, regVal)) return false;  // write to controller
+
+	if (verify == true) {
+		boolean currentMode = false;  // check controller's HR setting 
+		if (!checkDataMode(&currentMode)) return false;  // error: could not read mode
+		highRes = currentMode;  // save current mode to class
 	}
-	return success;
+	else {
+		highRes = hr;  // save mode (no verification)
+	}
+
+	if (getHighRes() == true && getRequestSize() < 8) {
+		setRequestSize(8);  // 8 bytes needed for hr mode
+	}
+	else if (getHighRes() == false && hr == false) {
+		setRequestSize(MinRequestSize);  // if not in HR and *trying* not to be, set back to min
+	}
+
+	return true;  // 'success' if no communication errors, regardless of setting
+}
+
+boolean ClassicController_Shared::setHighRes(boolean hr, boolean verify) {
+	// 'success' if the mode is changed to the one we're trying to set
+	return setDataMode(hr, verify) && (getHighRes() == hr);
 }
 
 boolean ClassicController_Shared::getHighRes() const {
@@ -116,19 +217,19 @@ boolean ClassicController_Shared::getHighRes() const {
 }
 
 uint8_t ClassicController_Shared::leftJoyX() const {
-	return HRDATA(LeftJoyX);
+	return HRDATA(LeftJoyX, 2);  // 6 bits for standard range, so shift left (8-6)
 }
 
 uint8_t ClassicController_Shared::leftJoyY() const {
-	return HRDATA(LeftJoyY);
+	return HRDATA(LeftJoyY, 2);
 }
 
 uint8_t ClassicController_Shared::rightJoyX() const {
-	return HRDATA(RightJoyX);
+	return HRDATA(RightJoyX, 3);  // 5 bits for standard range, so shift left (8-5)
 }
 
 uint8_t ClassicController_Shared::rightJoyY() const {
-	return HRDATA(RightJoyY);
+	return HRDATA(RightJoyY, 3);
 }
 
 boolean ClassicController_Shared::dpadUp() const {
@@ -164,11 +265,11 @@ boolean ClassicController_Shared::buttonY() const {
 }
 
 uint8_t ClassicController_Shared::triggerL() const {
-	return HRDATA(TriggerL);
+	return HRDATA(TriggerL, 3);  // 5 bits for standard range, so shift left (8-5)
 }
 
 uint8_t ClassicController_Shared::triggerR() const {
-	return HRDATA(TriggerR);
+	return HRDATA(TriggerR, 3);
 }
 
 boolean ClassicController_Shared::buttonL() const {
@@ -244,20 +345,13 @@ void ClassicController_Shared::printDebug(Print& output) const {
 		zlButtonPrint, zrButtonPrint);
 	
 	output.print(buffer);
-	if (getHighRes()) output.print(" (High Res)");
+	if (getHighRes()) output.print(" | (HR)");
 
 	output.println();
 }
 
 
 // ######### Mini Controller Support #########
-
-boolean MiniControllerBase::specificInit() {
-	// all mini controllers use high res format, and some of the cheaper third
-	// party ones will not work without it. So we're going to set this on
-	// connection for all of them
-	return setHighRes(true);
-}
 
 void NESMiniController_Shared::printDebug(Print& output) const {
 	const char fillCharacter = '_';

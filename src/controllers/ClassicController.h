@@ -114,13 +114,15 @@ namespace NintendoExtensionCtrl {
 		ClassicController_Shared(ExtensionPort &port) :
 			ClassicController_Shared(port.getExtensionData()) {}
 
-		boolean setHighRes(boolean hr = true);
+		boolean specificInit();
+
+		boolean setHighRes(boolean hr = true, boolean verify = true);
 		boolean getHighRes() const;
 
-		uint8_t leftJoyX() const;  // 6 bits, 0-63
+		uint8_t leftJoyX() const;  // 8 bits, 6 shifted in std mode
 		uint8_t leftJoyY() const;
 
-		uint8_t rightJoyX() const;  // 5 bits, 0-31
+		uint8_t rightJoyX() const;  // 8 bits, 5 shifted in std mode
 		uint8_t rightJoyY() const;
 
 		boolean dpadUp() const;
@@ -133,7 +135,7 @@ namespace NintendoExtensionCtrl {
 		boolean buttonX() const;
 		boolean buttonY() const;
 
-		uint8_t triggerL() const;  // 5 bits, 0-31
+		uint8_t triggerL() const;  // 8 bits, 5 shifted in std mode
 		uint8_t triggerR() const;
 
 		boolean buttonL() const;
@@ -154,28 +156,24 @@ namespace NintendoExtensionCtrl {
 
 	protected:
 		boolean highRes = false;  // 'high resolution' mode setting
+
+		boolean checkDataMode(boolean *hr) const;
+		boolean setDataMode(boolean hr, boolean verify = true);
 	};
 
 
 	/* Nintendo Mini Console Controllers */
 
-	class MiniControllerBase : public ClassicController_Shared {
+	class NESMiniController_Shared : public ClassicController_Shared {
 	public:
 		using ClassicController_Shared::ClassicController_Shared;
-
-		boolean specificInit();
-	};
-
-	class NESMiniController_Shared : public MiniControllerBase {
-	public:
-		using MiniControllerBase::MiniControllerBase;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};
 
-	class SNESMiniController_Shared : public MiniControllerBase {
+	class SNESMiniController_Shared : public ClassicController_Shared {
 	public:
-		using MiniControllerBase::MiniControllerBase;
+		using ClassicController_Shared::ClassicController_Shared;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};

@@ -65,6 +65,7 @@ printDebugRaw	KEYWORD2
 initialize	KEYWORD2
 
 writeRegister	KEYWORD2
+readRegister	KEYWORD2
 
 requestData	KEYWORD2
 requestControlData	KEYWORD2

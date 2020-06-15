@@ -21,6 +21,7 @@ DrumController	KEYWORD1
 DJTurntableController	KEYWORD1
 uDrawTablet	 KEYWORD1
 DrawsomeTablet	KEYWORD1
+Tatacon	 KEYWORD1
 
 # Mini Controllers
 NESMiniController	KEYWORD1
@@ -223,6 +224,11 @@ buttonUpper	 KEYWORD2
 ## Drawsome Tablet
 # (Covered by the uDrawTablet keywords)
 
+## Tatacon
+centerLeft	KEYWORD2
+centerRight	KEYWORD2
+rimLeft	    KEYWORD2
+rimRight	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)

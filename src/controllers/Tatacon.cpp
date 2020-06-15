@@ -66,7 +66,7 @@ void Tatacon_Shared::printDebug(Print& output) const {
 
 	output.print("Nunchuk - ");
 	sprintf(buffer,
-            "Center: (Left: %c  Right: %C) | Rim: (Left: %c  Right: %c)",
+            "Center: (Left: %c  Right: %c) | Rim: (Left: %c  Right: %c)",
 			donPrintL, donPrintR, kaPrintL, kaPrintR);
 
 	output.println(buffer);

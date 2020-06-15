@@ -1,8 +1,8 @@
 /*
 *  Project     Nintendo Extension Controller Library
-*  @author     David Madison
+*  @author     Nullstalgia
 *  @link       github.com/dmadison/NintendoExtensionCtrl
-*  @license    LGPLv3 - Copyright (c) 2018 David Madison
+*  @license    LGPLv3 - Copyright (c) 2020 Nullstalgia
 *
 *  This file is part of the Nintendo Extension Controller Library.
 *
@@ -18,26 +18,35 @@
 *
 *  You should have received a copy of the GNU Lesser General Public License
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+*  Example:      Tatacon_DebugPrint
+*  Description:  Connect to a Tatacon and continuously print its control
+*                data, nicely formatted for debugging, over the serial bus.
 */
 
-#ifndef NintendoExtensionCtrl_h
-#define NintendoExtensionCtrl_h
+#include <NintendoExtensionCtrl.h>
 
-// Controller Base
-#include "internal/ExtensionController.h"
+Tatacon drum;
 
-// Wii Controllers
-#include "controllers/Nunchuk.h"
-#include "controllers/ClassicController.h"
-#include "controllers/GuitarController.h"
-#include "controllers/DrumController.h"
-#include "controllers/DJTurntable.h"
-#include "controllers/uDrawTablet.h"
-#include "controllers/DrawsomeTablet.h"
-#include "controllers/Tatacon.h"
+void setup() {
+	Serial.begin(115200);
+	drum.begin();
 
+	while (!drum.connect()) {
+		Serial.println("Tatacon not detected!");
+		delay(1000);
+	}
+}
 
-// Mini Controllers
-/* (included with ClassicController.h) */
+void loop() {
+	boolean success = drum.update();  // Get new data from the controller
 
-#endif
+	if (success == true) {  // We've got data!
+		drum.printDebug();  // Print all of the values!
+	}
+	else {  // Data is bad :(
+		Serial.println("Controller Disconnected!");
+		delay(1000);
+		drum.connect();
+	}
+}

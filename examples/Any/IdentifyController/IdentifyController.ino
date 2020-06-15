@@ -63,6 +63,9 @@ void setup() {
 		case(ExtensionType::DrawsomeTablet):
 			Serial.println("Drawsome Tablet connected!");
 			break;
+        case(ExtensionType::Tatacon):
+            Serial.println("Tatacon drum connected!");
+            break;
 		default: break;
 	}
 	controller.printDebugID();

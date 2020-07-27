@@ -29,10 +29,10 @@ namespace NintendoExtensionCtrl {
 	class Tatacon_Shared : public ExtensionController {
 	public:
 		struct Maps {
-			constexpr static BitMap   CenterLeft = { 0, 6 };
-			constexpr static BitMap   CenterRight = { 0, 4 };
-			constexpr static BitMap   RimLeft = { 0, 5 };
-			constexpr static BitMap   RimRight = { 0, 3 };
+			constexpr static BitMap   CenterLeft = { 5, 6 };
+			constexpr static BitMap   CenterRight = { 5, 4 };
+			constexpr static BitMap   RimLeft = { 5, 5 };
+			constexpr static BitMap   RimRight = { 5, 3 };
 		};
 		
 		Tatacon_Shared(ExtensionData &dataRef) :

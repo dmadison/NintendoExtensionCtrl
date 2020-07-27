@@ -64,7 +64,7 @@ void Tatacon_Shared::printDebug(Print& output) const {
 	char kaPrintL = RimLeft() ? 'K' : '-';
 	char kaPrintR = RimRight() ? 'K' : '-';
 
-	output.print("Nunchuk - ");
+	output.print("Tatacon - ");
 	sprintf(buffer,
             "Center: (Left: %c  Right: %c) | Rim: (Left: %c  Right: %c)",
 			donPrintL, donPrintR, kaPrintL, kaPrintR);

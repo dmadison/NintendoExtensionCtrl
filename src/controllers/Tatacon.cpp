@@ -30,39 +30,30 @@ constexpr BitMap   Tatacon_Shared::Maps::CenterRight;
 constexpr BitMap   Tatacon_Shared::Maps::RimLeft;
 constexpr BitMap   Tatacon_Shared::Maps::RimRight;
 
-boolean Tatacon_Shared::specificInit() {
-	/* It uses only 4 bits in the first byte,
-	 * so this is to limit wasted time reading the 
-	 * remaining empty, unchanging, bytes.
-	 */
-	setRequestSize(1);
-	return true;
-}
-
-boolean Tatacon_Shared::CenterLeft() const {
+boolean Tatacon_Shared::centerLeft() const {
 	return getControlBit(Maps::CenterLeft);
 }
 
-boolean Tatacon_Shared::CenterRight() const {
+boolean Tatacon_Shared::centerRight() const {
 	return getControlBit(Maps::CenterRight);
 }
 
-boolean Tatacon_Shared::RimLeft() const {
+boolean Tatacon_Shared::rimLeft() const {
 	return getControlBit(Maps::RimLeft);
 }
 
-boolean Tatacon_Shared::RimRight() const {
+boolean Tatacon_Shared::rimRight() const {
 	return getControlBit(Maps::RimRight);
 }
 
 void Tatacon_Shared::printDebug(Print& output) const {
 	char buffer[60];
 
-	char donPrintL = CenterLeft() ? 'D' : '-';
-	char donPrintR = CenterRight() ? 'D' : '-';
+	char donPrintL = centerLeft() ? 'D' : '-';
+	char donPrintR = centerRight() ? 'D' : '-';
 	
-	char kaPrintL = RimLeft() ? 'K' : '-';
-	char kaPrintR = RimRight() ? 'K' : '-';
+	char kaPrintL = rimLeft() ? 'K' : '-';
+	char kaPrintR = rimRight() ? 'K' : '-';
 
 	output.print("Tatacon - ");
 	sprintf(buffer,

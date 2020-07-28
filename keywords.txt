@@ -224,7 +224,7 @@ buttonUpper	 KEYWORD2
 ## Drawsome Tablet
 # (Covered by the uDrawTablet keywords)
 
-## Tatacon
+## Taiko no Tatsujin Drum Controller (Tatacon)
 centerLeft	KEYWORD2
 centerRight	KEYWORD2
 rimLeft	    KEYWORD2

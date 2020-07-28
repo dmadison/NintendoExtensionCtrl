@@ -36,6 +36,12 @@ unsigned long lastRightKa;
 
 #define LARGE_NOTE_TIMING 100
 
+bool centerLeftPrevious = false;
+bool centerRightPrevious = false;
+
+bool rimLeftPrevious = false;
+bool rimRightPrevious = false;
+
 void setup() {
 	Serial.begin(115200);
 	drum.begin();
@@ -47,7 +53,7 @@ void setup() {
 }
 
 void loop() {
-	Serial.println("----- Tatacon Demo -----"); // Making things easier to read
+	//Serial.println("----- Tatacon Demo -----"); // Making things easier to read
 	boolean success = drum.update();  // Get new data from the controller
 
 	if (!success) {  // Ruh roh
@@ -57,43 +63,55 @@ void loop() {
 	else {
 		unsigned long currentMillis = millis();
 		
-		if (drum.centerLeft()) {
+		bool centerLeftActive = drum.centerLeft();
+		bool centerRightActive = drum.centerRight();
+		
+		bool rimLeftActive = drum.rimLeft();
+		bool rimRightActive = drum.rimRight();
+		
+		if (centerLeftPrevious != centerLeftActive && centerLeftActive == true) {
+			lastLeftDon = currentMillis;
 			if (currentMillis - lastRightDon <= LARGE_NOTE_TIMING) {
-				lastLeftDon = currentMillis;
 				Serial.println("DON!");
 			} else {
 				Serial.println("Don");
 			}
 		}
 		
-		if (drum.centerRight()) {
+		if (centerRightPrevious != centerRightActive && centerRightActive == true) {
+			lastRightDon = currentMillis;
 			if (currentMillis - lastLeftDon <= LARGE_NOTE_TIMING) {
-				lastRightDon = currentMillis;
 				Serial.println("DON!");
 			} else {
 				Serial.println("Don");
 			}
 		}
 		
-		if (drum.rimLeft()) {
+		if (rimLeftPrevious != rimLeftActive && rimLeftActive == true) {
+			lastLeftKa = currentMillis;
 			if (currentMillis - lastRightKa <= LARGE_NOTE_TIMING) {
-				lastLeftKa = currentMillis;
 				Serial.println("KA!");
 			} else {
 				Serial.println("Ka");
 			}
 		}
 		
-		if (drum.rimRight()) {
+		if (rimRightPrevious != rimRightActive && rimRightActive == true) {
+			lastRightKa = currentMillis;
 			if (currentMillis - lastLeftKa <= LARGE_NOTE_TIMING) {
-				lastRightKa = currentMillis;
 				Serial.println("KA!");
 			} else {
 				Serial.println("Ka");
 			}
 		}
 
+		centerLeftPrevious = centerLeftActive;
+		centerRightPrevious = centerRightActive;
+		
+		rimLeftPrevious = rimLeftActive;
+		rimRightPrevious = rimRightActive;
+		
 		// Print all the values!
-		drum.printDebug();
+		// drum.printDebug();
 	}
 }

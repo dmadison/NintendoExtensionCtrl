@@ -41,13 +41,12 @@ namespace NintendoExtensionCtrl {
 		Tatacon_Shared(ExtensionPort &port) :
 			Tatacon_Shared(port.getExtensionData()) {}
 			
-		boolean specificInit();
 
-		boolean CenterLeft() const; // ドン !!
-		boolean CenterRight() const; // ヽ（゜∀゜○）ノ
+		boolean centerLeft() const; // ドン !!
+		boolean centerRight() const; // ヽ（゜∀゜○）ノ
 	
-		boolean RimLeft() const; // カッ !!
-		boolean RimRight() const; // ヽ(。ゝω・)ノ☆
+		boolean rimLeft() const; // カッ !!
+		boolean rimRight() const; // ヽ(。ゝω・)ノ☆
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};

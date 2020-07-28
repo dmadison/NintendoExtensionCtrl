@@ -33,6 +33,7 @@ Plug in your controller, upload the example to your board, and have fun!
 * Guitar Hero Guitar
 * Guitar Hero World Tour Drums
 * DJ Hero Turntable
+* Taiko no Tatsujin Drum (Tatacon)
 
 ### Wii Drawing Tablets
 * uDraw Tablet

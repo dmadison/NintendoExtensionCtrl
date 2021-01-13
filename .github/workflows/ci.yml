@@ -1,0 +1,77 @@
+name: build
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        board: ["Arduino Uno", "Arduino Leonardo", "Arduino Mega 2560"]
+        include:
+          - board: "Arduino Uno"  # board name, human-readable (matching board array above)
+            platform: "arduino:avr"  # board platform, to be installed by the CLI
+            fqbn: "arduino:avr:uno"  # fully qualified board name
+          - board: "Arduino Leonardo"
+            platform: "arduino:avr"
+            fqbn: "arduino:avr:leonardo"
+          - board: "Arduino Mega 2560"
+            platform: "arduino:avr"
+            fqbn: "arduino:avr:mega:cpu=atmega2560"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v1.1.1
+
+      - name: Install Board Platform
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install ${{ matrix.platform }}
+
+      - name: Add Library Symbolic Link to Repo
+        run: |
+          mkdir --parents "$HOME/Arduino/libraries"
+          ln --symbolic "$PWD" "$HOME/Arduino/libraries/."
+
+      - name: Compile Library Examples
+        run: |
+          buildSketchPath() {
+            sktch=${1##*/examples/};
+            sktch=${sktch%/*.ino};
+            echo -e "\nBuilding sketch $sktch.ino";
+            arduino-cli compile --fqbn ${{ matrix.fqbn }} "$1";
+          }
+          buildExampleSketch() {
+            buildSketchPath "$PWD/examples/$1/$2/$2.ino";
+          }
+          buildExampleFolder() {
+            IFS=$'\n'; set -f;
+            for f in $(find $PWD/examples/"$1" -name '*.ino');
+            do
+              buildSketchPath $f;
+            done;
+            unset IFS; set +f;
+          }
+          buildExampleSketch Any DebugPrint
+          buildExampleSketch Any IdentifyController
+          buildExampleSketch Any MultipleTypes
+          buildExampleSketch Any SpeedTest
+          if [ "$MULTI2C" = "true" ]; then
+            echo "Board has 2 or more I2C buses";
+            buildExampleSketch Any MultipleBus;
+          else
+            echo "Board has only 1 I2C bus, not building MultipleBus example";
+          fi
+          buildExampleFolder "Classic Controller"
+          buildExampleFolder "DJ"
+          buildExampleFolder "Drums"
+          buildExampleFolder "Guitar"
+          buildExampleFolder "NES Mini"
+          buildExampleFolder "Nunchuk"
+          buildExampleFolder "SNES Mini"
+          buildExampleFolder "uDraw Tablet"
+          buildExampleFolder "Drawsome Tablet"

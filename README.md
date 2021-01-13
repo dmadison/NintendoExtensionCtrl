@@ -1,5 +1,5 @@
 # Nintendo Extension Controller Library 
-[![arduino-library-badge](https://www.ardu-badge.com/badge/Nintendo%20Extension%20Ctrl.svg?)](https://www.ardu-badge.com/Nintendo%20Extension%20Ctrl)
+[![arduino-library-badge](https://www.ardu-badge.com/badge/Nintendo%20Extension%20Ctrl.svg?)](https://www.ardu-badge.com/Nintendo%20Extension%20Ctrl) [![Build Status](https://github.com/dmadison/NintendoExtensionCtrl/workflows/build/badge.svg?branch=master)](https://github.com/dmadison/NintendoExtensionCtrl/actions?query=workflow%3Abuild)
 
 This is an Arduino library that makes it easy to read data from Nintendo extension controllers such as the Wii Nunchuk and Classic Controller.
 

@@ -159,14 +159,13 @@ boolean ClassicController_Shared::checkDataMode(boolean *hr) const {
 	 * register-based I2C device and just return junk. So instead we're starting
 	 * at the beginning of the data block.
 	 */
-	static const uint8_t CheckPtr   = 0x00;  // start of the control data block
 	static const uint8_t CheckSize  = 8;     // 8 bytes to cover both std and high res
 	static const uint8_t DataOffset = 0x06;  // start of the data we're interested in (7 / 8)
 	uint8_t checkData[CheckSize] = { 0x00 }, verifyData[CheckSize] = { 0x00 };
 	do {
-		if (!requestData(CheckPtr, CheckSize, checkData)) return false;
+		if (!requestControlData(CheckSize, checkData)) return false;
 		delayMicroseconds(I2C_ConversionDelay);  // need a brief delay between reads
-		if (!requestData(CheckPtr, CheckSize, verifyData)) return false;
+		if (!requestControlData(CheckSize, verifyData)) return false;
 
 		boolean equal = true;
 		for (uint8_t i = 0; i < CheckSize - DataOffset; i++) {
@@ -186,15 +185,38 @@ boolean ClassicController_Shared::checkDataMode(boolean *hr) const {
 
 boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
 	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
-	if (!writeRegister(0xFE, regVal)) return false;  // write to controller
+
+	// Attempt to write 'high res' mode to controller register.
+	const bool writeSuccess = writeRegister(0xFE, regVal);
+
+	/* If there's no success on the register write there are two possibilities:
+	 *
+	 *   #1: The controller is disconnected and no I2C data can get through
+	 *   #2: The controller is silly and not processing the command properly, 
+	 *       as some clone controllers may
+	 *
+	 * To determine which state we're in we perform a bog-standard data read,
+	 * which is guaranteed to be supported by all controllers. If the controller
+	 * returns data (*any* data) then we're still connected and the controller
+	 * NACK'd the register write. If the controller does *not* return data the I2C
+	 * bus is presumably disconnected and we can return 'false' for a communication
+	 * error.
+	 */
+	if (!writeSuccess) {
+		uint8_t buffer[MinRequestSize];  // we don't care about this data, we just need someplace to dump it
+		if (!requestControlData(MinRequestSize, buffer)) return false;  // bad read, we must be disconnected
+
+		// if we're going to perfom more reads below, the controller needs a short delay to catch its breath
+		if(verify == true) delayMicroseconds(I2C_ConversionDelay);
+	}
 
 	if (verify == true) {
-		boolean currentMode = false;  // check controller's HR setting 
+		boolean currentMode;  // buffer for controller's deduced HR setting, set in the 'check' function
 		if (!checkDataMode(&currentMode)) return false;  // error: could not read mode
 		highRes = currentMode;  // save current mode to class
 	}
 	else {
-		highRes = hr;  // save mode (no verification)
+		highRes = hr;  // save mode we're attempting to set (no verification)
 	}
 
 	if (getHighRes() == true && getRequestSize() < 8) {

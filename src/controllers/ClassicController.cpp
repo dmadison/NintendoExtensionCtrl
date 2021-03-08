@@ -186,7 +186,31 @@ boolean ClassicController_Shared::checkDataMode(boolean *hr) const {
 
 boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
 	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
-	if (!writeRegister(0xFE, regVal)) return false;  // write to controller
+
+	// Attempt to write 'high res' mode to controller register.
+	const bool writeSuccess = writeRegister(0xFE, regVal);
+
+	/* If there's no success on the register write there are two possibilities:
+	 *
+	 *   #1: The controller is disconnected and no I2C data can get through
+	 *   #2: The controller is silly and not processing the command properly, 
+	 *       as some clone controllers may
+	 *
+	 * To determine which state we're in we perform a bog-standard data read,
+	 * which is guaranteed to be supported by all controllers. If the controller
+	 * returns data (*any* data) then we're still connected and the controller
+	 * NACK'd the register write. If the controller does *not* return data the I2C
+	 * bus is presumably disconnected and we can return 'false' for a communication
+	 * error.
+	 */
+	if (!writeSuccess) {
+		// we don't care about this data, we just need someplace to dump it
+		uint8_t buffer[MinRequestSize];
+		if (!requestData(0x00, MinRequestSize, buffer)) return false;  // bad read, we must be disconnected
+
+		// if we're going to perfom more reads below, the controller needs a short delay to catch its breath
+		if(verify == true) delayMicroseconds(I2C_ConversionDelay);
+	}
 
 	if (verify == true) {
 		boolean currentMode;  // buffer for deduced controller's HR setting 
@@ -194,7 +218,7 @@ boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
 		highRes = currentMode;  // save current mode to class
 	}
 	else {
-		highRes = hr;  // save mode (no verification)
+		highRes = hr;  // save mode we're attempting to set (no verification)
 	}
 
 	if (getHighRes() == true && getRequestSize() < 8) {

@@ -159,14 +159,13 @@ boolean ClassicController_Shared::checkDataMode(boolean *hr) const {
 	 * register-based I2C device and just return junk. So instead we're starting
 	 * at the beginning of the data block.
 	 */
-	static const uint8_t CheckPtr   = 0x00;  // start of the control data block
 	static const uint8_t CheckSize  = 8;     // 8 bytes to cover both std and high res
 	static const uint8_t DataOffset = 0x06;  // start of the data we're interested in (7 / 8)
 	uint8_t checkData[CheckSize] = { 0x00 }, verifyData[CheckSize] = { 0x00 };
 	do {
-		if (!requestData(CheckPtr, CheckSize, checkData)) return false;
+		if (!requestControlData(CheckSize, checkData)) return false;
 		delayMicroseconds(I2C_ConversionDelay);  // need a brief delay between reads
-		if (!requestData(CheckPtr, CheckSize, verifyData)) return false;
+		if (!requestControlData(CheckSize, verifyData)) return false;
 
 		boolean equal = true;
 		for (uint8_t i = 0; i < CheckSize - DataOffset; i++) {
@@ -206,7 +205,7 @@ boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
 	if (!writeSuccess) {
 		// we don't care about this data, we just need someplace to dump it
 		uint8_t buffer[MinRequestSize];
-		if (!requestData(0x00, MinRequestSize, buffer)) return false;  // bad read, we must be disconnected
+		if (!requestControlData(MinRequestSize, buffer)) return false;  // bad read, we must be disconnected
 
 		// if we're going to perfom more reads below, the controller needs a short delay to catch its breath
 		if(verify == true) delayMicroseconds(I2C_ConversionDelay);

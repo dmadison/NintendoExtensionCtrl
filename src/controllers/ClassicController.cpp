@@ -203,8 +203,7 @@ boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
 	 * error.
 	 */
 	if (!writeSuccess) {
-		// we don't care about this data, we just need someplace to dump it
-		uint8_t buffer[MinRequestSize];
+		uint8_t buffer[MinRequestSize];  // we don't care about this data, we just need someplace to dump it
 		if (!requestControlData(MinRequestSize, buffer)) return false;  // bad read, we must be disconnected
 
 		// if we're going to perfom more reads below, the controller needs a short delay to catch its breath
@@ -212,7 +211,7 @@ boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
 	}
 
 	if (verify == true) {
-		boolean currentMode;  // buffer for deduced controller's HR setting 
+		boolean currentMode;  // buffer for controller's deduced HR setting, set in the 'check' function
 		if (!checkDataMode(&currentMode)) return false;  // error: could not read mode
 		highRes = currentMode;  // save current mode to class
 	}

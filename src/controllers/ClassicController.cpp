@@ -189,7 +189,7 @@ boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
 	if (!writeRegister(0xFE, regVal)) return false;  // write to controller
 
 	if (verify == true) {
-		boolean currentMode = false;  // check controller's HR setting 
+		boolean currentMode;  // buffer for deduced controller's HR setting 
 		if (!checkDataMode(&currentMode)) return false;  // error: could not read mode
 		highRes = currentMode;  // save current mode to class
 	}

@@ -25,10 +25,7 @@
 using namespace NintendoExtensionCtrl;
 
 ExtensionController::ExtensionController(ExtensionData& dataRef)
-	: ExtensionController(dataRef, ExtensionType::AnyController) {}
-
-ExtensionController::ExtensionController(ExtensionData& dataRef, ExtensionType conID)
-	: id(conID), data(dataRef)  {}
+	: data(dataRef)  {}
 
 void ExtensionController::begin() {
 	data.i2c.begin();  // Initialize the bus
@@ -64,6 +61,8 @@ void ExtensionController::reset() {
 }
 
 boolean ExtensionController::controllerTypeMatches() const {
+	const ExtensionType id = getControllerType();
+
 	if (data.connectedType == id) {
 		return true;  // Match!
 	}
@@ -75,6 +74,10 @@ boolean ExtensionController::controllerTypeMatches() const {
 }
 
 ExtensionType ExtensionController::getControllerType() const {
+	return ExtensionType::AnyController;
+}
+
+ExtensionType ExtensionController::getConnectedType() const {
 	return data.connectedType;
 }
 

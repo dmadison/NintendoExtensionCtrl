@@ -42,12 +42,14 @@ namespace NintendoExtensionCtrl {
 		};
 		
 		DrawsomeTablet_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::DrawsomeTablet) {}
+			ExtensionController(dataRef) {}
 
 		DrawsomeTablet_Shared(ExtensionPort &port) :
 			DrawsomeTablet_Shared(port.getExtensionData()) {}
 
 		boolean specificInit();  // for required register writes at init
+
+		ExtensionType getControllerType() const;
 
 		uint16_t penX() const;  // 16 bits, 0-65535
 		uint16_t penY() const;

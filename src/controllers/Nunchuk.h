@@ -46,10 +46,12 @@ namespace NintendoExtensionCtrl {
 		};
 		
 		Nunchuk_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::Nunchuk) {}
+			ExtensionController(dataRef) {}
 
 		Nunchuk_Shared(ExtensionPort &port) :
 			Nunchuk_Shared(port.getExtensionData()) {}
+
+		ExtensionType getControllerType() const;
 
 		uint8_t joyX() const;  // 8 bits, 0-255
 		uint8_t joyY() const;

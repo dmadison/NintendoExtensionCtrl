@@ -42,6 +42,10 @@ boolean DrawsomeTablet_Shared::specificInit() {
 	return writeRegister(0xFB, 0x01) && writeRegister(0xF0, 0x55);
 }
 
+ExtensionType DrawsomeTablet_Shared::getControllerType() const {
+	return ExtensionType::DrawsomeTablet;
+}
+
 uint16_t DrawsomeTablet_Shared::penX() const {
 	return (getControlData(Maps::PenX_MSB) << 8) | getControlData(Maps::PenX_LSB);
 }

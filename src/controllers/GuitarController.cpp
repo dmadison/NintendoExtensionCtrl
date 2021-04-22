@@ -42,6 +42,10 @@ constexpr BitMap  GuitarController_Shared::Maps::FretOrange;
 constexpr ByteMap GuitarController_Shared::Maps::Whammy;
 constexpr ByteMap GuitarController_Shared::Maps::Touchbar;
 
+ExtensionType GuitarController_Shared::getControllerType() const {
+	return ExtensionType::GuitarController;
+}
+
 uint8_t GuitarController_Shared::joyX() const {
 	return getControlData(Maps::JoyX);
 }

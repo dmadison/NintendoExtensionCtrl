@@ -109,12 +109,14 @@ namespace NintendoExtensionCtrl {
 		};
 
 		ClassicController_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::ClassicController) {}
+			ExtensionController(dataRef) {}
 
 		ClassicController_Shared(ExtensionPort &port) :
 			ClassicController_Shared(port.getExtensionData()) {}
 
 		boolean specificInit();
+
+		ExtensionType getControllerType() const;
 
 		boolean setHighRes(boolean hr = true, boolean verify = true);
 		boolean getHighRes() const;

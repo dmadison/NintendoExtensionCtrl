@@ -43,6 +43,10 @@ constexpr ByteMap DrumController_Shared::Maps::Velocity;
 constexpr ByteMap DrumController_Shared::Maps::VelocityID;
 constexpr BitMap  DrumController_Shared::Maps::VelocityAvailable;
 
+ExtensionType DrumController_Shared::getControllerType() const {
+	return ExtensionType::DrumController;
+}
+
 uint8_t DrumController_Shared::joyX() const {
 	return getControlData(Maps::JoyX);
 }

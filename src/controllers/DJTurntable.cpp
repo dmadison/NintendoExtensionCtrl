@@ -47,6 +47,10 @@ constexpr ByteMap DJTurntableController_Shared::Maps::CrossfadeSlider;
 
 constexpr BitMap  DJTurntableController_Shared::Maps::ButtonEuphoria;
 
+ExtensionType DJTurntableController_Shared::getControllerType() const {
+	return ExtensionType::DJTurntableController;
+}
+
 // Combined Turntable
 int8_t DJTurntableController_Shared::turntable() const {
 	return left.turntable() + right.turntable();

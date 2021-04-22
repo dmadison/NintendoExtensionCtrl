@@ -56,7 +56,8 @@ public:
 
 	void reset();
 
-	ExtensionType getControllerType() const;
+	virtual ExtensionType getControllerType() const;
+	ExtensionType getConnectedType() const;
 	boolean controllerTypeMatches() const;
 
 	uint8_t getControlData(uint8_t controlIndex) const;
@@ -69,8 +70,6 @@ public:
 	void printDebugID(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(Print& output = NXC_SERIAL_DEFAULT) const;
 	void printDebugRaw(uint8_t baseFormat, Print& output = NXC_SERIAL_DEFAULT) const;
-
-	const ExtensionType id = ExtensionType::AnyController;
 
 	static const uint8_t MinRequestSize = 6;   // Smallest reporting mode (0x37)
 	static const uint8_t MaxRequestSize = ExtensionData::ControlDataSize;
@@ -108,8 +107,6 @@ public:
 	inline ExtensionType identifyController() const { return data.connectedType = identifyController(data.i2c); }
 
 protected:
-	ExtensionController(ExtensionData& dataRef, ExtensionType conID);
-
 	typedef NintendoExtensionCtrl::IndexMap  IndexMap;
 	typedef NintendoExtensionCtrl::ByteMap   ByteMap;
 	typedef NintendoExtensionCtrl::BitMap    BitMap;

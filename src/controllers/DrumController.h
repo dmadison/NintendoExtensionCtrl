@@ -52,10 +52,12 @@ namespace NintendoExtensionCtrl {
 		};
 
 		DrumController_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::DrumController) {}
+			ExtensionController(dataRef) {}
 
 		DrumController_Shared(ExtensionPort &port) :
 			DrumController_Shared(port.getExtensionData()) {}
+
+		ExtensionType getControllerType() const;
 
 		enum VelocityID : uint8_t {
 			None = 0x1F,

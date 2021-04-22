@@ -35,6 +35,10 @@ constexpr BitMap   uDrawTablet_Shared::Maps::Pressure_MSB;
 constexpr BitMap   uDrawTablet_Shared::Maps::buttonLower;
 constexpr BitMap   uDrawTablet_Shared::Maps::buttonUpper;
 
+ExtensionType uDrawTablet_Shared::getControllerType() const {
+	return ExtensionType::uDrawTablet;
+}
+
 uint16_t uDrawTablet_Shared::penX() const {
 	return (getControlData(Maps::PenX_MSB) << 8) | getControlData(Maps::PenX_LSB);
 }

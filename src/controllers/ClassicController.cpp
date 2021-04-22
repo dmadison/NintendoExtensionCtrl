@@ -117,6 +117,10 @@ boolean ClassicController_Shared::specificInit() {
 	return setDataMode(true);  // try to set 'high res' mode. 'success' if no comms errors
 }
 
+ExtensionType ClassicController_Shared::getControllerType() const {
+	return ExtensionType::ClassicController;
+}
+
 boolean ClassicController_Shared::checkDataMode(boolean *hr) const {
 	/* Programmator Emptor: vvv This is where all of the headaches stem from vvv */
 

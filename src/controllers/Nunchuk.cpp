@@ -39,6 +39,10 @@ constexpr ByteMap  Nunchuk_Shared::Maps::AccelZ_LSB;
 constexpr BitMap   Nunchuk_Shared::Maps::ButtonC;
 constexpr BitMap   Nunchuk_Shared::Maps::ButtonZ;
 
+ExtensionType Nunchuk_Shared::getControllerType() const {
+	return ExtensionType::Nunchuk;
+}
+
 uint8_t Nunchuk_Shared::joyX() const {
 	return getControlData(Maps::JoyX);
 }

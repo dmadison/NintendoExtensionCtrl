@@ -42,10 +42,12 @@ namespace NintendoExtensionCtrl {
 		};
 		
 		uDrawTablet_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::uDrawTablet) {}
+			ExtensionController(dataRef) {}
 
 		uDrawTablet_Shared(ExtensionPort &port) :
 			uDrawTablet_Shared(port.getExtensionData()) {}
+
+		ExtensionType getControllerType() const;
 
 		uint16_t penX() const;  // 12 bits, 0-4095
 		uint16_t penY() const;

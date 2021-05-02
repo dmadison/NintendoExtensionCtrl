@@ -139,22 +139,14 @@ private:
 
 namespace NintendoExtensionCtrl {
 	template <class ControllerMap>
-	class BuildControllerClass : public ControllerMap {
+	class BuildControllerClass : private ExtensionController::ExtensionData, public ControllerMap {
 	public:
 		BuildControllerClass(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
-			ControllerMap(portData),
-			portData(i2cBus) {}
+			ExtensionData(i2cBus),  // data instance
+			ControllerMap(static_cast<ExtensionData&>(*this))  // initialize ExtensionController instance with inherited ExtensionData
+		{}
 
 		using Shared = ControllerMap;  // Make controller class easily accessible
-
-	protected:
-		// Included data instance. Contains:
-		//    * I2C library object reference
-		//    * Connected controller identity (type)
-		//    * Control data array
-		// This data can be shared between controller instances using a single
-		// logical endpoint to keep memory down.
-		ExtensionController::ExtensionData portData;
 	};
 }
 

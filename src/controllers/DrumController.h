@@ -51,8 +51,7 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap  VelocityAvailable = { 2, 6 };
 		};
 
-		DrumControllerBase(ExtensionData &dataRef) :
-			ExtensionController(dataRef) {}
+		using ExtensionController::ExtensionController;
 
 		ExtensionType getControllerType() const;
 

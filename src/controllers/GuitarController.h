@@ -50,8 +50,7 @@ namespace NintendoExtensionCtrl {
 			constexpr static ByteMap Touchbar = ByteMap(2, 5, 0, 0);
 		};
 
-		GuitarControllerBase(ExtensionData &dataRef) :
-			ExtensionController(dataRef) {}
+		using ExtensionController::ExtensionController;
 
 		ExtensionType getControllerType() const;
 

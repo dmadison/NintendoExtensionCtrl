@@ -45,8 +45,7 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap   ButtonZ = { 5, 0 };
 		};
 		
-		NunchukBase(ExtensionData &dataRef) :
-			ExtensionController(dataRef) {}
+		using ExtensionController::ExtensionController;
 
 		ExtensionType getControllerType() const;
 

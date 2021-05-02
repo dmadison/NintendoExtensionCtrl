@@ -41,8 +41,7 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap   Pen_Detected = {5, 7};
 		};
 		
-		DrawsomeTabletBase(ExtensionData &dataRef) :
-			ExtensionController(dataRef) {}
+		using ExtensionController::ExtensionController;
 
 		boolean specificInit();  // for required register writes at init
 

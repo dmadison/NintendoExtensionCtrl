@@ -41,8 +41,7 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap   buttonUpper = { 5, 0 };
 		};
 		
-		uDrawTabletBase(ExtensionData &dataRef) :
-			ExtensionController(dataRef) {}
+		using ExtensionController::ExtensionController;
 
 		ExtensionType getControllerType() const;
 

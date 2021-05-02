@@ -108,8 +108,7 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap   ButtonHome = { 6, 3 };
 		};
 
-		ClassicControllerBase(ExtensionData &dataRef) :
-			ExtensionController(dataRef) {}
+		using ExtensionController::ExtensionController;
 
 		boolean specificInit();
 

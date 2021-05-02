@@ -24,63 +24,63 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr IndexMap Nunchuk_Shared::Maps::JoyX;
-constexpr IndexMap Nunchuk_Shared::Maps::JoyY;
+constexpr IndexMap NunchukBase::Maps::JoyX;
+constexpr IndexMap NunchukBase::Maps::JoyY;
 
-constexpr IndexMap Nunchuk_Shared::Maps::AccelX_MSB;
-constexpr ByteMap  Nunchuk_Shared::Maps::AccelX_LSB;
+constexpr IndexMap NunchukBase::Maps::AccelX_MSB;
+constexpr ByteMap  NunchukBase::Maps::AccelX_LSB;
 
-constexpr IndexMap Nunchuk_Shared::Maps::AccelY_MSB;
-constexpr ByteMap  Nunchuk_Shared::Maps::AccelY_LSB;
+constexpr IndexMap NunchukBase::Maps::AccelY_MSB;
+constexpr ByteMap  NunchukBase::Maps::AccelY_LSB;
 
-constexpr IndexMap Nunchuk_Shared::Maps::AccelZ_MSB;
-constexpr ByteMap  Nunchuk_Shared::Maps::AccelZ_LSB;
+constexpr IndexMap NunchukBase::Maps::AccelZ_MSB;
+constexpr ByteMap  NunchukBase::Maps::AccelZ_LSB;
 
-constexpr BitMap   Nunchuk_Shared::Maps::ButtonC;
-constexpr BitMap   Nunchuk_Shared::Maps::ButtonZ;
+constexpr BitMap   NunchukBase::Maps::ButtonC;
+constexpr BitMap   NunchukBase::Maps::ButtonZ;
 
-ExtensionType Nunchuk_Shared::getControllerType() const {
+ExtensionType NunchukBase::getControllerType() const {
 	return ExtensionType::Nunchuk;
 }
 
-uint8_t Nunchuk_Shared::joyX() const {
+uint8_t NunchukBase::joyX() const {
 	return getControlData(Maps::JoyX);
 }
 
-uint8_t Nunchuk_Shared::joyY() const {
+uint8_t NunchukBase::joyY() const {
 	return getControlData(Maps::JoyY);
 }
 
-uint16_t Nunchuk_Shared::accelX() const {
+uint16_t NunchukBase::accelX() const {
 	return (getControlData(Maps::AccelX_MSB) << 2) | getControlData(Maps::AccelX_LSB);
 }
 
-uint16_t Nunchuk_Shared::accelY() const {
+uint16_t NunchukBase::accelY() const {
 	return (getControlData(Maps::AccelY_MSB) << 2) | getControlData(Maps::AccelY_LSB);
 }
 
-uint16_t Nunchuk_Shared::accelZ() const {
+uint16_t NunchukBase::accelZ() const {
 	return (getControlData(Maps::AccelZ_MSB) << 2) | getControlData(Maps::AccelZ_LSB);
 }
 
-boolean Nunchuk_Shared::buttonC() const {
+boolean NunchukBase::buttonC() const {
 	return getControlBit(Maps::ButtonC);
 }
 
-boolean Nunchuk_Shared::buttonZ() const {
+boolean NunchukBase::buttonZ() const {
 	return getControlBit(Maps::ButtonZ);
 }
 
-float Nunchuk_Shared::rollAngle() const {
+float NunchukBase::rollAngle() const {
 	return atan2((float)accelX() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
-float Nunchuk_Shared::pitchAngle() const {
+float NunchukBase::pitchAngle() const {
 	// Inverted so pulling back is a positive pitch
 	return -atan2((float)accelY() - 511.0, (float)accelZ() - 511.0) * 180.0 / PI;
 }
 
-void Nunchuk_Shared::printDebug(Print& output) const {
+void NunchukBase::printDebug(Print& output) const {
 	char buffer[60];
 
 	char cPrint = buttonC() ? 'C' : '-';

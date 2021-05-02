@@ -26,7 +26,7 @@
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class uDrawTablet_Shared : public ExtensionController {
+	class uDrawTabletBase : public ExtensionController {
 	public:
 		struct Maps {
 			constexpr static IndexMap PenX_LSB = 0;
@@ -41,11 +41,11 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap   buttonUpper = { 5, 0 };
 		};
 		
-		uDrawTablet_Shared(ExtensionData &dataRef) :
+		uDrawTabletBase(ExtensionData &dataRef) :
 			ExtensionController(dataRef) {}
 
-		uDrawTablet_Shared(ExtensionPort &port) :
-			uDrawTablet_Shared(port.getExtensionData()) {}
+		uDrawTabletBase(ExtensionPort &port) :
+			uDrawTabletBase(port.getExtensionData()) {}
 
 		ExtensionType getControllerType() const;
 
@@ -64,6 +64,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using uDrawTablet = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::uDrawTablet_Shared>;
+	<NintendoExtensionCtrl::uDrawTabletBase>;
 
 #endif

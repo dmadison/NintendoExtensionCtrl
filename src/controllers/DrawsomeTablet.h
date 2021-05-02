@@ -26,7 +26,7 @@
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class DrawsomeTablet_Shared : public ExtensionController {
+	class DrawsomeTabletBase : public ExtensionController {
 	public:
 		struct Maps {
 			constexpr static IndexMap PenX_LSB = 0;
@@ -41,11 +41,11 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap   Pen_Detected = {5, 7};
 		};
 		
-		DrawsomeTablet_Shared(ExtensionData &dataRef) :
+		DrawsomeTabletBase(ExtensionData &dataRef) :
 			ExtensionController(dataRef) {}
 
-		DrawsomeTablet_Shared(ExtensionPort &port) :
-			DrawsomeTablet_Shared(port.getExtensionData()) {}
+		DrawsomeTabletBase(ExtensionPort &port) :
+			DrawsomeTabletBase(port.getExtensionData()) {}
 
 		boolean specificInit();  // for required register writes at init
 
@@ -63,6 +63,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using DrawsomeTablet = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DrawsomeTablet_Shared>;
+	<NintendoExtensionCtrl::DrawsomeTabletBase>;
 
 #endif

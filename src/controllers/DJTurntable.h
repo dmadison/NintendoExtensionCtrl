@@ -58,9 +58,6 @@ namespace NintendoExtensionCtrl {
 		DJTurntableControllerBase(ExtensionData& dataRef) : 
 			ExtensionController(dataRef), left(*this), right(*this) {}
 
-		DJTurntableControllerBase(ExtensionPort &port) :
-			DJTurntableControllerBase(port.getExtensionData()) {}
-
 		ExtensionType getControllerType() const;
 
 		enum class TurntableConfig {

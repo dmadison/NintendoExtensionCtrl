@@ -54,9 +54,6 @@ namespace NintendoExtensionCtrl {
 		DrumControllerBase(ExtensionData &dataRef) :
 			ExtensionController(dataRef) {}
 
-		DrumControllerBase(ExtensionPort &port) :
-			DrumControllerBase(port.getExtensionData()) {}
-
 		ExtensionType getControllerType() const;
 
 		enum VelocityID : uint8_t {

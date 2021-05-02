@@ -44,9 +44,6 @@ namespace NintendoExtensionCtrl {
 		uDrawTabletBase(ExtensionData &dataRef) :
 			ExtensionController(dataRef) {}
 
-		uDrawTabletBase(ExtensionPort &port) :
-			uDrawTabletBase(port.getExtensionData()) {}
-
 		ExtensionType getControllerType() const;
 
 		uint16_t penX() const;  // 12 bits, 0-4095

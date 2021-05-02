@@ -53,9 +53,6 @@ namespace NintendoExtensionCtrl {
 		GuitarControllerBase(ExtensionData &dataRef) :
 			ExtensionController(dataRef) {}
 
-		GuitarControllerBase(ExtensionPort &port) :
-			GuitarControllerBase(port.getExtensionData()) {}
-
 		ExtensionType getControllerType() const;
 
 		uint8_t joyX() const;  // 6 bits, 0-63

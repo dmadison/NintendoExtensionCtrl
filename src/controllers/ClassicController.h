@@ -111,9 +111,6 @@ namespace NintendoExtensionCtrl {
 		ClassicControllerBase(ExtensionData &dataRef) :
 			ExtensionController(dataRef) {}
 
-		ClassicControllerBase(ExtensionPort &port) :
-			ClassicControllerBase(port.getExtensionData()) {}
-
 		boolean specificInit();
 
 		ExtensionType getControllerType() const;

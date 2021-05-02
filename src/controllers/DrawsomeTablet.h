@@ -44,9 +44,6 @@ namespace NintendoExtensionCtrl {
 		DrawsomeTabletBase(ExtensionData &dataRef) :
 			ExtensionController(dataRef) {}
 
-		DrawsomeTabletBase(ExtensionPort &port) :
-			DrawsomeTabletBase(port.getExtensionData()) {}
-
 		boolean specificInit();  // for required register writes at init
 
 		ExtensionType getControllerType() const;

@@ -9,8 +9,8 @@
 # Library
 NintendoExtensionCtrl	KEYWORD1
 
-# Controller Base Classes
-ExtensionController	KEYWORD1
+# Multiple Controller Classes
+ExtensionPort	KEYWORD1
 Shared	KEYWORD1
 
 # Wii Controllers
@@ -19,7 +19,7 @@ ClassicController	KEYWORD1
 GuitarController	KEYWORD1
 DrumController	KEYWORD1
 DJTurntableController	KEYWORD1
-uDrawTablet	 KEYWORD1
+uDrawTablet	KEYWORD1
 DrawsomeTablet	KEYWORD1
 
 # Mini Controllers
@@ -49,6 +49,7 @@ update	KEYWORD2
 
 reset	KEYWORD2
 
+getExpectedType	KEYWORD2
 getControllerType	KEYWORD2
 controllerTypeMatches	KEYWORD2
 

@@ -32,8 +32,8 @@ constexpr ByteMap  uDrawTablet_Shared::Maps::PenY_MSB;
 constexpr IndexMap uDrawTablet_Shared::Maps::Pressure_LSB;
 constexpr BitMap   uDrawTablet_Shared::Maps::Pressure_MSB;
 
-constexpr BitMap   uDrawTablet_Shared::Maps::buttonLower;
-constexpr BitMap   uDrawTablet_Shared::Maps::buttonUpper;
+constexpr BitMap   uDrawTablet_Shared::Maps::ButtonLower;
+constexpr BitMap   uDrawTablet_Shared::Maps::ButtonUpper;
 
 uint16_t uDrawTablet_Shared::penX() const {
 	return (getControlData(Maps::PenX_MSB) << 8) | getControlData(Maps::PenX_LSB);
@@ -48,11 +48,11 @@ uint16_t uDrawTablet_Shared::penPressure() const {
 }
 
 boolean uDrawTablet_Shared::buttonLower() const {
-	return getControlBit(Maps::buttonLower);
+	return getControlBit(Maps::ButtonLower);
 }
 
 boolean uDrawTablet_Shared::buttonUpper() const {
-	return getControlBit(Maps::buttonUpper);
+	return getControlBit(Maps::ButtonUpper);
 }
 
 boolean uDrawTablet_Shared::penDetected() const {
@@ -60,14 +60,17 @@ boolean uDrawTablet_Shared::penDetected() const {
 }
 
 void uDrawTablet_Shared::printDebug(Print& output) const {
-	char buffer[60];
+	// 59 characters, 1 terminating null, and 4 extra so the compiler stops
+	// complaining about not having enough buffer space for the full 16 bit
+	// values (5 characters each) that can fit in the type
+	char buffer[64];
 	
-	char penPrint = penDetected() ? 'Y' : 'N';
-	char lowerPrint = buttonLower() ? 'L' : '-';
-	char upperPrint = buttonUpper() ? 'U' : '-';
+	const char penPrint = penDetected() ? 'Y' : 'N';
+	const char lowerPrint = buttonLower() ? 'L' : '-';
+	const char upperPrint = buttonUpper() ? 'U' : '-';
 
 	output.print("uDrawTablet - ");
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		"Pen:(%4u, %4u) | Pressure:%3u | Pen Detect:%c | Buttons:%c%c",
 			penX(), penY(), penPressure(), penPrint, lowerPrint, upperPrint);
 

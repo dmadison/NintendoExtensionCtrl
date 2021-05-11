@@ -142,7 +142,7 @@ boolean ClassicController_Shared::buttonB() const {
 ***Note:** I decided to use two different function names for generic control data and bits, just because the bits are automatically inverted. I might decide to change this in the future, but for now it seems to work fine.*
 
 ## Step #4: Add a `printDebug` Function
-This should be a fun step. Create a `printDebug` function that prints out the values for your controller! Since this should only *ever* be called when debugging, I say go crazy with the formatting. Most of the other controllers use `sprintf` to make things easy, in spite of the extra overhead.
+This should be a fun step. Create a `printDebug` function that prints out the values for your controller! Since this should only *ever* be called when debugging, I say go crazy with the formatting. The other controllers use `sprintf`/`snprintf` to make things easy, in spite of the extra overhead.
 
 Here's how the Classic Controller debug line looks:
 ```

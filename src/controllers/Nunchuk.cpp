@@ -39,7 +39,7 @@ constexpr ByteMap  NunchukBase::Maps::AccelZ_LSB;
 constexpr BitMap   NunchukBase::Maps::ButtonC;
 constexpr BitMap   NunchukBase::Maps::ButtonZ;
 
-ExtensionType NunchukBase::getControllerType() const {
+ExtensionType NunchukBase::getExpectedType() const {
 	return ExtensionType::Nunchuk;
 }
 

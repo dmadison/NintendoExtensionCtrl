@@ -112,7 +112,7 @@ namespace NintendoExtensionCtrl {
 
 		boolean specificInit();
 
-		ExtensionType getControllerType() const;
+		ExtensionType getExpectedType() const;
 
 		boolean setHighRes(boolean hr = true, boolean verify = true);
 		boolean getHighRes() const;

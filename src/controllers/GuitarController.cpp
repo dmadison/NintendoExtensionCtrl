@@ -42,7 +42,7 @@ constexpr BitMap  GuitarControllerBase::Maps::FretOrange;
 constexpr ByteMap GuitarControllerBase::Maps::Whammy;
 constexpr ByteMap GuitarControllerBase::Maps::Touchbar;
 
-ExtensionType GuitarControllerBase::getControllerType() const {
+ExtensionType GuitarControllerBase::getExpectedType() const {
 	return ExtensionType::GuitarController;
 }
 

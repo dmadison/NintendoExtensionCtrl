@@ -117,7 +117,7 @@ boolean ClassicControllerBase::specificInit() {
 	return setDataMode(true);  // try to set 'high res' mode. 'success' if no comms errors
 }
 
-ExtensionType ClassicControllerBase::getControllerType() const {
+ExtensionType ClassicControllerBase::getExpectedType() const {
 	return ExtensionType::ClassicController;
 }
 

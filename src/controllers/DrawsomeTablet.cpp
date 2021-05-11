@@ -42,7 +42,7 @@ boolean DrawsomeTabletBase::specificInit() {
 	return writeRegister(0xFB, 0x01) && writeRegister(0xF0, 0x55);
 }
 
-ExtensionType DrawsomeTabletBase::getControllerType() const {
+ExtensionType DrawsomeTabletBase::getExpectedType() const {
 	return ExtensionType::DrawsomeTablet;
 }
 

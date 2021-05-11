@@ -35,7 +35,7 @@ constexpr BitMap   uDrawTabletBase::Maps::Pressure_MSB;
 constexpr BitMap   uDrawTabletBase::Maps::buttonLower;
 constexpr BitMap   uDrawTabletBase::Maps::buttonUpper;
 
-ExtensionType uDrawTabletBase::getControllerType() const {
+ExtensionType uDrawTabletBase::getExpectedType() const {
 	return ExtensionType::uDrawTablet;
 }
 

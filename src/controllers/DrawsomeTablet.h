@@ -45,7 +45,7 @@ namespace NintendoExtensionCtrl {
 
 		boolean specificInit();  // for required register writes at init
 
-		ExtensionType getControllerType() const;
+		ExtensionType getExpectedType() const;
 
 		uint16_t penX() const;  // 16 bits, 0-65535
 		uint16_t penY() const;

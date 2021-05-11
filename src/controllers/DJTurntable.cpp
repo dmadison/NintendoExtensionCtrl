@@ -47,7 +47,7 @@ constexpr ByteMap DJTurntableControllerBase::Maps::CrossfadeSlider;
 
 constexpr BitMap  DJTurntableControllerBase::Maps::ButtonEuphoria;
 
-ExtensionType DJTurntableControllerBase::getControllerType() const {
+ExtensionType DJTurntableControllerBase::getExpectedType() const {
 	return ExtensionType::DJTurntableController;
 }
 

@@ -53,7 +53,7 @@ namespace NintendoExtensionCtrl {
 
 		using ExtensionController::ExtensionController;
 
-		ExtensionType getControllerType() const;
+		ExtensionType getExpectedType() const;
 
 		enum VelocityID : uint8_t {
 			None = 0x1F,

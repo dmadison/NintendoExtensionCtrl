@@ -33,7 +33,7 @@ void setup() {
 	controller.begin();
 	controller.connect();
 
-	ExtensionType conType = controller.getControllerType();
+	ExtensionType conType = controller.getExpectedType();
 
 	switch (conType) {
 		case(ExtensionType::NoController):

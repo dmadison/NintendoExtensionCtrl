@@ -52,7 +52,7 @@ namespace NintendoExtensionCtrl {
 
 		using ExtensionController::ExtensionController;
 
-		ExtensionType getControllerType() const;
+		ExtensionType getExpectedType() const;
 
 		uint8_t joyX() const;  // 6 bits, 0-63
 		uint8_t joyY() const;

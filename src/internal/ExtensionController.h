@@ -60,7 +60,7 @@ namespace NintendoExtensionCtrl {
 
 		void reset();
 
-		virtual ExtensionType getControllerType() const;
+		virtual ExtensionType getExpectedType() const;
 		ExtensionType getConnectedType() const;
 		boolean controllerTypeMatches() const;
 

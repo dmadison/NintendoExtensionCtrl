@@ -43,7 +43,7 @@ constexpr ByteMap DrumControllerBase::Maps::Velocity;
 constexpr ByteMap DrumControllerBase::Maps::VelocityID;
 constexpr BitMap  DrumControllerBase::Maps::VelocityAvailable;
 
-ExtensionType DrumControllerBase::getControllerType() const {
+ExtensionType DrumControllerBase::getExpectedType() const {
 	return ExtensionType::DrumController;
 }
 

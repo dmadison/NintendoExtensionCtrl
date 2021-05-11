@@ -61,7 +61,7 @@ void ExtensionController::reset() {
 }
 
 boolean ExtensionController::controllerTypeMatches() const {
-	const ExtensionType id = getControllerType();
+	const ExtensionType id = getExpectedType();
 
 	if (data.connectedType == id) {
 		return true;  // Match!
@@ -73,7 +73,7 @@ boolean ExtensionController::controllerTypeMatches() const {
 	return false;  // Enforced types or no controller connected
 }
 
-ExtensionType ExtensionController::getControllerType() const {
+ExtensionType ExtensionController::getExpectedType() const {
 	return ExtensionType::AnyController;
 }
 

@@ -27,6 +27,7 @@
 #include "NXC_Comms.h"
 #include "NXC_Utils.h"
 #include "NXC_DataMaps.h"
+#include "NXC_LinkedList.h"
 
 class ExtensionController {
 public:

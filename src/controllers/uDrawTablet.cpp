@@ -32,8 +32,8 @@ constexpr ByteMap  uDrawTabletBase::Maps::PenY_MSB;
 constexpr IndexMap uDrawTabletBase::Maps::Pressure_LSB;
 constexpr BitMap   uDrawTabletBase::Maps::Pressure_MSB;
 
-constexpr BitMap   uDrawTabletBase::Maps::buttonLower;
-constexpr BitMap   uDrawTabletBase::Maps::buttonUpper;
+constexpr BitMap   uDrawTabletBase::Maps::ButtonLower;
+constexpr BitMap   uDrawTabletBase::Maps::ButtonUpper;
 
 ExtensionType uDrawTabletBase::getExpectedType() const {
 	return ExtensionType::uDrawTablet;
@@ -52,11 +52,11 @@ uint16_t uDrawTabletBase::penPressure() const {
 }
 
 boolean uDrawTabletBase::buttonLower() const {
-	return getControlBit(Maps::buttonLower);
+	return getControlBit(Maps::ButtonLower);
 }
 
 boolean uDrawTabletBase::buttonUpper() const {
-	return getControlBit(Maps::buttonUpper);
+	return getControlBit(Maps::ButtonUpper);
 }
 
 boolean uDrawTabletBase::penDetected() const {
@@ -64,14 +64,17 @@ boolean uDrawTabletBase::penDetected() const {
 }
 
 void uDrawTabletBase::printDebug(Print& output) const {
-	char buffer[60];
+	// 59 characters, 1 terminating null, and 4 extra so the compiler stops
+	// complaining about not having enough buffer space for the full 16 bit
+	// values (5 characters each) that can fit in the type
+	char buffer[64];
 	
-	char penPrint = penDetected() ? 'Y' : 'N';
-	char lowerPrint = buttonLower() ? 'L' : '-';
-	char upperPrint = buttonUpper() ? 'U' : '-';
+	const char penPrint = penDetected() ? 'Y' : 'N';
+	const char lowerPrint = buttonLower() ? 'L' : '-';
+	const char upperPrint = buttonUpper() ? 'U' : '-';
 
 	output.print("uDrawTablet - ");
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		"Pen:(%4u, %4u) | Pressure:%3u | Pen Detect:%c | Buttons:%c%c",
 			penX(), penY(), penPressure(), penPrint, lowerPrint, upperPrint);
 

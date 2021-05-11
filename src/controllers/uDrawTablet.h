@@ -37,8 +37,8 @@ namespace NintendoExtensionCtrl {
 			constexpr static IndexMap Pressure_LSB = 3;
 
 			constexpr static BitMap   Pressure_MSB = { 5, 2 };
-			constexpr static BitMap   buttonLower = { 5, 1 };
-			constexpr static BitMap   buttonUpper = { 5, 0 };
+			constexpr static BitMap   ButtonLower = { 5, 1 };
+			constexpr static BitMap   ButtonUpper = { 5, 0 };
 		};
 		
 		using ExtensionController::ExtensionController;

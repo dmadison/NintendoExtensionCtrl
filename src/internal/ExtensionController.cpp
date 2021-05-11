@@ -77,7 +77,7 @@ ExtensionType ExtensionController::getExpectedType() const {
 	return ExtensionType::AnyController;
 }
 
-ExtensionType ExtensionController::getConnectedType() const {
+ExtensionType ExtensionController::getControllerType() const {
 	return data.connectedType;
 }
 

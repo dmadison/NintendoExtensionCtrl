@@ -45,7 +45,7 @@ void loop() {
 	boolean success = port.update();  // Get new data from the controller
 
 	if (success == true) {  // We've got data!
-		ExtensionType type = port.getConnectedType();
+		ExtensionType type = port.getControllerType();
 
 		switch (type) {
 			case(ExtensionType::Nunchuk):

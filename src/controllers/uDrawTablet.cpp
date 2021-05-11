@@ -32,8 +32,8 @@ constexpr ByteMap  uDrawTablet_Shared::Maps::PenY_MSB;
 constexpr IndexMap uDrawTablet_Shared::Maps::Pressure_LSB;
 constexpr BitMap   uDrawTablet_Shared::Maps::Pressure_MSB;
 
-constexpr BitMap   uDrawTablet_Shared::Maps::buttonLower;
-constexpr BitMap   uDrawTablet_Shared::Maps::buttonUpper;
+constexpr BitMap   uDrawTablet_Shared::Maps::ButtonLower;
+constexpr BitMap   uDrawTablet_Shared::Maps::ButtonUpper;
 
 uint16_t uDrawTablet_Shared::penX() const {
 	return (getControlData(Maps::PenX_MSB) << 8) | getControlData(Maps::PenX_LSB);
@@ -48,11 +48,11 @@ uint16_t uDrawTablet_Shared::penPressure() const {
 }
 
 boolean uDrawTablet_Shared::buttonLower() const {
-	return getControlBit(Maps::buttonLower);
+	return getControlBit(Maps::ButtonLower);
 }
 
 boolean uDrawTablet_Shared::buttonUpper() const {
-	return getControlBit(Maps::buttonUpper);
+	return getControlBit(Maps::ButtonUpper);
 }
 
 boolean uDrawTablet_Shared::penDetected() const {

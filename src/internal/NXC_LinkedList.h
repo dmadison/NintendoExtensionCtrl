@@ -24,9 +24,9 @@
 #define NXC_LINKED_LIST_H
 
 
-class ExtensionController;
-
 namespace NintendoExtensionCtrl {
+	class ExtensionController;
+
 	class ExtensionList {
 	public:
 		class Node {

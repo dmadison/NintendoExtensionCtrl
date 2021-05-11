@@ -22,7 +22,7 @@
 
 #include "ExtensionController.h"
 
-using namespace NintendoExtensionCtrl;
+namespace NintendoExtensionCtrl {
 
 ExtensionController::ExtensionController(ExtensionData& dataRef)
 	: data(dataRef)  {}
@@ -193,7 +193,7 @@ ExtensionType ExtensionController::identifyController(NXC_I2C_TYPE& i2c) {
 
 // port-specific connect function that utilizes the linked list to evaluate
 // each attached controller variant automatically
-boolean NintendoExtensionCtrl::ExtensionPort::connect() {
+boolean ExtensionPort::connect() {
 	// start by running the default 'connect' function, looking for any controller
 	boolean success = ExtensionController::connect();
 
@@ -221,3 +221,5 @@ boolean NintendoExtensionCtrl::ExtensionPort::connect() {
 
 	return success;
 }
+
+}  // End NintendoExtensionCtrl namespace

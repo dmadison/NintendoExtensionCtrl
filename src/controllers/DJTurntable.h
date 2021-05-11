@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_DJTurntable_h
-#define NXC_DJTurntable_h
+#ifndef NXC_DJTURNTABLE_H
+#define NXC_DJTURNTABLE_H
 
 #include "internal/ExtensionController.h"
 

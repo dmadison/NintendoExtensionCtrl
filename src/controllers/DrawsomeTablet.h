@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_DrawsomeTablet_h
-#define NXC_DrawsomeTablet_h
+#ifndef NXC_DRAWSOMETABLET_H
+#define NXC_DRAWSOMETABLET_H
 
 #include "internal/ExtensionController.h"
 

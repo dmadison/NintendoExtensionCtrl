@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_ExtensionController_h
-#define NXC_ExtensionController_h
+#ifndef NXC_EXTENSIONCONTROLLER_H
+#define NXC_EXTENSIONCONTROLLER_H
 
 #include "NXC_Identity.h"
 #include "NXC_Comms.h"

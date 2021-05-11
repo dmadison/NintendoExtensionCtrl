@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_DrumController_h
-#define NXC_DrumController_h
+#ifndef NXC_DRUMCONTROLLER_H
+#define NXC_DRUMCONTROLLER_H
 
 #include "internal/ExtensionController.h"
 

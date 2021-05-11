@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_Identity_h
-#define NXC_Identity_h
+#ifndef NXC_IDENTITY_H
+#define NXC_IDENTITY_H
 
 #include "Arduino.h"
 

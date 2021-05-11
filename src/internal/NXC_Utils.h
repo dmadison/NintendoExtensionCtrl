@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_Core_h
-#define NXC_Core_h
+#ifndef NXC_UTILS_H
+#define NXC_UTILS_H
 
 #include "NXC_Comms.h"
 

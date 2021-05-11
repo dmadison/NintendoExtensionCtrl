@@ -62,9 +62,9 @@ boolean uDrawTablet_Shared::penDetected() const {
 void uDrawTablet_Shared::printDebug(Print& output) const {
 	char buffer[60];
 	
-	char penPrint = penDetected() ? 'Y' : 'N';
-	char lowerPrint = buttonLower() ? 'L' : '-';
-	char upperPrint = buttonUpper() ? 'U' : '-';
+	const char penPrint = penDetected() ? 'Y' : 'N';
+	const char lowerPrint = buttonLower() ? 'L' : '-';
+	const char upperPrint = buttonUpper() ? 'U' : '-';
 
 	output.print("uDrawTablet - ");
 	sprintf(buffer,

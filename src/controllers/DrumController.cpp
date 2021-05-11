@@ -160,14 +160,14 @@ void DrumController_Shared::printDebug(Print& output) const {
 	
 	output.print("Drums: ");
 
-	char redPrint = drumRed() ? 'R' : fillCharacter;
-	char bluePrint = drumBlue() ? 'B' : fillCharacter;
-	char greenPrint = drumGreen() ? 'G' : fillCharacter;
+	const char redPrint = drumRed() ? 'R' : fillCharacter;
+	const char bluePrint = drumBlue() ? 'B' : fillCharacter;
+	const char greenPrint = drumGreen() ? 'G' : fillCharacter;
 
-	char yellowPrint = cymbalYellow() ? 'Y' : fillCharacter;
-	char orangePrint = cymbalOrange() ? 'O' : fillCharacter;
+	const char yellowPrint = cymbalYellow() ? 'Y' : fillCharacter;
+	const char orangePrint = cymbalOrange() ? 'O' : fillCharacter;
 
-	char pedalPrint = bassPedal() ? 'P' : fillCharacter;
+	const char pedalPrint = bassPedal() ? 'P' : fillCharacter;
 
 	uint8_t velocityPrint = 0;
 	char velocityIDPrint = fillCharacter;
@@ -199,8 +199,8 @@ void DrumController_Shared::printDebug(Print& output) const {
 		}
 	}
 
-	char plusPrint = buttonPlus() ? '+' : fillCharacter;
-	char minusPrint = buttonMinus() ? '-' : fillCharacter;
+	const char plusPrint = buttonPlus() ? '+' : fillCharacter;
+	const char minusPrint = buttonMinus() ? '-' : fillCharacter;
 
 	sprintf(buffer,
 		"%c\\%c%c%c/%c %c | V:%1u for %c | %c%c | Joy:(%2u, %2u)",

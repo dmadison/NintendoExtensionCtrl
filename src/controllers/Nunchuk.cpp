@@ -79,8 +79,8 @@ float Nunchuk_Shared::pitchAngle() const {
 void Nunchuk_Shared::printDebug(Print& output) const {
 	char buffer[60];
 
-	char cPrint = buttonC() ? 'C' : '-';
-	char zPrint = buttonZ() ? 'Z' : '-';
+	const char cPrint = buttonC() ? 'C' : '-';
+	const char zPrint = buttonZ() ? 'Z' : '-';
 
 	output.print("Nunchuk - ");
 	sprintf(buffer,

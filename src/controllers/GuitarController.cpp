@@ -145,11 +145,11 @@ void GuitarController_Shared::printDebug(Print& output) {
 		strumPrint = 'v';
 	}
 
-	char greenPrint = fretGreen() ? 'G' : fillCharacter;
-	char redPrint = fretRed() ? 'R' : fillCharacter;
-	char yellowPrint = fretYellow() ? 'Y' : fillCharacter;
-	char bluePrint = fretBlue() ? 'B' : fillCharacter;
-	char orangePrint = fretOrange() ? 'O' : fillCharacter;
+	const char greenPrint = fretGreen() ? 'G' : fillCharacter;
+	const char redPrint = fretRed() ? 'R' : fillCharacter;
+	const char yellowPrint = fretYellow() ? 'Y' : fillCharacter;
+	const char bluePrint = fretBlue() ? 'B' : fillCharacter;
+	const char orangePrint = fretOrange() ? 'O' : fillCharacter;
 
 	sprintf(buffer,
 		"%c | %c%c%c%c%c | W:%2u ",
@@ -161,11 +161,11 @@ void GuitarController_Shared::printDebug(Print& output) {
 
 	// Touchbar, if World Controller
 	if (supportsTouchbar()) {
-		greenPrint = touchGreen() ? 'G' : fillCharacter;
-		redPrint = touchRed() ? 'R' : fillCharacter;
-		yellowPrint = touchYellow() ? 'Y' : fillCharacter;
-		bluePrint = touchBlue() ? 'B' : fillCharacter;
-		orangePrint = touchOrange() ? 'O' : fillCharacter;
+		const char greenPrint = touchGreen() ? 'G' : fillCharacter;
+		const char redPrint = touchRed() ? 'R' : fillCharacter;
+		const char yellowPrint = touchYellow() ? 'Y' : fillCharacter;
+		const char bluePrint = touchBlue() ? 'B' : fillCharacter;
+		const char orangePrint = touchOrange() ? 'O' : fillCharacter;
 
 		sprintf(buffer,
 			"Touch:%2u - %c%c%c%c%c | ",
@@ -176,8 +176,8 @@ void GuitarController_Shared::printDebug(Print& output) {
 	}
 
 	// Joy + Plus/Minus
-	char plusPrint = buttonPlus() ? '+' : fillCharacter;
-	char minusPrint = buttonMinus() ? '-' : fillCharacter;
+	const char plusPrint = buttonPlus() ? '+' : fillCharacter;
+	const char minusPrint = buttonMinus() ? '-' : fillCharacter;
 
 	sprintf(buffer,
 		"%c%c | Joy:(%2u, %2u)",

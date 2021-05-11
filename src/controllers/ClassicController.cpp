@@ -335,25 +335,25 @@ void ClassicController_Shared::printDebug(Print& output) const {
 
 	char buffer[68];
 
-	char dpadLPrint = dpadLeft() ? '<' : fillCharacter;
-	char dpadUPrint = dpadUp() ? '^' : fillCharacter;
-	char dpadDPrint = dpadDown() ? 'v' : fillCharacter;
-	char dpadRPrint = dpadRight() ? '>' : fillCharacter;
+	const char dpadLPrint = dpadLeft() ? '<' : fillCharacter;
+	const char dpadUPrint = dpadUp() ? '^' : fillCharacter;
+	const char dpadDPrint = dpadDown() ? 'v' : fillCharacter;
+	const char dpadRPrint = dpadRight() ? '>' : fillCharacter;
 
-	char aButtonPrint = buttonA() ? 'A' : fillCharacter;
-	char bButtonPrint = buttonB() ? 'B' : fillCharacter;
-	char xButtonPrint = buttonX() ? 'X' : fillCharacter;
-	char yButtonPrint = buttonY() ? 'Y' : fillCharacter;
+	const char aButtonPrint = buttonA() ? 'A' : fillCharacter;
+	const char bButtonPrint = buttonB() ? 'B' : fillCharacter;
+	const char xButtonPrint = buttonX() ? 'X' : fillCharacter;
+	const char yButtonPrint = buttonY() ? 'Y' : fillCharacter;
 
-	char plusPrint = buttonPlus() ? '+' : fillCharacter;
-	char minusPrint = buttonMinus() ? '-' : fillCharacter;
-	char homePrint = buttonHome() ? 'H' : fillCharacter;
+	const char plusPrint = buttonPlus() ? '+' : fillCharacter;
+	const char minusPrint = buttonMinus() ? '-' : fillCharacter;
+	const char homePrint = buttonHome() ? 'H' : fillCharacter;
 
-	char ltButtonPrint = buttonL() ? 'X' : fillCharacter;
-	char rtButtonPrint = buttonR() ? 'X' : fillCharacter;
+	const char ltButtonPrint = buttonL() ? 'X' : fillCharacter;
+	const char rtButtonPrint = buttonR() ? 'X' : fillCharacter;
 
-	char zlButtonPrint = buttonZL() ? 'L' : fillCharacter;
-	char zrButtonPrint = buttonZR() ? 'R' : fillCharacter;
+	const char zlButtonPrint = buttonZL() ? 'L' : fillCharacter;
+	const char zrButtonPrint = buttonZR() ? 'R' : fillCharacter;
 
 	output.print("Classic ");
 

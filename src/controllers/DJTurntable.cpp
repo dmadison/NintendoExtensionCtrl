@@ -148,10 +148,10 @@ void DJTurntableController_Shared::printDebug(Print& output) {
 		output.print(" |");
 	}
 
-	char plusPrint = buttonPlus() ? '+' : fillCharacter;
-	char minusPrint = buttonMinus() ? '-' : fillCharacter;
+	const char plusPrint = buttonPlus() ? '+' : fillCharacter;
+	const char minusPrint = buttonMinus() ? '-' : fillCharacter;
 
-	char euphoriaPrint = buttonEuphoria() ? 'E' : fillCharacter;
+	const char euphoriaPrint = buttonEuphoria() ? 'E' : fillCharacter;
 
 	sprintf(buffer,
 		" Joy:(%2u, %2u) | %c | %c%c | FX: %2u | Fade: %2u",
@@ -179,9 +179,9 @@ void DJTurntableController_Shared::printTurntable(Print& output, TurntableExpans
 		idPrint = 'R';
 	}
 
-	char greenPrint = table.buttonGreen() ? 'G' : fillCharacter;
-	char redPrint = table.buttonRed() ? 'R' : fillCharacter;
-	char bluePrint = table.buttonBlue() ? 'B' : fillCharacter;
+	const char greenPrint = table.buttonGreen() ? 'G' : fillCharacter;
+	const char redPrint = table.buttonRed() ? 'R' : fillCharacter;
+	const char bluePrint = table.buttonBlue() ? 'B' : fillCharacter;
 
 	char buffer[15];
 	sprintf(buffer,

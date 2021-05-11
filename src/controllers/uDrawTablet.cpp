@@ -60,7 +60,10 @@ boolean uDrawTablet_Shared::penDetected() const {
 }
 
 void uDrawTablet_Shared::printDebug(Print& output) const {
-	char buffer[60];
+	// 59 characters, 1 terminating null, and 4 extra so the compiler stops
+	// complaining about not having enough buffer space for the full 16 bit
+	// values (5 characters each) that can fit in the type
+	char buffer[64];
 	
 	const char penPrint = penDetected() ? 'Y' : 'N';
 	const char lowerPrint = buttonLower() ? 'L' : '-';

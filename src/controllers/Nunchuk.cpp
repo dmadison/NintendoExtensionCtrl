@@ -77,7 +77,10 @@ float Nunchuk_Shared::pitchAngle() const {
 }
 
 void Nunchuk_Shared::printDebug(Print& output) const {
-	char buffer[60];
+	// 59 characters, 1 terminating null, and 7 extra so the compiler stops
+	// complaining about not having enough buffer space for the full 16 bit
+	// values (5 characters each) that can fit in the type
+	char buffer[67];
 
 	const char cPrint = buttonC() ? 'C' : '-';
 	const char zPrint = buttonZ() ? 'Z' : '-';

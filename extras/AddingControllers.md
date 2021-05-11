@@ -6,27 +6,35 @@ The first step in adding support for your controller is building it a class. The
 
 Controller classes live inside the library namespace and inherit from the `ExtensionController` class, which contains methods for communicating with the controllers and manipulating the control surface data. This includes combining multi-byte data and extracting bits that correspond to button presses. To use this you'll need to include the "ExtensionController.h" header, which is in the `internal` source directory.
 
-The class name for your controller is going to be the "Shared" version of the class, which uses a reference to port and control data that exists elsewhere - thus it has a `_Shared` suffix. Here is what the start of the `ClassicController_Shared` class looks like:
+The class name for your controller is going to be the "Base" version of the class, which uses a reference to port and control data that exists elsewhere - thus it has a `Base` suffix. Here is what the start of the `ClassicControllerBase` class looks like:
 
 ```C++
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class ClassicController_Shared : public ExtensionController {
+	class ClassicControllerBase : public ExtensionController {
 	public:
-		ClassicController_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::ClassicController) {}
-
-		ClassicController_Shared(ExtensionPort &controller) :
-			ClassicController_Shared(controller.getExtensionData()) {}
+		using ExtensionController::ExtensionController;
 ```
 
-Note how the constructors use a reference to an `ExtensionData` class *external* to the controller class itself. You can also see that the controller's identity is passed to the `ExtensionController` class to limit what types of controllers can connect (more on that in a bit).
+Note the `using` directive. This just means we're reusing the constructor from the base `ExtensionController` class. Most controller variants don't have their own data, and won't need to define their own constructors.
 
-## Step #2: Building Your Data Maps
+## Step #2: Initializing the Controller
+
+Some controllers require a little extra handholding when they're first initialized. For example, the `DrawsomeTablet` requires two extra register writes before it will return data. The library has a dedicated virtual function for this called `specificInit`:
+
+```C++
+boolean DrawsomeTabletBase::specificInit() {
+	return writeRegister(0xFB, 0x01) && writeRegister(0xF0, 0x55);
+}
+```
+
+This function is called at the end of each `connect()` attempt, and returns 'true' if the controller is successfully initialized, and 'false' if it is not. For most controllers this function is not necessary and can be omitted entirely.
+
+This is also where you would increase the data request size if needed. By default all controllers use the Wiimote 0x37 data reporting mode, which returns 6 bytes of control data starting at register 0x00. The library supports a request size of up to 21 bytes, which can be set using the `setRequestSize` function.
+
+## Step #3: Building Your Data Maps
 The next step is to add the data maps for your controller. These define where the data for each control input lies within in the data array.
-
-All controllers use the Wiimote 0x37 data reporting mode by default, returning 6 bytes of control data starting at offset 0x00. If your controller requires more than 6 bytes of data to function, you will have to call `setRequestSize` with the number of bytes to request. This may be done in the constructor.
 
 Each map represents the size and position for all of the data of a control surface (button, joystick, etc.). The library has three data types for this, each with a different purpose:
 
@@ -55,7 +63,7 @@ From the `size` and `position` values, the constructor will generate a bitmask t
 ByteMap JoyY = ByteMap(1, 5, 3, 2);
 ```
 
-If the data is spread out over multiple bytes, just use an array of `ByteMap` structs:
+If the data is spread out over multiple bytes, you can use an array of `ByteMap` structs:
 
 ```C++
 ByteMap TriggerL[2] = { ByteMap(2, 2, 5, 2), ByteMap(3, 3, 5, 5) };
@@ -95,7 +103,7 @@ struct Maps {
 };
 ```
 
-## Step #3: Add Your "Get" Functions
+## Step #4: Add Your "Get" Functions
 With your control maps in place, you'll now need to add your 'get' functions. These functions are public, and will return their respective control data to the user.
 
 Since the library is based around "getting" and working with this control data, I elected early-on to ditch the "get" prefix for simplicity. All functions are just the name of the control input itself. Here are the Classic Controller function declarations for the above maps:
@@ -114,35 +122,35 @@ boolean buttonB() const;
 Since you've already spent the time creating the data maps, the function definitions should be straight-forward. Either call `getControlBit()` passing a `BitMap`, or call `getControlData()` passing your `IndexMap` or `ByteMap` value(s). Here are the function definitions for the above controls:
 
 ```C++
-uint8_t ClassicController_Shared::leftJoyX() const {
+uint8_t ClassicControllerBase::leftJoyX() const {
 	return getControlData(Maps::LeftJoyX);
 }
 
-uint8_t ClassicController_Shared::leftJoyY() const {
+uint8_t ClassicControllerBase::leftJoyY() const {
 	return getControlData(Maps::LeftJoyY);
 }
 
-uint8_t ClassicController_Shared::rightJoyX() const {
+uint8_t ClassicControllerBase::rightJoyX() const {
 	return getControlData(Maps::RightJoyX);
 }
 
-uint8_t ClassicController_Shared::rightJoyY() const {
+uint8_t ClassicControllerBase::rightJoyY() const {
 	return getControlData(Maps::RightJoyY);
 }
 
-boolean ClassicController_Shared::buttonA() const {
+boolean ClassicControllerBase::buttonA() const {
 	return getControlBit(Maps::ButtonA);
 }
 
-boolean ClassicController_Shared::buttonB() const {
+boolean ClassicControllerBase::buttonB() const {
 	return getControlBit(Maps::ButtonB);
 }
 ```
 
-***Note:** I decided to use two different function names for generic control data and bits, just because the bits are automatically inverted. I might decide to change this in the future, but for now it seems to work fine.*
+***Note:** I decided to use two different function names for generic control data and bits because the bits are automatically inverted. I might decide to change this in the future, but for now it seems to work fine.*
 
-## Step #4: Add a `printDebug` Function
-This should be a fun step. Create a `printDebug` function that prints out the values for your controller! Since this should only *ever* be called when debugging, I say go crazy with the formatting. Most of the other controllers use `sprintf` to make things easy, in spite of the extra overhead.
+## Step #5: Add a `printDebug` Function
+This should be a fun step. Create a `printDebug` function that prints out the values for your controller! Since this should only ever be called when debugging, I say go crazy with the formatting. Most of the other controllers use `sprintf` to make things easy, in spite of the extra overhead.
 
 Here's how the Classic Controller debug line looks:
 ```
@@ -150,37 +158,38 @@ Here's how the Classic Controller debug line looks:
 ```
 This includes all of the possible control data: the directional pad, +/- and home buttons, ABXY buttons, left and right joysticks, left and right triggers, and ZL/ZR buttons. You can check [the code](../src/controllers/ClassicController.cpp) to see how it was put together.
 
-## Step #5: Add Your Controller's Identity
+## Step #6: Add Your Controller's Identity
 Now that your controller definition is nearly done, it's time to add its identity to the list of available controllers!
 
 Open up the [`NXC_Identity.h`](../src/internal/NXC_Identity.h) file and add your controller name to the `ExtensionType` enumeration. Then, modify the `decodeIdentity` function so that it will return your controller's ID if the identity bytes match. You can run the [`IdentifyController`](../examples/Any/IdentifyController/IdentifyController.ino) example to fetch the string of ID bytes.
 
-Once that's done, head back to your controller's header file and add that identity value to the constructor. This will limit connections to this specific type and report problems if the type doesn't match.
+Once that's done, head back to your controller's header file. You'll need to create a new function, `getExpectedType`, which returns the identity value you just created. This will limit connections to this specific type and report problems if the type doesn't match.
 
-```
-ClassicController_Shared(ExtensionData &dataRef) :
-	ExtensionController(dataRef, ExtensionType::ClassicController) {}
+```C++
+ExtensionType ClassicControllerBase::getExpectedType() const {
+	return ExtensionType::ClassicController;
+}
 ```
 
 You will also need to edit the switch statement in the `IdentifyControllers` example to add your controller to the 'switch' statement.
 
-## Step #6: Create the Combined Class
-The last step to get your controller working is to create a combined class that inherits from your `_Shared` class and bundles it with a set of extension data to use. This creates an easy to use class for most users who are looking to get data from just one controller. Just copy this line, replacing all instances of `YourController` with your controller's name:
+## Step #7: Create the Combined Class
+The last step to get your controller working is to create a combined class that inherits from your `Base` class and bundles it with a set of extension data to use. This creates an easy to use class for most users who are looking to get data from just one controller. Just copy this line, replacing all instances of `YourController` with your controller's name:
 
 ```C++
 using YourController = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::YourController_Shared>;
+	<NintendoExtensionCtrl::YourControllerBase>;
 ```
 
 Be sure to place this *outside* of the namespace, in the header file. See other controller definitions for reference.
 
-## Step #7: Add Examples
+## Step #8: Add Examples
 What use is a good controller definition if no one knows how to use it? You should add some examples showing off how the controller works. I usually like to add two:
 
 * `DebugPrint`, which is barebones and only includes connection and the `printDebug` function. This is useful for testing that your controller and all of your data maps are functioning properly.
 * `Demo`, which is longer and includes references to all of the different 'get' function types. This should explain to the user how to access your controller's data, including ranges and any quirks.
 
-## Step #8: Library Housekeeping
+## Step #9: Library Housekeeping
 At this point your controller is up and running, and everyone should know how to use it! There's just a little bit of housekeeping left to do to make the controller fit in nicely with the others in the library.
 
 ### Update the Keyword Map

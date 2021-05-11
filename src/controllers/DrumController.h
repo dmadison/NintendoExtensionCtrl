@@ -20,22 +20,22 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_DrumController_h
-#define NXC_DrumController_h
+#ifndef NXC_DRUMCONTROLLER_H
+#define NXC_DRUMCONTROLLER_H
 
 #include "internal/ExtensionController.h"
 
 #include "ClassicController.h"  // For joystick and +/- control maps
 
 namespace NintendoExtensionCtrl {
-	class DrumController_Shared : public ExtensionController {
+	class DrumControllerBase : public ExtensionController {
 	public:
 		struct Maps {
-			constexpr static ByteMap JoyX = ClassicController_Shared::Maps::LeftJoyX;
-			constexpr static ByteMap JoyY = ClassicController_Shared::Maps::LeftJoyY;
+			constexpr static ByteMap JoyX = ClassicControllerBase::Maps::LeftJoyX;
+			constexpr static ByteMap JoyY = ClassicControllerBase::Maps::LeftJoyY;
 
-			constexpr static BitMap  ButtonPlus = ClassicController_Shared::Maps::ButtonPlus;
-			constexpr static BitMap  ButtonMinus = ClassicController_Shared::Maps::ButtonMinus;
+			constexpr static BitMap  ButtonPlus = ClassicControllerBase::Maps::ButtonPlus;
+			constexpr static BitMap  ButtonMinus = ClassicControllerBase::Maps::ButtonMinus;
 
 			constexpr static BitMap  DrumRed = { 5, 6 };
 			constexpr static BitMap  DrumBlue = { 5, 3 };
@@ -51,11 +51,9 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap  VelocityAvailable = { 2, 6 };
 		};
 
-		DrumController_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::DrumController) {}
+		using ExtensionController::ExtensionController;
 
-		DrumController_Shared(ExtensionPort &port) :
-			DrumController_Shared(port.getExtensionData()) {}
+		ExtensionType getExpectedType() const;
 
 		enum VelocityID : uint8_t {
 			None = 0x1F,
@@ -103,6 +101,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using DrumController = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::DrumController_Shared>;
+	<NintendoExtensionCtrl::DrumControllerBase>;
 
 #endif

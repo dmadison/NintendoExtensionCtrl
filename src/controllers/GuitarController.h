@@ -20,22 +20,22 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_GuitarController_h
-#define NXC_GuitarController_h
+#ifndef NXC_GUITARCONTROLLER_H
+#define NXC_GUITARCONTROLLER_H
 
 #include "internal/ExtensionController.h"
 
 #include "ClassicController.h"  // For joystick and +/- control maps
 
 namespace NintendoExtensionCtrl {
-	class GuitarController_Shared : public ExtensionController {
+	class GuitarControllerBase : public ExtensionController {
 	public:
 		struct Maps {
-			constexpr static ByteMap JoyX = ClassicController_Shared::Maps::LeftJoyX;
-			constexpr static ByteMap JoyY = ClassicController_Shared::Maps::LeftJoyY;
+			constexpr static ByteMap JoyX = ClassicControllerBase::Maps::LeftJoyX;
+			constexpr static ByteMap JoyY = ClassicControllerBase::Maps::LeftJoyY;
 
-			constexpr static BitMap  ButtonPlus = ClassicController_Shared::Maps::ButtonPlus;
-			constexpr static BitMap  ButtonMinus = ClassicController_Shared::Maps::ButtonMinus;
+			constexpr static BitMap  ButtonPlus = ClassicControllerBase::Maps::ButtonPlus;
+			constexpr static BitMap  ButtonMinus = ClassicControllerBase::Maps::ButtonMinus;
 
 			constexpr static BitMap  StrumUp = { 5, 0 };
 			constexpr static BitMap  StrumDown = { 4, 6 };
@@ -50,11 +50,9 @@ namespace NintendoExtensionCtrl {
 			constexpr static ByteMap Touchbar = ByteMap(2, 5, 0, 0);
 		};
 
-		GuitarController_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::GuitarController) {}
+		using ExtensionController::ExtensionController;
 
-		GuitarController_Shared(ExtensionPort &port) :
-			GuitarController_Shared(port.getExtensionData()) {}
+		ExtensionType getExpectedType() const;
 
 		uint8_t joyX() const;  // 6 bits, 0-63
 		uint8_t joyY() const;
@@ -91,6 +89,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using GuitarController = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::GuitarController_Shared>;
+	<NintendoExtensionCtrl::GuitarControllerBase>;
 
 #endif

@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_DataMaps_h
-#define NXC_DataMaps_h
+#ifndef NXC_DATAMAPS_H
+#define NXC_DATAMAPS_H
 
 namespace NintendoExtensionCtrl {
 	// Map data alias for single byte data, using the full byte

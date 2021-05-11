@@ -20,8 +20,8 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NintendoExtensionCtrl_h
-#define NintendoExtensionCtrl_h
+#ifndef NINTENDOEXTENSIONCTRL_H
+#define NINTENDOEXTENSIONCTRL_H
 
 // Controller Base
 #include "internal/ExtensionController.h"

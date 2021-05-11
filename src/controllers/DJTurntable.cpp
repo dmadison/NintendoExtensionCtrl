@@ -24,76 +24,80 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr ByteMap DJTurntableController_Shared::Maps::JoyX;
-constexpr ByteMap DJTurntableController_Shared::Maps::JoyY;
+constexpr ByteMap DJTurntableControllerBase::Maps::JoyX;
+constexpr ByteMap DJTurntableControllerBase::Maps::JoyY;
 
-constexpr BitMap  DJTurntableController_Shared::Maps::ButtonPlus;
-constexpr BitMap  DJTurntableController_Shared::Maps::ButtonMinus;
+constexpr BitMap  DJTurntableControllerBase::Maps::ButtonPlus;
+constexpr BitMap  DJTurntableControllerBase::Maps::ButtonMinus;
 
-constexpr ByteMap DJTurntableController_Shared::Maps::Left_Turntable;
-constexpr ByteMap DJTurntableController_Shared::Maps::Left_TurntableSign;
-constexpr BitMap  DJTurntableController_Shared::Maps::Left_ButtonGreen;
-constexpr BitMap  DJTurntableController_Shared::Maps::Left_ButtonRed;
-constexpr BitMap  DJTurntableController_Shared::Maps::Left_ButtonBlue;
+constexpr ByteMap DJTurntableControllerBase::Maps::Left_Turntable;
+constexpr ByteMap DJTurntableControllerBase::Maps::Left_TurntableSign;
+constexpr BitMap  DJTurntableControllerBase::Maps::Left_ButtonGreen;
+constexpr BitMap  DJTurntableControllerBase::Maps::Left_ButtonRed;
+constexpr BitMap  DJTurntableControllerBase::Maps::Left_ButtonBlue;
 
-constexpr ByteMap DJTurntableController_Shared::Maps::Right_Turntable[3];
-constexpr ByteMap DJTurntableController_Shared::Maps::Right_TurntableSign;
-constexpr BitMap  DJTurntableController_Shared::Maps::Right_ButtonGreen;
-constexpr BitMap  DJTurntableController_Shared::Maps::Right_ButtonRed;
-constexpr BitMap  DJTurntableController_Shared::Maps::Right_ButtonBlue;
+constexpr ByteMap DJTurntableControllerBase::Maps::Right_Turntable[3];
+constexpr ByteMap DJTurntableControllerBase::Maps::Right_TurntableSign;
+constexpr BitMap  DJTurntableControllerBase::Maps::Right_ButtonGreen;
+constexpr BitMap  DJTurntableControllerBase::Maps::Right_ButtonRed;
+constexpr BitMap  DJTurntableControllerBase::Maps::Right_ButtonBlue;
 
-constexpr ByteMap DJTurntableController_Shared::Maps::EffectDial[2];
-constexpr ByteMap DJTurntableController_Shared::Maps::CrossfadeSlider;
+constexpr ByteMap DJTurntableControllerBase::Maps::EffectDial[2];
+constexpr ByteMap DJTurntableControllerBase::Maps::CrossfadeSlider;
 
-constexpr BitMap  DJTurntableController_Shared::Maps::ButtonEuphoria;
+constexpr BitMap  DJTurntableControllerBase::Maps::ButtonEuphoria;
+
+ExtensionType DJTurntableControllerBase::getExpectedType() const {
+	return ExtensionType::DJTurntableController;
+}
 
 // Combined Turntable
-int8_t DJTurntableController_Shared::turntable() const {
+int8_t DJTurntableControllerBase::turntable() const {
 	return left.turntable() + right.turntable();
 }
 
-boolean DJTurntableController_Shared::buttonGreen() const {
+boolean DJTurntableControllerBase::buttonGreen() const {
 	return left.buttonGreen() | right.buttonGreen();
 }
 
-boolean DJTurntableController_Shared::buttonRed() const {
+boolean DJTurntableControllerBase::buttonRed() const {
 	return left.buttonRed() | right.buttonRed();
 }
 
-boolean DJTurntableController_Shared::buttonBlue() const {
+boolean DJTurntableControllerBase::buttonBlue() const {
 	return left.buttonBlue() | right.buttonBlue();
 }
 
 // Main Board
-uint8_t DJTurntableController_Shared::effectDial() const {
+uint8_t DJTurntableControllerBase::effectDial() const {
 	return getControlData(Maps::EffectDial);
 }
 
-uint8_t DJTurntableController_Shared::crossfadeSlider() const {
+uint8_t DJTurntableControllerBase::crossfadeSlider() const {
 	return getControlData(Maps::CrossfadeSlider);
 }
 
-boolean DJTurntableController_Shared::buttonEuphoria() const {
+boolean DJTurntableControllerBase::buttonEuphoria() const {
 	return getControlBit(Maps::ButtonEuphoria);
 }
 
-uint8_t DJTurntableController_Shared::joyX() const {
+uint8_t DJTurntableControllerBase::joyX() const {
 	return getControlData(Maps::JoyX);
 }
 
-uint8_t DJTurntableController_Shared::joyY() const {
+uint8_t DJTurntableControllerBase::joyY() const {
 	return getControlData(Maps::JoyY);
 }
 
-boolean DJTurntableController_Shared::buttonPlus() const {
+boolean DJTurntableControllerBase::buttonPlus() const {
 	return getControlBit(Maps::ButtonPlus);
 }
 
-boolean DJTurntableController_Shared::buttonMinus() const {
+boolean DJTurntableControllerBase::buttonMinus() const {
 	return getControlBit(Maps::ButtonMinus);
 }
 
-DJTurntableController_Shared::TurntableConfig DJTurntableController_Shared::getTurntableConfig() {
+DJTurntableControllerBase::TurntableConfig DJTurntableControllerBase::getTurntableConfig() {
 	if (tableConfig == TurntableConfig::Both) {
 		return tableConfig;  // Both are attached, no reason to check data
 	}
@@ -115,7 +119,7 @@ DJTurntableController_Shared::TurntableConfig DJTurntableController_Shared::getT
 	}
 }
 
-uint8_t DJTurntableController_Shared::getNumTurntables() {
+uint8_t DJTurntableControllerBase::getNumTurntables() {
 	getTurntableConfig();  // Update config from data
 
 	switch (tableConfig) {
@@ -133,7 +137,7 @@ uint8_t DJTurntableController_Shared::getNumTurntables() {
 	return 0;  // Just in-case
 }
 
-void DJTurntableController_Shared::printDebug(Print& output) {
+void DJTurntableControllerBase::printDebug(Print& output) {
 	const char fillCharacter = '_';
 
 	char buffer[45];
@@ -168,7 +172,7 @@ void DJTurntableController_Shared::printDebug(Print& output) {
 	output.println();
 }
 
-void DJTurntableController_Shared::printTurntable(Print& output, TurntableExpansion &table) const {
+void DJTurntableControllerBase::printTurntable(Print& output, TurntableExpansion &table) const {
 	const char fillCharacter = '_';
 
 	char idPrint = 'X';
@@ -193,7 +197,7 @@ void DJTurntableController_Shared::printTurntable(Print& output, TurntableExpans
 }
 
 // Turntable Expansion Base
-boolean DJTurntableController_Shared::TurntableExpansion::connected() const {
+boolean DJTurntableControllerBase::TurntableExpansion::connected() const {
 	if (base.tableConfig == TurntableConfig::Both || base.tableConfig == side) {
 		return true;  // Already checked
 	}
@@ -201,45 +205,45 @@ boolean DJTurntableController_Shared::TurntableExpansion::connected() const {
 }
 
 // Left Turntable
-int8_t DJTurntableController_Shared::TurntableLeft::turntable() const {
+int8_t DJTurntableControllerBase::TurntableLeft::turntable() const {
 	uint8_t turnData = base.getControlData(Maps::Left_Turntable);
 	boolean turnSign = base.getControlData(Maps::Left_TurntableSign);
 	return getTurntableSpeed(turnData, turnSign);
 }
 
-boolean DJTurntableController_Shared::TurntableLeft::buttonGreen() const {
+boolean DJTurntableControllerBase::TurntableLeft::buttonGreen() const {
 	return base.getControlBit(Maps::Left_ButtonGreen);
 }
 
-boolean DJTurntableController_Shared::TurntableLeft::buttonRed() const {
+boolean DJTurntableControllerBase::TurntableLeft::buttonRed() const {
 	return base.getControlBit(Maps::Left_ButtonRed);
 }
 
-boolean DJTurntableController_Shared::TurntableLeft::buttonBlue() const {
+boolean DJTurntableControllerBase::TurntableLeft::buttonBlue() const {
 	return base.getControlBit(Maps::Left_ButtonBlue);
 }
 
 // Right Turntable
-int8_t DJTurntableController_Shared::TurntableRight::turntable() const {
+int8_t DJTurntableControllerBase::TurntableRight::turntable() const {
 	uint8_t turnData = base.getControlData(Maps::Right_Turntable);
 	boolean turnSign = base.getControlData(Maps::Right_TurntableSign);
 	return getTurntableSpeed(turnData, turnSign);
 }
 
-boolean DJTurntableController_Shared::TurntableRight::buttonGreen() const {
+boolean DJTurntableControllerBase::TurntableRight::buttonGreen() const {
 	return base.getControlBit(Maps::Right_ButtonGreen);
 }
 
-boolean DJTurntableController_Shared::TurntableRight::buttonRed() const {
+boolean DJTurntableControllerBase::TurntableRight::buttonRed() const {
 	return base.getControlBit(Maps::Right_ButtonRed);
 }
 
-boolean DJTurntableController_Shared::TurntableRight::buttonBlue() const {
+boolean DJTurntableControllerBase::TurntableRight::buttonBlue() const {
 	return base.getControlBit(Maps::Right_ButtonBlue);
 }
 
 // Effect Rollover
-int8_t DJTurntableController_Shared::EffectRollover::getChange() {
+int8_t DJTurntableControllerBase::EffectRollover::getChange() {
 	return RolloverChange::getChange(dj.effectDial());
 }
 

@@ -30,6 +30,8 @@ ExtensionPort controller;
 
 void setup() {
 	Serial.begin(115200);
+	while (!Serial);  // wait for connection
+
 	controller.begin();
 	controller.connect();
 

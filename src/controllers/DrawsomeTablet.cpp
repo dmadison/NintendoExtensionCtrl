@@ -24,17 +24,17 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr IndexMap  DrawsomeTablet_Shared::Maps::PenX_LSB;
-constexpr IndexMap  DrawsomeTablet_Shared::Maps::PenX_MSB;
-constexpr IndexMap  DrawsomeTablet_Shared::Maps::PenY_LSB;
-constexpr IndexMap  DrawsomeTablet_Shared::Maps::PenY_MSB;
+constexpr IndexMap  DrawsomeTabletBase::Maps::PenX_LSB;
+constexpr IndexMap  DrawsomeTabletBase::Maps::PenX_MSB;
+constexpr IndexMap  DrawsomeTabletBase::Maps::PenY_LSB;
+constexpr IndexMap  DrawsomeTabletBase::Maps::PenY_MSB;
 
-constexpr IndexMap  DrawsomeTablet_Shared::Maps::Pressure_LSB;
-constexpr ByteMap   DrawsomeTablet_Shared::Maps::Pressure_MSB;
+constexpr IndexMap  DrawsomeTabletBase::Maps::Pressure_LSB;
+constexpr ByteMap   DrawsomeTabletBase::Maps::Pressure_MSB;
 
-constexpr BitMap    DrawsomeTablet_Shared::Maps::Pen_Detected;
+constexpr BitMap    DrawsomeTabletBase::Maps::Pen_Detected;
 
-boolean DrawsomeTablet_Shared::specificInit() {
+boolean DrawsomeTabletBase::specificInit() {
 	/* Two necessary register writes during initialization before the tablet
 	 * will start sending data. See this for reference:
 	 * https://www.raphnet.net/divers/wii_graphics_tablets/index_en.php
@@ -42,23 +42,27 @@ boolean DrawsomeTablet_Shared::specificInit() {
 	return writeRegister(0xFB, 0x01) && writeRegister(0xF0, 0x55);
 }
 
-uint16_t DrawsomeTablet_Shared::penX() const {
+ExtensionType DrawsomeTabletBase::getExpectedType() const {
+	return ExtensionType::DrawsomeTablet;
+}
+
+uint16_t DrawsomeTabletBase::penX() const {
 	return (getControlData(Maps::PenX_MSB) << 8) | getControlData(Maps::PenX_LSB);
 }
 
-uint16_t DrawsomeTablet_Shared::penY() const {
+uint16_t DrawsomeTabletBase::penY() const {
 	return (getControlData(Maps::PenY_MSB) << 8) | getControlData(Maps::PenY_LSB);
 }
 
-uint16_t DrawsomeTablet_Shared::penPressure() const {
+uint16_t DrawsomeTabletBase::penPressure() const {
 	return (getControlData(Maps::Pressure_MSB) << 8) | getControlData(Maps::Pressure_LSB);
 }
 
-boolean DrawsomeTablet_Shared::penDetected() const {
+boolean DrawsomeTabletBase::penDetected() const {
 	return getControlBit(Maps::Pen_Detected);
 }
 
-void DrawsomeTablet_Shared::printDebug(Print& output) const {
+void DrawsomeTabletBase::printDebug(Print& output) const {
 	char buffer[60];
 	
 	const char penPrint = penDetected() ? 'Y' : 'N';

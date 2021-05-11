@@ -20,13 +20,13 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_uDrawTablet_h
-#define NXC_uDrawTablet_h
+#ifndef NXC_UDRAWTABLET_H
+#define NXC_UDRAWTABLET_H
 
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class uDrawTablet_Shared : public ExtensionController {
+	class uDrawTabletBase : public ExtensionController {
 	public:
 		struct Maps {
 			constexpr static IndexMap PenX_LSB = 0;
@@ -41,11 +41,9 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap   ButtonUpper = { 5, 0 };
 		};
 		
-		uDrawTablet_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::uDrawTablet) {}
+		using ExtensionController::ExtensionController;
 
-		uDrawTablet_Shared(ExtensionPort &port) :
-			uDrawTablet_Shared(port.getExtensionData()) {}
+		ExtensionType getExpectedType() const;
 
 		uint16_t penX() const;  // 12 bits, 0-4095
 		uint16_t penY() const;
@@ -62,6 +60,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using uDrawTablet = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::uDrawTablet_Shared>;
+	<NintendoExtensionCtrl::uDrawTabletBase>;
 
 #endif

@@ -24,70 +24,74 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr ByteMap DrumController_Shared::Maps::JoyX;
-constexpr ByteMap DrumController_Shared::Maps::JoyY;
+constexpr ByteMap DrumControllerBase::Maps::JoyX;
+constexpr ByteMap DrumControllerBase::Maps::JoyY;
 
-constexpr BitMap  DrumController_Shared::Maps::ButtonPlus;
-constexpr BitMap  DrumController_Shared::Maps::ButtonMinus;
+constexpr BitMap  DrumControllerBase::Maps::ButtonPlus;
+constexpr BitMap  DrumControllerBase::Maps::ButtonMinus;
 
-constexpr BitMap  DrumController_Shared::Maps::DrumRed;
-constexpr BitMap  DrumController_Shared::Maps::DrumBlue;
-constexpr BitMap  DrumController_Shared::Maps::DrumGreen;
+constexpr BitMap  DrumControllerBase::Maps::DrumRed;
+constexpr BitMap  DrumControllerBase::Maps::DrumBlue;
+constexpr BitMap  DrumControllerBase::Maps::DrumGreen;
 
-constexpr BitMap  DrumController_Shared::Maps::CymbalYellow;
-constexpr BitMap  DrumController_Shared::Maps::CymbalOrange;
+constexpr BitMap  DrumControllerBase::Maps::CymbalYellow;
+constexpr BitMap  DrumControllerBase::Maps::CymbalOrange;
 
-constexpr BitMap  DrumController_Shared::Maps::Pedal;
+constexpr BitMap  DrumControllerBase::Maps::Pedal;
 
-constexpr ByteMap DrumController_Shared::Maps::Velocity;
-constexpr ByteMap DrumController_Shared::Maps::VelocityID;
-constexpr BitMap  DrumController_Shared::Maps::VelocityAvailable;
+constexpr ByteMap DrumControllerBase::Maps::Velocity;
+constexpr ByteMap DrumControllerBase::Maps::VelocityID;
+constexpr BitMap  DrumControllerBase::Maps::VelocityAvailable;
 
-uint8_t DrumController_Shared::joyX() const {
+ExtensionType DrumControllerBase::getExpectedType() const {
+	return ExtensionType::DrumController;
+}
+
+uint8_t DrumControllerBase::joyX() const {
 	return getControlData(Maps::JoyX);
 }
 
-uint8_t DrumController_Shared::joyY() const {
+uint8_t DrumControllerBase::joyY() const {
 	return getControlData(Maps::JoyY);
 }
 
-boolean DrumController_Shared::drumRed() const {
+boolean DrumControllerBase::drumRed() const {
 	return getControlBit(Maps::DrumRed);
 }
 
-boolean DrumController_Shared::drumBlue() const {
+boolean DrumControllerBase::drumBlue() const {
 	return getControlBit(Maps::DrumBlue);
 }
 
-boolean DrumController_Shared::drumGreen() const {
+boolean DrumControllerBase::drumGreen() const {
 	return getControlBit(Maps::DrumGreen);
 }
 
-boolean DrumController_Shared::cymbalYellow() const {
+boolean DrumControllerBase::cymbalYellow() const {
 	return getControlBit(Maps::CymbalYellow);
 }
 
-boolean DrumController_Shared::cymbalOrange() const {
+boolean DrumControllerBase::cymbalOrange() const {
 	return getControlBit(Maps::CymbalOrange);
 }
 
-boolean DrumController_Shared::bassPedal() const {
+boolean DrumControllerBase::bassPedal() const {
 	return getControlBit(Maps::Pedal);
 }
 
-boolean DrumController_Shared::buttonPlus() const {
+boolean DrumControllerBase::buttonPlus() const {
 	return getControlBit(Maps::ButtonPlus);
 }
 
-boolean DrumController_Shared::buttonMinus() const {
+boolean DrumControllerBase::buttonMinus() const {
 	return getControlBit(Maps::ButtonMinus);
 }
 
-boolean DrumController_Shared::velocityAvailable() const {
+boolean DrumControllerBase::velocityAvailable() const {
 	return getControlBit(Maps::VelocityAvailable);
 }
 
-DrumController_Shared::VelocityID DrumController_Shared::velocityID() const {
+DrumControllerBase::VelocityID DrumControllerBase::velocityID() const {
 	uint8_t id = getControlData(Maps::VelocityID);  // 5 bit identifier
 
 	if (validVelocityID(id)) {
@@ -97,7 +101,7 @@ DrumController_Shared::VelocityID DrumController_Shared::velocityID() const {
 	return VelocityID::None;
 }
 
-boolean DrumController_Shared::validVelocityID(uint8_t idIn) const {
+boolean DrumControllerBase::validVelocityID(uint8_t idIn) const {
 	switch (idIn) {
 		case(VelocityID::None):  // Intentionally fall through cases
 		case(VelocityID::Red):
@@ -113,7 +117,7 @@ boolean DrumController_Shared::validVelocityID(uint8_t idIn) const {
 	}
 }
 
-uint8_t DrumController_Shared::velocity() const {
+uint8_t DrumControllerBase::velocity() const {
 	if (velocityAvailable()) {
 		uint8_t velocityRaw = getControlData(Maps::Velocity);
 		velocityRaw = 7 - velocityRaw;  // Invert so high = fast attack
@@ -122,38 +126,38 @@ uint8_t DrumController_Shared::velocity() const {
 	return 0;  // Invalid data
 }
 
-uint8_t DrumController_Shared::velocity(VelocityID idIn) const {
+uint8_t DrumControllerBase::velocity(VelocityID idIn) const {
 	if (idIn == velocityID()) {
 		return velocity();
 	}
 	return 0;  // ID mismatch
 }
 
-uint8_t DrumController_Shared::velocityRed() const {
+uint8_t DrumControllerBase::velocityRed() const {
 	return velocity(VelocityID::Red);
 }
 
-uint8_t DrumController_Shared::velocityBlue() const {
+uint8_t DrumControllerBase::velocityBlue() const {
 	return velocity(VelocityID::Blue);
 }
 
-uint8_t DrumController_Shared::velocityGreen() const {
+uint8_t DrumControllerBase::velocityGreen() const {
 	return velocity(VelocityID::Green);
 }
 
-uint8_t DrumController_Shared::velocityYellow() const {
+uint8_t DrumControllerBase::velocityYellow() const {
 	return velocity(VelocityID::Yellow);
 }
 
-uint8_t DrumController_Shared::velocityOrange() const {
+uint8_t DrumControllerBase::velocityOrange() const {
 	return velocity(VelocityID::Orange);
 }
 
-uint8_t DrumController_Shared::velocityPedal() const {
+uint8_t DrumControllerBase::velocityPedal() const {
 	return velocity(VelocityID::Pedal);
 }
 
-void DrumController_Shared::printDebug(Print& output) const {
+void DrumControllerBase::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 	
 	char buffer[45];

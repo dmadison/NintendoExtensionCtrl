@@ -25,63 +25,63 @@
 namespace NintendoExtensionCtrl {
 
 // Standard Maps
-constexpr ByteMap ClassicController_Shared::Maps::LeftJoyX;
-constexpr ByteMap ClassicController_Shared::Maps::LeftJoyY;
+constexpr ByteMap ClassicControllerBase::Maps::LeftJoyX;
+constexpr ByteMap ClassicControllerBase::Maps::LeftJoyY;
 
-constexpr ByteMap ClassicController_Shared::Maps::RightJoyX[3];
-constexpr ByteMap ClassicController_Shared::Maps::RightJoyY;
+constexpr ByteMap ClassicControllerBase::Maps::RightJoyX[3];
+constexpr ByteMap ClassicControllerBase::Maps::RightJoyY;
 
-constexpr BitMap  ClassicController_Shared::Maps::DpadUp;
-constexpr BitMap  ClassicController_Shared::Maps::DpadDown;
-constexpr BitMap  ClassicController_Shared::Maps::DpadLeft;
-constexpr BitMap  ClassicController_Shared::Maps::DpadRight;
+constexpr BitMap  ClassicControllerBase::Maps::DpadUp;
+constexpr BitMap  ClassicControllerBase::Maps::DpadDown;
+constexpr BitMap  ClassicControllerBase::Maps::DpadLeft;
+constexpr BitMap  ClassicControllerBase::Maps::DpadRight;
 
-constexpr BitMap  ClassicController_Shared::Maps::ButtonA;
-constexpr BitMap  ClassicController_Shared::Maps::ButtonB;
-constexpr BitMap  ClassicController_Shared::Maps::ButtonX;
-constexpr BitMap  ClassicController_Shared::Maps::ButtonY;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonA;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonB;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonX;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonY;
 
-constexpr ByteMap ClassicController_Shared::Maps::TriggerL[2];
-constexpr ByteMap ClassicController_Shared::Maps::TriggerR;
+constexpr ByteMap ClassicControllerBase::Maps::TriggerL[2];
+constexpr ByteMap ClassicControllerBase::Maps::TriggerR;
 
-constexpr BitMap  ClassicController_Shared::Maps::ButtonL;
-constexpr BitMap  ClassicController_Shared::Maps::ButtonR;
-constexpr BitMap  ClassicController_Shared::Maps::ButtonZL;
-constexpr BitMap  ClassicController_Shared::Maps::ButtonZR;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonL;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonR;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonZL;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonZR;
 
-constexpr BitMap  ClassicController_Shared::Maps::ButtonPlus;
-constexpr BitMap  ClassicController_Shared::Maps::ButtonMinus;
-constexpr BitMap  ClassicController_Shared::Maps::ButtonHome;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonPlus;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonMinus;
+constexpr BitMap  ClassicControllerBase::Maps::ButtonHome;
 
 
 // High Resolution Maps
-constexpr IndexMap ClassicController_Shared::MapsHR::LeftJoyX;
-constexpr IndexMap ClassicController_Shared::MapsHR::LeftJoyY;
+constexpr IndexMap ClassicControllerBase::MapsHR::LeftJoyX;
+constexpr IndexMap ClassicControllerBase::MapsHR::LeftJoyY;
 
-constexpr IndexMap ClassicController_Shared::MapsHR::RightJoyX;
-constexpr IndexMap ClassicController_Shared::MapsHR::RightJoyY;
+constexpr IndexMap ClassicControllerBase::MapsHR::RightJoyX;
+constexpr IndexMap ClassicControllerBase::MapsHR::RightJoyY;
 
-constexpr BitMap   ClassicController_Shared::MapsHR::DpadUp;
-constexpr BitMap   ClassicController_Shared::MapsHR::DpadDown;
-constexpr BitMap   ClassicController_Shared::MapsHR::DpadLeft;
-constexpr BitMap   ClassicController_Shared::MapsHR::DpadRight;
+constexpr BitMap   ClassicControllerBase::MapsHR::DpadUp;
+constexpr BitMap   ClassicControllerBase::MapsHR::DpadDown;
+constexpr BitMap   ClassicControllerBase::MapsHR::DpadLeft;
+constexpr BitMap   ClassicControllerBase::MapsHR::DpadRight;
 
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonA;
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonB;
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonX;
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonY;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonA;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonB;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonX;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonY;
 
-constexpr IndexMap ClassicController_Shared::MapsHR::TriggerL;
-constexpr IndexMap ClassicController_Shared::MapsHR::TriggerR;
+constexpr IndexMap ClassicControllerBase::MapsHR::TriggerL;
+constexpr IndexMap ClassicControllerBase::MapsHR::TriggerR;
 
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonL;
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonR;
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonZL;
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonZR;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonL;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonR;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonZL;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonZR;
 
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonPlus;
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonMinus;
-constexpr BitMap   ClassicController_Shared::MapsHR::ButtonHome;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonPlus;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonMinus;
+constexpr BitMap   ClassicControllerBase::MapsHR::ButtonHome;
 
 
 /* Making use of the preprocessor here to repeat these conditionals for every
@@ -101,7 +101,7 @@ constexpr BitMap   ClassicController_Shared::MapsHR::ButtonHome;
 #define HRBIT(map)  !highRes ? getControlBit(Maps::map) : getControlBit(MapsHR::map)
 
 
-boolean ClassicController_Shared::specificInit() {
+boolean ClassicControllerBase::specificInit() {
 	/* On init, try to set the controller to work in "high resolution" mode so
 	 * we get a full byte of data for each analog input. Then read the current
 	 * "data mode" from the controller so that the control surface functions
@@ -117,7 +117,11 @@ boolean ClassicController_Shared::specificInit() {
 	return setDataMode(true);  // try to set 'high res' mode. 'success' if no comms errors
 }
 
-boolean ClassicController_Shared::checkDataMode(boolean *hr) const {
+ExtensionType ClassicControllerBase::getExpectedType() const {
+	return ExtensionType::ClassicController;
+}
+
+boolean ClassicControllerBase::checkDataMode(boolean *hr) const {
 	/* Programmator Emptor: vvv This is where all of the headaches stem from vvv */
 
 	/* Okay, so here's the deal. The Wii Classic Controller reports its data
@@ -183,7 +187,7 @@ boolean ClassicController_Shared::checkDataMode(boolean *hr) const {
 	return true;  // successfully read state
 }
 
-boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
+boolean ClassicControllerBase::setDataMode(boolean hr, boolean verify) {
 	const uint8_t regVal = hr ? 0x03 : 0x01;  // 0x03 for high res, 0x01 for standard
 
 	// Attempt to write 'high res' mode to controller register.
@@ -229,108 +233,108 @@ boolean ClassicController_Shared::setDataMode(boolean hr, boolean verify) {
 	return true;  // 'success' if no communication errors, regardless of setting
 }
 
-boolean ClassicController_Shared::setHighRes(boolean hr, boolean verify) {
+boolean ClassicControllerBase::setHighRes(boolean hr, boolean verify) {
 	// 'success' if the mode is changed to the one we're trying to set
 	return setDataMode(hr, verify) && (getHighRes() == hr);
 }
 
-boolean ClassicController_Shared::getHighRes() const {
+boolean ClassicControllerBase::getHighRes() const {
 	return highRes;
 }
 
-uint8_t ClassicController_Shared::leftJoyX() const {
+uint8_t ClassicControllerBase::leftJoyX() const {
 	return HRDATA(LeftJoyX, 2);  // 6 bits for standard range, so shift left (8-6)
 }
 
-uint8_t ClassicController_Shared::leftJoyY() const {
+uint8_t ClassicControllerBase::leftJoyY() const {
 	return HRDATA(LeftJoyY, 2);
 }
 
-uint8_t ClassicController_Shared::rightJoyX() const {
+uint8_t ClassicControllerBase::rightJoyX() const {
 	return HRDATA(RightJoyX, 3);  // 5 bits for standard range, so shift left (8-5)
 }
 
-uint8_t ClassicController_Shared::rightJoyY() const {
+uint8_t ClassicControllerBase::rightJoyY() const {
 	return HRDATA(RightJoyY, 3);
 }
 
-boolean ClassicController_Shared::dpadUp() const {
+boolean ClassicControllerBase::dpadUp() const {
 	return HRBIT(DpadUp);
 }
 
-boolean ClassicController_Shared::dpadDown() const {
+boolean ClassicControllerBase::dpadDown() const {
 	return HRBIT(DpadDown);
 }
 
-boolean ClassicController_Shared::dpadLeft() const {
+boolean ClassicControllerBase::dpadLeft() const {
 	return HRBIT(DpadLeft);
 }
 
-boolean ClassicController_Shared::dpadRight() const {
+boolean ClassicControllerBase::dpadRight() const {
 	return HRBIT(DpadRight);
 }
 
-boolean ClassicController_Shared::buttonA() const {
+boolean ClassicControllerBase::buttonA() const {
 	return HRBIT(ButtonA);
 }
 
-boolean ClassicController_Shared::buttonB() const {
+boolean ClassicControllerBase::buttonB() const {
 	return HRBIT(ButtonB);
 }
 
-boolean ClassicController_Shared::buttonX() const {
+boolean ClassicControllerBase::buttonX() const {
 	return HRBIT(ButtonX);
 }
 
-boolean ClassicController_Shared::buttonY() const {
+boolean ClassicControllerBase::buttonY() const {
 	return HRBIT(ButtonY);
 }
 
-uint8_t ClassicController_Shared::triggerL() const {
+uint8_t ClassicControllerBase::triggerL() const {
 	return HRDATA(TriggerL, 3);  // 5 bits for standard range, so shift left (8-5)
 }
 
-uint8_t ClassicController_Shared::triggerR() const {
+uint8_t ClassicControllerBase::triggerR() const {
 	return HRDATA(TriggerR, 3);
 }
 
-boolean ClassicController_Shared::buttonL() const {
+boolean ClassicControllerBase::buttonL() const {
 	return HRBIT(ButtonL);
 }
 
-boolean ClassicController_Shared::buttonR() const {
+boolean ClassicControllerBase::buttonR() const {
 	return HRBIT(ButtonR);
 }
 
-boolean ClassicController_Shared::buttonZL() const {
+boolean ClassicControllerBase::buttonZL() const {
 	return HRBIT(ButtonZL);
 }
 
-boolean ClassicController_Shared::buttonZR() const {
+boolean ClassicControllerBase::buttonZR() const {
 	return HRBIT(ButtonZR);
 }
 
-boolean ClassicController_Shared::buttonStart() const {
+boolean ClassicControllerBase::buttonStart() const {
 	return buttonPlus();
 }
 
-boolean ClassicController_Shared::buttonSelect() const {
+boolean ClassicControllerBase::buttonSelect() const {
 	return buttonMinus();
 }
 
-boolean ClassicController_Shared::buttonPlus() const {
+boolean ClassicControllerBase::buttonPlus() const {
 	return HRBIT(ButtonPlus);
 }
 
-boolean ClassicController_Shared::buttonMinus() const {
+boolean ClassicControllerBase::buttonMinus() const {
 	return HRBIT(ButtonMinus);
 }
 
-boolean ClassicController_Shared::buttonHome() const {
+boolean ClassicControllerBase::buttonHome() const {
 	return HRBIT(ButtonHome);
 }
 
-void ClassicController_Shared::printDebug(Print& output) const {
+void ClassicControllerBase::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 
 	char buffer[68];
@@ -375,7 +379,7 @@ void ClassicController_Shared::printDebug(Print& output) const {
 
 // ######### Mini Controller Support #########
 
-void NESMiniController_Shared::printDebug(Print& output) const {
+void NESMiniControllerBase::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 
 	output.print("NES ");
@@ -398,7 +402,7 @@ void NESMiniController_Shared::printDebug(Print& output) const {
 	output.println();
 }
 
-void SNESMiniController_Shared::printDebug(Print& output) const {
+void SNESMiniControllerBase::printDebug(Print& output) const {
 	const char fillCharacter = '_';
 
 	output.print("SNES ");

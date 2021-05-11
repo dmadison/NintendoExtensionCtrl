@@ -20,13 +20,13 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_Nunchuk_h
-#define NXC_Nunchuk_h
+#ifndef NXC_NUNCHUK_H
+#define NXC_NUNCHUK_H
 
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class Nunchuk_Shared : public ExtensionController {
+	class NunchukBase : public ExtensionController {
 	public:
 		struct Maps {
 			constexpr static IndexMap JoyX = 0;
@@ -45,11 +45,9 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap   ButtonZ = { 5, 0 };
 		};
 		
-		Nunchuk_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::Nunchuk) {}
+		using ExtensionController::ExtensionController;
 
-		Nunchuk_Shared(ExtensionPort &port) :
-			Nunchuk_Shared(port.getExtensionData()) {}
+		ExtensionType getExpectedType() const;
 
 		uint8_t joyX() const;  // 8 bits, 0-255
 		uint8_t joyY() const;
@@ -69,6 +67,6 @@ namespace NintendoExtensionCtrl {
 }
 
 using Nunchuk = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::Nunchuk_Shared>;
+	<NintendoExtensionCtrl::NunchukBase>;
 
 #endif

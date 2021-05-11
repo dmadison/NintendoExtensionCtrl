@@ -24,102 +24,106 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr ByteMap GuitarController_Shared::Maps::JoyX;
-constexpr ByteMap GuitarController_Shared::Maps::JoyY;
+constexpr ByteMap GuitarControllerBase::Maps::JoyX;
+constexpr ByteMap GuitarControllerBase::Maps::JoyY;
 
-constexpr BitMap  GuitarController_Shared::Maps::ButtonPlus;
-constexpr BitMap  GuitarController_Shared::Maps::ButtonMinus;
+constexpr BitMap  GuitarControllerBase::Maps::ButtonPlus;
+constexpr BitMap  GuitarControllerBase::Maps::ButtonMinus;
 
-constexpr BitMap  GuitarController_Shared::Maps::StrumUp;
-constexpr BitMap  GuitarController_Shared::Maps::StrumDown;
+constexpr BitMap  GuitarControllerBase::Maps::StrumUp;
+constexpr BitMap  GuitarControllerBase::Maps::StrumDown;
 
-constexpr BitMap  GuitarController_Shared::Maps::FretGreen;
-constexpr BitMap  GuitarController_Shared::Maps::FretRed;
-constexpr BitMap  GuitarController_Shared::Maps::FretYellow;
-constexpr BitMap  GuitarController_Shared::Maps::FretBlue;
-constexpr BitMap  GuitarController_Shared::Maps::FretOrange;
+constexpr BitMap  GuitarControllerBase::Maps::FretGreen;
+constexpr BitMap  GuitarControllerBase::Maps::FretRed;
+constexpr BitMap  GuitarControllerBase::Maps::FretYellow;
+constexpr BitMap  GuitarControllerBase::Maps::FretBlue;
+constexpr BitMap  GuitarControllerBase::Maps::FretOrange;
 
-constexpr ByteMap GuitarController_Shared::Maps::Whammy;
-constexpr ByteMap GuitarController_Shared::Maps::Touchbar;
+constexpr ByteMap GuitarControllerBase::Maps::Whammy;
+constexpr ByteMap GuitarControllerBase::Maps::Touchbar;
 
-uint8_t GuitarController_Shared::joyX() const {
+ExtensionType GuitarControllerBase::getExpectedType() const {
+	return ExtensionType::GuitarController;
+}
+
+uint8_t GuitarControllerBase::joyX() const {
 	return getControlData(Maps::JoyX);
 }
 
-uint8_t GuitarController_Shared::joyY() const {
+uint8_t GuitarControllerBase::joyY() const {
 	return getControlData(Maps::JoyY);
 }
 
-boolean GuitarController_Shared::strum() const {
+boolean GuitarControllerBase::strum() const {
 	return strumUp() | strumDown();
 }
 
-boolean GuitarController_Shared::strumUp() const {
+boolean GuitarControllerBase::strumUp() const {
 	return getControlBit(Maps::StrumUp);
 }
 
-boolean GuitarController_Shared::strumDown() const {
+boolean GuitarControllerBase::strumDown() const {
 	return getControlBit(Maps::StrumDown);
 }
 
-boolean GuitarController_Shared::fretGreen() const {
+boolean GuitarControllerBase::fretGreen() const {
 	return getControlBit(Maps::FretGreen);
 }
 
-boolean GuitarController_Shared::fretRed() const {
+boolean GuitarControllerBase::fretRed() const {
 	return getControlBit(Maps::FretRed);
 }
 
-boolean GuitarController_Shared::fretYellow() const {
+boolean GuitarControllerBase::fretYellow() const {
 	return getControlBit(Maps::FretYellow);
 }
 
-boolean GuitarController_Shared::fretBlue() const {
+boolean GuitarControllerBase::fretBlue() const {
 	return getControlBit(Maps::FretBlue);
 }
 
-boolean GuitarController_Shared::fretOrange() const {
+boolean GuitarControllerBase::fretOrange() const {
 	return getControlBit(Maps::FretOrange);
 }
 
-uint8_t GuitarController_Shared::whammyBar() const {
+uint8_t GuitarControllerBase::whammyBar() const {
 	return getControlData(Maps::Whammy);
 }
 
-uint8_t GuitarController_Shared::touchbar() const {
+uint8_t GuitarControllerBase::touchbar() const {
 	return getControlData(Maps::Touchbar);
 }
 
-boolean GuitarController_Shared::touchGreen() const {
+boolean GuitarControllerBase::touchGreen() const {
 	return touchbar() != 0 && touchbar() <= 7;
 }
 
-boolean GuitarController_Shared::touchRed() const {
+boolean GuitarControllerBase::touchRed() const {
 	return touchbar() >= 7 && touchbar() <= 13;
 }
 
-boolean GuitarController_Shared::touchYellow() const {
+boolean GuitarControllerBase::touchYellow() const {
 	return touchbar() >= 12 && touchbar() <= 21
 		&& touchbar() != 15;	// The "not touched" value
 }
 
-boolean GuitarController_Shared::touchBlue() const {
+boolean GuitarControllerBase::touchBlue() const {
 	return touchbar() >= 20 && touchbar() <= 26;
 }
 
-boolean GuitarController_Shared::touchOrange() const {
+boolean GuitarControllerBase::touchOrange() const {
 	return touchbar() >= 26;
 }
 
-boolean GuitarController_Shared::buttonPlus() const {
+boolean GuitarControllerBase::buttonPlus() const {
 	return getControlBit(Maps::ButtonPlus);
 }
 
-boolean GuitarController_Shared::buttonMinus() const {
+boolean GuitarControllerBase::buttonMinus() const {
 	return getControlBit(Maps::ButtonMinus);
 }
 
-boolean GuitarController_Shared::supportsTouchbar() {
+boolean GuitarControllerBase::supportsTouchbar() {
 	if (touchbarData) {
 		return true;
 	}
@@ -129,7 +133,7 @@ boolean GuitarController_Shared::supportsTouchbar() {
 	return false;
 }
 
-void GuitarController_Shared::printDebug(Print& output) {
+void GuitarControllerBase::printDebug(Print& output) {
 	const char fillCharacter = '_';
 
 	char buffer[25];

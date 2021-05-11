@@ -24,42 +24,46 @@
 
 namespace NintendoExtensionCtrl {
 
-constexpr IndexMap uDrawTablet_Shared::Maps::PenX_LSB;
-constexpr IndexMap uDrawTablet_Shared::Maps::PenY_LSB;
-constexpr ByteMap  uDrawTablet_Shared::Maps::PenX_MSB;
-constexpr ByteMap  uDrawTablet_Shared::Maps::PenY_MSB;
+constexpr IndexMap uDrawTabletBase::Maps::PenX_LSB;
+constexpr IndexMap uDrawTabletBase::Maps::PenY_LSB;
+constexpr ByteMap  uDrawTabletBase::Maps::PenX_MSB;
+constexpr ByteMap  uDrawTabletBase::Maps::PenY_MSB;
 
-constexpr IndexMap uDrawTablet_Shared::Maps::Pressure_LSB;
-constexpr BitMap   uDrawTablet_Shared::Maps::Pressure_MSB;
+constexpr IndexMap uDrawTabletBase::Maps::Pressure_LSB;
+constexpr BitMap   uDrawTabletBase::Maps::Pressure_MSB;
 
-constexpr BitMap   uDrawTablet_Shared::Maps::ButtonLower;
-constexpr BitMap   uDrawTablet_Shared::Maps::ButtonUpper;
+constexpr BitMap   uDrawTabletBase::Maps::ButtonLower;
+constexpr BitMap   uDrawTabletBase::Maps::ButtonUpper;
 
-uint16_t uDrawTablet_Shared::penX() const {
+ExtensionType uDrawTabletBase::getExpectedType() const {
+	return ExtensionType::uDrawTablet;
+}
+
+uint16_t uDrawTabletBase::penX() const {
 	return (getControlData(Maps::PenX_MSB) << 8) | getControlData(Maps::PenX_LSB);
 }
 
-uint16_t uDrawTablet_Shared::penY() const {
+uint16_t uDrawTabletBase::penY() const {
 	return (getControlData(Maps::PenY_MSB) << 8) | getControlData(Maps::PenY_LSB);
 }
 
-uint16_t uDrawTablet_Shared::penPressure() const {
+uint16_t uDrawTabletBase::penPressure() const {
     return (!getControlBit(Maps::Pressure_MSB) << 8) | getControlData(Maps::Pressure_LSB);
 }
 
-boolean uDrawTablet_Shared::buttonLower() const {
+boolean uDrawTabletBase::buttonLower() const {
 	return getControlBit(Maps::ButtonLower);
 }
 
-boolean uDrawTablet_Shared::buttonUpper() const {
+boolean uDrawTabletBase::buttonUpper() const {
 	return getControlBit(Maps::ButtonUpper);
 }
 
-boolean uDrawTablet_Shared::penDetected() const {
+boolean uDrawTabletBase::penDetected() const {
 	return penX() < 4095 && penY() < 4095;
 }
 
-void uDrawTablet_Shared::printDebug(Print& output) const {
+void uDrawTabletBase::printDebug(Print& output) const {
 	// 59 characters, 1 terminating null, and 4 extra so the compiler stops
 	// complaining about not having enough buffer space for the full 16 bit
 	// values (5 characters each) that can fit in the type

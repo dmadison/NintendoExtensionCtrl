@@ -20,13 +20,13 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NXC_ClassicController_h
-#define NXC_ClassicController_h
+#ifndef NXC_CLASSICCONTROLLER_H
+#define NXC_CLASSICCONTROLLER_H
 
 #include "internal/ExtensionController.h"
 
 namespace NintendoExtensionCtrl {
-	class ClassicController_Shared : public ExtensionController {
+	class ClassicControllerBase : public ExtensionController {
 	public:
 		struct Maps {
 			/* Classic Controller "Standard" Mode
@@ -108,13 +108,11 @@ namespace NintendoExtensionCtrl {
 			constexpr static BitMap   ButtonHome = { 6, 3 };
 		};
 
-		ClassicController_Shared(ExtensionData &dataRef) :
-			ExtensionController(dataRef, ExtensionType::ClassicController) {}
-
-		ClassicController_Shared(ExtensionPort &port) :
-			ClassicController_Shared(port.getExtensionData()) {}
+		using ExtensionController::ExtensionController;
 
 		boolean specificInit();
+
+		ExtensionType getExpectedType() const;
 
 		boolean setHighRes(boolean hr = true, boolean verify = true);
 		boolean getHighRes() const;
@@ -164,28 +162,28 @@ namespace NintendoExtensionCtrl {
 
 	/* Nintendo Mini Console Controllers */
 
-	class NESMiniController_Shared : public ClassicController_Shared {
+	class NESMiniControllerBase : public ClassicControllerBase {
 	public:
-		using ClassicController_Shared::ClassicController_Shared;
+		using ClassicControllerBase::ClassicControllerBase;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};
 
-	class SNESMiniController_Shared : public ClassicController_Shared {
+	class SNESMiniControllerBase : public ClassicControllerBase {
 	public:
-		using ClassicController_Shared::ClassicController_Shared;
+		using ClassicControllerBase::ClassicControllerBase;
 
 		void printDebug(Print& output = NXC_SERIAL_DEFAULT) const;
 	};
 }
 
 using ClassicController = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::ClassicController_Shared>;
+	<NintendoExtensionCtrl::ClassicControllerBase>;
 
 using NESMiniController = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::NESMiniController_Shared>;
+	<NintendoExtensionCtrl::NESMiniControllerBase>;
 
 using SNESMiniController = NintendoExtensionCtrl::BuildControllerClass
-	<NintendoExtensionCtrl::SNESMiniController_Shared>;
+	<NintendoExtensionCtrl::SNESMiniControllerBase>;
 
 #endif

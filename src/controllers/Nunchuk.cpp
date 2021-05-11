@@ -86,7 +86,7 @@ void Nunchuk_Shared::printDebug(Print& output) const {
 	const char zPrint = buttonZ() ? 'Z' : '-';
 
 	output.print("Nunchuk - ");
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		"Joy:(%3u, %3u) | Accel XYZ:(%4u, %4u, %4u) | Buttons: %c%c",
 		joyX(), joyY(), accelX(), accelY(), accelZ(), cPrint, zPrint);
 

@@ -153,7 +153,7 @@ void DJTurntableController_Shared::printDebug(Print& output) {
 
 	const char euphoriaPrint = buttonEuphoria() ? 'E' : fillCharacter;
 
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		" Joy:(%2u, %2u) | %c | %c%c | FX: %2u | Fade: %2u",
 		joyX(), joyY(),
 		euphoriaPrint,
@@ -184,7 +184,7 @@ void DJTurntableController_Shared::printTurntable(Print& output, TurntableExpans
 	const char bluePrint = table.buttonBlue() ? 'B' : fillCharacter;
 
 	char buffer[15];
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		" T%c:%3d %c%c%c",
 		idPrint,
 		table.turntable(),

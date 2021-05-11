@@ -357,7 +357,7 @@ void ClassicController_Shared::printDebug(Print& output) const {
 
 	output.print("Classic ");
 
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		"%c%c%c%c | %c%c%c | %c%c%c%c L:(%3u, %3u) R:(%3u, %3u) | LT:%3u%c RT:%3u%c Z:%c%c",
 		dpadLPrint, dpadUPrint, dpadDPrint, dpadRPrint,
 		minusPrint, homePrint, plusPrint,

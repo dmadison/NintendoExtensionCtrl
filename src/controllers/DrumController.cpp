@@ -202,7 +202,7 @@ void DrumController_Shared::printDebug(Print& output) const {
 	const char plusPrint = buttonPlus() ? '+' : fillCharacter;
 	const char minusPrint = buttonMinus() ? '-' : fillCharacter;
 
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		"%c\\%c%c%c/%c %c | V:%1u for %c | %c%c | Joy:(%2u, %2u)",
 		yellowPrint, redPrint, bluePrint, greenPrint, orangePrint, pedalPrint,
 		velocityPrint, velocityIDPrint,

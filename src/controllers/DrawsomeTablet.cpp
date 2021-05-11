@@ -64,7 +64,7 @@ void DrawsomeTablet_Shared::printDebug(Print& output) const {
 	const char penPrint = penDetected() ? 'Y' : 'N';
 
 	output.print("DrawsomeTablet - ");
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		"Pen:(%6u, %6u) | Pressure:%4u | Pen Detect:%c",
 			penX(), penY(), penPressure(), penPrint);
 

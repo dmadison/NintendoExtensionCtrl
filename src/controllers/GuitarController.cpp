@@ -151,7 +151,7 @@ void GuitarController_Shared::printDebug(Print& output) {
 	const char bluePrint = fretBlue() ? 'B' : fillCharacter;
 	const char orangePrint = fretOrange() ? 'O' : fillCharacter;
 
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		"%c | %c%c%c%c%c | W:%2u ",
 		strumPrint,
 		greenPrint, redPrint, yellowPrint, bluePrint, orangePrint,
@@ -167,7 +167,7 @@ void GuitarController_Shared::printDebug(Print& output) {
 		const char bluePrint = touchBlue() ? 'B' : fillCharacter;
 		const char orangePrint = touchOrange() ? 'O' : fillCharacter;
 
-		sprintf(buffer,
+		snprintf(buffer, sizeof(buffer),
 			"Touch:%2u - %c%c%c%c%c | ",
 			touchbar(),
 			greenPrint, redPrint, yellowPrint, bluePrint, orangePrint);
@@ -179,7 +179,7 @@ void GuitarController_Shared::printDebug(Print& output) {
 	const char plusPrint = buttonPlus() ? '+' : fillCharacter;
 	const char minusPrint = buttonMinus() ? '-' : fillCharacter;
 
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		"%c%c | Joy:(%2u, %2u)",
 		minusPrint, plusPrint,
 		joyX(), joyY());

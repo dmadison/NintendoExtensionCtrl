@@ -70,7 +70,7 @@ void uDrawTablet_Shared::printDebug(Print& output) const {
 	const char upperPrint = buttonUpper() ? 'U' : '-';
 
 	output.print("uDrawTablet - ");
-	sprintf(buffer,
+	snprintf(buffer, sizeof(buffer),
 		"Pen:(%4u, %4u) | Pressure:%3u | Pen Detect:%c | Buttons:%c%c",
 			penX(), penY(), penPressure(), penPrint, lowerPrint, upperPrint);
 

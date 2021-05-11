@@ -23,7 +23,7 @@
 #ifndef NXC_IDENTITY_H
 #define NXC_IDENTITY_H
 
-#include "Arduino.h"
+#include <stdint.h>
 
 enum class ExtensionType {
 	NoController,

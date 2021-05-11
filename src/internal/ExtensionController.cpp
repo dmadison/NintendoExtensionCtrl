@@ -190,3 +190,34 @@ ExtensionType ExtensionController::identifyController(NXC_I2C_TYPE& i2c) {
 	}
 	return decodeIdentity(idData);
 }
+
+// port-specific connect function that utilizes the linked list to evaluate
+// each attached controller variant automatically
+boolean NintendoExtensionCtrl::ExtensionPort::connect() {
+	// start by running the default 'connect' function, looking for any controller
+	boolean success = ExtensionController::connect();
+
+	if (!success) return false;  // no connection, no reason to iterate controllers
+
+	// We have a connection, that means we need to go through the linked list of
+	// controller variants attached to this port and look for a type match. If
+	// we've found one, then we need to run the controller-specific initialization
+	// functions before telling the user that we're successfully connected.
+
+	ExtensionList::Node* ptr = list.getHead();
+
+	while (ptr != nullptr) {
+		// Because of how the linked list is separated from the controller base
+		// class to keep the single-controller instance lightweight, we need to fetch
+		// the controller object from the node pointer before we do anything with it
+		ExtensionController& controller = ptr->getController();
+
+		if (controller.controllerTypeMatches()) {
+			success = controller.specificInit();
+			if (success) break;
+		}
+		ptr = ptr->getNext();
+	}
+
+	return success;
+}

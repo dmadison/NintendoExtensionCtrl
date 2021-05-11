@@ -28,36 +28,14 @@
 
 ExtensionPort port;  // Port for communicating with extension controllers
 
-Nunchuk::Shared nchuk(port);  // Read Nunchuk formatted data from the port
-ClassicController::Shared classic(port);  // Read Classic Controller formatted data from the port
-
-ExtensionController * controllers[] = {  // Array of available controllers, for controller-specific init
-	&nchuk,
-	&classic,
-};
-const int NumControllers = sizeof(controllers) / sizeof(ExtensionController*);  // # of controllers, auto-generated
-
-
-boolean connectController() {
-	boolean connected = port.connect();  // Connect to the controller
-
-	if (connected == true) {
-		for (int i = 0; i < NumControllers; i++) {
-			if (controllers[i]->controllerTypeMatches()) {  // If this controller is connected...
-				connected = controllers[i]->specificInit();  // ...run the controller-specific initialization
-				break;
-			}
-		}
-	}
-
-	return connected;
-}
+ClassicController::Shared classic(port);
+Nunchuk::Shared nchuk(port);
 
 void setup() {
 	Serial.begin(115200);
 	port.begin();  // init I2C
 
-	while (!connectController()) {
+	while (!port.connect()) {
 		Serial.println("No controller found!");
 		delay(1000);
 	}
@@ -67,9 +45,9 @@ void loop() {
 	boolean success = port.update();  // Get new data from the controller
 
 	if (success == true) {  // We've got data!
-		ExtensionType conType = port.getControllerType();
+		ExtensionType type = port.getConnectedType();
 
-		switch (conType) {
+		switch (type) {
 			case(ExtensionType::Nunchuk):
 				nchuk.printDebug();
 				break;
@@ -77,11 +55,11 @@ void loop() {
 				classic.printDebug();
 				break;
 			default:
-				Serial.println("Other controller connected!");
+				break;
 		}
 	}
 	else {  // Data is bad :(
-		while (!connectController()) {
+		while (!port.connect()) {
 			Serial.println("Controller Disconnected!");
 			delay(1000);
 		}

@@ -139,21 +139,92 @@ private:
 };
 
 namespace NintendoExtensionCtrl {
-	template <class ControllerMap>
-	class BuildControllerClass : private ExtensionController::ExtensionData, public ControllerMap {
+	// Simple struct to wrap the ExtensionData into an instance. This lets us inherit this wrapper
+	// to initialize the data before the inherited ExtensionController instance is initialized
+	struct ExtensionDataWrapper {
+		ExtensionController::ExtensionData dataInstance;
+	};
+
+	// 'Bundled' template that combines an ExtensionData instance (via inherited wrapper) and an
+	// instance of ExtensionController into a single class
+	template <class ControllerSource>
+	class ExtensionClassBundle : protected ExtensionDataWrapper, public ControllerSource {
 	public:
-		BuildControllerClass(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
-			ExtensionData(i2cBus),  // data instance
-			ControllerMap(static_cast<ExtensionData&>(*this))  // initialize ExtensionController instance with inherited ExtensionData
+		ExtensionClassBundle(NXC_I2C_TYPE& i2cBus = NXC_I2C_DEFAULT) :
+			ExtensionDataWrapper({ i2cBus }),
+			ControllerSource(dataInstance)
+		{}
+	};
+
+	// This is the 'port' class, used for general-purpose talking to mystery controllers
+	// on the bus, as well as for using multiple different types of controllers within
+	// the same program. It incorporates a linked list to automatically evaluate controller
+	// variants on connection without any special setup by the user.
+	class ExtensionPort : public ExtensionClassBundle<ExtensionController> {
+	public:
+		using ExtensionClassBundle<ExtensionController>::ExtensionClassBundle;
+
+		boolean connect();
+	
+	private:
+		ExtensionList list;
+
+		// template<typename T>
+		// friend ExtensionPortVariant<T>::ExtensionPortVariant(ExtensionPort&);
+		//
+		// Note: This more limited friendship does not work because of the templates:
+		// the ExtensionPortVariant constructor needs the ExtensionPort's class declaration
+		// before it can be defined, and ExtensionPort needs to know the
+		// ExtensionPortVariant's ctor prototype before the friendship can be defined.
+		//
+		// The typical solution is to declare ExtensionPortVariant first, then ExtensionPort,
+		// and move the constructor definition to the source file. Now everything is declared
+		// in the right order and works swimmingly. But with templates this doesn't work, because
+		// everything needs to be either inline in the header or the types need to be explicitly
+		// enumerated in the source. So we're in a pickle.
+		//
+		// Instead of making the functions public (bad), or creating yet another helper class
+		// (atty/client idiom, not bad but seems excessive), I'm just going to give a blanket
+		// friendship and call it a day.
+		//
+		// (this simple solution brought to you by the essay above)
+
+		template <typename T>
+		friend class ExtensionPortVariant;
+	};
+
+
+	// This is the 'variant' class, aka the derived ExtensionController class types without
+	// an included data instance. This also includes a linked list node, so the Port class
+	// can evaluate these automatically on connection.
+	template <class ControllerMap>
+	class ExtensionPortVariant : public ControllerMap {
+	public:
+		ExtensionPortVariant(ExtensionPort& port) :
+			ControllerMap(port.dataInstance),
+			node(port.list, *this)
 		{}
 
-		using Shared = ControllerMap;  // Make controller class easily accessible
+	private:
+		ExtensionList::Node node;
+	};
+
+
+	// Last but not least we have the 'BuildControllerClass' template. This creates a
+	// bundled instance of the controller maps and adds a "Shared" typedef for easy
+	// access to the port variant version of the same class.
+	template <class ControllerMap>
+	class BuildControllerClass : public ExtensionClassBundle<ControllerMap> {
+	public:
+		using ExtensionClassBundle<ControllerMap>::ExtensionClassBundle;
+
+		using Shared = ExtensionPortVariant<ControllerMap>;
 	};
 }
 
 // Public-facing version of the extension 'port' class that combines the 
 // communication (ExtensionController) with a data instance (ExtensionData), but omits
 // any controller-specific data maps.
-using ExtensionPort = NintendoExtensionCtrl::BuildControllerClass<ExtensionController>;
+using ExtensionPort = NintendoExtensionCtrl::ExtensionPort;
 
 #endif
